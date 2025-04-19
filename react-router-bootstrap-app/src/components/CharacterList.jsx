@@ -44,12 +44,16 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   }, [fetchCharacters]);
 
   const handleDelete = (id) => {
-    fetch(`${API_BASE}/characters/${id}`, { method: 'DELETE', credentials: 'include', 'ngrok-skip-browser-warning': 'true' })
+    fetch(`${API_BASE}/characters/${id}`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include' },
+    })
       .then(() => {
-        setCharacters(prev => prev.filter(char => char.id !== id));
         setModalMessage('Character deleted successfully!');
         setIsSuccess(true);
         setShowModal(true);
+        fetchCharacters();  // 🔁 Re-fetch instead of filtering locally
       })
       .catch(err => {
         console.error('Failed to delete:', err);

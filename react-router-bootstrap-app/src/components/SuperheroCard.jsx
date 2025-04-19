@@ -34,7 +34,10 @@ export default function SuperheroCard({ character, onEdit, onDelete }) {
             </Button>
             )}
             {(currentUser?.role === 'admin') && (
-            <Button onClick={() => onDelete(character.id)} aria-label="Delete">
+            <Button onClick={(e) => {
+              e.stopPropagation(); 
+              onDelete(character.id);
+            }} aria-label="Delete">
               <i className="fas fa-trash-alt"></i>
             </Button>
             )}
