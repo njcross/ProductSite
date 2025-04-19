@@ -36,7 +36,7 @@
 .character-name {
   font-size: 1.7rem;
   font-weight: 700;
-  color: #ed1d24 !important;
+  color: var(--color-primary) !important;
   margin-bottom: 5px;
 }
 

@@ -1,0 +1,27 @@
+/* src/variables.css */
+
+:root {
+    /* Primary Colors */
+    --color-primary: #ed1d24;
+    --color-primary-dark: #b71c1c;
+    --color-secondary: #1b1b1b;
+    --color-accent: #ff3b57;
+  
+    /* Text Colors */
+    --color-text: #ffffff;
+    --color-text-dark:rgb(0, 0, 0);
+    --color-muted: #cccccc;
+  
+    /* Background Colors */
+    --bg-main: #121212;
+    --bg-alt: #1a1a1a;
+  
+    /* Border Colors */
+    --border-color: #444444;
+  
+    /* Font Sizes */
+    --font-size-base: 16px;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 2rem;
+  }
+  

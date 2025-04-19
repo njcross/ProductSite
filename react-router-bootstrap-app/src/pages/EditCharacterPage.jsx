@@ -3,12 +3,14 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Button, Modal, Row, Col } from 'react-bootstrap';
 import CharacterForm from '../components/CharacterForm';
 import ConfirmationModal from '../components/ConfirmationModal';
+import { useUser } from '../context/UserContext';
 import './EditCharacterPage.css';
 
 export default function EditCharacterPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const { currentUser } = useUser();
   const [character, setCharacter] = useState(null);
   const [showEditForm, setShowEditForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -76,9 +78,11 @@ export default function EditCharacterPage() {
           <hr />
           <p className="character-alignment"><strong>Alignment:</strong> {character.alignment}</p>
           <p className="character-powers"><strong>Powers:</strong> {character.powers}</p>
+          {(currentUser?.role === 'admin') && (
           <Button variant="warning" className="edit-button" onClick={handleEditButtonClick}>
             ✏️ Edit Character
           </Button>
+          )}
         </Col>
       </Row>
 

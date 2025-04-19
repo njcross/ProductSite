@@ -1,13 +1,19 @@
+// src/components/CharacterList.jsx
 import { useState, useEffect } from 'react';
 import SuperheroCard from './SuperheroCard';
 import CharacterForm from './CharacterForm';
 import ConfirmationModal from './ConfirmationModal';
+import PaginationControls from './PaginationControls';
 import { Row, Col, Modal, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../context/UserContext';
 import './CharacterList.css';
 
-export default function CharacterList() {
+export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view = 'grid' }) {
+  const { currentUser } = useUser();
   const [characters, setCharacters] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasNext, setHasNext] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
@@ -16,20 +22,21 @@ export default function CharacterList() {
   const navigate = useNavigate();
 
   const fetchCharacters = () => {
-    fetch('http://127.0.0.1:5000/characters')
+    fetch(`http://127.0.0.1:5000/characters?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}`)
       .then(res => res.json())
-      .then(data => setCharacters(data))
+      .then(data => {
+        setCharacters(data.characters || data); // Supports both old and new formats
+        setHasNext(data.has_next ?? (data.length === itemsPerPage)); // Support total pagination
+      })
       .catch(err => console.error('Failed to load characters:', err));
   };
 
   useEffect(() => {
     fetchCharacters();
-  }, []);
+  }, [page, itemsPerPage, sortBy]);
 
   const handleDelete = (id) => {
-    fetch(`http://127.0.0.1:5000/characters/${id}`, {
-      method: 'DELETE'
-    })
+    fetch(`http://127.0.0.1:5000/characters/${id}`, { method: 'DELETE' })
       .then(() => {
         setCharacters(prev => prev.filter(char => char.id !== id));
         setModalMessage('Character deleted successfully!');
@@ -45,7 +52,7 @@ export default function CharacterList() {
   };
 
   const handleEditClick = (character) => {
-    navigate(`/edit/${character.id}`); // Navigate to the edit page
+    navigate(`/edit/${character.id}`);
   };
 
   const handleCreate = async (formData) => {
@@ -77,30 +84,37 @@ export default function CharacterList() {
 
   const handleModalConfirm = () => {
     setShowModal(false);
-    fetchCharacters(); // Refresh character list
+    fetchCharacters();
   };
 
   return (
-    <div className="character-list-container">
-      <div className="d-flex justify-content-end mb-3">
-        <Button variant="danger" onClick={() => setShowCreate(true)}>
-          Add New Character
-        </Button>
-      </div>
+    <div className={`character-list-container ${view === 'list' ? 'list-view' : ''}`}>
+      {currentUser?.role === 'admin' && (
+        <div className="d-flex justify-content-end mb-3">
+          <Button variant="danger" onClick={() => setShowCreate(true)}>
+            Add New Character
+          </Button>
+        </div>
+      )}
 
       <Row className="d-flex justify-content-center">
         {characters.map(char => (
-          <Col key={char.id} sm={12} md={6} lg={4} xl={3} className="character-card-wrapper ">
+          <Col key={char.id} sm={12} md={6} lg={4} xl={3} className="character-card-wrapper">
             <SuperheroCard
               character={char}
-              onEdit={handleEditClick}  
+              onEdit={handleEditClick}
               onDelete={handleDelete}
             />
           </Col>
         ))}
       </Row>
 
-      {/* Create Character Modal */}
+      <PaginationControls
+        page={page}
+        onPageChange={setPage}
+        hasNext={hasNext}
+      />
+
       <Modal show={showCreate} onHide={() => setShowCreate(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Add New Character</Modal.Title>
@@ -110,7 +124,6 @@ export default function CharacterList() {
         </Modal.Body>
       </Modal>
 
-      {/* Reusable Confirmation Modal */}
       <ConfirmationModal
         show={showModal}
         title={isSuccess ? 'Success' : 'Error'}

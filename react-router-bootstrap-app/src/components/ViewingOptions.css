@@ -20,7 +20,7 @@
   }
   
   .toggle-btn.active {
-    background-color: #ed1d24;
-    border-color: #ed1d24;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
   }
   

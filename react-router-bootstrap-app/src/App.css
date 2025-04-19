@@ -1,4 +1,5 @@
 /* General body font */
+@import './variables.css';
 body {
   font-family: 'Bebas Neue', sans-serif;
 }
@@ -15,7 +16,7 @@ body {
 .app-title {
   text-align: center;
   font-size: 2.5rem;
-  color: #ed1d24;
+  color: var(--color-primary);
   margin-bottom: 2rem;
 }
 

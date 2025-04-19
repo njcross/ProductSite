@@ -1,3 +1,4 @@
+// src/pages/Cards.jsx
 import { useState } from 'react';
 import CharacterList from '../components/CharacterList';
 import FilterBy from '../components/FilterBy';
@@ -12,33 +13,32 @@ export default function Cards() {
 
   return (
     <div className="cards-page">
-  <div className="container-fluid">
-    <h2 className="text-center text-white mb-4">Marvel Character Cards</h2>
-    <div className="row gx-4">
-      <div className="col-md-3">
-        <div className="filter-sidebar">
-          <FilterBy onFilterChange={setFilter} />
+      <div className="container-fluid">
+        <h2 className="text-center text-white mb-4">Marvel Character Cards</h2>
+        <div className="row gx-4">
+          <div className="col-md-3">
+            <div className="filter-sidebar">
+              <FilterBy onFilterChange={setFilter} />
+            </div>
+          </div>
+          <div className="col-md-9">
+            <ViewingOptions
+              viewMode={view}
+              onViewModeChange={setView}
+              itemsPerPage={itemsPerPage}
+              onItemsPerPageChange={setItemsPerPage}
+              sortBy={sort}
+              onSortChange={setSort}
+            />
+            <CharacterList
+              filter={filter}
+              view={view}
+              itemsPerPage={itemsPerPage}
+              sortBy={sort}
+            />
+          </div>
         </div>
       </div>
-      <div className="col-md-9">
-        <ViewingOptions
-          view={view}
-          onViewChange={setView}
-          itemsPerPage={itemsPerPage}
-          onItemsChange={setItemsPerPage}
-          sort={sort}
-          onSortChange={setSort}
-        />
-        <CharacterList
-          filter={filter}
-          view={view}
-          itemsPerPage={itemsPerPage}
-          sortBy={sort}
-        />
-      </div>
     </div>
-  </div>
-</div>
-
   );
 }

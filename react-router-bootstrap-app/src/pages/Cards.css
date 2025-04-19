@@ -23,7 +23,7 @@
 .cards-page h2 {
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
-  color: #ed1d24 !important;
+  color: var(--color-primary) !important;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
   text-align: center;
 }
@@ -74,7 +74,7 @@
 
 .card h3 {
   font-size: 1.8rem;
-  color: #ed1d24;
+  color: var(--color-primary);
   margin-bottom: 1rem;
   font-weight: bold;
 }
@@ -92,7 +92,7 @@
 }
 
 .card-footer button {
-  background-color: #ed1d24;
+  background-color: var(--color-primary);
   color: #fff;
   border: none;
   padding: 8px 16px;

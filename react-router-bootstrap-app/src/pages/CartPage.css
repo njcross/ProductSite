@@ -1,0 +1,15 @@
+.cart-page {
+    background-color: #121212;
+    padding: 2rem;
+    min-height: 100vh;
+  }
+  
+  .cart-item {
+    background-color: #1f1f1f;
+    border: 1px solid #333;
+  }
+  
+  .cart-item img {
+    max-height: 100px;
+  }
+  

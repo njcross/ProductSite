@@ -1,0 +1,70 @@
+/* Register.css */
+
+.register-page {
+  background-color: var(--bg-main);
+  min-height: 100vh;
+  padding: 4rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-text-dark);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.register-card {
+  background: var(--bg-alt);
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+}
+
+.register-card h2 {
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.register-form .form-group {
+  margin-bottom: 1.25rem;
+}
+
+.register-form label {
+  color: var(--color-text-dark);
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  display: inline-block;
+}
+
+.register-form input {
+  background-color: var(--color-accent);
+  border: 1px solid var(--color-primary);
+  color: var(--color-text-dark);
+  padding: 0.5rem;
+  border-radius: 6px;
+  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.register-form input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 5px rgba(255, 46, 99, 0.5);
+  outline: none;
+}
+
+.register-btn {
+  background-color: var(--color-primary);
+  border: none;
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.register-btn:hover {
+  background-color: var(--color-accent);
+}

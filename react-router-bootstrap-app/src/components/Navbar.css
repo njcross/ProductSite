@@ -1,13 +1,13 @@
 /* Navbar.css */
 .custom-navbar {
     background-color: #121212;
-    border-bottom: 2px solid #ed1d24;
+    border-bottom: 2px solid var(--color-primary);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   }
   
   .logo-text {
     font-size: 1.8rem;
-    color: #ed1d24;
+    color: var(--color-primary);
     font-weight: bold;
     margin-right: 2rem;
   }
@@ -19,6 +19,6 @@
   }
   
   .nav-link:hover {
-    color: #ed1d24 !important;
+    color: var(--color-primary) !important;
   }
   
