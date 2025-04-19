@@ -45,7 +45,7 @@
   width: 100%;
   max-width: 1000px;
   background-color: #1e2a3b;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   overflow: hidden;
 }
 

@@ -1,7 +1,7 @@
 .character-card {
   background: linear-gradient(145deg, #1f1f1f, #2b2b2b);
   border: 1px solid #333;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   color: #fff;
   font-family: 'Roboto', sans-serif;
   text-align: left;
@@ -57,7 +57,7 @@
 .card-actions button {
   font-size: 0.95rem;
   padding: 0.5rem 1rem;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-weight: 500;
 }
 

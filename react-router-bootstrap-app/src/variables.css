@@ -1,27 +1,57 @@
-/* src/variables.css */
-
 :root {
-    /* Primary Colors */
-    --color-primary: #ed1d24;
-    --color-primary-dark: #b71c1c;
-    --color-secondary: #1b1b1b;
-    --color-accent: #ff3b57;
-  
-    /* Text Colors */
-    --color-text: #ffffff;
-    --color-text-dark:rgb(0, 0, 0);
-    --color-muted: #cccccc;
-  
-    /* Background Colors */
-    --bg-main: #121212;
-    --bg-alt: #1a1a1a;
-  
-    /* Border Colors */
-    --border-color: #444444;
-  
-    /* Font Sizes */
-    --font-size-base: 16px;
-    --font-size-lg: 1.25rem;
-    --font-size-xl: 2rem;
-  }
-  
+  /* Primary Colors */
+  --color-primary: #ed1d24;
+  --color-primary-dark: #b71c1c;
+  --color-secondary: #1b1b1b;
+  --color-accent: #ff3b57;
+
+  /* Text Colors */
+  --color-text: #ffffff;
+  --color-text-muted: #cccccc;
+  --color-text-dark: #1a1a1a;
+  --color-link: #1e90ff;
+
+  /* Background Colors */
+  --bg-main: #121212;
+  --bg-alt: #1a1a1a;
+  --bg-card: #1f1f1f;
+  --bg-highlight: #252525;
+
+  /* Border Colors */
+  --border-color: #444444;
+  --border-color-light: #666666;
+
+  /* Shadows */
+  --box-shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --box-shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --box-shadow-strong: 0 6px 18px rgba(0, 0, 0, 0.4);
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  /* Font Sizes */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 2rem;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease-in-out;
+  --transition-default: 0.3s ease-in-out;
+  --transition-slow: 0.5s ease-in-out;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+
+  /* Z-Indexes */
+  --z-header: 1000;
+  --z-modal: 1050;
+  --z-dropdown: 1100;
+}

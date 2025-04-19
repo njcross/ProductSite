@@ -22,7 +22,7 @@
   .feature-step {
     background-color: #222;
     border: 1px solid var(--color-primary);
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     padding: 2rem;
     width: 280px;
     text-align: center;
@@ -48,6 +48,6 @@
   
   .feature-step p {
     color: #ccc;
-    font-size: 1rem;
+    font-size: var(--font-size-base);
   }
   

@@ -32,7 +32,7 @@
 }
 
 .hero-text p {
-  font-size: 1.25rem;
+  font-size: var(--font-size-lg);
   max-width: 650px;
   margin: 0 auto;
   text-shadow: 1px 1px #000;
@@ -66,7 +66,7 @@
 .feature-item {
   background-color: #222;
   padding: 1.5rem;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--color-primary);
   transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
@@ -80,12 +80,12 @@
 .feature-item h3 {
   color: #fff;
   margin-bottom: 0.5rem;
-  font-size: 1.25rem;
+  font-size: var(--font-size-lg);
 }
 
 .feature-item p {
   color: #ccc;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
 }
 
 /* --- REUSABLE BUTTON --- */

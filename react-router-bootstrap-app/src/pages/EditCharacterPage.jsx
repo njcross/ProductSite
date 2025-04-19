@@ -78,6 +78,7 @@ export default function EditCharacterPage() {
           <hr />
           <p className="character-alignment"><strong>Alignment:</strong> {character.alignment}</p>
           <p className="character-powers"><strong>Powers:</strong> {character.powers}</p>
+          <p className="character-price"><strong>Price:</strong> {character.price}</p>
           {(currentUser?.role === 'admin') && (
           <Button variant="warning" className="edit-button" onClick={handleEditButtonClick}>
             ✏️ Edit Character
