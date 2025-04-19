@@ -44,7 +44,7 @@ export default function HeaderBar() {
           <i className="bi bi-search"></i>
         </button>
       </form>
-
+      <div className="action-group">
       {currentUser && (
         <Link to="/cart" className="btn cart-btn">🛒 Cart</Link>
       )}
@@ -56,6 +56,7 @@ export default function HeaderBar() {
           <Link to="/login" className="auth-btn">Login</Link>
         )}
         <Link to="/register" className="auth-btn">Register</Link>
+      </div>
       </div>
     </div>
   );

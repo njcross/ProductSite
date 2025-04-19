@@ -53,7 +53,7 @@ def create_character():
         character = Character(**new_character)
         db.session.add(character)
         db.session.commit()
-        return character_schema.jsonify(character), 201
+        return jsonify(character_schema.dump(character)), 201
     except Exception as e:
         return jsonify({"message": "Error creating character", "error": str(e)}), 400
 
@@ -71,7 +71,7 @@ def update_character(id):
         for key, value in updates.items():
             setattr(character, key, value)
         db.session.commit()
-        return character_schema.jsonify(character), 200
+        return jsonify(character_schema.dump(character)), 200
     except Exception as e:
         return jsonify({"message": "Error updating character", "error": str(e)}), 400
 

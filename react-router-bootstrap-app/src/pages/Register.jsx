@@ -54,17 +54,17 @@ export default function Register() {
         <Form className="register-form" onSubmit={handleSubmit}>
           <Form.Group className="form-group" controlId="username">
             <Form.Label>Username</Form.Label>
-            <Form.Control name="username" value={form.username} onChange={handleChange} required />
+            <Form.Control name="username" value={form.username} onChange={handleChange} required placeholder="Enter your username"/>
           </Form.Group>
 
           <Form.Group className="form-group" controlId="email">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" name="email" value={form.email} onChange={handleChange} required />
+            <Form.Control type="email" name="email" value={form.email} onChange={handleChange} required placeholder="Enter your email"/>
           </Form.Group>
 
           <Form.Group className="form-group" controlId="password">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" name="password" value={form.password} onChange={handleChange} required />
+            <Form.Control type="password" name="password" value={form.password} onChange={handleChange} required placeholder="Create a password"/>
           </Form.Group>
 
           <Button type="submit" className="register-btn">Register</Button>

@@ -1,24 +1,27 @@
 /* Navbar.css */
 .custom-navbar {
-    background-color: var(--bg-main);
-    border-bottom: 2px solid var(--color-primary);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .logo-text {
-    font-size: 1.8rem;
-    color: var(--color-primary);
-    font-weight: bold;
-    margin-right: 2rem;
-  }
-  
+  background-color: var(--bg-main);
+  border-bottom: 2px solid var(--color-primary);
+  box-shadow: none;
+}
+
+.logo-text {
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.nav-link {
+  color: white !important;
+  margin-left: 1rem;
+}
+
+.nav-link:hover {
+  color: var(--color-primary) !important;
+}
+
+@media (max-width: 768px) {
   .nav-link {
-    color: white !important;
-    margin-left: 1rem;
-    transition: color 0.2s ease-in-out;
+    margin: 0.5rem 0;
   }
-  
-  .nav-link:hover {
-    color: var(--color-primary) !important;
-  }
-  
+}

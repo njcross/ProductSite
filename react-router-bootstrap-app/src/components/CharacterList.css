@@ -6,8 +6,6 @@
 
 /* Grid View Defaults */
 .character-card-wrapper {
-  flex: 0 0 calc(33.333% - 1rem);
-  max-width: calc(33.333% - 1rem);
   justify-content: center;
   display: flex;
 }
@@ -25,11 +23,20 @@
 }
 
 @media (max-width: 768px) {
-  .character-card-wrapper {
-    flex: 0 0 100%;
-    max-width: 100%;
+  .character-list-container.list-view .character-card {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .character-list-container.list-view .character-card img {
+    width: 100%;
+  }
+
+  .character-list-container.list-view .card-body {
+    padding: 1rem;
   }
 }
+
 
 /* List View Styles */
 .character-list-container.list-view .character-card-wrapper {

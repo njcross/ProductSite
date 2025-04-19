@@ -3,7 +3,9 @@
   min-height: 100vh;
   color: white;
   border-top: 3px solid var(--color-primary);
-  padding-top: 20px; /* Add some padding on top to make space for header */
+  padding-top: 20px;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .about-page h1 {
@@ -28,5 +30,17 @@
 }
 
 .author-section a:hover {
-  color: #ff2e63; /* Provide a hover effect for the email link */
+  color: #ff2e63;
+}
+
+@media (max-width: 768px) {
+  .about-page h1 {
+    font-size: 2rem;
+  }
+
+  .about-page p,
+  .author-section {
+    font-size: 1rem;
+    text-align: center;
+  }
 }

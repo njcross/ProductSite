@@ -50,4 +50,14 @@
     color: #ccc;
     font-size: var(--font-size-base);
   }
+  @media (max-width: 576px) {
+    .feature-step {
+      width: 100%;
+      padding: 1.25rem;
+    }
+  
+    .features-steps {
+      gap: 1rem;
+    }
+  }
   

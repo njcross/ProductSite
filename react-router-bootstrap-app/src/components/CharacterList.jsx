@@ -26,7 +26,8 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
     fetch(`${API_BASE}/characters?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`, {
       method: 'GET',
       headers: {
-        'ngrok-skip-browser-warning': 'true'
+        'ngrok-skip-browser-warning': 'true',
+        credentials: 'include'
       }
     })
       .then(res => res.json())
@@ -43,7 +44,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   }, [fetchCharacters]);
 
   const handleDelete = (id) => {
-    fetch(`${API_BASE}/characters/${id}`, { method: 'DELETE', credentials: 'include' })
+    fetch(`${API_BASE}/characters/${id}`, { method: 'DELETE', credentials: 'include', 'ngrok-skip-browser-warning': 'true' })
       .then(() => {
         setCharacters(prev => prev.filter(char => char.id !== id));
         setModalMessage('Character deleted successfully!');
@@ -67,7 +68,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
       const res = await fetch(`${API_BASE}/characters`, {
         method: 'POST',
         credentials: 'include',
-        headers: { 'ngrok-skip-browser-warning': 'true', 'Content-Type': 'application/json' },
+        headers: { 'ngrok-skip-browser-warning': 'true', 'Content-Type': 'application/json', credentials: 'include' },
         body: JSON.stringify(formData),
       });
 

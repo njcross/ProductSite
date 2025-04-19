@@ -27,3 +27,13 @@
     color: #ff3b57;
   }
   
+  @media (max-width: 768px) {
+    .filter-by {
+      padding: 1rem;
+    }
+  
+    .filter-by select {
+      width: 100%;
+    }
+  }
+  

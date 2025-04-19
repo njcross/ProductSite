@@ -114,6 +114,8 @@
   border-bottom: 2px solid var(--color-primary);
   background-image: url('https://www.transparenttextures.com/patterns/black-linen.png');
   background-size: auto;
+  max-width: 100%;
+  padding: 1rem;
 }
 
 .character-carousel h2 {
@@ -147,25 +149,14 @@
     max-width: 600px;
   }
 }
-.carousel-group {
-  display: flex;
-  justify-content: space-between;
-  gap: 2rem;
-  padding: 3rem 2rem;
-  background-color: #1a1a1a;
-  background-image: url('https://www.transparenttextures.com/patterns/black-linen.png');
-  border-top: 2px solid var(--color-primary);
-  border-bottom: 2px solid var(--color-primary);
-  flex-wrap: wrap;
-}
 
 .carousel-column {
-  flex: 1 1 30%;
   background-color: #121212;
-  padding: 1rem;
+  padding: 1.5rem;
   border: 1px solid var(--color-primary);
   border-radius: 10px;
   text-align: center;
+  height: 100%;
 }
 
 .carousel-column h2 {
@@ -174,3 +165,69 @@
   color: var(--color-primary);
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 }
+
+/* Make Hero section text responsive */
+.hero-text h1 {
+  font-size: 3.5rem;
+}
+
+.hero-text p {
+  font-size: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .hero-text h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+
+  .carousel-column {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .carousel-group {
+    padding: 2rem 1rem;
+    gap: 1.5rem;
+  }
+
+  .carousel-column h2 {
+    font-size: 1.3rem;
+  }
+
+  .character-carousel {
+    padding: 2rem 1rem;
+  }
+
+  .home-content {
+    padding: 2rem 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-text h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .carousel-column {
+    padding: 1rem 0.75rem;
+  }
+
+  .carousel-card-wrapper {
+    flex-direction: column;
+  }
+}
+
+

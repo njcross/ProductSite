@@ -38,3 +38,22 @@
   .clear-search-btn:hover {
     background-color: #a00000;
   }
+
+  @media (max-width: 768px) {
+    .viewing-options {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  
+    .option-group {
+      width: 100%;
+    }
+  
+    .option-group select,
+    .toggle-btn,
+    .clear-search-btn {
+      width: 100%;
+    }
+  }
+  

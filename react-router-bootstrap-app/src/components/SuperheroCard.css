@@ -11,8 +11,9 @@
   height: 100%;
   overflow: hidden;
   transition: transform 0.3s ease-in-out;
+  width: 100%;
   max-width: 350px;
-  margin: auto;
+  margin: 0 auto;
 }
 
 .character-card:hover {
@@ -89,4 +90,10 @@
   background-color: #ff2e63;
   border-color: #ff2e63;
   color: #ffffff; /* Ensure text stays visible on hover */
+}
+
+@media (max-width: 576px) {
+  .card-img {
+    height: 180px;
+  }
 }

@@ -15,6 +15,7 @@
     display: flex !important; /* required for carousel layout */
     align-items: center;
     justify-content: center;
+    padding: 4rem 1rem;
   }
   
   .slide-1 {
@@ -41,7 +42,7 @@
   }
   
   .slide-content h1 {
-    font-size: 3.2rem;
+    font-size: clamp(2rem, 6vw, 3.2rem);
     font-weight: 700;
     color: var(--color-primary);
     margin-bottom: 1rem;
@@ -49,7 +50,7 @@
   }
   
   .slide-content p {
-    font-size: var(--font-size-lg);
+    font-size: clamp(1rem, 3vw, 1.25rem);
     line-height: 1.6;
     color: #eaeaea;
   }
@@ -85,4 +86,5 @@
   .hero-carousel .control-next.control-arrow {
     right: 15px;
   }
+  
   

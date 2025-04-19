@@ -3,6 +3,8 @@
     justify-content: center;
     margin-top: 3rem;
     margin-bottom: 3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
   
   .contact-card {
@@ -31,5 +33,19 @@
   
   .contact-card .btn-primary:hover {
     background-color: #e03c31;
+  }
+  
+  @media (max-width: 576px) {
+    .contact-card {
+      padding: 1.25rem;
+    }
+  
+    .contact-card h2 {
+      font-size: 1.5rem;
+    }
+  
+    .contact-card .btn-primary {
+      width: 100%;
+    }
   }
   

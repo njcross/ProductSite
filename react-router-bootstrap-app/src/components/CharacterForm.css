@@ -84,3 +84,17 @@
     padding: 2rem;
   }
   
+  @media (max-width: 768px) {
+    .character-form-wrapper {
+      padding: 2rem 1rem;
+    }
+  
+    .character-form {
+      padding: 1.5rem;
+    }
+  
+    .character-form .btn {
+      width: 100%;
+    }
+  }
+  

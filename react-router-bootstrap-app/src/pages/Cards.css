@@ -3,8 +3,8 @@
   min-height: 100vh;
   color: #fff;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding: 40px 20px; /* Reduces side padding to remove white margins */
-  margin: 0; /* Ensure no default margins */
+  padding: 40px 20px;
+  margin: 0;
 }
 
 .container {
@@ -110,6 +110,10 @@
 @media (max-width: 768px) {
   .cards-page {
     padding: 20px 10px;
+  }
+
+  .filter-sidebar {
+    margin-bottom: 2rem;
   }
 
   .card {

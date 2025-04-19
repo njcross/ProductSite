@@ -1,0 +1,52 @@
+.not-found-page {
+    background-color: #1a1a1a;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .not-found-container {
+    max-width: 600px;
+  }
+  
+  .not-found-page h1 {
+    font-size: 6rem;
+    color: var(--color-primary);
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+  }
+  
+  .not-found-page p {
+    font-size: 1.25rem;
+    color: #ccc;
+    margin-bottom: 1.5rem;
+  }
+  
+  .not-found-page .btn-primary {
+    background-color: var(--color-primary);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .not-found-page .btn-primary:hover {
+    background-color: #ff3b57;
+  }
+  
+  /* Mobile responsiveness */
+  @media (max-width: 576px) {
+    .not-found-page h1 {
+      font-size: 4rem;
+    }
+  
+    .not-found-page p {
+      font-size: 1rem;
+    }
+  }
+  

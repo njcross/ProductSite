@@ -11,20 +11,29 @@ export default function Home() {
       <HeroCarousel />
       <FeaturesSection />
 
-      <section className="carousel-group">
-        <div className="carousel-column">
-          <h2>Popular Heroes</h2>
-          <CharacterCarousel filter="hero" />
-        </div>
-        <div className="carousel-column">
-          <h2>Infamous Villains</h2>
-          <CharacterCarousel filter="villain" />
-        </div>
-        <div className="carousel-column">
-          <h2>Trending Characters</h2>
-          <CharacterCarousel filter="trending" />
-        </div>
-      </section>
+      <section className="container py-4">
+  <div className="row gx-4 gy-4">
+    <div className="col-12 col-md-6 col-lg-4">
+      <div className="carousel-column h-100">
+        <h2>Popular Heroes</h2>
+        <CharacterCarousel filter="hero" />
+      </div>
+    </div>
+    <div className="col-12 col-md-6 col-lg-4">
+      <div className="carousel-column h-100">
+        <h2>Infamous Villains</h2>
+        <CharacterCarousel filter="villain" />
+      </div>
+    </div>
+    <div className="col-12 col-md-6 col-lg-4 mx-md-auto">
+      <div className="carousel-column h-100">
+        <h2>Trending Characters</h2>
+        <CharacterCarousel filter="trending" />
+      </div>
+    </div>
+  </div>
+</section>
+
     </div>
   );
 }

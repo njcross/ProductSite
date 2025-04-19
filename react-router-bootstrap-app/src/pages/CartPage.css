@@ -1,15 +1,74 @@
 .cart-page {
-    background-color: #121212;
-    padding: 2rem;
-    min-height: 100vh;
-  }
-  
+  background-color: #121212;
+  padding: 2rem;
+  min-height: 100vh;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.cart-item {
+  background-color: #1f1f1f;
+  border: 1px solid #333;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.cart-item img {
+  max-height: 100px;
+  width: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.cart-item h5,
+.cart-item p {
+  margin: 0.25rem 0;
+}
+
+.cart-item .form-control {
+  max-width: 80px;
+  background-color: #2a2a2a;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+.cart-item .form-control:focus {
+  background-color: #2a2a2a;
+  color: #fff;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.2rem rgba(237, 29, 36, 0.25);
+}
+
+.cart-item .btn-danger {
+  padding: 0.4rem 0.7rem;
+  font-size: 0.9rem;
+}
+
+/* Total row */
+.cart-total {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: right;
+  margin-top: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .cart-item {
-    background-color: #1f1f1f;
-    border: 1px solid #333;
+    flex-direction: column;
+    text-align: center;
   }
-  
+
   .cart-item img {
-    max-height: 100px;
+    max-width: 80%;
+    margin-bottom: 1rem;
   }
-  
+
+  .cart-item .form-control {
+    margin: 0.5rem auto;
+  }
+
+  .cart-total {
+    text-align: center;
+  }
+}

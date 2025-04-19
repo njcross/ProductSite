@@ -29,6 +29,7 @@ export default function Cards() {
               <FilterBy onFilterChange={setFilter} />
             </div>
           </div>
+          <hr className="d-md-none text-light my-4" />
           <div className="col-md-9">
             <ViewingOptions
               viewMode={view}

@@ -21,6 +21,7 @@ export default function App() {
     <UserProvider>
       <CartProvider>
       <Router>
+      <div className="app-container">
         <HeaderBar />
         <Navbar />
         <Routes>
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </div>
       </Router>
       </CartProvider>
     </UserProvider>

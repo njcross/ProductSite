@@ -1,16 +1,26 @@
 /* General body font */
 @import './variables.css';
-body {
-  font-family: 'Bebas Neue', sans-serif;
-}
-
-/* Main container */
-.app-container {
+body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   background-color: #1b1b1b;
   color: white;
-  min-height: 100vh;
-  padding: 2rem;
+  overflow-x: hidden;
 }
+
+* {
+  box-sizing: inherit;
+}
+
+.app-container {
+  padding: 0;
+  margin: 0;
+  background-color: #1b1b1b;
+  border: none;
+  box-shadow: none;
+}
+
 
 /* Page title */
 .app-title {
@@ -25,4 +35,14 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
+}
+
+@media (max-width: 576px) {
+  .app-container {
+    padding: 0.5rem;
+  }
+
+  .app-title {
+    font-size: 2rem;
+  }
 }

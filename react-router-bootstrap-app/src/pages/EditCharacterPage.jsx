@@ -20,7 +20,10 @@ export default function EditCharacterPage() {
   const API_BASE = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    fetch(`${API_BASE}/characters/${id}`)
+    fetch(`${API_BASE}/characters/${id}`,  {
+      'ngrok-skip-browser-warning': 'true',
+      credentials: 'include'
+    })
       .then(res => res.json())
       .then(data => setCharacter(data))
       .catch(err => console.error('Error fetching character:', err));
@@ -40,7 +43,9 @@ export default function EditCharacterPage() {
       const res = await fetch(`${API_BASE}/characters/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedCharacter)
+        body: JSON.stringify(updatedCharacter),
+        'ngrok-skip-browser-warning': 'true',
+        credentials: 'include'
       });
 
       if (res.ok) {
@@ -61,8 +66,13 @@ export default function EditCharacterPage() {
 
   const handleModalConfirm = () => {
     setShowModal(false);
-    navigate('/cards');
+    if (isSuccess) {
+      navigate('/cards');  // only go to cards if it succeeded
+    } else {
+      setShowEditForm(true);  // reopen the edit form on failure
+    }
   };
+  
 
   if (!character) return <div>Loading...</div>;
 
