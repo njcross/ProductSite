@@ -24,3 +24,17 @@
     border-color: var(--color-primary);
   }
   
+  .clear-search-btn {
+    background-color: #cc0000;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .clear-search-btn:hover {
+    background-color: #a00000;
+  }

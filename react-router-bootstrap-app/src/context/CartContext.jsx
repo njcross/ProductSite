@@ -21,7 +21,7 @@ export const CartProvider = ({ children }) => {
     } else {
       setCart([]); // clear cart on logout
     }
-  }, [currentUser]);
+  }, [currentUser, API_BASE]);
 
   const addToCart = (character) => {
     const existing = cart.find(item => item.character_id === character.id);

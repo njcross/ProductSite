@@ -2,85 +2,94 @@
   max-width: 1200px;
   margin: auto;
   padding: 2rem;
-  background: linear-gradient(to bottom right, #1b1b1b, #2d2d2d);
+  background: linear-gradient(to bottom right, #1a1a1a, #2d2d2d);
   color: white;
-  min-height: 100vh;
   border-radius: var(--radius-md);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.character-detail-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
 
-/* Card container */
-.edit-character-card {
-  border-radius: var(--radius-md);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: #f8f9fa;
+.image-section {
+  flex: 1 1 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.character-img-large {
   width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.edit-character-card:hover {
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  transform: translateY(-4px);
-  transition: 0.3s ease;
-}
-
-/* Card content */
-.edit-character-card .card-title {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.edit-character-card .card-subtitle {
-  font-size: 1.2rem;
-  color: #777;
-}
-
-.edit-character-card .card-body {
-  text-align: center;
-  padding: 1.5rem;
-}
-
-/* Card image styling */
-.edit-character-card .card-img-top {
-  height: 300px;
+  max-width: 400px;
+  border-radius: var(--radius-md);
   object-fit: cover;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
 }
 
-/* Edit button */
-.edit-character-card button {
+.info-section {
+  flex: 1 1 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.character-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--color-primary);
+  margin-bottom: 0.25rem;
+}
+
+.character-alias,
+.character-alignment,
+.character-powers,
+.character-price {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: #e0e0e0;
+}
+
+hr {
+  border-color: #444;
+}
+
+.edit-button {
+  align-self: flex-start;
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
   background-color: var(--color-primary);
   border: none;
   color: white;
-  font-size: var(--font-size-base);
-  padding: 0.5rem 1.5rem;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 1.25rem;
-  width: 100%;
+  transition: all 0.3s ease;
 }
 
-.edit-character-card button:hover {
+.edit-button:hover {
   background-color: #e03c31;
+  box-shadow: 0 4px 10px rgba(255, 80, 80, 0.3);
+  transform: translateY(-2px);
 }
 
 /* Modal styles */
 .modal-body {
   padding: 2rem;
-  background-color: #f9f9f9;
+  background-color: #f0f0f0;
+  color: #333;
+  border-radius: var(--radius-md);
 }
 
-/* .modal-header {
+.modal-header {
   background-color: var(--color-primary);
   color: white;
-  padding: 1rem;
-  border-radius: 8px 8px 0 0;
-} */
+  border-radius: 12px 12px 0 0;
+}
 
 .modal-footer {
   background-color: #f1f1f1;
@@ -106,72 +115,16 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .edit-character-card .card-title {
-    font-size: 1.5rem;
+  .character-detail-layout {
+    flex-direction: column;
+    align-items: center;
   }
 
-  .edit-character-card .card-subtitle {
-    font-size: var(--font-size-base);
+  .character-title {
+    font-size: 2rem;
   }
 
-  .edit-character-card .card-img-top {
-    height: 200px;
+  .edit-button {
+    width: 100%;
   }
 }
-@media (max-width: 576px) {
-  .modal-body {
-    padding: 1rem;
-  }
-}
-
-.edit-character-page {
-  background: #121212;
-  color: #fff;
-  padding: 2rem;
-  border-radius: var(--radius-md);
-  min-height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.character-detail-layout {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-}
-
-.image-section {
-  text-align: center;
-}
-
-.character-img-large {
-  width: 100%;
-  max-width: 400px;
-  border-radius: var(--radius-md);
-  object-fit: cover;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
-}
-
-.info-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.character-title {
-  font-size: 2.5rem;
-  color: var(--color-primary);
-  margin-bottom: 0.5rem;
-}
-
-.character-alias,
-.character-alignment,
-.character-powers {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-}
-
-.edit-button {
-  width: fit-content;
-  margin-top: 1rem;
-}
-

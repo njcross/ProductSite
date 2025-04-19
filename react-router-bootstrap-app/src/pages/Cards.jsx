@@ -6,13 +6,18 @@ import ViewingOptions from '../components/ViewingOptions';
 import './Cards.css';
 
 export default function Cards() {
-  const [searchParams] = useSearchParams();
   const [filter, setFilter] = useState('');
   const [view, setView] = useState('grid');
   const [itemsPerPage, setItemsPerPage] = useState(12);
   const [sort, setSort] = useState('name');
-
+  const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get('search') || '';
+
+
+  const clearSearch = () => {
+    searchParams.delete('search');
+    setSearchParams(searchParams);
+  };
 
   return (
     <div className="cards-page">
@@ -32,6 +37,8 @@ export default function Cards() {
               onItemsPerPageChange={setItemsPerPage}
               sortBy={sort}
               onSortChange={setSort}
+              search={search}
+              onClearSearch={clearSearch}
             />
             <CharacterList
               filter={filter}
