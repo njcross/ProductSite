@@ -1,0 +1,125 @@
+.edit-character-page {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+  background: linear-gradient(to bottom right, #1b1b1b, #2d2d2d);
+  color: white;
+  min-height: 100vh;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+
+/* Card container */
+.edit-character-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.edit-character-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px);
+  transition: 0.3s ease;
+}
+
+/* Card content */
+.edit-character-card .card-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.edit-character-card .card-subtitle {
+  font-size: 1.2rem;
+  color: #777;
+}
+
+.edit-character-card .card-body {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+/* Card image styling */
+.edit-character-card .card-img-top {
+  height: 300px;
+  object-fit: cover;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+/* Edit button */
+.edit-character-card button {
+  background-color: #ed1d24;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1.25rem;
+  width: 100%;
+}
+
+.edit-character-card button:hover {
+  background-color: #e03c31;
+}
+
+/* Modal styles */
+.modal-body {
+  padding: 2rem;
+  background-color: #f9f9f9;
+}
+
+/* .modal-header {
+  background-color: #ed1d24;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px 8px 0 0;
+} */
+
+.modal-footer {
+  background-color: #f1f1f1;
+  border-top: 1px solid #ddd;
+}
+
+.modal-footer button {
+  padding: 0.5rem 2rem;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+.modal-footer .btn-primary {
+  background-color: #ed1d24;
+  border: none;
+  color: white;
+}
+
+.modal-footer .btn-secondary {
+  background-color: #f8f9fa;
+  border: 1px solid #ccc;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .edit-character-card .card-title {
+    font-size: 1.5rem;
+  }
+
+  .edit-character-card .card-subtitle {
+    font-size: 1rem;
+  }
+
+  .edit-character-card .card-img-top {
+    height: 200px;
+  }
+}
+@media (max-width: 576px) {
+  .modal-body {
+    padding: 1rem;
+  }
+}

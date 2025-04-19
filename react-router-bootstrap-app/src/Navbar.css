@@ -1,0 +1,23 @@
+.navbar {
+    background: #111 !important;
+    border-bottom: 2px solid #ed1d24;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+    color: #ed1d24 !important;
+    font-size: 1.5rem;
+  }
+  
+  .navbar-nav .nav-link {
+    color: white !important;
+    margin-right: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #ed1d24 !important;
+    text-shadow: 1px 1px 4px rgba(237, 29, 36, 0.5);
+  }
+  

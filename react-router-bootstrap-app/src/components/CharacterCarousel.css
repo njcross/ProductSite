@@ -1,0 +1,25 @@
+/* CharacterCarousel.css */
+.character-carousel-section {
+    padding: 3rem 2rem;
+    background-color: #121212;
+    color: #fff;
+    text-align: center;
+    border-top: 2px solid #ed1d24;
+  }
+  
+  .carousel-title {
+    font-size: 2.25rem;
+    margin-bottom: 2rem;
+    color: #ed1d24;
+  }
+  
+  .character-carousel {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .carousel-card-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+  

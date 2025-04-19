@@ -1,0 +1,29 @@
+.character-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .character-card-wrapper {
+    flex: 0 0 calc(33.333% - 1rem);  /* 3 cards per row */
+    max-width: calc(33.333% - 1rem);
+    justify-content: center;
+  }
+  
+  .character-card-wrapper .character-card {
+    height: 100%;  /* Ensure the card stretches to the height of the wrapper */
+  }
+  
+  @media (max-width: 1200px) {
+    .character-card-wrapper {
+      flex: 0 0 calc(50% - 1rem);  /* 2 cards per row on medium screens */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .character-card-wrapper {
+      flex: 0 0 100%;  /* 1 card per row on small screens */
+    }
+  }
+  

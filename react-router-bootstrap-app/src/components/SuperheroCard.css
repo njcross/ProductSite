@@ -1,0 +1,92 @@
+.character-card {
+  background: linear-gradient(145deg, #1f1f1f, #2b2b2b);
+  border: 1px solid #333;
+  border-radius: 12px;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  text-align: left;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+  max-width: 350px;
+  margin: auto;
+}
+
+.character-card:hover {
+  transform: translateY(-5px);
+}
+
+.character-card .card-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+}
+
+.character-card .card-body {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  flex-grow: 1;
+}
+
+.character-name {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #ed1d24 !important;
+  margin-bottom: 5px;
+}
+
+.character-alias {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #bbb !important;
+  margin-bottom: 20px;
+}
+
+.card-actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.card-actions button {
+  font-size: 0.95rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.card-actions .btn-primary {
+  border: none;
+  color: white;
+}
+
+.card-actions .btn-danger {
+  background-color:rgb(252, 248, 248);
+  color:rgb(2, 0, 0);
+  border: 1px solid #ff5c5c;
+}
+
+.card-actions button:hover {
+  opacity: 0.92;
+}
+
+.card-actions .btn-danger {
+  background-color: rgb(252, 248, 248);
+  color: rgb(2, 0, 0);
+  border: 1px solid #ff5c5c;
+}
+
+.card-actions button:hover,
+.modal-footer .btn-secondary:hover,
+.card-actions .btn-danger:hover {
+  opacity: 0.92;
+  background-color: #ff2e63;
+  border-color: #ff2e63;
+  color: #ffffff; /* Ensure text stays visible on hover */
+}

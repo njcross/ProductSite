@@ -1,0 +1,106 @@
+.cards-page {
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  min-height: 100vh;
+  padding: 40px 0;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.cards-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.cards-header h1 {
+  font-size: 3rem;
+  color: #ed1d24;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px #000;
+}
+
+.cards-page h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #ed1d24 !important; /* Set text color to red */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Added shadow for better contrast */
+  text-align: center; /* Ensure the title is centered */
+}
+
+.cards-header p {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  color: #ccc;
+}
+
+.character-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 0 2rem;
+}
+
+.card {
+  background-color: #1e2a3b;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.card h3 {
+  font-size: 1.8rem;
+  color: #ed1d24;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.card p {
+  font-size: 1rem;
+  color: #ccc;
+  line-height: 1.5;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.card-footer button {
+  background-color: #ed1d24;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.card-footer button:hover {
+  background-color: #ff3b57;
+}
+
+/* Add a media query for smaller screens */
+@media (max-width: 768px) {
+  .card {
+    padding: 1.5rem;
+  }
+
+  .cards-page {
+    padding: 20px 0;
+  }
+}

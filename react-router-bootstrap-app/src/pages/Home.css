@@ -1,0 +1,146 @@
+/* Home.css */
+
+.home-container {
+  background-color: #1b1b1b;
+  color: #fff;
+  min-height: 100vh;
+  padding-bottom: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.hero-section {
+  background-image: url('https://tse2.mm.bing.net/th?id=OIP.EaBXoR6ygbqz302aE7eubgHaDs&pid=Api&P=0&h=220');
+  background-size: cover;
+  background-position: center;
+  padding: 6rem 2rem;
+  text-align: center;
+  color: white;
+  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.6);
+}
+
+.hero-text {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-text h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  color: #ed1d24;
+  text-shadow: 2px 2px #000;
+}
+
+.hero-text p {
+  font-size: 1.25rem;
+  max-width: 650px;
+  margin: 0 auto;
+  text-shadow: 1px 1px #000;
+}
+
+.home-content {
+  padding: 3rem 2rem;
+  text-align: center;
+  background-color: #121212;
+  border-top: 2px solid #ed1d24;
+}
+
+.home-content h2 {
+  font-size: 2.25rem;
+  margin-bottom: 1.5rem;
+  color: #ed1d24;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.feature-item {
+  background-color: #222;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #ed1d24;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.feature-item:hover {
+  background-color: #2a2a2a;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(237, 29, 36, 0.4);
+}
+
+.feature-item h3 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.feature-item p {
+  color: #ccc;
+  font-size: 1rem;
+}
+
+.btn-explore {
+  display: inline-block;
+  margin-top: 1.5rem;
+  background-color: #ed1d24;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-explore:hover {
+  background-color: #ff3b57;
+}
+
+@media (max-width: 576px) {
+  .hero-text h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+  }
+}
+/* --- CHARACTER CAROUSEL SECTION --- */
+.character-carousel {
+  background-color: #1a1a1a;
+  padding: 3rem 2rem;
+  border-top: 2px solid #ed1d24;
+  border-bottom: 2px solid #ed1d24;
+  text-align: center;
+}
+
+.character-carousel h2 {
+  font-size: 2.25rem;
+  margin-bottom: 2rem;
+  color: #ed1d24;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Carousel card wrapper centering */
+.carousel-card-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Limit card size in carousel */
+.carousel-card-wrapper .character-card {
+  max-width: 350px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.home-content,
+.character-carousel {
+  background-image: url('https://www.transparenttextures.com/patterns/black-linen.png');
+  background-size: auto;
+}

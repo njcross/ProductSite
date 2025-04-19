@@ -1,0 +1,32 @@
+.about-page {
+  background-color: #1b1b1b;
+  min-height: 100vh;
+  color: white;
+  border-top: 3px solid #ed1d24;
+  padding-top: 20px; /* Add some padding on top to make space for header */
+}
+
+.about-page h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ed1d24;
+}
+
+.about-page p {
+  font-size: 1.1rem;
+}
+
+.author-section {
+  margin-top: 3rem;
+}
+
+.author-section a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #ed1d24;
+  transition: color 0.3s ease-in-out;
+}
+
+.author-section a:hover {
+  color: #ff2e63; /* Provide a hover effect for the email link */
+}
