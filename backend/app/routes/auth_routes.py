@@ -34,6 +34,7 @@ def login():
     if not user or not check_password_hash(user.password, data['password']):
         return jsonify({"message": "Invalid credentials"}), 401
     session['user_id'] = user.id
+    session.permanent = True
     return jsonify({
         "message": "Login successful",
         "user": {"username": user.username, "email": user.email, "role": user.role}

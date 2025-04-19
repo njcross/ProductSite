@@ -23,7 +23,12 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   const API_BASE = process.env.REACT_APP_API_URL;
 
   const fetchCharacters = useCallback(() => {
-    fetch(`${API_BASE}/characters?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`)
+    fetch(`${API_BASE}/characters?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`, {
+      method: 'GET',
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    })
       .then(res => res.json())
       .then(data => {
         setCharacters(data.characters || data);
@@ -62,7 +67,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
       const res = await fetch(`${API_BASE}/characters`, {
         method: 'POST',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'ngrok-skip-browser-warning': 'true', 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 

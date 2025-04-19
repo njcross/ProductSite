@@ -16,8 +16,18 @@ export const CartProvider = ({ children }) => {
         credentials: 'include',
       })
         .then(res => res.json())
-        .then(data => setCart(data))
-        .catch(err => console.error('Error loading cart:', err));
+        .then(data => {
+          if (Array.isArray(data)) {
+            setCart(data);
+          } else {
+            console.error('Cart data is not an array:', data);
+            setCart([]);
+          }
+        })
+        .catch(err => {
+          console.error('Error loading cart:', err);
+          setCart([]); // fallback
+        });
     } else {
       setCart([]); // clear cart on logout
     }

@@ -27,7 +27,7 @@ export default function Login() {
       if (res.ok) {
         setMessage('Login successful!');
         setCurrentUser(data.user);
-        navigate('/');
+        navigate(-1);
       } else {
         setMessage(data.message || 'Login failed');
       }

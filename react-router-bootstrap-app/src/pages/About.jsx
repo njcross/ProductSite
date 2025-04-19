@@ -1,4 +1,5 @@
 import './About.css';
+import ContactForm from '../components/ContactForm';
 
 export default function About() {
   return (
@@ -13,6 +14,7 @@ export default function About() {
         <p className="text-light mb-1"><strong>Nicholas Cross</strong></p>
         <p className="text-light">📧 <a href="mailto:njcross1990@gmail.com">njcross1990@gmail.com</a></p>
       </div>
+      <ContactForm />
     </div>
   );
 }
