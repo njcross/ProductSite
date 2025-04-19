@@ -362,4 +362,4 @@ def delete_cart_item(item_id):
     return jsonify({"message": "Cart item deleted"}), 200
 
 
-app.run(debug=True) # runs flask server
+app.run(debug=True, host='0.0.0.0')  # Accepts both localhost and 127.0.0.1

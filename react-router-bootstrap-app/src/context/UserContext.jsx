@@ -8,7 +8,7 @@ export function UserProvider({ children }) {
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await fetch('http://127.0.0.1:5000/check-login', {
+        const res = await fetch('http://localhost:5000/check-login', {
           credentials: 'include',
         });
         const data = await res.json();

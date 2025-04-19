@@ -22,7 +22,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   const navigate = useNavigate();
 
   const fetchCharacters = () => {
-    fetch(`http://127.0.0.1:5000/characters?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`)
+    fetch(`http://localhost:5000/characters?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`)
       .then(res => res.json())
       .then(data => {
         setCharacters(data.characters || data); // Supports both old and new formats
@@ -36,7 +36,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   }, [page, itemsPerPage, sortBy, search]);
 
   const handleDelete = (id) => {
-    fetch(`http://127.0.0.1:5000/characters/${id}`, { method: 'DELETE' })
+    fetch(`http://localhost:5000/characters/${id}`, { method: 'DELETE', credentials: 'include' })
       .then(() => {
         setCharacters(prev => prev.filter(char => char.id !== id));
         setModalMessage('Character deleted successfully!');
@@ -59,6 +59,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
     try {
       const res = await fetch('http://localhost:5000/characters', {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
