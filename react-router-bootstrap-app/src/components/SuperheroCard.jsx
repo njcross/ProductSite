@@ -16,6 +16,9 @@ export default function SuperheroCard({ character, onEdit, onDelete }) {
     <Card.Title className="character-name">{character.name}</Card.Title>
     <Card.Subtitle className="character-alias">{character.alias}</Card.Subtitle>
     <Card.Text className="character-description">{character.powers}</Card.Text>
+    <Card.Text className="character-price">
+  ${character.price.toFixed(2)}
+</Card.Text>
 
           <div className="card-actions">
             <Button onClick={() => onEdit(character)} aria-label="Edit">

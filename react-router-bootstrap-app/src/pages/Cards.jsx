@@ -1,15 +1,18 @@
-// src/pages/Cards.jsx
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import CharacterList from '../components/CharacterList';
 import FilterBy from '../components/FilterBy';
 import ViewingOptions from '../components/ViewingOptions';
 import './Cards.css';
 
 export default function Cards() {
+  const [searchParams] = useSearchParams();
   const [filter, setFilter] = useState('');
   const [view, setView] = useState('grid');
   const [itemsPerPage, setItemsPerPage] = useState(12);
   const [sort, setSort] = useState('name');
+
+  const search = searchParams.get('search') || '';
 
   return (
     <div className="cards-page">
@@ -32,6 +35,7 @@ export default function Cards() {
             />
             <CharacterList
               filter={filter}
+              search={search}
               view={view}
               itemsPerPage={itemsPerPage}
               sortBy={sort}

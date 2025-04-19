@@ -14,14 +14,18 @@ export function UserProvider({ children }) {
         const data = await res.json();
         if (data.loggedIn) {
           setCurrentUser(data.user);
+        } else {
+          setCurrentUser(null);
         }
       } catch (err) {
         console.error('Login check failed:', err);
+        setCurrentUser(null);
       }
     };
-
+  
     checkLogin();
   }, []);
+  
 
   return (
     <UserContext.Provider value={{ currentUser, setCurrentUser }}>

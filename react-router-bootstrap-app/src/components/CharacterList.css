@@ -9,12 +9,24 @@
     flex: 0 0 calc(33.333% - 1rem);  /* 3 cards per row */
     max-width: calc(33.333% - 1rem);
     justify-content: center;
+    display: flex;
   }
   
+  .character-row:only-child .character-card-wrapper,
+.character-row .character-card-wrapper:only-child {
+  flex: 0 0 100% !important;
+  max-width: 100% !important;
+}
+
+
   .character-card-wrapper .character-card {
     height: 100%;  /* Ensure the card stretches to the height of the wrapper */
   }
   
+  .character-list-container .row {
+    flex-wrap: wrap;
+  }
+
   @media (max-width: 1200px) {
     .character-card-wrapper {
       flex: 0 0 calc(50% - 1rem);  /* 2 cards per row on medium screens */
@@ -60,3 +72,9 @@
     justify-content: space-between;
   }
   
+  .pagination-controls {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }

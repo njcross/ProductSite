@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
 import './CharacterList.css';
 
-export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view = 'grid' }) {
+export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view = 'grid', search = '' }) {
   const { currentUser } = useUser();
   const [characters, setCharacters] = useState([]);
   const [page, setPage] = useState(1);
@@ -22,7 +22,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   const navigate = useNavigate();
 
   const fetchCharacters = () => {
-    fetch(`http://127.0.0.1:5000/characters?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}`)
+    fetch(`http://127.0.0.1:5000/characters?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`)
       .then(res => res.json())
       .then(data => {
         setCharacters(data.characters || data); // Supports both old and new formats
@@ -33,7 +33,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
 
   useEffect(() => {
     fetchCharacters();
-  }, [page, itemsPerPage, sortBy]);
+  }, [page, itemsPerPage, sortBy, search]);
 
   const handleDelete = (id) => {
     fetch(`http://127.0.0.1:5000/characters/${id}`, { method: 'DELETE' })
@@ -90,30 +90,46 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   return (
     <div className={`character-list-container ${view === 'list' ? 'list-view' : ''}`}>
       {currentUser?.role === 'admin' && (
-        <div className="d-flex justify-content-end mb-3">
+        <Row>
+        <Col className="d-flex justify-content-end mb-3">
           <Button variant="danger" onClick={() => setShowCreate(true)}>
             Add New Character
           </Button>
-        </div>
+        </Col>
+      </Row>
       )}
 
-      <Row className="d-flex justify-content-center">
-        {characters.map(char => (
-          <Col key={char.id} sm={12} md={6} lg={4} xl={3} className="character-card-wrapper">
-            <SuperheroCard
-              character={char}
-              onEdit={handleEditClick}
-              onDelete={handleDelete}
-            />
-          </Col>
-        ))}
-      </Row>
-
-      <PaginationControls
-        page={page}
-        onPageChange={setPage}
-        hasNext={hasNext}
+<Row className={`character-row d-flex ${view === 'list' ? 'flex-column' : 'justify-content-center'}`}>
+  {characters.map(char => (
+    <Col
+      key={char.id}
+      xs={12}
+      sm={view === 'grid' ? 6 : 12}
+      md={view === 'grid' ? 4 : 12}
+      lg={view === 'grid' ? 3 : 12}
+      className="character-card-wrapper"
+    >
+      <SuperheroCard
+        character={char}
+        onEdit={handleEditClick}
+        onDelete={handleDelete}
       />
+    </Col>
+  ))}
+</Row>
+
+<div className="pagination-controls">
+<Row className="mt-4">
+  <Col className="d-flex justify-content-center">
+    <PaginationControls
+      page={page}
+      onPageChange={setPage}
+      hasNext={hasNext}
+    />
+  </Col>
+</Row>
+</div>
+
 
       <Modal show={showCreate} onHide={() => setShowCreate(false)} centered>
         <Modal.Header closeButton>

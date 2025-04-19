@@ -8,7 +8,8 @@ export default function CharacterForm({ initialData, onSubmit }) {
     alias: '',
     alignment: '',
     powers: '',
-    image_url: ''
+    image_url: '',
+    price: ''
   });
 
   const [urlError, setUrlError] = useState('');
@@ -82,6 +83,19 @@ export default function CharacterForm({ initialData, onSubmit }) {
           {urlError}
         </Form.Control.Feedback>
       </Form.Group>
+
+      <Form.Group controlId="formPrice">
+      <Form.Label>Price</Form.Label>
+      <Form.Control
+        type="number"
+        step="0.01"
+        name="price"
+        value={formData.price}
+        onChange={handleChange}
+        required
+      />
+    </Form.Group>
+
 
       <Button type="submit" className="mt-3">
         {initialData ? 'Update' : 'Create'}

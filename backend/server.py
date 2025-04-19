@@ -3,7 +3,7 @@
 # pip install -r requirements.txt
 
 from flask import Flask, request, jsonify
-from sqlalchemy import String, Enum, Text, Integer, select, create_engine, text
+from sqlalchemy import String, Enum, Text, Integer, select, create_engine, text, Float, or_
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from flask_sqlalchemy import SQLAlchemy
 from marshmallow import ValidationError, fields
@@ -17,6 +17,14 @@ from sqlalchemy.orm import relationship
 
 # Initialize Flask app
 app = Flask(__name__)
+from datetime import timedelta
+
+# Session config for persistence
+app.secret_key = 'super-secret-key'  # Already present — keep this
+app.permanent_session_lifetime = timedelta(days=7)
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # Or 'None' if using secure + cross-site
+app.config['SESSION_COOKIE_SECURE'] = False #set true for production
 
 
 # MySQL database configuration
@@ -72,6 +80,7 @@ class Character(Base):
     alignment: Mapped[str] = mapped_column(Enum('hero', 'villain', name="alignment_enum"), nullable=False)
     powers: Mapped[str] = mapped_column(Text, nullable=False)
     image_url: Mapped[str] = mapped_column(String(255), nullable=False)
+    price: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
 		
 	
 #Schemas
@@ -83,9 +92,10 @@ class CharacterSchema(ma.Schema):
     alignment = fields.String(required=True)
     powers = fields.String(required=True)
     image_url = fields.String(required=True)
+    price = fields.Float(required=True)
 
     class Meta:
-        fields = ("id", "name", "alias", "alignment", "powers", "image_url")
+        fields = ("id", "name", "alias", "alignment", "powers", "image_url", "price")
 
 
 class UserSchema(ma.Schema):
@@ -134,7 +144,6 @@ with app.app_context():
     
 ########### Flask Endpoints ##############
 # Enable session support
-app.secret_key = 'super-secret-key'  # 🔐 You should keep this secret and secure
 @app.route('/logout', methods=['POST'])
 def logout():
     session.pop('user_id', None)
@@ -151,8 +160,17 @@ def login():
     if not user or not check_password_hash(user.password, password):
         return jsonify({"message": "Invalid username or password"}), 401
 
-    session['user_id'] = user.id  # Store user in session
-    return jsonify({"message": "Login successful", "user": {"username": user.username, "email": user.email, "role": user.role}}), 200
+    session.permanent = True 
+    session['user_id'] = user.id
+
+    return jsonify({
+        "message": "Login successful",
+        "user": {
+            "username": user.username,
+            "email": user.email,
+            "role": user.role
+        }
+    }), 200
 
 @app.route('/check-login', methods=['GET'])
 def check_login():
@@ -191,15 +209,29 @@ def register_user():
     
 @app.route('/characters', methods=['GET'])
 def get_characters():
-    sort_by = request.args.get('sortBy', 'name')  # default sort by name
+    sort_by = request.args.get('sortBy', 'name')
+    search = request.args.get('search', '')
     page = int(request.args.get('page', 1))
     per_page = int(request.args.get('perPage', 12))
 
-    valid_sort_fields = {'name', 'alias', 'alignment'}
+    valid_sort_fields = {'name', 'alias', 'alignment', 'price'}
     if sort_by not in valid_sort_fields:
         sort_by = 'name'
 
-    query = select(Character).order_by(getattr(Character, sort_by))
+    query = select(Character)
+
+    if search:
+        like_term = f"%{search}%"
+        query = query.where(
+            or_(
+                Character.name.ilike(like_term),
+                Character.alias.ilike(like_term),
+                Character.alignment.ilike(like_term),
+                Character.powers.ilike(like_term)
+            )
+        )
+
+    query = query.order_by(getattr(Character, sort_by))
 
     characters = db.session.execute(query).scalars().all()
     start = (page - 1) * per_page
@@ -207,6 +239,7 @@ def get_characters():
     paginated_characters = characters[start:end]
 
     return characters_schema.jsonify(paginated_characters), 200
+
 
 @app.route('/characters/<int:id>', methods=['GET'])
 def get_character(id):
@@ -220,27 +253,29 @@ def get_character(id):
 def create_character():
     try:
         character_data = character_schema.load(request.json)
-        
     except ValidationError as e:
         return jsonify(e.messages), 400
-    
-    new_character = Character(name=character_data['name'], 
-                              alias=character_data['alias'], 
-                              alignment=character_data['alignment'], 
-                              powers=character_data['powers'], 
-                              image_url=character_data['image_url'])
-    
+
+    new_character = Character(
+        name=character_data['name'], 
+        alias=character_data['alias'], 
+        alignment=character_data['alignment'], 
+        powers=character_data['powers'], 
+        image_url=character_data['image_url'],
+        price=character_data['price']  # <-- Add this
+    )
+
     db.session.add(new_character)
     db.session.commit()
 
     return character_schema.jsonify(new_character), 201
 
 
+
 @app.route('/characters/<int:id>', methods=['PUT'])
 @login_required
 def update_character(id):
     character = db.session.get(Character, id)
-
     if not character:
         return jsonify({"message": "Invalid character id"}), 400
 
@@ -254,9 +289,10 @@ def update_character(id):
     character.alignment = character_data['alignment']
     character.powers = character_data['powers']
     character.image_url = character_data['image_url']
+    character.price = character_data['price']  # <-- Add this
 
     db.session.commit()
-    
+
     return character_schema.jsonify(character), 200
 
 
