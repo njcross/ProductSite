@@ -18,8 +18,8 @@ import { CartProvider } from './context/CartContext';
 export default function App() {
   
   return (
-    <CartProvider>
     <UserProvider>
+      <CartProvider>
       <Router>
         <HeaderBar />
         <Navbar />
@@ -34,7 +34,7 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
+      </CartProvider>
     </UserProvider>
-    </CartProvider>
   );
 }

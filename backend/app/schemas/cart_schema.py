@@ -1,0 +1,12 @@
+from marshmallow import Schema, fields
+from app.schemas.character_schema import CharacterSchema
+
+class CartSchema(Schema):
+    id = fields.Int(dump_only=True)
+    user_id = fields.Int(required=True)
+    character_id = fields.Int(required=True)
+    quantity = fields.Int(required=True)
+    character = fields.Nested(CharacterSchema, dump_only=True)
+
+cart_schema = CartSchema()
+carts_schema = CartSchema(many=True)
