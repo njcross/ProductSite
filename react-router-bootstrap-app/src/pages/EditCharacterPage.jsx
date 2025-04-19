@@ -17,13 +17,14 @@ export default function EditCharacterPage() {
   const [modalMessage, setModalMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const [refreshCount, setRefreshCount] = useState(0);
+  const API_BASE = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    fetch(`http://localhost:5000/characters/${id}`)
+    fetch(`${API_BASE}/characters/${id}`)
       .then(res => res.json())
       .then(data => setCharacter(data))
       .catch(err => console.error('Error fetching character:', err));
-  }, [id, refreshCount]);
+  }, [id, refreshCount, API_BASE]);
 
   const handleModalClose = () => {
     setShowModal(false);
@@ -36,7 +37,7 @@ export default function EditCharacterPage() {
 
   const handleEditSubmit = async (updatedCharacter) => {
     try {
-      const res = await fetch(`http://localhost:5000/characters/${id}`, {
+      const res = await fetch(`${API_BASE}/characters/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedCharacter)

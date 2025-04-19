@@ -4,11 +4,11 @@ const UserContext = createContext();
 
 export function UserProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
-
+  const API_BASE = process.env.REACT_APP_API_URL;
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await fetch('http://localhost:5000/check-login', {
+        const res = await fetch(`${API_BASE}/check-login`, {
           credentials: 'include',
         });
         const data = await res.json();
@@ -24,7 +24,7 @@ export function UserProvider({ children }) {
     };
   
     checkLogin();
-  }, []);
+  }, [API_BASE]);
   
 
   return (

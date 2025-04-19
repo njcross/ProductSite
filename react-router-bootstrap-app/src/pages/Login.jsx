@@ -9,13 +9,14 @@ export default function Login() {
   const [form, setForm] = useState({ username: '', password: '' });
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+  const API_BASE = process.env.REACT_APP_API_URL;
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:5000/login', {
+      const res = await fetch(`${API_BASE}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

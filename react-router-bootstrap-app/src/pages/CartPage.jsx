@@ -5,7 +5,7 @@ import { Button, Container, Row, Col, Form } from 'react-bootstrap';
 import './CartPage.css';
 
 export default function CartPage() {
-  const { cart, updateQuantity, removeFromCart, total } = useCart();
+  const { cart, updateQuantity, removeFromCart } = useCart();
   const navigate = useNavigate();
 
   return (

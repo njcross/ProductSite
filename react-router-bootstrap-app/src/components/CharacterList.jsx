@@ -1,5 +1,5 @@
 // src/components/CharacterList.jsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import SuperheroCard from './SuperheroCard';
 import CharacterForm from './CharacterForm';
 import ConfirmationModal from './ConfirmationModal';
@@ -20,23 +20,25 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   const [isSuccess, setIsSuccess] = useState(false);
 
   const navigate = useNavigate();
+  const API_BASE = process.env.REACT_APP_API_URL;
 
-  const fetchCharacters = () => {
-    fetch(`http://localhost:5000/characters?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`)
+  const fetchCharacters = useCallback(() => {
+    fetch(`${API_BASE}/characters?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`)
       .then(res => res.json())
       .then(data => {
-        setCharacters(data.characters || data); // Supports both old and new formats
-        setHasNext(data.has_next ?? (data.length === itemsPerPage)); // Support total pagination
+        setCharacters(data.characters || data);
+        setHasNext(data.has_next ?? (data.length === itemsPerPage));
       })
       .catch(err => console.error('Failed to load characters:', err));
-  };
+  }, [API_BASE, sortBy, page, itemsPerPage, search]);
+  
 
   useEffect(() => {
     fetchCharacters();
-  }, [page, itemsPerPage, sortBy, search]);
+  }, [fetchCharacters]);
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/characters/${id}`, { method: 'DELETE', credentials: 'include' })
+    fetch(`${API_BASE}/characters/${id}`, { method: 'DELETE', credentials: 'include' })
       .then(() => {
         setCharacters(prev => prev.filter(char => char.id !== id));
         setModalMessage('Character deleted successfully!');
@@ -57,7 +59,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
 
   const handleCreate = async (formData) => {
     try {
-      const res = await fetch('http://localhost:5000/characters', {
+      const res = await fetch(`${API_BASE}/characters`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },

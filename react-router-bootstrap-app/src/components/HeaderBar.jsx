@@ -7,10 +7,11 @@ export default function HeaderBar() {
   const { currentUser, setCurrentUser } = useUser();
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
+  const API_BASE = process.env.REACT_APP_API_URL;
 
   const handleLogout = async () => {
     try {
-      await fetch('http://localhost:5000/logout', {
+      await fetch(`${API_BASE}/logout`, {
         method: 'POST',
         credentials: 'include',
       });

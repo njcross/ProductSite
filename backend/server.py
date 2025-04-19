@@ -14,13 +14,16 @@ from flask import session
 from functools import wraps
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
+from dotenv import load_dotenv
+import os
+
+load_dotenv(dotenv_path='variables.env')
 
 # Initialize Flask app
 app = Flask(__name__)
 from datetime import timedelta
 
 # Session config for persistence
-app.secret_key = 'super-secret-key'  # Already present — keep this
 app.permanent_session_lifetime = timedelta(days=7)
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # Or 'None' if using secure + cross-site
@@ -28,7 +31,6 @@ app.config['SESSION_COOKIE_SECURE'] = False #set true for production
 
 
 # MySQL database configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:11Oval11@localhost/marvel'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
@@ -36,11 +38,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 class Base(DeclarativeBase):
     pass
 
+app.secret_key = os.getenv('FLASK_SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+CORS(app, supports_credentials=True, origins=[os.getenv('CORS_ORIGIN')])
 # Initialize SQLAlchemy and Marshmallow
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 ma = Marshmallow(app)
-CORS(app, supports_credentials=True, origins=["http://localhost:3000"])
 
 #decorator for checking login status
 def login_required(f):
@@ -131,7 +135,8 @@ carts_schema = CartSchema(many=True) #Can serialize many Trainer objects (a list
 
 
 def create_database():
-    root_engine = create_engine("mysql+mysqlconnector://root:11Oval11@localhost")  # No database specified
+    root_db_url = os.getenv("ROOT_DATABASE_URL")
+    root_engine = create_engine(root_db_url)    
     with root_engine.connect() as connection:
         connection.execute(text("CREATE DATABASE IF NOT EXISTS marvel"))
 
