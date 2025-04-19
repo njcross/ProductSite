@@ -1,0 +1,88 @@
+/* src/components/HeroCarousel.css */
+
+.hero-carousel {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    background-color: #0e0e0e;
+  }
+  
+  .hero-slide {
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    display: flex !important; /* required for carousel layout */
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .slide-1 {
+    background-image: url('https://example.com/image1.jpg');
+  }
+  
+  .slide-2 {
+    background-image: url('https://example.com/image2.jpg');
+  }
+  
+  .slide-3 {
+    background-image: url('https://example.com/image3.jpg');
+  }
+  
+  .slide-content {
+    background-color: rgba(15, 15, 15, 0.7);
+    padding: 3rem 2rem;
+    border-radius: 12px;
+    max-width: 800px;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+  }
+  
+  .slide-content h1 {
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: #ed1d24;
+    margin-bottom: 1rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  }
+  
+  .slide-content p {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: #eaeaea;
+  }
+  
+  /* Responsive tweaks */
+  @media (max-width: 768px) {
+    .slide-content h1 {
+      font-size: 2.2rem;
+    }
+  
+    .slide-content p {
+      font-size: 1rem;
+    }
+  }
+  
+  /* Hide carousel arrows by default */
+.hero-carousel .control-arrow {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  /* Show arrows on hover */
+  .hero-carousel:hover .control-arrow {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .hero-carousel .control-prev.control-arrow {
+    left: 15px;
+  }
+  
+  .hero-carousel .control-next.control-arrow {
+    right: 15px;
+  }
+  

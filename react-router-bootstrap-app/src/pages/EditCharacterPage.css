@@ -123,3 +123,55 @@
     padding: 1rem;
   }
 }
+
+.edit-character-page {
+  background: #121212;
+  color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.character-detail-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.image-section {
+  text-align: center;
+}
+
+.character-img-large {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+}
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.character-title {
+  font-size: 2.5rem;
+  color: #ed1d24;
+  margin-bottom: 0.5rem;
+}
+
+.character-alias,
+.character-alignment,
+.character-powers {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.edit-button {
+  width: fit-content;
+  margin-top: 1rem;
+}
+

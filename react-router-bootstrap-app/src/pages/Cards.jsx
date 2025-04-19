@@ -1,16 +1,44 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import CharacterList from '../components/CharacterList';
+import FilterBy from '../components/FilterBy';
+import ViewingOptions from '../components/ViewingOptions';
 import './Cards.css';
 
 export default function Cards() {
-
+  const [filter, setFilter] = useState('');
+  const [view, setView] = useState('grid');
+  const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [sort, setSort] = useState('name');
 
   return (
     <div className="cards-page">
-      <div className="container py-4">
-        <h2 className="text-center text-white mb-4">Marvel Character Cards</h2>
-        <CharacterList />
+  <div className="container-fluid">
+    <h2 className="text-center text-white mb-4">Marvel Character Cards</h2>
+    <div className="row gx-4">
+      <div className="col-md-3">
+        <div className="filter-sidebar">
+          <FilterBy onFilterChange={setFilter} />
+        </div>
+      </div>
+      <div className="col-md-9">
+        <ViewingOptions
+          view={view}
+          onViewChange={setView}
+          itemsPerPage={itemsPerPage}
+          onItemsChange={setItemsPerPage}
+          sort={sort}
+          onSortChange={setSort}
+        />
+        <CharacterList
+          filter={filter}
+          view={view}
+          itemsPerPage={itemsPerPage}
+          sortBy={sort}
+        />
       </div>
     </div>
+  </div>
+</div>
+
   );
 }

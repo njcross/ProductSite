@@ -8,6 +8,7 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* --- HERO SECTION --- */
 .hero-section {
   background-image: url('https://tse2.mm.bing.net/th?id=OIP.EaBXoR6ygbqz302aE7eubgHaDs&pid=Api&P=0&h=220');
   background-size: cover;
@@ -37,11 +38,14 @@
   text-shadow: 1px 1px #000;
 }
 
+/* --- FEATURES SECTION --- */
 .home-content {
   padding: 3rem 2rem;
   text-align: center;
   background-color: #121212;
   border-top: 2px solid #ed1d24;
+  background-image: url('https://www.transparenttextures.com/patterns/black-linen.png');
+  background-size: auto;
 }
 
 .home-content h2 {
@@ -84,6 +88,7 @@
   font-size: 1rem;
 }
 
+/* --- REUSABLE BUTTON --- */
 .btn-explore {
   display: inline-block;
   margin-top: 1.5rem;
@@ -100,22 +105,15 @@
   background-color: #ff3b57;
 }
 
-@media (max-width: 576px) {
-  .hero-text h1 {
-    font-size: 2.2rem;
-  }
-
-  .hero-text p {
-    font-size: 1rem;
-  }
-}
 /* --- CHARACTER CAROUSEL SECTION --- */
 .character-carousel {
-  background-color: #1a1a1a;
   padding: 3rem 2rem;
+  text-align: center;
+  background-color: #1a1a1a;
   border-top: 2px solid #ed1d24;
   border-bottom: 2px solid #ed1d24;
-  text-align: center;
+  background-image: url('https://www.transparenttextures.com/patterns/black-linen.png');
+  background-size: auto;
 }
 
 .character-carousel h2 {
@@ -125,22 +123,54 @@
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 }
 
-/* Carousel card wrapper centering */
+/* Carousel wrapper styles */
 .carousel-card-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Limit card size in carousel */
 .carousel-card-wrapper .character-card {
   max-width: 350px;
   width: 100%;
   margin: 0 auto;
 }
 
-.home-content,
-.character-carousel {
+@media (max-width: 992px) {
+  .carousel-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .carousel-column {
+    width: 100%;
+    max-width: 600px;
+  }
+}
+.carousel-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 3rem 2rem;
+  background-color: #1a1a1a;
   background-image: url('https://www.transparenttextures.com/patterns/black-linen.png');
-  background-size: auto;
+  border-top: 2px solid #ed1d24;
+  border-bottom: 2px solid #ed1d24;
+  flex-wrap: wrap;
+}
+
+.carousel-column {
+  flex: 1 1 30%;
+  background-color: #121212;
+  padding: 1rem;
+  border: 1px solid #ed1d24;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.carousel-column h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  color: #ed1d24;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 }

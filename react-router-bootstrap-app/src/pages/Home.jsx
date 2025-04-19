@@ -1,43 +1,29 @@
-import './Home.css';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CharacterCarousel from '../components/CharacterCarousel.jsx';
+import FeaturesSection from '../components/FeatureSection.jsx';
+import HeroCarousel from '../components/HeroCarousel.jsx';
+import './Home.css';
 
 export default function Home() {
-
   return (
     <div className="home-container">
-      <section className="hero-section">
-        <div className="hero-text">
-          <h1>Marvel Character Database</h1>
-          <p>Explore, edit, and manage your favorite Marvel characters in one epic place.</p>
-        </div>
-      </section>
+      <HeroCarousel />
+      <FeaturesSection />
 
-      <section className="home-content">
-        <h2>⚡ Features</h2>
-        <div className="feature-grid">
-          <div className="feature-item">
-            <h3>📋 View Characters</h3>
-            <p>Browse a growing list of Marvel heroes and villains, complete with images and powers.</p>
-          </div>
-          <div className="feature-item">
-            <h3>📝 Edit Entries</h3>
-            <p>Update any character's name, alias, powers, or alignment with ease.</p>
-          </div>
-          <div className="feature-item">
-            <h3>➕ Add New Characters</h3>
-            <p>Add your favorite characters to the database and keep your list growing.</p>
-          </div>
-          <div className="feature-item">
-            <h3>🗑️ Delete with Confidence</h3>
-            <p>Remove characters with a confirmation prompt to avoid accidental deletions.</p>
-          </div>
+      <section className="carousel-group">
+        <div className="carousel-column">
+          <h2>Popular Heroes</h2>
+          <CharacterCarousel filter="hero" />
         </div>
-      </section>
-
-      {/* Carousel of Character Cards */}
-      <section className="character-carousel">
-        <CharacterCarousel />
+        <div className="carousel-column">
+          <h2>Infamous Villains</h2>
+          <CharacterCarousel filter="villain" />
+        </div>
+        <div className="carousel-column">
+          <h2>Trending Characters</h2>
+          <CharacterCarousel filter="trending" />
+        </div>
       </section>
     </div>
   );

@@ -1,0 +1,29 @@
+.filter-by {
+    background-color: #222;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    color: white;
+    border: 1px solid #ed1d24;
+  }
+  
+  .filter-by h5 {
+    margin-bottom: 1rem;
+    color: #ed1d24;
+  }
+  
+  .filter-by ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .filter-by li {
+    padding: 0.5rem 0;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+  .filter-by li:hover {
+    color: #ff3b57;
+  }
+  

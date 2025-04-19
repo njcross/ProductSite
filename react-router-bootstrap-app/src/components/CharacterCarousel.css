@@ -4,7 +4,6 @@
     background-color: #121212;
     color: #fff;
     text-align: center;
-    border-top: 2px solid #ed1d24;
   }
   
   .carousel-title {
@@ -23,3 +22,28 @@
     justify-content: center;
   }
   
+  .multi-carousel-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    padding: 3rem 2rem;
+    background-color: #1a1a1a;
+    border-top: 2px solid #ed1d24;
+  }
+  
+  .carousel-block {
+    flex: 1 1 300px;
+    max-width: 400px;
+    background-color: #121212;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    text-align: center;
+  }
+  
+  .carousel-block h3 {
+    color: #ed1d24;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }

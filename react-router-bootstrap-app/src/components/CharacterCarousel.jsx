@@ -55,7 +55,6 @@ export default function CharacterCarousel() {
   return (
     <div className="charactert-carousel-container">
     <section className="character-carousel-section">
-      <h2 className="carousel-title">Character Cards</h2>
       <Carousel className="character-carousel" interval={3000} fade>
         {characters.map((character) => (
           <Carousel.Item key={character.id}>

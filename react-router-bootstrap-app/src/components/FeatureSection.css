@@ -1,0 +1,53 @@
+.features-section {
+    background-color: #121212;
+    padding: 4rem 2rem;
+    border-top: 2px solid #ed1d24;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+    color: #ed1d24;
+    margin-bottom: 3rem;
+    text-shadow: 1px 1px #000;
+  }
+  
+  .features-steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+  }
+  
+  .feature-step {
+    background-color: #222;
+    border: 1px solid #ed1d24;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 280px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .feature-step:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(237, 29, 36, 0.3);
+  }
+  
+  .step-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #ed1d24;
+  }
+  
+  .feature-step h4 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+  }
+  
+  .feature-step p {
+    color: #ccc;
+    font-size: 1rem;
+  }
+  

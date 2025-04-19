@@ -1,0 +1,26 @@
+.viewing-options {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .viewing-options .label {
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .toggle-btn {
+    padding: 0.3rem 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #2c2c2c;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .toggle-btn.active {
+    background-color: #ed1d24;
+    border-color: #ed1d24;
+  }
+  

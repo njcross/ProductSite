@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Button, Modal, Row, Col, Card } from 'react-bootstrap';
+import { Container, Button, Modal, Row, Col } from 'react-bootstrap';
 import CharacterForm from '../components/CharacterForm';
 import ConfirmationModal from '../components/ConfirmationModal';
 import './EditCharacterPage.css';
@@ -8,7 +8,7 @@ import './EditCharacterPage.css';
 export default function EditCharacterPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   const [character, setCharacter] = useState(null);
   const [showEditForm, setShowEditForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -29,7 +29,7 @@ export default function EditCharacterPage() {
   };
 
   const handleEditButtonClick = () => {
-    setShowEditForm(true); // Show the form when "Edit" button is clicked
+    setShowEditForm(true);
   };
 
   const handleEditSubmit = async (updatedCharacter) => {
@@ -43,7 +43,7 @@ export default function EditCharacterPage() {
       if (res.ok) {
         setIsSuccess(true);
         setModalMessage('Character updated successfully!');
-        setShowEditForm(false); // Hide the form after successful update
+        setShowEditForm(false);
       } else {
         setIsSuccess(false);
         setModalMessage('Failed to update character.');
@@ -52,58 +52,47 @@ export default function EditCharacterPage() {
       setIsSuccess(false);
       setModalMessage('Error updating character.');
     } finally {
-      setShowModal(true); // Show confirmation modal after submitting
+      setShowModal(true);
     }
   };
 
   const handleModalConfirm = () => {
     setShowModal(false);
-    navigate('/cards'); // Redirect to character list after confirmation
+    navigate('/cards');
   };
 
-  if (!character) {
-    return <div>Loading...</div>; // Loading state while fetching character data
-  }
+  if (!character) return <div>Loading...</div>;
 
   return (
-    <Container className="edit-character-page mt-4">
-      <Button variant="secondary" onClick={() => navigate(-1)} className="mb-3">
-  ← Back
-</Button>
-  <Row className="justify-content-center">
-    <Col md={6}>
-      <Card className="edit-character-card">
-        <Card.Img variant="top" src={character.image_url} alt={character.name} />
-        <Card.Body>
-          <Card.Title>{character.name}</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">{character.alias}</Card.Subtitle>
-          <Card.Text>
-            <strong>Alignment:</strong> {character.alignment}<br />
-            <strong>Powers:</strong> {character.powers}
-          </Card.Text>
-          <Button variant="warning" onClick={handleEditButtonClick}>
-            Edit Character
+    <Container className="edit-character-page">
+      <Button variant="secondary" onClick={() => navigate(-1)} className="mb-3">← Back</Button>
+      <Row className="character-detail-layout">
+        <Col md={6} className="image-section">
+          <img src={character.image_url} alt={character.name} className="character-img-large" />
+        </Col>
+        <Col md={6} className="info-section">
+          <h1 className="character-title">{character.name}</h1>
+          <p className="character-alias">Alias: <strong>{character.alias}</strong></p>
+          <hr />
+          <p className="character-alignment"><strong>Alignment:</strong> {character.alignment}</p>
+          <p className="character-powers"><strong>Powers:</strong> {character.powers}</p>
+          <Button variant="warning" className="edit-button" onClick={handleEditButtonClick}>
+            ✏️ Edit Character
           </Button>
-        </Card.Body>
-      </Card>
-    </Col>
-  </Row>
+        </Col>
+      </Row>
 
-
-      {/* Character Edit Form Modal */}
+      {/* Edit Form Modal */}
       <Modal show={showEditForm} onHide={() => setShowEditForm(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Edit Character</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CharacterForm
-            initialData={character}
-            onSubmit={handleEditSubmit}
-          />
+          <CharacterForm initialData={character} onSubmit={handleEditSubmit} />
         </Modal.Body>
       </Modal>
 
-      {/* Confirmation Modal for Success or Error */}
+      {/* Confirmation Modal */}
       <ConfirmationModal
         show={showModal}
         title={isSuccess ? 'Success' : 'Error'}
