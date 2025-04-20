@@ -25,6 +25,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   const fetchCharacters = useCallback(() => {
     fetch(`${API_BASE}/characters?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`, {
       method: 'GET',
+      credentials: 'include',
       headers: {
         'ngrok-skip-browser-warning': 'true',
         credentials: 'include'

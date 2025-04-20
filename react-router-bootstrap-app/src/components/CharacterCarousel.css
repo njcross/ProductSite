@@ -15,11 +15,7 @@
   .character-carousel {
     max-width: 100%;
     padding: 1rem;
-  }
-  
-  .carousel-card-wrapper {
-    display: flex;
-    justify-content: center;
+    min-height: 300px;
   }
   
   .multi-carousel-section {
@@ -53,3 +49,29 @@
       flex-direction: column;
     }
   }
+
+  /* Make carousel wrapper adapt to mobile */
+  .carousel-card-wrapper {
+    min-height: 250px;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+/* Ensure cards shrink nicely */
+@media (max-width: 768px) {
+  .carousel-card-wrapper {
+    padding: 0.5rem;
+  }
+
+  .character-card {
+    max-width: 90%;
+  }
+
+  .character-card .card-img {
+    height: 180px;
+    object-fit: cover;
+    width: 100%;
+  }
+}

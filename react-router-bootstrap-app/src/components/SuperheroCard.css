@@ -13,7 +13,7 @@
   transition: transform 0.3s ease-in-out;
   width: 100%;
   max-width: 350px;
-  margin: 0 auto;
+  margin: auto;
 }
 
 .character-card:hover {
@@ -22,9 +22,8 @@
 
 .character-card .card-img {
   width: 100%;
-  height: 220px;
+  height: 200px;
   object-fit: cover;
-  border-radius: 12px 12px 0 0;
 }
 
 .character-card .card-body {
@@ -97,3 +96,4 @@
     height: 180px;
   }
 }
+

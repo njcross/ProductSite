@@ -14,6 +14,7 @@ user_schema = UserSchema()
 def register():
     try:
         data = request.json
+        data['role']='customer'
         user_data = user_schema.load(data)
         user = User(
             username=user_data['username'],
@@ -23,6 +24,8 @@ def register():
         )
         db.session.add(user)
         db.session.commit()
+        session['user_id'] = user.id
+        session.permanent = True
         return jsonify({"message": "User registered successfully"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400

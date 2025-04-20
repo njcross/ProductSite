@@ -13,6 +13,7 @@ export default function HeaderBar() {
     try {
       await fetch(`${API_BASE}/logout`, {
         method: 'POST',
+        headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
         credentials: 'include',
       });
       setCurrentUser(null);

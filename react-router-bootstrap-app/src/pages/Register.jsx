@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../components/ConfirmationModal';
+import { useUser } from '../context/UserContext';
 import './Register.css';
 
 export default function Register() {
@@ -10,6 +11,7 @@ export default function Register() {
   const [modalMessage, setModalMessage] = useState('');
   const navigate = useNavigate();
   const API_BASE = process.env.REACT_APP_API_URL;
+  const { setCurrentUser } = useUser();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -21,31 +23,42 @@ export default function Register() {
     try {
       const res = await fetch(`${API_BASE}/register`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(form),
       });
   
       const data = await res.json();
   
       if (res.ok) {
-        setForm({ username: '', email: '', password: '' }); // Clear form
+        // ✅ Set current user immediately after registration
+        setCurrentUser(data.user || {
+          username: form.username,
+          email: form.email,
+          role: 'customer',
+        });
+  
+        setForm({ username: '', email: '', password: '' });
         setModalMessage(data.message || 'Registration successful!');
+        setShowModal(true);
       } else {
         setModalMessage(data.message || 'Registration failed.');
+        setShowModal(true);
       }
     } catch (error) {
       console.error('Registration error:', error);
       setModalMessage('An error occurred. Please try again.');
+      setShowModal(true);
     }
-  
-    setShowModal(true);
   };
+  
   
 
   const handleModalConfirm = () => {
     setShowModal(false);
-    navigate('/'); // Go to homepage after confirmation
+    navigate('/'); // Redirect to homepage after successful login
   };
+  
 
   return (
     <Container className="register-page">

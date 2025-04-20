@@ -22,7 +22,8 @@ export default function EditCharacterPage() {
   useEffect(() => {
     fetch(`${API_BASE}/characters/${id}`,  {
       'ngrok-skip-browser-warning': 'true',
-      credentials: 'include'
+      credentials: 'include',
+      headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include' }
     })
       .then(res => res.json())
       .then(data => setCharacter(data))

@@ -15,7 +15,12 @@ export default function CharacterCarousel() {
   const navigate = useNavigate();
 
   const fetchCharacters = () => {
-    fetch('http://127.0.0.1:5000/characters')
+    fetch('http://127.0.0.1:5000/characters',
+      {
+        credentials: 'include',
+        headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include' }
+      }
+    )
       .then(res => res.json())
       .then(data => setCharacters(data))
       .catch(err => console.error('Failed to load characters:', err));
@@ -27,7 +32,9 @@ export default function CharacterCarousel() {
 
   const handleDelete = (id) => {
     fetch(`http://127.0.0.1:5000/characters/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      credentials: 'include',
+        headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include' }
     })
       .then(() => {
         setCharacters(prev => prev.filter(char => char.id !== id));

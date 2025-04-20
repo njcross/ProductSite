@@ -13,6 +13,7 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
     if (currentUser) {
       fetch(`${API_BASE}/cart`, {
+        headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
         credentials: 'include',
       })
         .then(res => res.json())
@@ -45,22 +46,23 @@ export const CartProvider = ({ children }) => {
 
       fetch(`${API_BASE}/cart/${existing.id}`, {
         method: 'PUT',
+        headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ quantity: existing.quantity + 1 }),
       });
     } else {
       const newItem = { character_id: character.id, quantity: 1 };
       fetch(`${API_BASE}/cart`, {
         method: 'POST',
+        headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newItem),
       })
         .then(res => res.json())
         .then(() => {
           // Refetch the cart to get ID assigned from backend
-          return fetch(`${API_BASE}/cart`, { credentials: 'include' });
+          return fetch(`${API_BASE}/cart`, { credentials: 'include',
+            headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' } });
         })
         .then(res => res.json())
         .then(data => setCart(data));
@@ -75,8 +77,8 @@ export const CartProvider = ({ children }) => {
 
     fetch(`${API_BASE}/cart/${id}`, {
       method: 'PUT',
+      headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ quantity }),
     });
   };

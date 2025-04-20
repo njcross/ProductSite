@@ -10,32 +10,42 @@
   display: flex;
 }
 
+/* Grid View (default): stacked cards with uniform layout */
+.character-list-container:not(.list-view) .character-card-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.character-list-container:not(.list-view) .character-card {
+  max-width: 100%;
+}
+
 .character-card-wrapper .character-card {
   height: 100%;
 }
 
-/* Responsive Adjustments for Grid */
+/* Grid View: Responsive breakpoints */
 @media (max-width: 1200px) {
-  .character-card-wrapper {
+  .character-list-container:not(.list-view) .character-card-wrapper {
+    flex: 0 0 calc(33.333% - 1rem);
+    max-width: calc(33.333% - 1rem);
+  }
+}
+
+@media (max-width: 992px) {
+  .character-list-container:not(.list-view) .character-card-wrapper {
     flex: 0 0 calc(50% - 1rem);
     max-width: calc(50% - 1rem);
   }
 }
 
-@media (max-width: 768px) {
-  .character-list-container.list-view .character-card {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .character-list-container.list-view .character-card img {
-    width: 100%;
-  }
-
-  .character-list-container.list-view .card-body {
-    padding: 1rem;
+@media (max-width: 576px) {
+  .character-list-container:not(.list-view) .character-card-wrapper {
+    flex: 0 0 100%;
+    max-width: 100%;
   }
 }
+
 
 
 /* List View Styles */
@@ -46,30 +56,66 @@
   justify-content: center;
 }
 
+/* LIST VIEW: Apply horizontal card layout even on mobile */
 .character-list-container.list-view .character-card {
   display: flex;
   flex-direction: row;
+  align-items: stretch;
   width: 100%;
   max-width: 1000px;
+  margin: 0 auto 1.5rem auto;
   background-color: #1e2a3b;
   border-radius: var(--radius-md);
   overflow: hidden;
+  min-height: 160px; /* 👈 keeps it shorter and wider */
 }
 
+/* LIST VIEW: Image takes up fixed width */
 .character-list-container.list-view .character-card img {
-  width: 200px;
-  height: auto;
+  width: 160px;
+  height: 100%;
   object-fit: cover;
   border-radius: 0;
 }
 
+/* LIST VIEW: Content beside image */
 .character-list-container.list-view .card-body {
   flex: 1;
-  padding: 1.5rem;
+  padding: 1rem 1.25rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
+
+/* LIST VIEW: Actions wrap and align right */
+.character-list-container.list-view .card-actions {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Responsive overrides to KEEP layout in list view */
+@media (max-width: 768px) {
+  .character-list-container.list-view .character-card {
+    flex-direction: row;
+    min-height: 140px;
+  }
+
+  .character-list-container.list-view .character-card img {
+    width: 120px;
+  }
+
+  .character-list-container.list-view .card-body {
+    padding: 0.75rem;
+  }
+
+  .character-list-container.list-view .card-actions {
+    justify-content: flex-start;
+  }
+}
+
 
 /* Center grid even if only 1 item (remove extra single-card hacks) */
 .character-list-container .row {
