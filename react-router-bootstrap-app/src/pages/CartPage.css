@@ -1,23 +1,23 @@
 .cart-page {
-  background-color: #121212;
-  padding: 2rem;
+  background-color: var(--bg-main);
+  padding: var(--spacing-lg);
   min-height: 100vh;
-  color: #fff;
+  color: var(--color-text);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .cart-item {
-  background-color: #1f1f1f;
+  background-color: var(--bg-card);
   border: 1px solid #333;
-  padding: 1rem;
-  border-radius: 8px;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-sm);
 }
 
 .cart-item img {
   max-height: 100px;
   width: auto;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
 }
 
 .cart-item h5,
@@ -27,14 +27,14 @@
 
 .cart-item .form-control {
   max-width: 80px;
-  background-color: #2a2a2a;
-  color: #fff;
+  background-color: var(--bg-highlight);
+  color: var(--color-text);
   border: 1px solid #555;
 }
 
 .cart-item .form-control:focus {
-  background-color: #2a2a2a;
-  color: #fff;
+  background-color: var(--bg-highlight);
+  color: var(--color-text);
   border-color: var(--color-primary);
   box-shadow: 0 0 0 0.2rem rgba(237, 29, 36, 0.25);
 }
@@ -61,7 +61,7 @@
 
   .cart-item img {
     max-width: 80%;
-    margin-bottom: 1rem;
+    margin-bottom: var(--spacing-md);
   }
 
   .cart-item .form-control {

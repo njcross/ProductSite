@@ -1,63 +1,62 @@
 /* ConfirmationModal.css */
 
 .custom-modal .modal-content {
-    background: #1a1a2e;
-    color: #fff;
-    border-radius: var(--radius-md);
-    border: 2px solid #e94560;
-    box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
-  }
-  
-  .custom-modal .modal-header {
-    border-bottom: 1px solid #e94560;
-    background-color: #16213e;
-  }
-  
-  .custom-modal .modal-title {
-    font-weight: bold;
-    font-size: 1.5rem;
-    color: #fff;
-  }
-  
-  .custom-modal .modal-body {
-    font-size: 1.1rem;
-  }
-  
-  .custom-modal .modal-footer {
-    border-top: 1px solid #e94560;
-    background-color: #0f3460;
-  }
-  
-  .custom-modal .btn-primary {
-    background-color: #e94560;
-    border: none;
-  }
-  
-  .custom-modal .btn-primary:hover {
-    background-color: #ff2e63;
-  }
-  
-  .no-2-button {
-    background-color: #ff2e63;
-    color:rgb(0, 0, 0) !important; 
-    border: 1px solid #e94560;
-  }
-  
-  .modal-footer .btn-secondary:hover {
-    background-color: #ff2e63;
-    border-color: #ff2e63;
-    color: #ffffff; /* <-- Ensure text stays visible on hover */
+  background: #1a1a2e;
+  color: var(--color-text);
+  border-radius: var(--radius-md);
+  border: 2px solid #e94560;
+  box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+}
+
+.custom-modal .modal-header {
+  border-bottom: 1px solid #e94560;
+  background-color: #16213e;
+}
+
+.custom-modal .modal-title {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: var(--color-text);
+}
+
+.custom-modal .modal-body {
+  font-size: 1.1rem;
+}
+
+.custom-modal .modal-footer {
+  border-top: 1px solid #e94560;
+  background-color: #0f3460;
+}
+
+.custom-modal .btn-primary {
+  background-color: #e94560;
+  border: none;
+}
+
+.custom-modal .btn-primary:hover {
+  background-color: var(--color-accent);
+}
+
+.no-2-button {
+  background-color: var(--color-accent);
+  color:rgb(0, 0, 0) !important; 
+  border: 1px solid #e94560;
+}
+
+.modal-footer .btn-secondary:hover {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-text)fff; /* <-- Ensure text stays visible on hover */
+}
+
+@media (max-width: 576px) {
+  .modal-footer {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
-  @media (max-width: 576px) {
-    .modal-footer {
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-  
-    .modal-footer .btn {
-      width: 100%;
-    }
+  .modal-footer .btn {
+    width: 100%;
   }
-  
-  
+}
+

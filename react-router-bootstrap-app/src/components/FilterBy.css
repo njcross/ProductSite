@@ -1,39 +1,38 @@
 .filter-by {
-    background-color: #222;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    color: white;
-    border: 1px solid var(--color-primary);
+  background-color: var(--bg-highlight);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--spacing-lg);
+  color: white;
+  border: 1px solid var(--color-primary);
+}
+
+.filter-by h5 {
+  margin-bottom: var(--spacing-md);
+  color: var(--color-primary);
+}
+
+.filter-by ul {
+  list-style: none;
+  padding: 0;
+}
+
+.filter-by li {
+  padding: var(--spacing-sm) 0;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.filter-by li:hover {
+  color: var(--color-accent);
+}
+
+@media (max-width: 768px) {
+  .filter-by {
+    padding: var(--spacing-md);
   }
-  
-  .filter-by h5 {
-    margin-bottom: 1rem;
-    color: var(--color-primary);
+
+  .filter-by select {
+    width: 100%;
   }
-  
-  .filter-by ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .filter-by li {
-    padding: 0.5rem 0;
-    cursor: pointer;
-    transition: color 0.3s;
-  }
-  
-  .filter-by li:hover {
-    color: #ff3b57;
-  }
-  
-  @media (max-width: 768px) {
-    .filter-by {
-      padding: 1rem;
-    }
-  
-    .filter-by select {
-      width: 100%;
-    }
-  }
-  
+}

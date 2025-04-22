@@ -18,11 +18,9 @@
 
 .character-list-container:not(.list-view) .character-card {
   max-width: 100%;
+  max-height: 100%;
 }
 
-.character-card-wrapper .character-card {
-  height: 100%;
-}
 
 /* Grid View: Responsive breakpoints */
 @media (max-width: 1200px) {
@@ -71,17 +69,17 @@
 }
 
 /* LIST VIEW: Image takes up fixed width */
-.character-list-container.list-view .character-card img {
-  width: 160px;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 0;
+.character-list-container:not(.list-view) .character-card img {
+  max-height: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
 }
 
 /* LIST VIEW: Content beside image */
 .character-list-container.list-view .card-body {
   flex: 1;
-  padding: 1rem 1.25rem;
+  padding: var(--spacing-md) 1.25rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -114,6 +112,7 @@
   .character-list-container.list-view .card-actions {
     justify-content: flex-start;
   }
+
 }
 
 
@@ -130,4 +129,9 @@
   display: flex;
   justify-content: center;
   margin-top: 2rem;
+}
+
+
+.character-card {
+  margin: 0 auto;
 }

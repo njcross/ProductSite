@@ -11,7 +11,9 @@ export default function SuperheroCard({ character, onEdit, onDelete }) {
   const navigate = useNavigate();
   return (
     <Card className="character-card mb-4" onClick={() => onEdit(character)} style={{ cursor: 'pointer' }}>
+      <div className="card-img-wrapper">
   <Card.Img className="card-img" variant="top" src={character.image_url} alt={character.name} />
+  </div>
   <Card.Body>
     <Card.Title className="character-name">{character.name}</Card.Title>
     <Card.Subtitle className="character-alias">{character.alias}</Card.Subtitle>

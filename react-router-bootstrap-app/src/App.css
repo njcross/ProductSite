@@ -4,7 +4,7 @@ body, html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #1b1b1b;
+  background-color: var(--bg-alt);
   color: white;
   overflow-x: hidden;
 }
@@ -16,7 +16,7 @@ body, html {
 .app-container {
   padding: 0;
   margin: 0;
-  background-color: #1b1b1b;
+  background-color: var(--bg-alt);
   border: none;
   box-shadow: none;
 }
@@ -39,7 +39,7 @@ body, html {
 
 @media (max-width: 576px) {
   .app-container {
-    padding: 0.5rem;
+    padding: var(--spacing-sm);
   }
 
   .app-title {

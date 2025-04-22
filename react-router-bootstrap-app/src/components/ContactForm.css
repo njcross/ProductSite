@@ -10,9 +10,9 @@
   .contact-card {
     width: 100%;
     max-width: 600px;
-    padding: 2rem;
-    background: linear-gradient(to bottom right, #ffffff, #f0f0f0);
-    border-radius: 12px;
+    padding: var(--spacing-lg);
+    background: linear-gradient(to bottom right, var(--color-text)fff, #f0f0f0);
+    border-radius: var(--radius-md);
     color: #333;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
@@ -22,7 +22,7 @@
   }
   
   .contact-card .form-control {
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
   }
   
   .contact-card .btn-primary {

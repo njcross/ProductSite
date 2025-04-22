@@ -1,7 +1,7 @@
 .edit-character-page {
   max-width: 1200px;
   margin: auto;
-  padding: 2rem;
+  padding: var(--spacing-lg);
   background: linear-gradient(to bottom right, #1a1a1a, #2d2d2d);
   color: white;
   border-radius: var(--radius-md);
@@ -62,7 +62,7 @@ hr {
   align-self: flex-start;
   margin-top: 1rem;
   padding: 0.6rem 1.2rem;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   background-color: var(--color-primary);
   border: none;
   color: white;
@@ -79,7 +79,7 @@ hr {
 
 /* Modal styles */
 .modal-body {
-  padding: 2rem;
+  padding: var(--spacing-lg);
   background-color: #f0f0f0;
   color: #333;
   border-radius: var(--radius-md);
@@ -88,7 +88,7 @@ hr {
 .modal-header {
   background-color: var(--color-primary);
   color: white;
-  border-radius: 12px 12px 0 0;
+  border-radius: var(--radius-md) 12px 0 0;
 }
 
 .modal-footer {
@@ -97,9 +97,9 @@ hr {
 }
 
 .modal-footer button {
-  padding: 0.5rem 2rem;
+  padding: var(--spacing-sm) 2rem;
   font-size: var(--font-size-base);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
 }
 
 .modal-footer .btn-primary {
@@ -136,11 +136,11 @@ hr {
   .character-alignment,
   .character-powers,
   .character-price {
-    font-size: 1rem;
+    font-size: var(--font-size-base);
   }
 
   .image-section {
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--spacing-lg);
   }
 
   .character-img-large {

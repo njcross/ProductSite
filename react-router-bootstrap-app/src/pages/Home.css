@@ -1,8 +1,8 @@
 /* Home.css */
 
 .home-container {
-  background-color: #1b1b1b;
-  color: #fff;
+  background-color: var(--bg-alt);
+  color: var(--color-text);
   min-height: 100vh;
   padding-bottom: 2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -26,23 +26,23 @@
 
 .hero-text h1 {
   font-size: 3.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-md);
   color: var(--color-primary);
-  text-shadow: 2px 2px #000;
+  text-shadow: 2px 2px var(--color-text-dark);
 }
 
 .hero-text p {
   font-size: var(--font-size-lg);
   max-width: 650px;
   margin: 0 auto;
-  text-shadow: 1px 1px #000;
+  text-shadow: 1px 1px var(--color-text-dark);
 }
 
 /* --- FEATURES SECTION --- */
 .home-content {
   padding: 3rem 2rem;
   text-align: center;
-  background-color: #121212;
+  background-color: var(--bg-main);
   border-top: 2px solid var(--color-primary);
   background-image: url('https://www.transparenttextures.com/patterns/black-linen.png');
   background-size: auto;
@@ -50,7 +50,7 @@
 
 .home-content h2 {
   font-size: 2.25rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-lg);
   color: var(--color-primary);
 }
 
@@ -64,7 +64,7 @@
 }
 
 .feature-item {
-  background-color: #222;
+  background-color: var(--bg-highlight);
   padding: 1.5rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--color-primary);
@@ -72,13 +72,13 @@
 }
 
 .feature-item:hover {
-  background-color: #2a2a2a;
+  background-color: var(--bg-highlight);
   transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(237, 29, 36, 0.4);
+  box-shadow: var(--box-shadow-strong);
 }
 
 .feature-item h3 {
-  color: #fff;
+  color: var(--color-text);
   margin-bottom: 0.5rem;
   font-size: var(--font-size-lg);
 }
@@ -91,18 +91,18 @@
 /* --- REUSABLE BUTTON --- */
 .btn-explore {
   display: inline-block;
-  margin-top: 1.5rem;
+  margin-top: var(--spacing-lg);
   background-color: var(--color-primary);
   color: white;
   padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-weight: bold;
   text-decoration: none;
   transition: background-color 0.3s ease;
 }
 
 .btn-explore:hover {
-  background-color: #ff3b57;
+  background-color: var(--color-accent);
 }
 
 /* --- CHARACTER CAROUSEL SECTION --- */
@@ -115,7 +115,7 @@
   background-image: url('https://www.transparenttextures.com/patterns/black-linen.png');
   background-size: auto;
   max-width: 100%;
-  padding: 1rem;
+  padding: var(--spacing-md);
 }
 
 .character-carousel h2 {
@@ -151,7 +151,7 @@
 }
 
 .carousel-column {
-  background-color: #121212;
+  background-color: var(--bg-main);
   padding: 1.5rem;
   border: 1px solid var(--color-primary);
   border-radius: 10px;
@@ -161,7 +161,7 @@
 
 .carousel-column h2 {
   font-size: 1.6rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-lg);
   color: var(--color-primary);
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 }
@@ -172,7 +172,7 @@
 }
 
 .hero-text p {
-  font-size: 1.25rem;
+  font-size: var(--font-size-lg);
 }
 
 @media (max-width: 768px) {
@@ -181,7 +181,7 @@
   }
 
   .hero-text p {
-    font-size: 1rem;
+    font-size: var(--font-size-base);
     padding: 0 1rem;
   }
 
@@ -191,7 +191,7 @@
   }
 
   .carousel-group {
-    padding: 2rem 1rem;
+    padding: var(--spacing-lg) 1rem;
     gap: 1.5rem;
   }
 
@@ -200,11 +200,11 @@
   }
 
   .character-carousel {
-    padding: 2rem 1rem;
+    padding: var(--spacing-lg) 1rem;
   }
 
   .home-content {
-    padding: 2rem 1rem;
+    padding: var(--spacing-lg) 1rem;
   }
 }
 
@@ -214,7 +214,7 @@
   }
 
   .hero-text p {
-    font-size: 1rem;
+    font-size: var(--font-size-base);
   }
 
   .feature-grid {
@@ -222,7 +222,7 @@
   }
 
   .carousel-column {
-    padding: 1rem 0.75rem;
+    padding: var(--spacing-md) 0.75rem;
   }
 
   .carousel-card-wrapper {

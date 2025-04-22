@@ -1,77 +1,77 @@
 /* CharacterCarousel.css */
 .character-carousel-section {
-    padding: 3rem 2rem;
-    background-color: #121212;
-    color: #fff;
-    text-align: center;
-  }
-  
-  .carousel-title {
-    font-size: 2.25rem;
-    margin-bottom: 2rem;
-    color: var(--color-primary);
-  }
-  
-  .character-carousel {
-    max-width: 100%;
-    padding: 1rem;
-    min-height: 300px;
-  }
-  
-  .multi-carousel-section {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2rem;
-    padding: 3rem 2rem;
-    background-color: #1a1a1a;
-    border-top: 2px solid var(--color-primary);
-  }
-  
-  .carousel-block {
-    flex: 1 1 300px;
-    max-width: 400px;
-    background-color: #121212;
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-    text-align: center;
-  }
-  
-  .carousel-block h3 {
-    color: var(--color-primary);
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-  }
+  padding: 3rem 2rem;
+  background-color: var(--bg-main);
+  color: var(--color-text);
+  text-align: center;
+}
 
-  @media (max-width: 576px) {
-    .carousel-card-wrapper {
-      flex-direction: column;
-    }
-  }
+.carousel-title {
+  font-size: 2.25rem;
+  margin-bottom: 2rem;
+  color: var(--color-primary);
+}
 
-  /* Make carousel wrapper adapt to mobile */
+.character-carousel {
+  max-width: 100%;
+  padding: var(--spacing-md);
+  min-height: 300px;
+}
+
+.multi-carousel-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 3rem 2rem;
+  background-color: #1a1a1a;
+  border-top: 2px solid var(--color-primary);
+}
+
+.carousel-block {
+  flex: 1 1 300px;
+  max-width: 400px;
+  background-color: var(--bg-main);
+  padding: var(--spacing-md);
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+.carousel-block h3 {
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
+  font-size: 1.5rem;
+}
+
+@media (max-width: 576px) {
   .carousel-card-wrapper {
-    min-height: 250px;
-    padding: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
   }
+}
+
+/* Make carousel wrapper adapt to mobile */
+.carousel-card-wrapper {
+  min-height: 250px;
+  padding: var(--spacing-md);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* Ensure cards shrink nicely */
 @media (max-width: 768px) {
-  .carousel-card-wrapper {
-    padding: 0.5rem;
-  }
+.carousel-card-wrapper {
+  padding: var(--spacing-sm);
+}
 
-  .character-card {
-    max-width: 90%;
-  }
+.character-card {
+  max-width: 90%;
+}
 
-  .character-card .card-img {
-    height: 180px;
-    object-fit: cover;
-    width: 100%;
-  }
+.character-card .card-img {
+  height: 180px;
+  object-fit: cover;
+  width: 100%;
+}
 }

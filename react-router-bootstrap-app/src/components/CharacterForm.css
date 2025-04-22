@@ -1,100 +1,99 @@
 /* CharacterForm.css */
 
 .character-form-wrapper {
-    background: #0d0d0d url('https://www.transparenttextures.com/patterns/black-linen.png');
-    background-size: auto;
-    padding: 4rem 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-  }
-  
-  
-  .character-form {
-    background: #1e1e2f;
-    color: #fff;
-    padding: 2.5rem;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-    border: 1px solid #e94560;
-    width: 100%;
-    max-width: 600px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin-bottom: 0;
-  }
-  
-  .character-form label {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #e94560;
-  }
-  
-  .character-form input,
-  .character-form select {
-    background-color: #2d2d44;
-    border: 1px solid #e94560;
-    color: #fff;
-    padding: 0.6rem 1rem;
-    border-radius: 8px;
-    transition: border-color 0.3s, box-shadow 0.3s;
-  }
-  
-  .character-form input:focus,
-  .character-form select:focus {
-    border-color: #ff2e63;
-    box-shadow: 0 0 0 3px rgba(255, 46, 99, 0.25);
-    outline: none;
-  }
-  
-  .character-form .btn {
-    background-color: #e94560;
-    border: none;
-    font-weight: bold;
-    padding: 0.6rem 1.5rem;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .character-form .btn:hover {
-    background-color: #ff2e63;
-    transform: translateY(-1px);
-  }
-  
-  .character-form select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='70,105 10,35 130,35' fill='%23e94560'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.75rem center;
-    background-size: 1rem auto;
-    cursor: pointer;
-  }
-  
-  .character-form .form-group {
-    margin-bottom: 1.5rem;
+  background: #0d0d0d url('https://www.transparenttextures.com/patterns/black-linen.png');
+  background-size: auto;
+  padding: 4rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+
+.character-form {
+  background: #1e1e2f;
+  color: var(--color-text);
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  border: 1px solid #e94560;
+  width: 100%;
+  max-width: 600px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-bottom: 0;
+}
+
+.character-form label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #e94560;
+}
+
+.character-form input,
+.character-form select {
+  background-color: #2d2d44;
+  border: 1px solid #e94560;
+  color: var(--color-text);
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-sm);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.character-form input:focus,
+.character-form select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(255, 46, 99, 0.25);
+  outline: none;
+}
+
+.character-form .btn {
+  background-color: #e94560;
+  border: none;
+  font-weight: bold;
+  padding: 0.6rem 1.5rem;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.character-form .btn:hover {
+  background-color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.character-form select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='70,105 10,35 130,35' fill='%23e94560'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem auto;
+  cursor: pointer;
+}
+
+.character-form .form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.character-form-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* full viewport height */
+  background-color: #0f0f0f; /* or whatever background you want */
+  padding: var(--spacing-lg);
+}
+
+@media (max-width: 768px) {
+  .character-form-wrapper {
+    padding: var(--spacing-lg) 1rem;
   }
 
-  .character-form-modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* full viewport height */
-    background-color: #0f0f0f; /* or whatever background you want */
-    padding: 2rem;
+  .character-form {
+    padding: 1.5rem;
   }
-  
-  @media (max-width: 768px) {
-    .character-form-wrapper {
-      padding: 2rem 1rem;
-    }
-  
-    .character-form {
-      padding: 1.5rem;
-    }
-  
-    .character-form .btn {
-      width: 100%;
-    }
+
+  .character-form .btn {
+    width: 100%;
   }
-  
+}

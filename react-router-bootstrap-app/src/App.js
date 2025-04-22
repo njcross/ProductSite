@@ -10,7 +10,6 @@ import HeaderBar from './components/HeaderBar';
 import Login from './pages/Login';
 import CartPage from './pages/CartPage';
 import './App.css';
-import './Navbar.css';
 import './variables.css';
 import { UserProvider } from './context/UserContext';
 import { CartProvider } from './context/CartContext';
