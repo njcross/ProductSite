@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { setToken } from '../utils/tokenService';
 
 
-import EditableImage from '../components/EditableImage';import EditableField from '../components/EditableField';import { useNavigate } from 'react-router-dom';
+import EditableField from '../components/EditableField';import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container } from 'react-bootstrap';
 import { useUser } from '../context/UserContext';
 import './Login.css';
@@ -28,8 +29,9 @@ export default function Login() {
       const data = await res.json();
       if (res.ok) {
         setMessage('Login successful!');
+        setToken(data.token);
         setCurrentUser(data.user);
-        navigate(-1);
+        navigate('/cards');
       } else {
         setMessage(data.message || 'Login failed');
       }
@@ -46,12 +48,12 @@ export default function Login() {
         <Form onSubmit={handleSubmit} className="login-form">
           <Form.Group className="mb-3">
             <Form.Label>{<EditableField contentKey="content_131" />}</Form.Label>
-            <Form.Control name="username" value={form.username} onChange={handleChange} required />
+            <Form.Control name="username" value={form.username} onChange={handleChange} required placeholder="Enter your username"/>
           </Form.Group>
 
           <Form.Group className="mb-4">
             <Form.Label>{<EditableField contentKey="content_132" />}</Form.Label>
-            <Form.Control type="password" name="password" value={form.password} onChange={handleChange} required />
+            <Form.Control type="password" name="password" value={form.password} onChange={handleChange} required placeholder="Enter your password"/>
           </Form.Group>
 
           <Button type="submit" className="login-btn">{<EditableField contentKey="content_56" />}</Button>

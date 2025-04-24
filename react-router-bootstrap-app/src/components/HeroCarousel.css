@@ -3,19 +3,30 @@
 .hero-carousel {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: 60vh; /* Change from 100vh */
   overflow: hidden;
   background-color: var(--bg-main);
 }
 
 .hero-slide {
-  height: 100vh;
+  height: 60vh; /* Change from 100vh */
   background-size: cover;
   background-position: center;
-  display: flex !important; /* required for carousel layout */
+  display: flex !important;
   align-items: center;
   justify-content: center;
   padding: 4rem 1rem;
+}
+
+/* On larger screens, allow full height */
+@media (min-width: 992px) {
+  .hero-carousel {
+    min-height: 100vh;
+  }
+
+  .hero-slide {
+    height: 100vh;
+  }
 }
 
 .slide-1 {

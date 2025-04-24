@@ -5,6 +5,7 @@ import EditableField from '../components/EditableField';import { Card, Button } 
 import { useUser } from '../context/UserContext';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
+import FavoriteButton from './FavoriteButton';
 import './SuperheroCard.css';
 
 export default function SuperheroCard({ character, onEdit, onDelete }) {
@@ -17,7 +18,10 @@ export default function SuperheroCard({ character, onEdit, onDelete }) {
   <Card.Img className="card-img" variant="top" src={character.image_url} alt={character.name} />
   </div>
   <Card.Body>
-    <Card.Title className="character-name">{character.name}</Card.Title>
+  <Card.Title className="character-name d-flex justify-content-between align-items-center">
+  {character.name}
+  <FavoriteButton characterId={character.id} />
+</Card.Title>
     <Card.Subtitle className="character-alias">{character.alias}</Card.Subtitle>
     <Card.Text className="character-description">{character.powers}</Card.Text>
     <Card.Text className="character-price">
@@ -43,7 +47,6 @@ export default function SuperheroCard({ character, onEdit, onDelete }) {
       }} aria-label="Delete">
         <i className="fas fa-trash-alt"></i>
       </Button>
-      <EditableField contentKey="content_12" />
     </>
   )}
 </div>

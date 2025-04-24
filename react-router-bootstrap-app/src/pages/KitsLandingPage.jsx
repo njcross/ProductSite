@@ -23,13 +23,22 @@ function KitsLandingPage() {
 
   return (
     <div className="kits-landing-page">
-      <div className="hero-banner text-white"></div>
+      <div className="hero-banner">
+  <div className="hero-content">
+    <h1>Bring the Fun to the Table!</h1>
+    <p>Engaging, low-cost activity kits</p>
+    <div className="hero-cta text-start">
+      <Button variant="danger" className="browse-btn mt-3" href="/cards">
+        <EditableField contentKey="content_120" />
+      </Button>
+    </div>
+  </div>
+  <div className="hero-image-container">
+    <EditableImage contentKey="content_img_130" alt="Choose Kit" className="hero-img" />
+  </div>
+</div>
 
-      <div className="hero-cta text-center">
-        <Button variant="danger" className="browse-btn mt-3" href="/cards">
-          <EditableField contentKey="content_120" />
-        </Button>
-      </div>
+      
 
       <div className="works-cta text-center">
         <Button variant="danger" className="browse-btn mt-3" href="/cards">

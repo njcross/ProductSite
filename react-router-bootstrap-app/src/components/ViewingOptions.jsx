@@ -58,7 +58,6 @@ export default function ViewingOptions({
               <EditableField contentKey="content_89" />
             </button>
           </div>
-          <EditableField contentKey="content_12" />
         </>
       )}
     </div>

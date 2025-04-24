@@ -66,8 +66,7 @@
 }
 
 .card img {
-  width: 100%;
-  height: auto;
+
   border-radius: var(--radius-sm);
   margin-bottom: var(--spacing-md);
 }

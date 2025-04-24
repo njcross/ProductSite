@@ -41,7 +41,7 @@
 }
 
 .login-form input {
-  background-color: var(--bg-main);
+  background-color: var(--bg-action-item);
   border: var(--color-primary);
   color: var(--color-text);
   padding: 0.55rem 0.75rem;

@@ -7,7 +7,7 @@ class Newsletter(db.Model):
     
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     email: Mapped[str] = mapped_column(String(255), nullable=False)
-    newsletter_value: Mapped[str] = mapped_column(String(100), nullable=False)
+    newsletter_value: Mapped[int] = mapped_column(Integer, nullable=False)
 
     def __repr__(self):
         return f"<Newsletter email={self.email} value={self.newsletter_value}>"

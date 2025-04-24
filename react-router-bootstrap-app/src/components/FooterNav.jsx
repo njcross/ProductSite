@@ -11,7 +11,7 @@ export function FooterNav() {
           <h6>{<EditableField contentKey="content_36" />}</h6>
           <ul>
             <li><a href="/about">{<EditableField contentKey="content_37" />}</a></li>
-            <li><a href="/contact">{<EditableField contentKey="content_38" />}</a></li>
+            <li><a href="/about">{<EditableField contentKey="content_38" />}</a></li>
             <li><a href="/careers">{<EditableField contentKey="content_39" />}</a></li>
           </ul>
         </div>

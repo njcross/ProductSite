@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../components/ConfirmationModal';
 import { useUser } from '../context/UserContext';
 import './Register.css';
+import { setToken } from '../utils/tokenService';
 
 export default function Register() {
   const [form, setForm] = useState({ username: '', email: '', password: '', confirmPassword: '' });
@@ -41,6 +42,7 @@ export default function Register() {
       const data = await res.json();
 
       if (res.ok) {
+        setToken(data.token);
         setCurrentUser(data.user || {
           username: form.username,
           email: form.email,

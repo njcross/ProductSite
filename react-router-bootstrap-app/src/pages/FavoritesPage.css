@@ -1,0 +1,15 @@
+/* src/pages/FavoritesPage.css */
+.favorites-page {
+    background-color: var(--bg-alt);
+    color: var(--color-text);
+    padding: 40px 20px;
+    min-height: 100vh;
+  }
+  
+  .favorites-page h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: bold;
+    color: var(--color-heading);
+  }
+  

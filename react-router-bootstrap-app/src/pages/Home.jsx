@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-import EditableImage from '../components/EditableImage';import EditableField from '../components/EditableField';import 'bootstrap/dist/css/bootstrap.min.css';
+import EditableField from '../components/EditableField';import 'bootstrap/dist/css/bootstrap.min.css';
 import CharacterCarousel from '../components/CharacterCarousel.jsx';
 import FeaturesSection from '../components/FeatureSection.jsx';
 import HeroCarousel from '../components/HeroCarousel.jsx';
@@ -13,10 +13,10 @@ export default function Home() {
       <HeroCarousel />
       <FeaturesSection />
 
-      <section className="container py-4">
+      <section className="container">
   <div className="row gx-4 gy-4">
     <div className="col-12 col-md-6 col-lg-4">
-      <div className="carousel-column h-100">
+      <div className="carousel-column">
         <h2>{<EditableField contentKey="content_116" />}</h2>
         <CharacterCarousel filter="hero" />
       </div>

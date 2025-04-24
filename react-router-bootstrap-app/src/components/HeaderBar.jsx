@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
 import EditableField from '../components/EditableField';
+import { removeToken } from '../utils/tokenService';
 import './HeaderBar.css';
 
 export default function HeaderBar() {
@@ -21,6 +22,7 @@ export default function HeaderBar() {
         },
         credentials: 'include',
       });
+      removeToken();
       setCurrentUser(null);
     } catch (err) {
       console.error('Logout failed:', err);
@@ -37,7 +39,7 @@ export default function HeaderBar() {
 
   return (
     <div className="header-bar">
-      <div className="logo">🛍️ AllyShop</div>
+      <div className="logo"><EditableField contentKey="header_logo" /></div>
 
       <form className="search-box" onSubmit={handleSearch}>
         <input

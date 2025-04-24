@@ -22,6 +22,9 @@ import './variables.css';
 import { UserProvider } from './context/UserContext';
 import { CartProvider } from './context/CartContext';
 import { ContentContext } from './context/ContentContext';
+import { FavoritesProvider } from './context/FavoritesContext';
+import FavoritesPage from './pages/FavoritesPage';
+import NewsletterList from './pages/NewsLetterList';
 
 export default function App() {
   const [content, setContent] = useState({});
@@ -37,6 +40,7 @@ export default function App() {
   }, []);
 
   return (
+    <FavoritesProvider>
     <UserProvider>
       <CartProvider>
         <ContentContext.Provider value={{ content, setContent }}>
@@ -54,6 +58,8 @@ export default function App() {
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/test" element={<KitsLandingPage />} />
                 <Route path="/settings" element={<UserSettings />} />
+                <Route path="/favorites" element={<FavoritesPage />} />
+                <Route path="/newsletter" element={<NewsletterList />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <FooterNewsletter />
@@ -63,5 +69,6 @@ export default function App() {
         </ContentContext.Provider>
       </CartProvider>
     </UserProvider>
+    </FavoritesProvider>
   );
 }

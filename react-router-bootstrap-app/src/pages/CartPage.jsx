@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Container, Row, Col, Form } from 'react-bootstrap';
 import { useCart } from '../context/CartContext';
 import EditableField from '../components/EditableField';
-import EditableImage from '../components/EditableImage';
 import './CartPage.css';
 
 export default function CartPage() {
@@ -73,10 +72,9 @@ export default function CartPage() {
 
           <hr className="text-light" />
           <h4 className="text-white">
-            <EditableField contentKey="content_103" />
+            <EditableField contentKey="content_103" /> ${total.toFixed(2)}
           </h4>
 
-          <EditableField contentKey="content_12" />
           <Button variant="secondary" onClick={() => navigate(-1)} className="mt-4">
             <EditableField contentKey="content_105" />
           </Button>

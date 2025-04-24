@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Button, Modal, Row, Col } from 'react-bootstrap';
 
 import EditableField from '../components/EditableField';
-import EditableImage from '../components/EditableImage';
 import CharacterForm from '../components/CharacterForm';
 import ConfirmationModal from '../components/ConfirmationModal';
 import { useUser } from '../context/UserContext';
@@ -109,7 +108,6 @@ export default function EditCharacterPage() {
               <Button variant="warning" className="edit-button" onClick={handleEditButtonClick}>
                 <EditableField contentKey="content_113" />
               </Button>
-              <EditableField contentKey="content_12" />
             </>
           )}
         </Col>

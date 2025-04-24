@@ -54,9 +54,10 @@
 .carousel-card-wrapper {
   min-height: 250px;
   padding: var(--spacing-md);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+   max-width: 240px;        /* smaller width */
+  margin: 0 auto;
+  transform: scale(0.95);  /* optional smooth shrink */
+  transition: transform 0.3s ease;
 }
 
 /* Ensure cards shrink nicely */
@@ -66,12 +67,35 @@
 }
 
 .character-card {
-  max-width: 90%;
+  margin: 0 auto;
+  transition: transform 0.3s ease; /* reset transition for smaller screens */
 }
 
-.character-card .card-img {
-  height: 180px;
-  object-fit: cover;
-  width: 100%;
 }
+
+.carousel-column {
+  background-color: var(--bg-main);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
+
+.carousel-column h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+}
+
+/* CharacterCarousel container */
+.carousel-column .character-carousel {
+  max-height: 300px; /* Adjust this as needed */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+

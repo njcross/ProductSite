@@ -221,13 +221,25 @@
     grid-template-columns: 1fr;
   }
 
-  .carousel-column {
-    padding: var(--spacing-md) 0.75rem;
-  }
 
-  .carousel-card-wrapper {
-    flex-direction: column;
-  }
 }
 
+.carousel-inner-wrapper {
+  max-height: 360px; /* you can adjust this */
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-inner-wrapper .character-carousel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Optionally constrain image height inside cards */
+.character-carousel img {
+  max-height: 220px;
+  object-fit: contain;
+}
 

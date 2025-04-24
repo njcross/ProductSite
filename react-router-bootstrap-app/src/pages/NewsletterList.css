@@ -1,0 +1,78 @@
+
+  
+  .icon-btn:hover {
+    color: #c82333;
+  }
+
+  /* NewsletterList.css */
+
+.newsletter-page {
+    background-color: var(--bg-main);
+    color: var(--color-text);
+    min-height: 100vh;
+    padding: 2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .newsletter-form {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: var(--bg-alt);
+    padding: 2rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--box-shadow-soft);
+  }
+  
+  .newsletter-form h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-primary);
+    text-align: center;
+  }
+  
+  .newsletter-form input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-text-dark);
+    background-color: var(--bg-input);
+    color: var(--color-text);
+  }
+  
+  .icon-btn.newsletter-form-fetch {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--bg-main);
+    border: none;
+    color: var(--color-white);
+    font-weight: bold;
+    border-radius: var(--radius-sm);
+    transition: background-color 0.3s ease;
+  }
+
+  .icon-bt.newsletter-form-delete {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--bg-alt) !important;
+    border: none;
+    color: var(--color-white);
+    font-weight: bold;
+    border-radius: var(--radius-sm);
+    transition: background-color 0.3s ease;
+  }
+  
+  .newsletter-form-fetch:hover {
+    background-color: var(--color-accent);
+  }
+  
+  .newsletter-result {
+    margin-top: 1.5rem;
+    font-size: var(--font-size-base);
+  }
+  
+  .newsletter-result ul {
+    padding-left: 1.2rem;
+    list-style: disc;
+  }
+  

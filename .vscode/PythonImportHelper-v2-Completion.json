@@ -56,6 +56,30 @@
         "documentation": {}
     },
     {
+        "label": "Integer",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "ForeignKey",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Text",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
         "label": "String",
         "importPath": "sqlalchemy",
         "description": "sqlalchemy",
@@ -200,6 +224,46 @@
         "documentation": {}
     },
     {
+        "label": "Mapped",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
+        "label": "mapped_column",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "app",
+        "description": "app",
+        "isExtraImport": true,
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "app",
+        "description": "app",
+        "isExtraImport": true,
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "app",
+        "description": "app",
+        "isExtraImport": true,
+        "detail": "app",
+        "documentation": {}
+    },
+    {
         "label": "db",
         "importPath": "app",
         "description": "app",
@@ -304,6 +368,14 @@
         "documentation": {}
     },
     {
+        "label": "User",
+        "importPath": "app.models.user",
+        "description": "app.models.user",
+        "isExtraImport": true,
+        "detail": "app.models.user",
+        "documentation": {}
+    },
+    {
         "label": "Blueprint",
         "importPath": "flask",
         "description": "flask",
@@ -329,6 +401,30 @@
     },
     {
         "label": "session",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "current_app",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "redirect",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "url_for",
         "importPath": "flask",
         "description": "flask",
         "isExtraImport": true,
@@ -488,6 +584,30 @@
         "documentation": {}
     },
     {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
         "label": "session",
         "importPath": "flask",
         "description": "flask",
@@ -504,11 +624,35 @@
         "documentation": {}
     },
     {
-        "label": "request",
+        "label": "g",
         "importPath": "flask",
         "description": "flask",
         "isExtraImport": true,
         "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "URLSafeTimedSerializer",
+        "importPath": "itsdangerous",
+        "description": "itsdangerous",
+        "isExtraImport": true,
+        "detail": "itsdangerous",
+        "documentation": {}
+    },
+    {
+        "label": "BadSignature",
+        "importPath": "itsdangerous",
+        "description": "itsdangerous",
+        "isExtraImport": true,
+        "detail": "itsdangerous",
+        "documentation": {}
+    },
+    {
+        "label": "SignatureExpired",
+        "importPath": "itsdangerous",
+        "description": "itsdangerous",
+        "isExtraImport": true,
+        "detail": "itsdangerous",
         "documentation": {}
     },
     {
@@ -560,6 +704,22 @@
         "documentation": {}
     },
     {
+        "label": "make_google_blueprint",
+        "importPath": "flask_dance.contrib.google",
+        "description": "flask_dance.contrib.google",
+        "isExtraImport": true,
+        "detail": "flask_dance.contrib.google",
+        "documentation": {}
+    },
+    {
+        "label": "g",
+        "importPath": "flask_dance.contrib.google",
+        "description": "flask_dance.contrib.google",
+        "isExtraImport": true,
+        "detail": "flask_dance.contrib.google",
+        "documentation": {}
+    },
+    {
         "label": "CartItem",
         "importPath": "app.models.cart_item",
         "description": "app.models.cart_item",
@@ -585,6 +745,14 @@
     },
     {
         "label": "login_required",
+        "importPath": "app.utils.decorators",
+        "description": "app.utils.decorators",
+        "isExtraImport": true,
+        "detail": "app.utils.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "admin_required",
         "importPath": "app.utils.decorators",
         "description": "app.utils.decorators",
         "isExtraImport": true,
@@ -658,11 +826,83 @@
         "documentation": {}
     },
     {
+        "label": "login_required",
+        "importPath": "flask_login",
+        "description": "flask_login",
+        "isExtraImport": true,
+        "detail": "flask_login",
+        "documentation": {}
+    },
+    {
+        "label": "current_user",
+        "importPath": "flask_login",
+        "description": "flask_login",
+        "isExtraImport": true,
+        "detail": "flask_login",
+        "documentation": {}
+    },
+    {
+        "label": "Favorite",
+        "importPath": "app.models.favorite",
+        "description": "app.models.favorite",
+        "isExtraImport": true,
+        "detail": "app.models.favorite",
+        "documentation": {}
+    },
+    {
+        "label": "favorite_schema",
+        "importPath": "app.schemas.favorite_schema",
+        "description": "app.schemas.favorite_schema",
+        "isExtraImport": true,
+        "detail": "app.schemas.favorite_schema",
+        "documentation": {}
+    },
+    {
+        "label": "favorites_schema",
+        "importPath": "app.schemas.favorite_schema",
+        "description": "app.schemas.favorite_schema",
+        "isExtraImport": true,
+        "detail": "app.schemas.favorite_schema",
+        "documentation": {}
+    },
+    {
         "label": "Newsletter",
         "importPath": "app.models.newsletter",
         "description": "app.models.newsletter",
         "isExtraImport": true,
         "detail": "app.models.newsletter",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
         "documentation": {}
     },
     {
@@ -748,11 +988,20 @@
         "documentation": {}
     },
     {
+        "label": "Favorite",
+        "kind": 6,
+        "importPath": "backend.app.models.favorite",
+        "description": "backend.app.models.favorite",
+        "peekOfCode": "class Favorite(db.Model):\n    __tablename__ = 'favorites'\n    id: Mapped[int] = mapped_column(Integer, primary_key=True)\n    user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'), nullable=False)\n    character_id: Mapped[int] = mapped_column(Integer, ForeignKey('characters.id'), nullable=True)\n    filter_json: Mapped[str] = mapped_column(Text, nullable=True)",
+        "detail": "backend.app.models.favorite",
+        "documentation": {}
+    },
+    {
         "label": "Newsletter",
         "kind": 6,
         "importPath": "backend.app.models.newsletter",
         "description": "backend.app.models.newsletter",
-        "peekOfCode": "class Newsletter(db.Model):\n    __tablename__ = \"newsletter\"\n    id: Mapped[int] = mapped_column(Integer, primary_key=True)\n    email: Mapped[str] = mapped_column(String(255), nullable=False)\n    newsletter_value: Mapped[str] = mapped_column(String(100), nullable=False)\n    def __repr__(self):\n        return f\"<Newsletter email={self.email} value={self.newsletter_value}>\"",
+        "peekOfCode": "class Newsletter(db.Model):\n    __tablename__ = \"newsletter\"\n    id: Mapped[int] = mapped_column(Integer, primary_key=True)\n    email: Mapped[str] = mapped_column(String(255), nullable=False)\n    newsletter_value: Mapped[int] = mapped_column(Integer, nullable=False)\n    def __repr__(self):\n        return f\"<Newsletter email={self.email} value={self.newsletter_value}>\"",
         "detail": "backend.app.models.newsletter",
         "documentation": {}
     },
@@ -763,6 +1012,24 @@
         "description": "backend.app.models.user",
         "peekOfCode": "class User(db.Model):\n    __tablename__ = \"users\"\n    id: Mapped[int] = mapped_column(Integer, primary_key=True)\n    username: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)\n    email: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)\n    password: Mapped[str] = mapped_column(String(255), nullable=False)\n    role: Mapped[str] = mapped_column(Enum('admin', 'customer', name='role_enum'), nullable=False)",
         "detail": "backend.app.models.user",
+        "documentation": {}
+    },
+    {
+        "label": "token_login",
+        "kind": 2,
+        "importPath": "backend.app.routes.auth_routes",
+        "description": "backend.app.routes.auth_routes",
+        "peekOfCode": "def token_login():\n    data = request.get_json()\n    username = data.get('username')\n    password = data.get('password')\n    user = User.query.filter_by(username=username).first()\n    if user and user.check_password(password):\n        token = serializer.dumps({\"user_id\": user.id})\n        return jsonify({\"token\": token, \"user\": {\"username\": user.username, \"role\": user.role}}), 200\n    return jsonify({\"message\": \"Invalid credentials\"}), 401\n@auth_bp.route('/verify-token', methods=['POST'])",
+        "detail": "backend.app.routes.auth_routes",
+        "documentation": {}
+    },
+    {
+        "label": "verify_token",
+        "kind": 2,
+        "importPath": "backend.app.routes.auth_routes",
+        "description": "backend.app.routes.auth_routes",
+        "peekOfCode": "def verify_token():\n    data = request.get_json()\n    token = data.get('token')\n    try:\n        user_data = serializer.loads(token, max_age=3600)  # Token valid for 1 hour\n        user_id = user_data[\"user_id\"]\n        user = User.query.get(user_id)\n        if user:\n            return jsonify({\"user\": {\"username\": user.username, \"role\": user.role}}), 200\n    except SignatureExpired:",
+        "detail": "backend.app.routes.auth_routes",
         "documentation": {}
     },
     {
@@ -802,11 +1069,20 @@
         "documentation": {}
     },
     {
+        "label": "google_bp",
+        "kind": 5,
+        "importPath": "backend.app.routes.auth_routes",
+        "description": "backend.app.routes.auth_routes",
+        "peekOfCode": "google_bp = make_google_blueprint(\n    client_id=\"145614753894-pjg3toopl8fckmkcieg7hghu3p920464.apps.googleusercontent.com\",\n    client_secret=\"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\",\n    scope=[\"profile\", \"email\"],\n    redirect_url=\"/login/google/authorized\"\n)\nauth_bp = Blueprint('auth', __name__)\nuser_schema = UserSchema()\nserializer = URLSafeTimedSerializer(\"super-secret-key\")  # Replace with secure key\n# @auth_bp.route(\"/login/google/authorized\")",
+        "detail": "backend.app.routes.auth_routes",
+        "documentation": {}
+    },
+    {
         "label": "auth_bp",
         "kind": 5,
         "importPath": "backend.app.routes.auth_routes",
         "description": "backend.app.routes.auth_routes",
-        "peekOfCode": "auth_bp = Blueprint('auth', __name__)\nuser_schema = UserSchema()\n@auth_bp.route('/register', methods=['POST'])\ndef register():\n    try:\n        data = request.json\n        data['role']='customer'\n        user_data = user_schema.load(data)\n        user = User(\n            username=user_data['username'],",
+        "peekOfCode": "auth_bp = Blueprint('auth', __name__)\nuser_schema = UserSchema()\nserializer = URLSafeTimedSerializer(\"super-secret-key\")  # Replace with secure key\n# @auth_bp.route(\"/login/google/authorized\")\n# def google_login():\n#     if not google.authorized:\n#         return redirect(url_for(\"google.login\"))\n#     resp = google.get(\"/oauth2/v2/userinfo\")\n#     if not resp.ok:\n#         return jsonify({\"message\": \"Failed to fetch user info\"}), 403",
         "detail": "backend.app.routes.auth_routes",
         "documentation": {}
     },
@@ -815,7 +1091,16 @@
         "kind": 5,
         "importPath": "backend.app.routes.auth_routes",
         "description": "backend.app.routes.auth_routes",
-        "peekOfCode": "user_schema = UserSchema()\n@auth_bp.route('/register', methods=['POST'])\ndef register():\n    try:\n        data = request.json\n        data['role']='customer'\n        user_data = user_schema.load(data)\n        user = User(\n            username=user_data['username'],\n            email=user_data['email'],",
+        "peekOfCode": "user_schema = UserSchema()\nserializer = URLSafeTimedSerializer(\"super-secret-key\")  # Replace with secure key\n# @auth_bp.route(\"/login/google/authorized\")\n# def google_login():\n#     if not google.authorized:\n#         return redirect(url_for(\"google.login\"))\n#     resp = google.get(\"/oauth2/v2/userinfo\")\n#     if not resp.ok:\n#         return jsonify({\"message\": \"Failed to fetch user info\"}), 403\n#     info = resp.json()",
+        "detail": "backend.app.routes.auth_routes",
+        "documentation": {}
+    },
+    {
+        "label": "serializer",
+        "kind": 5,
+        "importPath": "backend.app.routes.auth_routes",
+        "description": "backend.app.routes.auth_routes",
+        "peekOfCode": "serializer = URLSafeTimedSerializer(\"super-secret-key\")  # Replace with secure key\n# @auth_bp.route(\"/login/google/authorized\")\n# def google_login():\n#     if not google.authorized:\n#         return redirect(url_for(\"google.login\"))\n#     resp = google.get(\"/oauth2/v2/userinfo\")\n#     if not resp.ok:\n#         return jsonify({\"message\": \"Failed to fetch user info\"}), 403\n#     info = resp.json()\n#     email = info.get(\"email\")",
         "detail": "backend.app.routes.auth_routes",
         "documentation": {}
     },
@@ -941,7 +1226,7 @@
         "kind": 2,
         "importPath": "backend.app.routes.content_routes",
         "description": "backend.app.routes.content_routes",
-        "peekOfCode": "def update_content():\n    data = request.get_json()\n    if not data or \"field\" not in data or \"value\" not in data:\n        return jsonify({\"error\": \"Missing 'field' or 'value'\"}), 400\n    content_path = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public', 'content.json')\n    # Ensure file exists\n    if not os.path.exists(content_path):\n        with open(content_path, 'w') as f:\n            json.dump({}, f)\n    # Load existing data",
+        "peekOfCode": "def update_content():\n    data = request.get_json()\n    if not data or \"field\" not in data or \"value\" not in data:\n        return jsonify({\"error\": \"Missing 'field' or 'value'\"}), 400\n    content_path = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public/', 'content.json')\n    # Ensure file exists\n    if not os.path.exists(content_path):\n        with open(content_path, 'w') as f:\n            json.dump({}, f)\n    # Load existing data",
         "detail": "backend.app.routes.content_routes",
         "documentation": {}
     },
@@ -950,7 +1235,7 @@
         "kind": 2,
         "importPath": "backend.app.routes.content_routes",
         "description": "backend.app.routes.content_routes",
-        "peekOfCode": "def upload_image():\n    if 'image' not in request.files:\n        return jsonify({\"error\": \"No file provided\"}), 400\n    file = request.files['image']\n    if file.filename == '':\n        return jsonify({\"error\": \"Empty filename\"}), 400\n    from flask import current_app\n    upload_folder = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public', 'images')\n    os.makedirs(upload_folder, exist_ok=True)\n    filename = secure_filename(file.filename)",
+        "peekOfCode": "def upload_image():\n    if 'image' not in request.files:\n        return jsonify({\"error\": \"No file provided\"}), 400\n    file = request.files['image']\n    if file.filename == '':\n        return jsonify({\"error\": \"Empty filename\"}), 400\n    from flask import current_app\n    upload_folder = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public/', 'images')\n    os.makedirs(upload_folder, exist_ok=True)\n    filename = secure_filename(file.filename)",
         "detail": "backend.app.routes.content_routes",
         "documentation": {}
     },
@@ -959,7 +1244,7 @@
         "kind": 2,
         "importPath": "backend.app.routes.content_routes",
         "description": "backend.app.routes.content_routes",
-        "peekOfCode": "def content_preview():\n    content_path = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public', 'content.json')\n    if not os.path.exists(content_path):\n        return jsonify({})\n    with open(content_path, 'r') as f:\n        content = json.load(f)\n    return jsonify(content)",
+        "peekOfCode": "def content_preview():\n    content_path = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public', 'content.json')\n    if not os.path.exists(content_path):\n        return jsonify({})\n    with open(content_path, 'r', encoding='utf-8') as f:\n        content = json.load(f)\n    return jsonify(content)",
         "detail": "backend.app.routes.content_routes",
         "documentation": {}
     },
@@ -968,8 +1253,44 @@
         "kind": 5,
         "importPath": "backend.app.routes.content_routes",
         "description": "backend.app.routes.content_routes",
-        "peekOfCode": "content_bp = Blueprint('content', __name__)\nfrom app.utils.decorators import admin_required\n@content_bp.route('/api/update-content', methods=['POST'])\n@admin_required\ndef update_content():\n    data = request.get_json()\n    if not data or \"field\" not in data or \"value\" not in data:\n        return jsonify({\"error\": \"Missing 'field' or 'value'\"}), 400\n    content_path = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public', 'content.json')\n    # Ensure file exists",
+        "peekOfCode": "content_bp = Blueprint('content', __name__)\nfrom app.utils.decorators import admin_required\n@content_bp.route('/api/update-content', methods=['POST'])\n@admin_required\ndef update_content():\n    data = request.get_json()\n    if not data or \"field\" not in data or \"value\" not in data:\n        return jsonify({\"error\": \"Missing 'field' or 'value'\"}), 400\n    content_path = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public/', 'content.json')\n    # Ensure file exists",
         "detail": "backend.app.routes.content_routes",
+        "documentation": {}
+    },
+    {
+        "label": "get_favorites",
+        "kind": 2,
+        "importPath": "backend.app.routes.favorite_routes",
+        "description": "backend.app.routes.favorite_routes",
+        "peekOfCode": "def get_favorites():\n    user_favorites = Favorite.query.filter_by(user_id=current_user.id).all()\n    return favorites_schema.jsonify(user_favorites), 200\n@favorite_bp.route('/', methods=['POST'])\n@login_required\ndef add_favorite():\n    data = request.json\n    character_id = data.get('character_id')\n    filter_json = data.get('filter_json')\n    if not character_id and not filter_json:",
+        "detail": "backend.app.routes.favorite_routes",
+        "documentation": {}
+    },
+    {
+        "label": "add_favorite",
+        "kind": 2,
+        "importPath": "backend.app.routes.favorite_routes",
+        "description": "backend.app.routes.favorite_routes",
+        "peekOfCode": "def add_favorite():\n    data = request.json\n    character_id = data.get('character_id')\n    filter_json = data.get('filter_json')\n    if not character_id and not filter_json:\n        return jsonify({\"error\": \"Either character_id or filter_json is required.\"}), 400\n    favorite = Favorite(user_id=current_user.id, character_id=character_id, filter_json=filter_json)\n    db.session.add(favorite)\n    db.session.commit()\n    return favorite_schema.jsonify(favorite), 201",
+        "detail": "backend.app.routes.favorite_routes",
+        "documentation": {}
+    },
+    {
+        "label": "delete_favorite",
+        "kind": 2,
+        "importPath": "backend.app.routes.favorite_routes",
+        "description": "backend.app.routes.favorite_routes",
+        "peekOfCode": "def delete_favorite(favorite_id):\n    favorite = Favorite.query.get_or_404(favorite_id)\n    if favorite.user_id != current_user.id:\n        return jsonify({\"error\": \"Unauthorized\"}), 403\n    db.session.delete(favorite)\n    db.session.commit()\n    return jsonify({\"message\": \"Favorite deleted\"}), 200",
+        "detail": "backend.app.routes.favorite_routes",
+        "documentation": {}
+    },
+    {
+        "label": "favorite_bp",
+        "kind": 5,
+        "importPath": "backend.app.routes.favorite_routes",
+        "description": "backend.app.routes.favorite_routes",
+        "peekOfCode": "favorite_bp = Blueprint('favorite_bp', __name__, url_prefix='/api/favorites')\n@favorite_bp.route('/', methods=['GET'])\n@login_required\ndef get_favorites():\n    user_favorites = Favorite.query.filter_by(user_id=current_user.id).all()\n    return favorites_schema.jsonify(user_favorites), 200\n@favorite_bp.route('/', methods=['POST'])\n@login_required\ndef add_favorite():\n    data = request.json",
+        "detail": "backend.app.routes.favorite_routes",
         "documentation": {}
     },
     {
@@ -977,7 +1298,7 @@
         "kind": 2,
         "importPath": "backend.app.routes.newsletter_routes",
         "description": "backend.app.routes.newsletter_routes",
-        "peekOfCode": "def subscribe():\n    data = request.get_json()\n    email = data.get('email')\n    value = data.get('newsletter_value')\n    if not email or not value:\n        return jsonify({'error': 'Email and newsletter_value are required.'}), 400\n    if Newsletter.query.filter_by(email=email).first():\n        return jsonify({'error': 'Email already subscribed.'}), 400\n    new_entry = Newsletter(email=email, newsletter_value=value)\n    db.session.add(new_entry)",
+        "peekOfCode": "def subscribe():\n    if request.method == 'OPTIONS':\n        return '', 200  # Respond to preflight properly\n    data = request.get_json()\n    email = data.get('email')\n    value = data.get('newsletter_value')\n    if not email or not value:\n        return jsonify({'error': 'Email and newsletter_value are required.'}), 400\n    if Newsletter.query.filter_by(email=email).first():\n        return jsonify({'error': 'Email already subscribed.'}), 400",
         "detail": "backend.app.routes.newsletter_routes",
         "documentation": {}
     },
@@ -1004,7 +1325,7 @@
         "kind": 5,
         "importPath": "backend.app.routes.newsletter_routes",
         "description": "backend.app.routes.newsletter_routes",
-        "peekOfCode": "newsletter_bp = Blueprint('newsletter', __name__, url_prefix='/api/newsletter')\n@newsletter_bp.route('/subscribe', methods=['POST'])\ndef subscribe():\n    data = request.get_json()\n    email = data.get('email')\n    value = data.get('newsletter_value')\n    if not email or not value:\n        return jsonify({'error': 'Email and newsletter_value are required.'}), 400\n    if Newsletter.query.filter_by(email=email).first():\n        return jsonify({'error': 'Email already subscribed.'}), 400",
+        "peekOfCode": "newsletter_bp = Blueprint('newsletter', __name__, url_prefix='/api/newsletter')\n@newsletter_bp.route('/subscribe', methods=['POST', 'OPTIONS'])\ndef subscribe():\n    if request.method == 'OPTIONS':\n        return '', 200  # Respond to preflight properly\n    data = request.get_json()\n    email = data.get('email')\n    value = data.get('newsletter_value')\n    if not email or not value:\n        return jsonify({'error': 'Email and newsletter_value are required.'}), 400",
         "detail": "backend.app.routes.newsletter_routes",
         "documentation": {}
     },
@@ -1099,6 +1420,60 @@
         "documentation": {}
     },
     {
+        "label": "FavoriteSchema",
+        "kind": 6,
+        "importPath": "backend.app.schemas.favorite_schema",
+        "description": "backend.app.schemas.favorite_schema",
+        "peekOfCode": "class FavoriteSchema(Schema):\n    id = fields.Int(dump_only=True)\n    user_id = fields.Int(required=True)\n    character_id = fields.Int(allow_none=True)\n    filter_json = fields.Str(allow_none=True)\nfavorite_schema = FavoriteSchema()\nfavorites_schema = FavoriteSchema(many=True)",
+        "detail": "backend.app.schemas.favorite_schema",
+        "documentation": {}
+    },
+    {
+        "label": "favorite_schema",
+        "kind": 5,
+        "importPath": "backend.app.schemas.favorite_schema",
+        "description": "backend.app.schemas.favorite_schema",
+        "peekOfCode": "favorite_schema = FavoriteSchema()\nfavorites_schema = FavoriteSchema(many=True)",
+        "detail": "backend.app.schemas.favorite_schema",
+        "documentation": {}
+    },
+    {
+        "label": "favorites_schema",
+        "kind": 5,
+        "importPath": "backend.app.schemas.favorite_schema",
+        "description": "backend.app.schemas.favorite_schema",
+        "peekOfCode": "favorites_schema = FavoriteSchema(many=True)",
+        "detail": "backend.app.schemas.favorite_schema",
+        "documentation": {}
+    },
+    {
+        "label": "NewsletterSchema",
+        "kind": 6,
+        "importPath": "backend.app.schemas.newsletter_schema",
+        "description": "backend.app.schemas.newsletter_schema",
+        "peekOfCode": "class NewsletterSchema(Schema):\n    id = fields.Int(dump_only=True)\n    email = fields.Email(required=True)\n    newsletter_value = fields.Str(required=True)\n# Single + multiple object serializers\nnewsletter_schema = NewsletterSchema()\nnewsletters_schema = NewsletterSchema(many=True)",
+        "detail": "backend.app.schemas.newsletter_schema",
+        "documentation": {}
+    },
+    {
+        "label": "newsletter_schema",
+        "kind": 5,
+        "importPath": "backend.app.schemas.newsletter_schema",
+        "description": "backend.app.schemas.newsletter_schema",
+        "peekOfCode": "newsletter_schema = NewsletterSchema()\nnewsletters_schema = NewsletterSchema(many=True)",
+        "detail": "backend.app.schemas.newsletter_schema",
+        "documentation": {}
+    },
+    {
+        "label": "newsletters_schema",
+        "kind": 5,
+        "importPath": "backend.app.schemas.newsletter_schema",
+        "description": "backend.app.schemas.newsletter_schema",
+        "peekOfCode": "newsletters_schema = NewsletterSchema(many=True)",
+        "detail": "backend.app.schemas.newsletter_schema",
+        "documentation": {}
+    },
+    {
         "label": "UserSchema",
         "kind": 6,
         "importPath": "backend.app.schemas.user_schema",
@@ -1130,7 +1505,7 @@
         "kind": 2,
         "importPath": "backend.app.utils.decorators",
         "description": "backend.app.utils.decorators",
-        "peekOfCode": "def login_required(f):\n    @wraps(f)\n    def wrapper(*args, **kwargs):\n        if not session.get('user_id'):\n            return jsonify({\"error\": \"Unauthorized\"}), 401\n        return f(*args, **kwargs)\n    return wrapper\ndef admin_required(f):\n    @wraps(f)\n    def decorated_function(*args, **kwargs):",
+        "peekOfCode": "def login_required(f):\n    @wraps(f)\n    def wrapper(*args, **kwargs):\n        if not session.get('user_id'):\n            return jsonify({\"error\": \"Unauthorized\"}), 401\n        return f(*args, **kwargs)\n    return wrapper\ndef admin_required(f):\n    @wraps(f)\n    def wrapper(*args, **kwargs):",
         "detail": "backend.app.utils.decorators",
         "documentation": {}
     },
@@ -1139,7 +1514,7 @@
         "kind": 2,
         "importPath": "backend.app.utils.decorators",
         "description": "backend.app.utils.decorators",
-        "peekOfCode": "def admin_required(f):\n    @wraps(f)\n    def decorated_function(*args, **kwargs):\n        if request.headers.get(\"X-Admin\") != \"true\":  # Replace with real auth check\n            return jsonify({\"error\": \"Admin access required\"}), 403\n        return f(*args, **kwargs)\n    return decorated_function",
+        "peekOfCode": "def admin_required(f):\n    @wraps(f)\n    def wrapper(*args, **kwargs):\n        user_id = session.get(\"user_id\")\n        if not user_id:\n            return jsonify({\"error\": \"Unauthorized\"}), 401\n        user = db.session.get(User, user_id)\n        if not user or user.role.lower() != \"admin\":\n            return jsonify({\"error\": \"Admin access required\"}), 403\n        g.current_user = user  # Optionally set for use in route",
         "detail": "backend.app.utils.decorators",
         "documentation": {}
     },
@@ -1148,7 +1523,7 @@
         "kind": 6,
         "importPath": "backend.app.config",
         "description": "backend.app.config",
-        "peekOfCode": "class Config:\n    SECRET_KEY = os.getenv('FLASK_SECRET_KEY')\n    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')\n    SQLALCHEMY_TRACK_MODIFICATIONS = False\n    CORS_ORIGIN = os.getenv('CORS_ORIGIN')",
+        "peekOfCode": "class Config:\n    SECRET_KEY = os.getenv('FLASK_SECRET_KEY')\n    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')\n    ROOT_DATABASE_URL = os.getenv('ROOT_DATABASE_URL')\n    SQLALCHEMY_TRACK_MODIFICATIONS = False\n    CORS_ORIGIN = os.getenv('CORS_ORIGIN')\n    GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')\n    GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')\n    OAUTHLIB_INSECURE_TRANSPORT = True  # Only for local dev",
         "detail": "backend.app.config",
         "documentation": {}
     },

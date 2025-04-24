@@ -2,11 +2,15 @@
 from flask import Blueprint, request, jsonify
 from app import db
 from app.models.newsletter import Newsletter
+from app.utils.decorators import admin_required
 
 newsletter_bp = Blueprint('newsletter', __name__, url_prefix='/api/newsletter')
 
-@newsletter_bp.route('/subscribe', methods=['POST'])
+@newsletter_bp.route('/subscribe', methods=['POST', 'OPTIONS'])
 def subscribe():
+    if request.method == 'OPTIONS':
+        return '', 200  # Respond to preflight properly
+
     data = request.get_json()
     email = data.get('email')
     value = data.get('newsletter_value')
@@ -22,6 +26,7 @@ def subscribe():
     db.session.commit()
     return jsonify({'message': 'Subscribed successfully'}), 200
 
+
 @newsletter_bp.route('/unsubscribe', methods=['POST'])
 def unsubscribe():
     data = request.get_json()
@@ -36,6 +41,7 @@ def unsubscribe():
     return jsonify({'message': 'Unsubscribed successfully'}), 200
 
 @newsletter_bp.route('/list', methods=['GET'])
+@admin_required
 def list_by_value():
     value = request.args.get('value')
     if not value:

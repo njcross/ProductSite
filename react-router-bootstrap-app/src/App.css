@@ -47,6 +47,10 @@ h1, h2, h3 {
   color: var(--color-heading);
 }
 
+input {
+  background-color: var(--bg-input);
+}
+
 a {
   color: var(--color-link);
 }

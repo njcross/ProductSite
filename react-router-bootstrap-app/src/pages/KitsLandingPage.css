@@ -1,47 +1,87 @@
 .kits-landing-page {
-    background-color: var(--bg-alt);
     color: var(--color-text);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
   
   .hero-banner {
-    background: url(../../public/images/hero.png) no-repeat right center;
-    background-size: contain;
-  background-color: var(--bg-main);
-  color: var(--color-white);
-  width: 100%;
-  min-height: 500px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding-bottom: 4rem;
-  text-align: center;
-  margin-bottom: 2rem;
-  position: relative;
-  overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-alt);
+    padding: 3rem 2rem;
+    min-height: 500px;
+    position: relative;
+    overflow: hidden;
+    flex-wrap: wrap;
   }
+  
+  .hero-content {
+    flex: 1;
+    color: var(--color-white);
+    z-index: 1;
+    max-width: 500px;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--color-white);
+    margin-bottom: 1rem;
+    text-shadow: 1px 1px var(--color-text-dark);
+  }
+  
+  .hero-content p {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--color-white);
+  }
+  
+  .hero-image-container {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    height: 100%;
+    max-height: 500px;
+  }
+  
+  .hero-image-container img {
+    max-height: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+  
   @media (max-width: 768px) {
     .hero-banner {
-      background-position: left bottom;
-      background-size: contain;
-      align-items: left;
-      text-align: left;
+      flex-direction: column-reverse;
+      align-items: center;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+  
+    .hero-content {
+      max-width: 100%;
+    }
+  
+    .hero-image-container {
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+  
+    .hero-image-container img {
+      width: 80%;
     }
   }
   
   .works-cta {
+    background-color: var(--bg-main); /* same as hero background */
     text-align: center;
     z-index: 1;
     position: relative;
   }
   
   .hero-cta {
-    background-color: var(--bg-main); /* same as hero background */
-    text-align: center;
-    padding: 1rem 0;
-    margin-top: -2rem; /* pull it up closer to hero */
-    z-index: 1;
-    position: relative;
+    text-align: left;
+    margin-top: 1rem;
   }
   
   .browse-btn {
@@ -58,6 +98,10 @@
     color: var(--color-white);
   }
   
+  .steps-section {
+    background-color: var(--bg-main);
+    border-color: var(--bg-main);
+  }
   
   .steps-section .step-img {
     margin-bottom: 1rem;
@@ -80,10 +124,10 @@
   }
   
   .kit-image {
-    height: 160px;
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover;
     padding: 1rem;
-    background-color: var(--bg-alt);
+    background-color: var(--bg-main);
   }
 
   .kits-grid {

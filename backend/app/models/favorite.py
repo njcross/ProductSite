@@ -1,0 +1,10 @@
+from sqlalchemy import Integer, ForeignKey, Text
+from sqlalchemy.orm import Mapped, mapped_column
+from app import db
+
+class Favorite(db.Model):
+    __tablename__ = 'favorites'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'), nullable=False)
+    character_id: Mapped[int] = mapped_column(Integer, ForeignKey('characters.id'), nullable=True)
+    filter_json: Mapped[str] = mapped_column(Text, nullable=True)

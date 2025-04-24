@@ -59,4 +59,13 @@
   .features-steps {
     gap: 1rem;
   }
+
+  .features-section {
+    padding: 2rem 1rem; /* reduced top/bottom padding */
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
 }

@@ -1,7 +1,7 @@
 import { Modal, Button } from 'react-bootstrap';
 
 
-import EditableField from '../components/EditableField';import './ConfirmationModal.css';
+import './ConfirmationModal.css';
 
 export default function ConfirmationModal({
   show,
@@ -24,7 +24,6 @@ export default function ConfirmationModal({
       <Button variant="secondary" onClick={onHide} className="no-2-button">
         {cancelText}
       </Button>
-      <EditableField contentKey="content_12" />
       <Button variant="primary" onClick={onConfirm}>
         {confirmText}
       </Button>

@@ -1,5 +1,7 @@
-from flask import session, jsonify, request
+from flask import session, jsonify, g
 from functools import wraps
+from app.models.user import User
+from app import db
 
 def login_required(f):
     @wraps(f)
@@ -11,8 +13,16 @@ def login_required(f):
 
 def admin_required(f):
     @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if request.headers.get("X-Admin") != "true":  # Replace with real auth check
+    def wrapper(*args, **kwargs):
+        user_id = session.get("user_id")
+
+        if not user_id:
+            return jsonify({"error": "Unauthorized"}), 401
+
+        user = db.session.get(User, user_id)
+        if not user or user.role.lower() != "admin":
             return jsonify({"error": "Admin access required"}), 403
+
+        g.current_user = user  # Optionally set for use in route
         return f(*args, **kwargs)
-    return decorated_function
+    return wrapper

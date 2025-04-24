@@ -1,0 +1,18 @@
+/* src/components/FavoriteFiltersDropdown.css */
+.favorite-filters-dropdown {
+    margin-bottom: 1.5rem;
+  }
+  
+  .favorite-filters-dropdown label {
+    margin-right: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .favorite-filters-dropdown select {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color, #ccc);
+    background-color: var(--bg-card);
+    color: var(--color-text);
+  }
+  

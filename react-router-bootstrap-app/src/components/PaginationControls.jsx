@@ -10,21 +10,19 @@ export default function PaginationControls({ page, onPageChange, hasNext }) {
           <button className="page-btn" onClick={() => onPageChange(page - 1)}>
             <EditableField contentKey="content_70" />
           </button>
-          <EditableField contentKey="content_12" />
         </>
       )}
 
       <span className="page-number">
-        <EditableField contentKey="content_72" />
+        <EditableField contentKey="content_72" /> {page}
       </span>
-      <span className="page-number">Page {page}</span>
+   
 
       {hasNext && (
         <>
           <button className="page-btn" onClick={() => onPageChange(page + 1)}>
             <EditableField contentKey="content_73" />
           </button>
-          <EditableField contentKey="content_12" />
         </>
       )}
     </div>

@@ -15,7 +15,7 @@ def update_content():
     if not data or "field" not in data or "value" not in data:
         return jsonify({"error": "Missing 'field' or 'value'"}), 400
 
-    content_path = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public', 'content.json')
+    content_path = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public/', 'content.json')
 
     # Ensure file exists
     if not os.path.exists(content_path):
@@ -23,7 +23,7 @@ def update_content():
             json.dump({}, f)
 
     # Load existing data
-    with open(content_path, 'r') as f:
+    with open(content_path, 'r', encoding='utf-8') as f:
         content = json.load(f)
 
     # Update field
@@ -50,7 +50,7 @@ def upload_image():
         return jsonify({"error": "Empty filename"}), 400
 
     from flask import current_app
-    upload_folder = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public', 'images')
+    upload_folder = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public/', 'images')
     os.makedirs(upload_folder, exist_ok=True)
 
     filename = secure_filename(file.filename)
@@ -67,6 +67,6 @@ def content_preview():
     content_path = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public', 'content.json')
     if not os.path.exists(content_path):
         return jsonify({})
-    with open(content_path, 'r') as f:
+    with open(content_path, 'r', encoding='utf-8') as f:
         content = json.load(f)
     return jsonify(content)

@@ -3,7 +3,6 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Carousel } from 'react-bootstrap';
 
-import EditableField from '../components/EditableField';
 import SuperheroCard from './SuperheroCard';
 import ConfirmationModal from './ConfirmationModal';
 import './CharacterCarousel.css';
@@ -83,7 +82,7 @@ export default function CharacterCarousel() {
           ))}
         </Carousel>
 
-        <EditableField contentKey="content_1" />
+
       </section>
 
       <ConfirmationModal

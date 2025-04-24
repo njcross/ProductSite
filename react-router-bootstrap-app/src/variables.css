@@ -12,14 +12,17 @@
   --color-text-dark: #1a1a1a;
   --color-link: #222222;
   --color-white: #FFFFFF; 
+  --color-boarder: #222222;
 
   /* Background Colors */
   --bg-main: #4d9de0;
-  --bg-alt: #FFFFFF;
+  --bg-alt: #17a465;
+  --bg-white: #FFFFFF;
   --bg-card: #4d9de0;
   --bg-highlight: #fec632;
   --color-success: #4CAF50; 
   --bg-action-item: #FEC632;
+  --bg-input: #f0f0f0;
 
   /* Border Colors */
   --border-color: #222222;

@@ -112,7 +112,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
               </Button>
             </Col>
           </Row>
-          <div className="text-end"><EditableField contentKey="content_12" /></div>
+          <div className="text-end"></div>
         </>
       )}
 
