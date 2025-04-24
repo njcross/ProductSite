@@ -37,11 +37,13 @@ def create_app():
     from app.routes.character_routes import character_bp
     from app.routes.content_routes import content_bp
     from app.routes.user_settings_routes import user_settings_bp
+    from app.routes.newsletter_routes import newsletter_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(cart_bp)
     app.register_blueprint(character_bp)
     app.register_blueprint(content_bp)
     app.register_blueprint(user_settings_bp)
+    app.register_blueprint(newsletter_bp)
 
     return app

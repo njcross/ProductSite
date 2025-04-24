@@ -153,5 +153,6 @@
   "settings_10": "Please fill in both password fields.",
   "settings_11": "Failed to update email.",
   "settings_12": "Failed to update password.",
-  "register_confirm": "Confirm Password"
+  "register_confirm": "Confirm Password",
+  "unsub_label": "Unsubscribe"
 }

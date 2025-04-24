@@ -72,6 +72,22 @@
         "documentation": {}
     },
     {
+        "label": "String",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Integer",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
         "label": "Enum",
         "importPath": "sqlalchemy",
         "description": "sqlalchemy",
@@ -165,6 +181,38 @@
         "description": "sqlalchemy.orm",
         "isExtraImport": true,
         "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
+        "label": "Mapped",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
+        "label": "mapped_column",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "app",
+        "description": "app",
+        "isExtraImport": true,
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "app",
+        "description": "app",
+        "isExtraImport": true,
+        "detail": "app",
         "documentation": {}
     },
     {
@@ -416,6 +464,30 @@
         "documentation": {}
     },
     {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
         "label": "session",
         "importPath": "flask",
         "description": "flask",
@@ -586,6 +658,14 @@
         "documentation": {}
     },
     {
+        "label": "Newsletter",
+        "importPath": "app.models.newsletter",
+        "description": "app.models.newsletter",
+        "isExtraImport": true,
+        "detail": "app.models.newsletter",
+        "documentation": {}
+    },
+    {
         "label": "Schema",
         "importPath": "marshmallow",
         "description": "marshmallow",
@@ -665,6 +745,15 @@
         "description": "backend.app.models.character",
         "peekOfCode": "class Character(db.Model):\n    __tablename__ = \"characters\"\n    id: Mapped[int] = mapped_column(Integer, primary_key=True)\n    name: Mapped[str] = mapped_column(String(100), nullable=False)\n    alias: Mapped[str] = mapped_column(String(100), nullable=False)\n    alignment: Mapped[str] = mapped_column(Enum('hero', 'villain', name='alignment_enum'), nullable=False)\n    powers: Mapped[str] = mapped_column(Text, nullable=False)\n    image_url: Mapped[str] = mapped_column(String(255), nullable=False)\n    price: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)",
         "detail": "backend.app.models.character",
+        "documentation": {}
+    },
+    {
+        "label": "Newsletter",
+        "kind": 6,
+        "importPath": "backend.app.models.newsletter",
+        "description": "backend.app.models.newsletter",
+        "peekOfCode": "class Newsletter(db.Model):\n    __tablename__ = \"newsletter\"\n    id: Mapped[int] = mapped_column(Integer, primary_key=True)\n    email: Mapped[str] = mapped_column(String(255), nullable=False)\n    newsletter_value: Mapped[str] = mapped_column(String(100), nullable=False)\n    def __repr__(self):\n        return f\"<Newsletter email={self.email} value={self.newsletter_value}>\"",
+        "detail": "backend.app.models.newsletter",
         "documentation": {}
     },
     {
@@ -881,6 +970,42 @@
         "description": "backend.app.routes.content_routes",
         "peekOfCode": "content_bp = Blueprint('content', __name__)\nfrom app.utils.decorators import admin_required\n@content_bp.route('/api/update-content', methods=['POST'])\n@admin_required\ndef update_content():\n    data = request.get_json()\n    if not data or \"field\" not in data or \"value\" not in data:\n        return jsonify({\"error\": \"Missing 'field' or 'value'\"}), 400\n    content_path = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public', 'content.json')\n    # Ensure file exists",
         "detail": "backend.app.routes.content_routes",
+        "documentation": {}
+    },
+    {
+        "label": "subscribe",
+        "kind": 2,
+        "importPath": "backend.app.routes.newsletter_routes",
+        "description": "backend.app.routes.newsletter_routes",
+        "peekOfCode": "def subscribe():\n    data = request.get_json()\n    email = data.get('email')\n    value = data.get('newsletter_value')\n    if not email or not value:\n        return jsonify({'error': 'Email and newsletter_value are required.'}), 400\n    if Newsletter.query.filter_by(email=email).first():\n        return jsonify({'error': 'Email already subscribed.'}), 400\n    new_entry = Newsletter(email=email, newsletter_value=value)\n    db.session.add(new_entry)",
+        "detail": "backend.app.routes.newsletter_routes",
+        "documentation": {}
+    },
+    {
+        "label": "unsubscribe",
+        "kind": 2,
+        "importPath": "backend.app.routes.newsletter_routes",
+        "description": "backend.app.routes.newsletter_routes",
+        "peekOfCode": "def unsubscribe():\n    data = request.get_json()\n    email = data.get('email')\n    entry = Newsletter.query.filter_by(email=email).first()\n    if not entry:\n        return jsonify({'error': 'Email not found.'}), 404\n    db.session.delete(entry)\n    db.session.commit()\n    return jsonify({'message': 'Unsubscribed successfully'}), 200\n@newsletter_bp.route('/list', methods=['GET'])",
+        "detail": "backend.app.routes.newsletter_routes",
+        "documentation": {}
+    },
+    {
+        "label": "list_by_value",
+        "kind": 2,
+        "importPath": "backend.app.routes.newsletter_routes",
+        "description": "backend.app.routes.newsletter_routes",
+        "peekOfCode": "def list_by_value():\n    value = request.args.get('value')\n    if not value:\n        return jsonify({'error': 'Missing newsletter_value parameter.'}), 400\n    emails = Newsletter.query.filter_by(newsletter_value=value).all()\n    return jsonify([entry.email for entry in emails]), 200",
+        "detail": "backend.app.routes.newsletter_routes",
+        "documentation": {}
+    },
+    {
+        "label": "newsletter_bp",
+        "kind": 5,
+        "importPath": "backend.app.routes.newsletter_routes",
+        "description": "backend.app.routes.newsletter_routes",
+        "peekOfCode": "newsletter_bp = Blueprint('newsletter', __name__, url_prefix='/api/newsletter')\n@newsletter_bp.route('/subscribe', methods=['POST'])\ndef subscribe():\n    data = request.get_json()\n    email = data.get('email')\n    value = data.get('newsletter_value')\n    if not email or not value:\n        return jsonify({'error': 'Email and newsletter_value are required.'}), 400\n    if Newsletter.query.filter_by(email=email).first():\n        return jsonify({'error': 'Email already subscribed.'}), 400",
+        "detail": "backend.app.routes.newsletter_routes",
         "documentation": {}
     },
     {

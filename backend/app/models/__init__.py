@@ -1,5 +1,6 @@
 from .user import User
 from .cart_item import CartItem
 from .character import Character
+from .newsletter import Newsletter
 
-__all__ = ["User", "CartItem", "Character"]
+__all__ = ["User", "CartItem", "Character", "Newsletter"]
