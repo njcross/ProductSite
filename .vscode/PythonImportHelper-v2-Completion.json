@@ -1073,7 +1073,7 @@
         "kind": 5,
         "importPath": "backend.app.routes.auth_routes",
         "description": "backend.app.routes.auth_routes",
-        "peekOfCode": "google_bp = make_google_blueprint(\n    client_id=\"145614753894-pjg3toopl8fckmkcieg7hghu3p920464.apps.googleusercontent.com\",\n    client_secret=\"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\",\n    scope=[\"profile\", \"email\"],\n    redirect_url=\"/login/google/authorized\"\n)\nauth_bp = Blueprint('auth', __name__)\nuser_schema = UserSchema()\nserializer = URLSafeTimedSerializer(\"super-secret-key\")  # Replace with secure key\n# @auth_bp.route(\"/login/google/authorized\")",
+        "peekOfCode": "google_bp = make_google_blueprint(\n    client_id=\"\",\n    client_secret=\"\",\n    scope=[\"profile\", \"email\"],\n    redirect_url=\"/login/google/authorized\"\n)\nauth_bp = Blueprint('auth', __name__)\nuser_schema = UserSchema()\nserializer = URLSafeTimedSerializer(\"super-secret-key\")  # Replace with secure key\n# @auth_bp.route(\"/login/google/authorized\")",
         "detail": "backend.app.routes.auth_routes",
         "documentation": {}
     },

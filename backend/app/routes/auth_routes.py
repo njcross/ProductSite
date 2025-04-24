@@ -9,8 +9,8 @@ from flask import redirect, url_for
 from flask_dance.contrib.google import make_google_blueprint, g
 
 google_bp = make_google_blueprint(
-    client_id="145614753894-pjg3toopl8fckmkcieg7hghu3p920464.apps.googleusercontent.com",
-    client_secret="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",
+    client_id="",
+    client_secret="",
     scope=["profile", "email"],
     redirect_url="/login/google/authorized"
 )
