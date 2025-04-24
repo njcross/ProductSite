@@ -821,7 +821,7 @@
         "kind": 2,
         "importPath": "backend.app.routes.content_routes",
         "description": "backend.app.routes.content_routes",
-        "peekOfCode": "def upload_image():\n    if 'image' not in request.files:\n        return jsonify({\"error\": \"No file provided\"}), 400\n    file = request.files['image']\n    if file.filename == '':\n        return jsonify({\"error\": \"Empty filename\"}), 400\n    from flask import current_app\n    upload_folder = os.path.join(current_app.root_path, 'static', 'uploads')\n    os.makedirs(upload_folder, exist_ok=True)\n    filename = secure_filename(file.filename)",
+        "peekOfCode": "def upload_image():\n    if 'image' not in request.files:\n        return jsonify({\"error\": \"No file provided\"}), 400\n    file = request.files['image']\n    if file.filename == '':\n        return jsonify({\"error\": \"Empty filename\"}), 400\n    from flask import current_app\n    upload_folder = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public', 'images')\n    os.makedirs(upload_folder, exist_ok=True)\n    filename = secure_filename(file.filename)",
         "detail": "backend.app.routes.content_routes",
         "documentation": {}
     },
@@ -830,7 +830,7 @@
         "kind": 2,
         "importPath": "backend.app.routes.content_routes",
         "description": "backend.app.routes.content_routes",
-        "peekOfCode": "def content_preview():\n    content_path = os.path.join(current_app.root_path, 'static', 'content.json')\n    if not os.path.exists(content_path):\n        return jsonify({})\n    with open(content_path, 'r') as f:\n        content = json.load(f)\n    return jsonify(content)",
+        "peekOfCode": "def content_preview():\n    content_path = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public', 'content.json')\n    if not os.path.exists(content_path):\n        return jsonify({})\n    with open(content_path, 'r') as f:\n        content = json.load(f)\n    return jsonify(content)",
         "detail": "backend.app.routes.content_routes",
         "documentation": {}
     },

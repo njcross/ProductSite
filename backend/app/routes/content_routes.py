@@ -50,21 +50,21 @@ def upload_image():
         return jsonify({"error": "Empty filename"}), 400
 
     from flask import current_app
-    upload_folder = os.path.join(current_app.root_path, 'static', 'uploads')
+    upload_folder = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public', 'images')
     os.makedirs(upload_folder, exist_ok=True)
 
     filename = secure_filename(file.filename)
     save_path = os.path.join(upload_folder, filename)
     file.save(save_path)
 
-    image_url = f'/static/uploads/{filename}'
+    image_url = f'/images/{filename}'
     return jsonify({"success": True, "url": image_url})
 
 
 
 @content_bp.route('/api/content-preview', methods=['GET'])
 def content_preview():
-    content_path = os.path.join(current_app.root_path, 'static', 'content.json')
+    content_path = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public', 'content.json')
     if not os.path.exists(content_path):
         return jsonify({})
     with open(content_path, 'r') as f:
