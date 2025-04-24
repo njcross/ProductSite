@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
+import EditableField from '../components/EditableField';
 import './HeaderBar.css';
 
 export default function HeaderBar() {
@@ -13,7 +14,11 @@ export default function HeaderBar() {
     try {
       await fetch(`${API_BASE}/logout`, {
         method: 'POST',
-        headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+          credentials: 'include',
+          'Content-Type': 'application/json',
+        },
         credentials: 'include',
       });
       setCurrentUser(null);
@@ -45,19 +50,35 @@ export default function HeaderBar() {
           <i className="bi bi-search"></i>
         </button>
       </form>
-      <div className="action-group">
-      {currentUser && (
-        <Link to="/cart" className="btn cart-btn">🛒 Cart</Link>
-      )}
 
-      <div className="auth-links">
+      <div className="action-group">
         {currentUser ? (
-          <button className="auth-btn" onClick={handleLogout}>Logout</button>
+          <>
+            <Link to="/cart" className="btn cart-btn">
+              <EditableField contentKey="content_52" />
+            </Link>
+            <Link to="/settings" className="auth-btn">
+            <EditableField contentKey="content_142" />
+</Link>
+
+
+            <div className="auth-links">
+              <button className="auth-btn" onClick={handleLogout}>
+                <EditableField contentKey="content_54" />
+              </button>
+            </div>
+          </>
         ) : (
-          <Link to="/login" className="auth-btn">Login</Link>
+          <div className="auth-links">
+            <Link to="/login" className="auth-btn">
+              <EditableField contentKey="content_56" />
+            </Link>
+            
+            <Link to="/register" className="auth-btn">
+              <EditableField contentKey="content_58" />
+            </Link>
+          </div>
         )}
-        <Link to="/register" className="auth-btn">Register</Link>
-      </div>
       </div>
     </div>
   );

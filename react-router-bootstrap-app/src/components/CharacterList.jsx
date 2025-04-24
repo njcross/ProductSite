@@ -7,6 +7,7 @@ import PaginationControls from './PaginationControls';
 import { Row, Col, Modal, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
+import EditableField from '../components/EditableField';
 import './CharacterList.css';
 
 export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view = 'grid', search = '' }) {
@@ -38,7 +39,6 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
       })
       .catch(err => console.error('Failed to load characters:', err));
   }, [API_BASE, sortBy, page, itemsPerPage, search]);
-  
 
   useEffect(() => {
     fetchCharacters();
@@ -54,7 +54,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
         setModalMessage('Character deleted successfully!');
         setIsSuccess(true);
         setShowModal(true);
-        fetchCharacters();  // 🔁 Re-fetch instead of filtering locally
+        fetchCharacters();
       })
       .catch(err => {
         console.error('Failed to delete:', err);
@@ -104,50 +104,52 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   return (
     <div className={`character-list-container ${view === 'list' ? 'list-view' : ''}`}>
       {currentUser?.role === 'admin' && (
-        <Row>
-        <Col className="d-flex justify-content-end mb-3">
-          <Button variant="danger" onClick={() => setShowCreate(true)}>
-            Add New Character
-          </Button>
-        </Col>
-      </Row>
+        <>
+          <Row>
+            <Col className="d-flex justify-content-end mb-3">
+              <Button variant="danger" onClick={() => setShowCreate(true)}>
+                <EditableField contentKey="content_11" />
+              </Button>
+            </Col>
+          </Row>
+          <div className="text-end"><EditableField contentKey="content_12" /></div>
+        </>
       )}
 
-<Row className={`character-row d-flex ${view === 'list' ? 'flex-column' : 'justify-content-center'}`}>
-  {characters.map(char => (
-    <Col
-      key={char.id}
-      xs={12}
-      sm={view === 'grid' ? 6 : 12}
-      md={view === 'grid' ? 4 : 12}
-      lg={view === 'grid' ? 3 : 12}
-      className="character-card-wrapper"
-    >
-      <SuperheroCard
-        character={char}
-        onEdit={handleEditClick}
-        onDelete={handleDelete}
-      />
-    </Col>
-  ))}
-</Row>
+      <Row className={`character-row d-flex ${view === 'list' ? 'flex-column' : 'justify-content-center'}`}>
+        {characters.map(char => (
+          <Col
+            key={char.id}
+            xs={12}
+            sm={view === 'grid' ? 6 : 12}
+            md={view === 'grid' ? 4 : 12}
+            lg={view === 'grid' ? 3 : 12}
+            className="character-card-wrapper"
+          >
+            <SuperheroCard
+              character={char}
+              onEdit={handleEditClick}
+              onDelete={handleDelete}
+            />
+          </Col>
+        ))}
+      </Row>
 
-<div className="pagination-controls">
-<Row className="mt-4">
-  <Col className="d-flex justify-content-center">
-    <PaginationControls
-      page={page}
-      onPageChange={setPage}
-      hasNext={hasNext}
-    />
-  </Col>
-</Row>
-</div>
-
+      <div className="pagination-controls">
+        <Row className="mt-4">
+          <Col className="d-flex justify-content-center">
+            <PaginationControls
+              page={page}
+              onPageChange={setPage}
+              hasNext={hasNext}
+            />
+          </Col>
+        </Row>
+      </div>
 
       <Modal show={showCreate} onHide={() => setShowCreate(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Add New Character</Modal.Title>
+          <Modal.Title><EditableField contentKey="content_11" /></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <CharacterForm onSubmit={handleCreate} />

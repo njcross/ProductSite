@@ -1,6 +1,8 @@
 // src/components/Navbar.jsx
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+
+
+import EditableField from '../components/EditableField';import { Link } from 'react-router-dom';
 import './Navbar.css';
 
 export default function Navbar() {
@@ -22,9 +24,9 @@ export default function Navbar() {
 
         <div className={`collapse navbar-collapse ${expanded ? 'show' : ''}`}>
           <div className="navbar-nav me-auto">
-            <Link className="nav-link" to="/" onClick={closeNavbar}>Home</Link>
-            <Link className="nav-link" to="/cards" onClick={closeNavbar}>Browse our kits</Link>
-            <Link className="nav-link" to="/about" onClick={closeNavbar}>About</Link>
+            <Link className="nav-link" to="/" onClick={closeNavbar}>{<EditableField contentKey="content_66" />}</Link>
+            <Link className="nav-link" to="/cards" onClick={closeNavbar}>{<EditableField contentKey="content_67" />}</Link>
+            <Link className="nav-link" to="/about" onClick={closeNavbar}>{<EditableField contentKey="content_68" />}</Link>
           </div>
         </div>
       </div>

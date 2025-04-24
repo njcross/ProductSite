@@ -139,5 +139,19 @@
   "content_138": "Username",
   "content_139": "Email",
   "content_140": "Password",
-  "content_141": "Register"
+  "content_141": "Register",
+  "content_142": "Settings",
+  "settings_1": "Account Settings",
+  "settings_2": "Email",
+  "settings_3": "Current Password",
+  "settings_4": "Update Email",
+  "settings_5": "New Password",
+  "settings_6": "Update Password",
+  "settings_7": "Email updated successfully!",
+  "settings_8": "Password updated successfully!",
+  "settings_9": "Please enter your password to change email.",
+  "settings_10": "Please fill in both password fields.",
+  "settings_11": "Failed to update email.",
+  "settings_12": "Failed to update password.",
+  "register_confirm": "Confirm Password"
 }

@@ -1,5 +1,7 @@
 import { Modal, Button } from 'react-bootstrap';
-import './ConfirmationModal.css';
+
+
+import EditableField from '../components/EditableField';import './ConfirmationModal.css';
 
 export default function ConfirmationModal({
   show,
@@ -17,15 +19,19 @@ export default function ConfirmationModal({
       </Modal.Header>
       <Modal.Body>{message}</Modal.Body>
       <Modal.Footer>
-        {cancelText && (
-          <Button variant="secondary" onClick={onHide} className='no-2-button'>
-            {cancelText}
-          </Button>
-        )}
-        <Button variant="primary" onClick={onConfirm}>
-          {confirmText}
-        </Button>
-      </Modal.Footer>
+  {cancelText && (
+    <>
+      <Button variant="secondary" onClick={onHide} className="no-2-button">
+        {cancelText}
+      </Button>
+      <EditableField contentKey="content_12" />
+      <Button variant="primary" onClick={onConfirm}>
+        {confirmText}
+      </Button>
+    </>
+  )}
+</Modal.Footer>
+
     </Modal>
   );
 }

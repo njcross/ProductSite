@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import EditableField from '../components/EditableField';
 import { Form, Button, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../components/ConfirmationModal';
@@ -6,9 +7,10 @@ import { useUser } from '../context/UserContext';
 import './Register.css';
 
 export default function Register() {
-  const [form, setForm] = useState({ username: '', email: '', password: '' });
+  const [form, setForm] = useState({ username: '', email: '', password: '', confirmPassword: '' });
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
   const API_BASE = process.env.REACT_APP_API_URL;
   const { setCurrentUser } = useUser();
@@ -19,26 +21,34 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
+    if (form.password !== form.confirmPassword) {
+      return setError('Passwords do not match.');
+    }
+
     try {
       const res = await fetch(`${API_BASE}/register`, {
         method: 'POST',
-        headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+          credentials: 'include',
+          'Content-Type': 'application/json'
+        },
         credentials: 'include',
         body: JSON.stringify(form),
       });
-  
+
       const data = await res.json();
-  
+
       if (res.ok) {
-        // ✅ Set current user immediately after registration
         setCurrentUser(data.user || {
           username: form.username,
           email: form.email,
           role: 'customer',
         });
-  
-        setForm({ username: '', email: '', password: '' });
+
+        setForm({ username: '', email: '', password: '', confirmPassword: '' });
+        setError('');
         setModalMessage(data.message || 'Registration successful!');
         setShowModal(true);
       } else {
@@ -51,36 +61,40 @@ export default function Register() {
       setShowModal(true);
     }
   };
-  
-  
 
   const handleModalConfirm = () => {
     setShowModal(false);
-    navigate('/'); // Redirect to homepage after successful login
+    navigate('/');
   };
-  
 
   return (
     <Container className="register-page">
       <div className="register-card">
-        <h2>Register</h2>
+        <h2>{<EditableField contentKey="content_58" />}</h2>
         <Form className="register-form" onSubmit={handleSubmit}>
           <Form.Group className="form-group" controlId="username">
-            <Form.Label>Username</Form.Label>
-            <Form.Control name="username" value={form.username} onChange={handleChange} required placeholder="Enter your username"/>
+            <Form.Label>{<EditableField contentKey="content_131" />}</Form.Label>
+            <Form.Control name="username" value={form.username} onChange={handleChange} required placeholder="Enter your username" />
           </Form.Group>
 
           <Form.Group className="form-group" controlId="email">
-            <Form.Label>Email</Form.Label>
-            <Form.Control type="email" name="email" value={form.email} onChange={handleChange} required placeholder="Enter your email"/>
+            <Form.Label>{<EditableField contentKey="content_139" />}</Form.Label>
+            <Form.Control type="email" name="email" value={form.email} onChange={handleChange} required placeholder="Enter your email" />
           </Form.Group>
 
           <Form.Group className="form-group" controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" name="password" value={form.password} onChange={handleChange} required placeholder="Create a password"/>
+            <Form.Label>{<EditableField contentKey="content_132" />}</Form.Label>
+            <Form.Control type="password" name="password" value={form.password} onChange={handleChange} required placeholder="Create a password" />
           </Form.Group>
 
-          <Button type="submit" className="register-btn">Register</Button>
+          <Form.Group className="form-group" controlId="confirmPassword">
+            <Form.Label>{<EditableField contentKey="register_confirm" />}</Form.Label>
+            <Form.Control type="password" name="confirmPassword" value={form.confirmPassword} onChange={handleChange} required placeholder="Confirm your password" />
+          </Form.Group>
+
+          {error && <p className="error-message">{error}</p>}
+
+          <Button type="submit" className="register-btn">{<EditableField contentKey="content_58" />}</Button>
         </Form>
       </div>
 

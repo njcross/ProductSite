@@ -54,7 +54,7 @@ export default function EditableImage({ contentKey }) {
       {isAdmin && (
         <div>
           {!showUpload && (
-            <button className="edit-icon" onClick={() => setShowUpload(true)}>📷</button>
+            <button className="edit-icon" onClick={() => setShowUpload(true)}>Upload Image</button>
           )}
           {showUpload && (
             <span>

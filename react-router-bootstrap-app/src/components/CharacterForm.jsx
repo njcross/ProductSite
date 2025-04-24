@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Form, Button } from 'react-bootstrap';
+
+
+import EditableField from '../components/EditableField';import { Form, Button } from 'react-bootstrap';
 import './CharacterForm.css';
 
 export default function CharacterForm({ initialData, onSubmit }) {
@@ -47,31 +49,31 @@ export default function CharacterForm({ initialData, onSubmit }) {
     <div className="character-form-wrapper">
     <Form onSubmit={handleSubmit} className="character-form">
       <Form.Group controlId="name">
-        <Form.Label>Name</Form.Label>
+        <Form.Label>{<EditableField contentKey="content_2" />}</Form.Label>
         <Form.Control name="name" value={formData.name} onChange={handleChange} required />
       </Form.Group>
 
       <Form.Group controlId="alias">
-        <Form.Label>Alias</Form.Label>
+        <Form.Label>{<EditableField contentKey="content_3" />}</Form.Label>
         <Form.Control name="alias" value={formData.alias} onChange={handleChange} required />
       </Form.Group>
 
       <Form.Group controlId="alignment">
-        <Form.Label>Alignment</Form.Label>
+        <Form.Label>{<EditableField contentKey="content_4" />}</Form.Label>
         <Form.Select name="alignment" value={formData.alignment} onChange={handleChange} required>
-          <option value="">Select alignment</option>
-          <option value="hero">Hero</option>
-          <option value="villain">Villain</option>
+          <option value="">{<EditableField contentKey="content_5" />}</option>
+          <option value="hero">{<EditableField contentKey="content_6" />}</option>
+          <option value="villain">{<EditableField contentKey="content_7" />}</option>
         </Form.Select>
       </Form.Group>
 
       <Form.Group controlId="powers">
-        <Form.Label>Powers</Form.Label>
+        <Form.Label>{<EditableField contentKey="content_8" />}</Form.Label>
         <Form.Control name="powers" value={formData.powers} onChange={handleChange} required />
       </Form.Group>
 
       <Form.Group controlId="image_url">
-        <Form.Label>Image URL</Form.Label>
+        <Form.Label>{<EditableField contentKey="content_9" />}</Form.Label>
         <Form.Control
           name="image_url"
           value={formData.image_url}
@@ -85,7 +87,7 @@ export default function CharacterForm({ initialData, onSubmit }) {
       </Form.Group>
 
       <Form.Group controlId="formPrice">
-      <Form.Label>Price</Form.Label>
+      <Form.Label>{<EditableField contentKey="content_10" />}</Form.Label>
       <Form.Control
         type="number"
         step="0.01"

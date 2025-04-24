@@ -1,14 +1,16 @@
 import React from 'react';
-import './Footer.css';
+
+
+import EditableField from '../components/EditableField';import './Footer.css';
 
 export function FooterNewsletter() {
   return (
     <div className="footer-newsletter">
-      <h5>Subscribe to Our Newsletter</h5>
-      <p>Get exclusive discounts, new kit drops, and parenting hacks every month!</p>
+      <h5>{<EditableField contentKey="content_48" />}</h5>
+      <p>{<EditableField contentKey="content_49" />}</p>
       <form className="newsletter-form">
         <input type="email" placeholder="Enter your email" required />
-        <button type="submit">Subscribe</button>
+        <button type="submit">{<EditableField contentKey="content_50" />}</button>
       </form>
     </div>
   );

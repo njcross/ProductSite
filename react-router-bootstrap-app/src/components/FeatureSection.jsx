@@ -1,30 +1,32 @@
 import './FeatureSection.css';
 
-export default function FeaturesSection() {
+
+
+import EditableField from '../components/EditableField';export default function FeaturesSection() {
   return (
     <section className="features-section">
       <div className="container text-center">
-        <h2 className="section-title">How It Works</h2>
+        <h2 className="section-title">{<EditableField contentKey="content_22" />}</h2>
         <div className="features-steps">
           <div className="feature-step">
             <div className="step-icon">📋</div>
-            <h4>View Characters</h4>
-            <p>Browse a growing list of Marvel heroes and villains, complete with images and powers.</p>
+            <h4>{<EditableField contentKey="content_23" />}</h4>
+            <p>{<EditableField contentKey="content_24" />}</p>
           </div>
           <div className="feature-step">
             <div className="step-icon">📝</div>
-            <h4>Edit Entries</h4>
-            <p>Update any character's name, alias, powers, or alignment with ease.</p>
+            <h4>{<EditableField contentKey="content_25" />}</h4>
+            <p>{<EditableField contentKey="content_26" />}</p>
           </div>
           <div className="feature-step">
             <div className="step-icon">➕</div>
-            <h4>Add Characters</h4>
-            <p>Add your favorite characters to the database and keep your list growing.</p>
+            <h4>{<EditableField contentKey="content_27" />}</h4>
+            <p>{<EditableField contentKey="content_28" />}</p>
           </div>
           <div className="feature-step">
-            <div className="step-icon">🗑️</div>
-            <h4>Delete with Confidence</h4>
-            <p>Remove characters with a confirmation prompt to avoid accidental deletions.</p>
+            <div className="step-icon">{<EditableField contentKey="content_29" />}</div>
+            <h4>{<EditableField contentKey="content_30" />}</h4>
+            <p>{<EditableField contentKey="content_31" />}</p>
           </div>
         </div>
       </div>

@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+
+
+import EditableImage from '../components/EditableImage';import EditableField from '../components/EditableField';import { useSearchParams } from 'react-router-dom';
 import CharacterList from '../components/CharacterList';
 import FilterBy from '../components/FilterBy';
 import ViewingOptions from '../components/ViewingOptions';
@@ -22,7 +24,7 @@ export default function Cards() {
   return (
     <div className="cards-page">
       <div className="container-fluid">
-        <h2 className="text-center text-white mb-4">Marvel Character Cards</h2>
+        <h2 className="text-center text-white mb-4">{<EditableField contentKey="content_97" />}</h2>
         <div className="row gx-4">
           <div className="col-md-3">
             <div className="filter-sidebar">

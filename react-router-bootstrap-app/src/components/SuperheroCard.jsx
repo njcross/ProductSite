@@ -1,5 +1,7 @@
 import React from 'react';
-import { Card, Button } from 'react-bootstrap';
+
+
+import EditableField from '../components/EditableField';import { Card, Button } from 'react-bootstrap';
 import { useUser } from '../context/UserContext';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
@@ -22,25 +24,30 @@ export default function SuperheroCard({ character, onEdit, onDelete }) {
   ${character.price.toFixed(2)}
 </Card.Text>
 
-          <div className="card-actions">
-            {(currentUser) && (
-            <Button onClick={(e) => {
-              e.stopPropagation();
-              addToCart(character);
-              navigate('/cart');
-            }}>
-              Add to Cart
-            </Button>
-            )}
-            {(currentUser?.role === 'admin') && (
-            <Button onClick={(e) => {
-              e.stopPropagation(); 
-              onDelete(character.id);
-            }} aria-label="Delete">
-              <i className="fas fa-trash-alt"></i>
-            </Button>
-            )}
-          </div>
+<div className="card-actions">
+  {currentUser && (
+    <Button onClick={(e) => {
+      e.stopPropagation();
+      addToCart(character);
+      navigate('/cart');
+    }}>
+      <EditableField contentKey="content_76" />
+    </Button>
+  )}
+
+  {currentUser?.role === 'admin' && (
+    <>
+      <Button onClick={(e) => {
+        e.stopPropagation();
+        onDelete(character.id);
+      }} aria-label="Delete">
+        <i className="fas fa-trash-alt"></i>
+      </Button>
+      <EditableField contentKey="content_12" />
+    </>
+  )}
+</div>
+
         
       </Card.Body>
     </Card>

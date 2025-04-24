@@ -392,6 +392,30 @@
         "documentation": {}
     },
     {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
         "label": "session",
         "importPath": "flask",
         "description": "flask",
@@ -425,6 +449,22 @@
     },
     {
         "label": "check_password_hash",
+        "importPath": "werkzeug.security",
+        "description": "werkzeug.security",
+        "isExtraImport": true,
+        "detail": "werkzeug.security",
+        "documentation": {}
+    },
+    {
+        "label": "check_password_hash",
+        "importPath": "werkzeug.security",
+        "description": "werkzeug.security",
+        "isExtraImport": true,
+        "detail": "werkzeug.security",
+        "documentation": {}
+    },
+    {
+        "label": "generate_password_hash",
         "importPath": "werkzeug.security",
         "description": "werkzeug.security",
         "isExtraImport": true,
@@ -841,6 +881,42 @@
         "description": "backend.app.routes.content_routes",
         "peekOfCode": "content_bp = Blueprint('content', __name__)\nfrom app.utils.decorators import admin_required\n@content_bp.route('/api/update-content', methods=['POST'])\n@admin_required\ndef update_content():\n    data = request.get_json()\n    if not data or \"field\" not in data or \"value\" not in data:\n        return jsonify({\"error\": \"Missing 'field' or 'value'\"}), 400\n    content_path = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public', 'content.json')\n    # Ensure file exists",
         "detail": "backend.app.routes.content_routes",
+        "documentation": {}
+    },
+    {
+        "label": "change_email",
+        "kind": 2,
+        "importPath": "backend.app.routes.user_settings_routes",
+        "description": "backend.app.routes.user_settings_routes",
+        "peekOfCode": "def change_email():\n    data = request.json\n    new_email = data.get('email')\n    password = data.get('password')\n    if not check_password_hash(mock_user['password_hash'], password):\n        return jsonify({\"message\": \"Incorrect password\"}), 401\n    mock_user['email'] = new_email\n    return jsonify({\"message\": \"Email updated successfully\"}), 200\n@user_settings_bp.route('/mock-change-password', methods=['POST'])\ndef change_password():",
+        "detail": "backend.app.routes.user_settings_routes",
+        "documentation": {}
+    },
+    {
+        "label": "change_password",
+        "kind": 2,
+        "importPath": "backend.app.routes.user_settings_routes",
+        "description": "backend.app.routes.user_settings_routes",
+        "peekOfCode": "def change_password():\n    data = request.json\n    current_password = data.get('currentPassword')\n    new_password = data.get('newPassword')\n    if not check_password_hash(mock_user['password_hash'], current_password):\n        return jsonify({\"message\": \"Incorrect current password\"}), 401\n    mock_user['password_hash'] = generate_password_hash(new_password)\n    return jsonify({\"message\": \"Password updated successfully\"}), 200",
+        "detail": "backend.app.routes.user_settings_routes",
+        "documentation": {}
+    },
+    {
+        "label": "user_settings_bp",
+        "kind": 5,
+        "importPath": "backend.app.routes.user_settings_routes",
+        "description": "backend.app.routes.user_settings_routes",
+        "peekOfCode": "user_settings_bp = Blueprint('user_settings', __name__)\n# Mock user data (in real applications, use your database instead)\nmock_user = {\n    \"email\": \"admin@example.com\",\n    \"password_hash\": generate_password_hash(\"admin123\")  # hashed \"admin123\"\n}\n@user_settings_bp.route('/mock-change-email', methods=['POST'])\ndef change_email():\n    data = request.json\n    new_email = data.get('email')",
+        "detail": "backend.app.routes.user_settings_routes",
+        "documentation": {}
+    },
+    {
+        "label": "mock_user",
+        "kind": 5,
+        "importPath": "backend.app.routes.user_settings_routes",
+        "description": "backend.app.routes.user_settings_routes",
+        "peekOfCode": "mock_user = {\n    \"email\": \"admin@example.com\",\n    \"password_hash\": generate_password_hash(\"admin123\")  # hashed \"admin123\"\n}\n@user_settings_bp.route('/mock-change-email', methods=['POST'])\ndef change_email():\n    data = request.json\n    new_email = data.get('email')\n    password = data.get('password')\n    if not check_password_hash(mock_user['password_hash'], password):",
+        "detail": "backend.app.routes.user_settings_routes",
         "documentation": {}
     },
     {

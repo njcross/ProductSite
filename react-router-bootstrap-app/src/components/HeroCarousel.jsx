@@ -1,6 +1,8 @@
 // src/components/HeroCarousel.jsx
 import React from 'react';
-import { Carousel } from 'react-responsive-carousel';
+
+
+import EditableField from '../components/EditableField';import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './HeroCarousel.css'; // Keep using your existing custom styles
 
@@ -21,20 +23,20 @@ const HeroCarousel = () => {
       >
         <div className="hero-slide slide-1">
           <div className="slide-content">
-            <h1>Welcome to AllyShop</h1>
-            <p>Discover the latest Marvel characters and their stories.</p>
+            <h1>{<EditableField contentKey="content_59" />}</h1>
+            <p>{<EditableField contentKey="content_60" />}</p>
           </div>
         </div>
         <div className="hero-slide slide-2">
           <div className="slide-content">
-            <h1>Manage Your Favorites</h1>
-            <p>Edit, add, or remove characters with ease.</p>
+            <h1>{<EditableField contentKey="content_61" />}</h1>
+            <p>{<EditableField contentKey="content_62" />}</p>
           </div>
         </div>
         <div className="hero-slide slide-3">
           <div className="slide-content">
-            <h1>Stay Updated</h1>
-            <p>Keep track of new additions to the Marvel universe.</p>
+            <h1>{<EditableField contentKey="content_63" />}</h1>
+            <p>{<EditableField contentKey="content_64" />}</p>
           </div>
         </div>
       </Carousel>
