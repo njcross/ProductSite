@@ -1,7 +1,7 @@
 /* CharacterForm.css */
 
 .character-form-wrapper {
-  background: #0d0d0d url('https://www.transparenttextures.com/patterns/black-linen.png');
+  background-color: var(--bg-main);
   background-size: auto;
   padding: 4rem 1rem;
   display: flex;
@@ -11,12 +11,12 @@
 
 
 .character-form {
-  background: #1e1e2f;
+  background-color: var(--bg-main);
   color: var(--color-text);
   padding: 2.5rem;
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  border: 1px solid #e94560;
+  border: 1px solid var(--color-primary);
   width: 100%;
   max-width: 600px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -26,15 +26,15 @@
 .character-form label {
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #e94560;
+  color: var(--color-accent);
 }
 
 .character-form input,
 .character-form select {
-  background-color: #2d2d44;
-  border: 1px solid #e94560;
-  color: var(--color-text);
-  padding: 0.6rem 1rem;
+  background-color: var(--bg-main);
+  border: 1px solid var(--color-primary);
+  color: var(--color-link);
+  padding: var(--padding-full-btn);
   border-radius: var(--radius-sm);
   transition: border-color 0.3s, box-shadow 0.3s;
 }
@@ -47,10 +47,10 @@
 }
 
 .character-form .btn {
-  background-color: #e94560;
+  background-color: var(--bg-action-item);
   border: none;
   font-weight: bold;
-  padding: 0.6rem 1.5rem;
+  padding: var(--padding-full-btn);
   border-radius: var(--radius-sm);
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
@@ -80,7 +80,7 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh; /* full viewport height */
-  background-color: #0f0f0f; /* or whatever background you want */
+  background-color: var(--bg-main); /* or whatever background you want */
   padding: var(--spacing-lg);
 }
 

@@ -1,0 +1,99 @@
+.kits-landing-page {
+    background-color: var(--bg-alt);
+    color: var(--color-text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .hero-banner {
+    background: url(../../public/images/hero.png) no-repeat right center;
+    background-size: contain;
+  background-color: var(--bg-main);
+  color: var(--color-white);
+  width: 100%;
+  min-height: 500px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 4rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  }
+  @media (max-width: 768px) {
+    .hero-banner {
+      background-position: left bottom;
+      background-size: contain;
+      align-items: left;
+      text-align: left;
+    }
+  }
+  
+  .works-cta {
+    text-align: center;
+    z-index: 1;
+    position: relative;
+  }
+  
+  .hero-cta {
+    background-color: var(--bg-main); /* same as hero background */
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: -2rem; /* pull it up closer to hero */
+    z-index: 1;
+    position: relative;
+  }
+  
+  .browse-btn {
+    font-weight: bold;
+    font-size: 1.25rem;
+    padding: var(--padding-full-btn);
+    border-radius: 999px;
+    background-color: var(--color-primary);
+    border: none;
+  }
+  
+  .browse-btn:hover {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+  }
+  
+  
+  .steps-section .step-img {
+    margin-bottom: 1rem;
+  }
+  
+  .kits-grid h2 {
+    font-weight: bold;
+    color: var(--color-heading);
+  }
+  
+  .kit-card {
+    background-color: var(--bg-card);
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+  }
+  
+  .kit-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .kit-image {
+    height: 160px;
+    object-fit: contain;
+    padding: 1rem;
+    background-color: var(--bg-alt);
+  }
+
+  .kits-grid {
+    padding: 0 1rem; /* horizontal padding for all screens */
+  }
+
+  @media (max-width: 576px) {
+    .kits-grid {
+      padding: 0 .5rem;
+    }
+  }
+
+  

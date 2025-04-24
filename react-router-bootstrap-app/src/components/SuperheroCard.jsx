@@ -23,9 +23,6 @@ export default function SuperheroCard({ character, onEdit, onDelete }) {
 </Card.Text>
 
           <div className="card-actions">
-            <Button onClick={() => onEdit(character)} aria-label="Edit">
-              <i className="fas fa-wrench"></i>
-            </Button>
             {(currentUser) && (
             <Button onClick={(e) => {
               e.stopPropagation();

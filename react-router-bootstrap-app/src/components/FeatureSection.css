@@ -7,7 +7,7 @@
 
 .section-title {
   font-size: 2.5rem;
-  color: var(--color-primary);
+  color: var(--color-heading);
   margin-bottom: 3rem;
   text-shadow: 1px 1px var(--color-text-dark);
 }
@@ -20,8 +20,8 @@
 }
 
 .feature-step {
-  background-color: var(--bg-highlight);
-  border: 1px solid var(--color-primary);
+  background-color: var(--bg-main);
+  border: var(--color-primary);
   border-radius: var(--radius-md);
   padding: var(--spacing-lg);
   width: 280px;
@@ -37,17 +37,17 @@
 .step-icon {
   font-size: 2.5rem;
   margin-bottom: var(--spacing-md);
-  color: var(--color-primary);
+  color: var(--color-text);
 }
 
 .feature-step h4 {
   font-size: 1.3rem;
   margin-bottom: 0.5rem;
-  color: var(--color-text);
+  color: var(--color-link);
 }
 
 .feature-step p {
-  color: #ccc;
+  color: var(--color-link);
   font-size: var(--font-size-base);
 }
 @media (max-width: 576px) {

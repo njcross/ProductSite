@@ -62,7 +62,7 @@
   width: 100%;
   max-width: 1000px;
   margin: 0 auto 1.5rem auto;
-  background-color: #1e2a3b;
+  background-color: var(--bg-main);
   border-radius: var(--radius-md);
   overflow: hidden;
   min-height: 160px; /* 👈 keeps it shorter and wider */

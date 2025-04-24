@@ -1,7 +1,7 @@
 .about-page {
-  background-color: var(--bg-alt);
+  background-color: var(--bg-main);
   min-height: 100vh;
-  color: white;
+  color: var(--color-text);
   border-top: 3px solid var(--color-primary);
   padding-top: 20px;
   padding-left: 1rem;
@@ -11,7 +11,7 @@
 .about-page h1 {
   font-size: 2.5rem;
   font-weight: bold;
-  color: var(--color-primary);
+  color: var(--color-heading);
 }
 
 .about-page p {
@@ -25,8 +25,10 @@
 .author-section a {
   text-decoration: none;
   font-weight: bold;
-  color: var(--color-primary);
+  color: var(--color-text);
   transition: color 0.3s ease-in-out;
+  background-color: var(--bg-action-item);
+
 }
 
 .author-section a:hover {

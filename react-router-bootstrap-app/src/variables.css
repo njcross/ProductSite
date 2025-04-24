@@ -1,25 +1,29 @@
 :root {
   /* Primary Colors */
-  --color-primary: #ed1d24;
+  --color-primary: #ef3e3e;
   --color-primary-dark: #b71c1c;
   --color-secondary: #1b1b1b;
-  --color-accent: #ff3b57;
+  --color-accent: #FEC632;
+  --color-heading: #ef3e3e;  
 
   /* Text Colors */
-  --color-text: #ffffff;
+  --color-text: #222222;
   --color-text-muted: #cccccc;
   --color-text-dark: #1a1a1a;
-  --color-link: #1e90ff;
+  --color-link: #222222;
+  --color-white: #FFFFFF; 
 
   /* Background Colors */
-  --bg-main: #121212;
-  --bg-alt: #1a1a1a;
-  --bg-card: #1f1f1f;
-  --bg-highlight: #252525;
+  --bg-main: #4d9de0;
+  --bg-alt: #FFFFFF;
+  --bg-card: #4d9de0;
+  --bg-highlight: #fec632;
+  --color-success: #4CAF50; 
+  --bg-action-item: #FEC632;
 
   /* Border Colors */
-  --border-color: #444444;
-  --border-color-light: #666666;
+  --border-color: #222222;
+  --border-color-light: #222222;
 
   /* Shadows */
   --box-shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -54,4 +58,17 @@
   --z-header: 1000;
   --z-modal: 1050;
   --z-dropdown: 1100;
+
+  /* padding and margin */
+  --padding-xs: 0.25rem;  
+  --padding-sm: 0.5rem;
+  --padding-md: 1rem;
+  --padding-lg: 2rem;
+
+  --padding-full-btn: 0.5rem 1rem;
+
+  --margin-xs: 0.25rem;
+  --margin-sm: 0.5rem;
+  --margin-md: 1rem;
+  --margin-lg: 2rem;
 }

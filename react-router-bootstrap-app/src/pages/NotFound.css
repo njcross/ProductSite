@@ -1,5 +1,5 @@
 .not-found-page {
-  background-color: #1a1a1a;
+  background-color: var(--bg-main);
   color: var(--color-text);
   min-height: 100vh;
   display: flex;
@@ -16,20 +16,20 @@
 
 .not-found-page h1 {
   font-size: 6rem;
-  color: var(--color-primary);
+  color: var(--color-header);
   text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
 }
 
 .not-found-page p {
   font-size: var(--font-size-lg);
-  color: #ccc;
+  color: var(--color-text);
   margin-bottom: var(--spacing-lg);
 }
 
 .not-found-page .btn-primary {
-  background-color: var(--color-primary);
+  background-color: var(--bg-action-item);
   border: none;
-  padding: 0.75rem 1.5rem;
+  padding: var(--padding-full-btn);
   font-weight: bold;
   border-radius: var(--radius-sm);
   transition: background-color 0.3s ease;

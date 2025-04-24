@@ -7,12 +7,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--color-text-dark);
+  color: var(--color-text);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .register-card {
-  background: var(--bg-alt);
+  background-color: var(--bg-main);
   padding: 2.5rem 2rem;
   border-radius: var(--radius-md);
   max-width: 500px;
@@ -22,7 +22,7 @@
 }
 
 .register-card h2 {
-  color: var(--color-primary);
+  color: var(--color-text);
   margin-bottom: var(--spacing-lg);
   text-align: center;
   font-size: 2rem;
@@ -33,7 +33,7 @@
 }
 
 .register-form label {
-  color: #f1f1f1; /* Bright enough for dark background */
+  color: var(--color-accent);
   font-weight: 600;
   margin-bottom: 0.25rem;
   display: inline-block;
@@ -42,8 +42,8 @@
 
 .register-form input {
   background-color: var(--color-accent);
-  border: 1px solid var(--color-primary);
-  color: var(--color-text-dark);
+  border: var(--border-color);
+  color: var(--color-text);
   padding: var(--spacing-sm);
   border-radius: var(--radius-sm);
   width: 100%;
@@ -51,24 +51,24 @@
 }
 
 .register-form input::placeholder {
-  color: #ccc;
+  color: var(--color-text);
   opacity: 1;
 }
 
 .register-form input:focus {
-  border-color: var(--color-accent);
+  boarder-color: var(--color-accent);
   box-shadow: 0 0 6px rgba(255, 46, 99, 0.5);
   outline: none;
 }
 
 .register-btn {
-  background-color: var(--color-primary);
+  background-color: var(--bg-action-item);
   border: none;
   width: 100%;
   padding: 0.75rem;
   font-weight: bold;
   border-radius: var(--radius-sm);
-  color: white;
+  color: var(--color-link);
   transition: background-color 0.3s ease;
   font-size: var(--font-size-base);
   margin-top: 1rem;

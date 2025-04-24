@@ -1,0 +1,1000 @@
+[
+    {
+        "label": "Integer",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "ForeignKey",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "String",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Integer",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Enum",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Text",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Float",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "String",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Integer",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Enum",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "select",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "select",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "or_",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "relationship",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
+        "label": "Mapped",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
+        "label": "mapped_column",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
+        "label": "relationship",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
+        "label": "Mapped",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
+        "label": "mapped_column",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
+        "label": "Mapped",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
+        "label": "mapped_column",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "app",
+        "description": "app",
+        "isExtraImport": true,
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "app",
+        "description": "app",
+        "isExtraImport": true,
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "app",
+        "description": "app",
+        "isExtraImport": true,
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "app",
+        "description": "app",
+        "isExtraImport": true,
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "app",
+        "description": "app",
+        "isExtraImport": true,
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "app",
+        "description": "app",
+        "isExtraImport": true,
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "create_app",
+        "importPath": "app",
+        "description": "app",
+        "isExtraImport": true,
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "Character",
+        "importPath": "app.models.character",
+        "description": "app.models.character",
+        "isExtraImport": true,
+        "detail": "app.models.character",
+        "documentation": {}
+    },
+    {
+        "label": "Character",
+        "importPath": "app.models.character",
+        "description": "app.models.character",
+        "isExtraImport": true,
+        "detail": "app.models.character",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "app.models.user",
+        "description": "app.models.user",
+        "isExtraImport": true,
+        "detail": "app.models.user",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "app.models.user",
+        "description": "app.models.user",
+        "isExtraImport": true,
+        "detail": "app.models.user",
+        "documentation": {}
+    },
+    {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "session",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "session",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "session",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "current_app",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "send_from_directory",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "session",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "generate_password_hash",
+        "importPath": "werkzeug.security",
+        "description": "werkzeug.security",
+        "isExtraImport": true,
+        "detail": "werkzeug.security",
+        "documentation": {}
+    },
+    {
+        "label": "check_password_hash",
+        "importPath": "werkzeug.security",
+        "description": "werkzeug.security",
+        "isExtraImport": true,
+        "detail": "werkzeug.security",
+        "documentation": {}
+    },
+    {
+        "label": "user_schema",
+        "importPath": "app.schemas.user_schema",
+        "description": "app.schemas.user_schema",
+        "isExtraImport": true,
+        "detail": "app.schemas.user_schema",
+        "documentation": {}
+    },
+    {
+        "label": "UserSchema",
+        "importPath": "app.schemas.user_schema",
+        "description": "app.schemas.user_schema",
+        "isExtraImport": true,
+        "detail": "app.schemas.user_schema",
+        "documentation": {}
+    },
+    {
+        "label": "CartItem",
+        "importPath": "app.models.cart_item",
+        "description": "app.models.cart_item",
+        "isExtraImport": true,
+        "detail": "app.models.cart_item",
+        "documentation": {}
+    },
+    {
+        "label": "CartSchema",
+        "importPath": "app.schemas.cart_schema",
+        "description": "app.schemas.cart_schema",
+        "isExtraImport": true,
+        "detail": "app.schemas.cart_schema",
+        "documentation": {}
+    },
+    {
+        "label": "login_required",
+        "importPath": "app.utils.decorators",
+        "description": "app.utils.decorators",
+        "isExtraImport": true,
+        "detail": "app.utils.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "login_required",
+        "importPath": "app.utils.decorators",
+        "description": "app.utils.decorators",
+        "isExtraImport": true,
+        "detail": "app.utils.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "admin_required",
+        "importPath": "app.utils.decorators",
+        "description": "app.utils.decorators",
+        "isExtraImport": true,
+        "detail": "app.utils.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "character_schema",
+        "importPath": "app.schemas.character_schema",
+        "description": "app.schemas.character_schema",
+        "isExtraImport": true,
+        "detail": "app.schemas.character_schema",
+        "documentation": {}
+    },
+    {
+        "label": "characters_schema",
+        "importPath": "app.schemas.character_schema",
+        "description": "app.schemas.character_schema",
+        "isExtraImport": true,
+        "detail": "app.schemas.character_schema",
+        "documentation": {}
+    },
+    {
+        "label": "CharacterSchema",
+        "importPath": "app.schemas.character_schema",
+        "description": "app.schemas.character_schema",
+        "isExtraImport": true,
+        "detail": "app.schemas.character_schema",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "secure_filename",
+        "importPath": "werkzeug.utils",
+        "description": "werkzeug.utils",
+        "isExtraImport": true,
+        "detail": "werkzeug.utils",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "wraps",
+        "importPath": "functools",
+        "description": "functools",
+        "isExtraImport": true,
+        "detail": "functools",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "CartItem",
+        "kind": 6,
+        "importPath": "backend.app.models.cart_item",
+        "description": "backend.app.models.cart_item",
+        "peekOfCode": "class CartItem(db.Model):\n    __tablename__ = \"cart_items\"\n    id: Mapped[int] = mapped_column(Integer, primary_key=True)\n    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), nullable=False)\n    character_id: Mapped[int] = mapped_column(ForeignKey('characters.id'), nullable=False)\n    quantity: Mapped[int] = mapped_column(Integer, default=1)\n    user = relationship(\"User\")\n    character = relationship(\"Character\")",
+        "detail": "backend.app.models.cart_item",
+        "documentation": {}
+    },
+    {
+        "label": "Character",
+        "kind": 6,
+        "importPath": "backend.app.models.character",
+        "description": "backend.app.models.character",
+        "peekOfCode": "class Character(db.Model):\n    __tablename__ = \"characters\"\n    id: Mapped[int] = mapped_column(Integer, primary_key=True)\n    name: Mapped[str] = mapped_column(String(100), nullable=False)\n    alias: Mapped[str] = mapped_column(String(100), nullable=False)\n    alignment: Mapped[str] = mapped_column(Enum('hero', 'villain', name='alignment_enum'), nullable=False)\n    powers: Mapped[str] = mapped_column(Text, nullable=False)\n    image_url: Mapped[str] = mapped_column(String(255), nullable=False)\n    price: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)",
+        "detail": "backend.app.models.character",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "kind": 6,
+        "importPath": "backend.app.models.user",
+        "description": "backend.app.models.user",
+        "peekOfCode": "class User(db.Model):\n    __tablename__ = \"users\"\n    id: Mapped[int] = mapped_column(Integer, primary_key=True)\n    username: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)\n    email: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)\n    password: Mapped[str] = mapped_column(String(255), nullable=False)\n    role: Mapped[str] = mapped_column(Enum('admin', 'customer', name='role_enum'), nullable=False)",
+        "detail": "backend.app.models.user",
+        "documentation": {}
+    },
+    {
+        "label": "register",
+        "kind": 2,
+        "importPath": "backend.app.routes.auth_routes",
+        "description": "backend.app.routes.auth_routes",
+        "peekOfCode": "def register():\n    try:\n        data = request.json\n        data['role']='customer'\n        user_data = user_schema.load(data)\n        user = User(\n            username=user_data['username'],\n            email=user_data['email'],\n            password=generate_password_hash(user_data['password']),\n            role='customer'",
+        "detail": "backend.app.routes.auth_routes",
+        "documentation": {}
+    },
+    {
+        "label": "login",
+        "kind": 2,
+        "importPath": "backend.app.routes.auth_routes",
+        "description": "backend.app.routes.auth_routes",
+        "peekOfCode": "def login():\n    data = request.json\n    user = db.session.execute(select(User).where(User.username == data['username'])).scalar_one_or_none()\n    if not user or not check_password_hash(user.password, data['password']):\n        return jsonify({\"message\": \"Invalid credentials\"}), 401\n    session['user_id'] = user.id\n    session.permanent = True\n    return jsonify({\n        \"message\": \"Login successful\",\n        \"user\": {\"username\": user.username, \"email\": user.email, \"role\": user.role}",
+        "detail": "backend.app.routes.auth_routes",
+        "documentation": {}
+    },
+    {
+        "label": "check_login",
+        "kind": 2,
+        "importPath": "backend.app.routes.auth_routes",
+        "description": "backend.app.routes.auth_routes",
+        "peekOfCode": "def check_login():\n    user_id = session.get('user_id')\n    if not user_id:\n        return jsonify({\"loggedIn\": False})\n    user = db.session.get(User, user_id)\n    return jsonify({\"loggedIn\": True, \"user\": user_schema.dump(user)})\n@auth_bp.route('/logout', methods=['POST'])\ndef logout():\n    session.pop('user_id', None)\n    return jsonify({\"message\": \"Logged out\"})",
+        "detail": "backend.app.routes.auth_routes",
+        "documentation": {}
+    },
+    {
+        "label": "logout",
+        "kind": 2,
+        "importPath": "backend.app.routes.auth_routes",
+        "description": "backend.app.routes.auth_routes",
+        "peekOfCode": "def logout():\n    session.pop('user_id', None)\n    return jsonify({\"message\": \"Logged out\"})",
+        "detail": "backend.app.routes.auth_routes",
+        "documentation": {}
+    },
+    {
+        "label": "auth_bp",
+        "kind": 5,
+        "importPath": "backend.app.routes.auth_routes",
+        "description": "backend.app.routes.auth_routes",
+        "peekOfCode": "auth_bp = Blueprint('auth', __name__)\nuser_schema = UserSchema()\n@auth_bp.route('/register', methods=['POST'])\ndef register():\n    try:\n        data = request.json\n        data['role']='customer'\n        user_data = user_schema.load(data)\n        user = User(\n            username=user_data['username'],",
+        "detail": "backend.app.routes.auth_routes",
+        "documentation": {}
+    },
+    {
+        "label": "user_schema",
+        "kind": 5,
+        "importPath": "backend.app.routes.auth_routes",
+        "description": "backend.app.routes.auth_routes",
+        "peekOfCode": "user_schema = UserSchema()\n@auth_bp.route('/register', methods=['POST'])\ndef register():\n    try:\n        data = request.json\n        data['role']='customer'\n        user_data = user_schema.load(data)\n        user = User(\n            username=user_data['username'],\n            email=user_data['email'],",
+        "detail": "backend.app.routes.auth_routes",
+        "documentation": {}
+    },
+    {
+        "label": "get_cart",
+        "kind": 2,
+        "importPath": "backend.app.routes.cart_routes",
+        "description": "backend.app.routes.cart_routes",
+        "peekOfCode": "def get_cart():\n    user_id = session['user_id']\n    items = db.session.query(CartItem).filter_by(user_id=user_id).all()\n    return jsonify(carts_schema.dump(items)), 200\n@cart_bp.route('/cart', methods=['POST'])\n@login_required\ndef add_to_cart():\n    data = request.json\n    user_id = session['user_id']\n    item = db.session.query(CartItem).filter_by(user_id=user_id, character_id=data['character_id']).first()",
+        "detail": "backend.app.routes.cart_routes",
+        "documentation": {}
+    },
+    {
+        "label": "add_to_cart",
+        "kind": 2,
+        "importPath": "backend.app.routes.cart_routes",
+        "description": "backend.app.routes.cart_routes",
+        "peekOfCode": "def add_to_cart():\n    data = request.json\n    user_id = session['user_id']\n    item = db.session.query(CartItem).filter_by(user_id=user_id, character_id=data['character_id']).first()\n    if item:\n        item.quantity += data.get('quantity', 1)\n    else:\n        item = CartItem(user_id=user_id, character_id=data['character_id'], quantity=data.get('quantity', 1))\n        db.session.add(item)\n    db.session.commit()",
+        "detail": "backend.app.routes.cart_routes",
+        "documentation": {}
+    },
+    {
+        "label": "update_cart",
+        "kind": 2,
+        "importPath": "backend.app.routes.cart_routes",
+        "description": "backend.app.routes.cart_routes",
+        "peekOfCode": "def update_cart(item_id):\n    data = request.json\n    item = db.session.get(CartItem, item_id)\n    if item:\n        item.quantity = data['quantity']\n        db.session.commit()\n        return jsonify({\"message\": \"Updated\"}), 200\n    return jsonify({\"message\": \"Not found\"}), 404\n@cart_bp.route('/cart/<int:item_id>', methods=['DELETE'])\n@login_required",
+        "detail": "backend.app.routes.cart_routes",
+        "documentation": {}
+    },
+    {
+        "label": "delete_cart",
+        "kind": 2,
+        "importPath": "backend.app.routes.cart_routes",
+        "description": "backend.app.routes.cart_routes",
+        "peekOfCode": "def delete_cart(item_id):\n    item = db.session.get(CartItem, item_id)\n    if item:\n        db.session.delete(item)\n        db.session.commit()\n        return jsonify({\"message\": \"Deleted\"}), 200\n    return jsonify({\"message\": \"Not found\"}), 404",
+        "detail": "backend.app.routes.cart_routes",
+        "documentation": {}
+    },
+    {
+        "label": "cart_bp",
+        "kind": 5,
+        "importPath": "backend.app.routes.cart_routes",
+        "description": "backend.app.routes.cart_routes",
+        "peekOfCode": "cart_bp = Blueprint('cart', __name__)\ncart_schema = CartSchema()\ncarts_schema = CartSchema(many=True)\n@cart_bp.route('/cart', methods=['GET'])\n@login_required\ndef get_cart():\n    user_id = session['user_id']\n    items = db.session.query(CartItem).filter_by(user_id=user_id).all()\n    return jsonify(carts_schema.dump(items)), 200\n@cart_bp.route('/cart', methods=['POST'])",
+        "detail": "backend.app.routes.cart_routes",
+        "documentation": {}
+    },
+    {
+        "label": "cart_schema",
+        "kind": 5,
+        "importPath": "backend.app.routes.cart_routes",
+        "description": "backend.app.routes.cart_routes",
+        "peekOfCode": "cart_schema = CartSchema()\ncarts_schema = CartSchema(many=True)\n@cart_bp.route('/cart', methods=['GET'])\n@login_required\ndef get_cart():\n    user_id = session['user_id']\n    items = db.session.query(CartItem).filter_by(user_id=user_id).all()\n    return jsonify(carts_schema.dump(items)), 200\n@cart_bp.route('/cart', methods=['POST'])\n@login_required",
+        "detail": "backend.app.routes.cart_routes",
+        "documentation": {}
+    },
+    {
+        "label": "carts_schema",
+        "kind": 5,
+        "importPath": "backend.app.routes.cart_routes",
+        "description": "backend.app.routes.cart_routes",
+        "peekOfCode": "carts_schema = CartSchema(many=True)\n@cart_bp.route('/cart', methods=['GET'])\n@login_required\ndef get_cart():\n    user_id = session['user_id']\n    items = db.session.query(CartItem).filter_by(user_id=user_id).all()\n    return jsonify(carts_schema.dump(items)), 200\n@cart_bp.route('/cart', methods=['POST'])\n@login_required\ndef add_to_cart():",
+        "detail": "backend.app.routes.cart_routes",
+        "documentation": {}
+    },
+    {
+        "label": "get_characters",
+        "kind": 2,
+        "importPath": "backend.app.routes.character_routes",
+        "description": "backend.app.routes.character_routes",
+        "peekOfCode": "def get_characters():\n    sort_by = request.args.get(\"sortBy\", \"name\")\n    search = request.args.get(\"search\", \"\")\n    page = int(request.args.get(\"page\", 1))\n    per_page = int(request.args.get(\"perPage\", 12))\n    query = select(Character)\n    if search:\n        like_term = f\"%{search}%\"\n        query = query.where(\n            or_(",
+        "detail": "backend.app.routes.character_routes",
+        "documentation": {}
+    },
+    {
+        "label": "get_character",
+        "kind": 2,
+        "importPath": "backend.app.routes.character_routes",
+        "description": "backend.app.routes.character_routes",
+        "peekOfCode": "def get_character(id):\n    character = db.session.get(Character, id)\n    if not character:\n        return jsonify({\"message\": \"Character not found\"}), 404\n    return jsonify(character_schema.dump(character)), 200\n@character_bp.route(\"\", methods=[\"POST\"])\n@login_required\ndef create_character():\n    data = request.get_json()\n    try:",
+        "detail": "backend.app.routes.character_routes",
+        "documentation": {}
+    },
+    {
+        "label": "create_character",
+        "kind": 2,
+        "importPath": "backend.app.routes.character_routes",
+        "description": "backend.app.routes.character_routes",
+        "peekOfCode": "def create_character():\n    data = request.get_json()\n    try:\n        new_character = character_schema.load(data)\n        character = Character(**new_character)\n        db.session.add(character)\n        db.session.commit()\n        return jsonify(character_schema.dump(character)), 201\n    except Exception as e:\n        return jsonify({\"message\": \"Error creating character\", \"error\": str(e)}), 400",
+        "detail": "backend.app.routes.character_routes",
+        "documentation": {}
+    },
+    {
+        "label": "update_character",
+        "kind": 2,
+        "importPath": "backend.app.routes.character_routes",
+        "description": "backend.app.routes.character_routes",
+        "peekOfCode": "def update_character(id):\n    character = db.session.get(Character, id)\n    if not character:\n        return jsonify({\"message\": \"Character not found\"}), 404\n    data = request.get_json()\n    try:\n        updates = character_schema.load(data)\n        for key, value in updates.items():\n            setattr(character, key, value)\n        db.session.commit()",
+        "detail": "backend.app.routes.character_routes",
+        "documentation": {}
+    },
+    {
+        "label": "delete_character",
+        "kind": 2,
+        "importPath": "backend.app.routes.character_routes",
+        "description": "backend.app.routes.character_routes",
+        "peekOfCode": "def delete_character(id):\n    character = db.session.get(Character, id)\n    if not character:\n        return jsonify({\"message\": \"Character not found\"}), 404\n    db.session.delete(character)\n    db.session.commit()\n    return jsonify({\"message\": \"Character deleted\"}), 200",
+        "detail": "backend.app.routes.character_routes",
+        "documentation": {}
+    },
+    {
+        "label": "character_bp",
+        "kind": 5,
+        "importPath": "backend.app.routes.character_routes",
+        "description": "backend.app.routes.character_routes",
+        "peekOfCode": "character_bp = Blueprint(\"characters\", __name__, url_prefix=\"/characters\")\n@character_bp.route(\"\", methods=[\"GET\"])\ndef get_characters():\n    sort_by = request.args.get(\"sortBy\", \"name\")\n    search = request.args.get(\"search\", \"\")\n    page = int(request.args.get(\"page\", 1))\n    per_page = int(request.args.get(\"perPage\", 12))\n    query = select(Character)\n    if search:\n        like_term = f\"%{search}%\"",
+        "detail": "backend.app.routes.character_routes",
+        "documentation": {}
+    },
+    {
+        "label": "is_admin",
+        "kind": 2,
+        "importPath": "backend.app.routes.content_routes",
+        "description": "backend.app.routes.content_routes",
+        "peekOfCode": "def is_admin():\n    return request.headers.get(\"X-Admin\") == \"true\"\n@content_bp.route('/api/update-content', methods=['POST'])\n@admin_required\ndef update_content():\n    return jsonify({\"error\": \"Unauthorized\"}), 403\n    data = request.get_json()\n    if not data or \"field\" not in data or \"value\" not in data:\n        return jsonify({\"error\": \"Missing 'field' or 'value'\"}), 400\n    content_path = os.path.join(current_app.root_path, 'static', 'content.json')",
+        "detail": "backend.app.routes.content_routes",
+        "documentation": {}
+    },
+    {
+        "label": "update_content",
+        "kind": 2,
+        "importPath": "backend.app.routes.content_routes",
+        "description": "backend.app.routes.content_routes",
+        "peekOfCode": "def update_content():\n    return jsonify({\"error\": \"Unauthorized\"}), 403\n    data = request.get_json()\n    if not data or \"field\" not in data or \"value\" not in data:\n        return jsonify({\"error\": \"Missing 'field' or 'value'\"}), 400\n    content_path = os.path.join(current_app.root_path, 'static', 'content.json')\n    # Ensure file exists\n    if not os.path.exists(content_path):\n        with open(content_path, 'w') as f:\n            json.dump({}, f)",
+        "detail": "backend.app.routes.content_routes",
+        "documentation": {}
+    },
+    {
+        "label": "upload_image",
+        "kind": 2,
+        "importPath": "backend.app.routes.content_routes",
+        "description": "backend.app.routes.content_routes",
+        "peekOfCode": "def upload_image():\n    if 'image' not in request.files:\n        return jsonify({\"error\": \"No file provided\"}), 400\n    file = request.files['image']\n    if file.filename == '':\n        return jsonify({\"error\": \"Empty filename\"}), 400\n    from flask import current_app\n    upload_folder = os.path.join(current_app.root_path, 'static', 'uploads')\n    os.makedirs(upload_folder, exist_ok=True)\n    filename = secure_filename(file.filename)",
+        "detail": "backend.app.routes.content_routes",
+        "documentation": {}
+    },
+    {
+        "label": "content_preview",
+        "kind": 2,
+        "importPath": "backend.app.routes.content_routes",
+        "description": "backend.app.routes.content_routes",
+        "peekOfCode": "def content_preview():\n    content_path = os.path.join(current_app.root_path, 'static', 'content.json')\n    if not os.path.exists(content_path):\n        return jsonify({})\n    with open(content_path, 'r') as f:\n        content = json.load(f)\n    return jsonify(content)",
+        "detail": "backend.app.routes.content_routes",
+        "documentation": {}
+    },
+    {
+        "label": "content_bp",
+        "kind": 5,
+        "importPath": "backend.app.routes.content_routes",
+        "description": "backend.app.routes.content_routes",
+        "peekOfCode": "content_bp = Blueprint('content_routes', __name__)\nfrom app.utils.decorators import admin_required\ndef is_admin():\n    return request.headers.get(\"X-Admin\") == \"true\"\n@content_bp.route('/api/update-content', methods=['POST'])\n@admin_required\ndef update_content():\n    return jsonify({\"error\": \"Unauthorized\"}), 403\n    data = request.get_json()\n    if not data or \"field\" not in data or \"value\" not in data:",
+        "detail": "backend.app.routes.content_routes",
+        "documentation": {}
+    },
+    {
+        "label": "CartSchema",
+        "kind": 6,
+        "importPath": "backend.app.schemas.cart_schema",
+        "description": "backend.app.schemas.cart_schema",
+        "peekOfCode": "class CartSchema(Schema):\n    id = fields.Int(dump_only=True)\n    user_id = fields.Int(required=True)\n    character_id = fields.Int(required=True)\n    quantity = fields.Int(required=True)\n    character = fields.Nested(CharacterSchema, dump_only=True)\ncart_schema = CartSchema()\ncarts_schema = CartSchema(many=True)",
+        "detail": "backend.app.schemas.cart_schema",
+        "documentation": {}
+    },
+    {
+        "label": "cart_schema",
+        "kind": 5,
+        "importPath": "backend.app.schemas.cart_schema",
+        "description": "backend.app.schemas.cart_schema",
+        "peekOfCode": "cart_schema = CartSchema()\ncarts_schema = CartSchema(many=True)",
+        "detail": "backend.app.schemas.cart_schema",
+        "documentation": {}
+    },
+    {
+        "label": "carts_schema",
+        "kind": 5,
+        "importPath": "backend.app.schemas.cart_schema",
+        "description": "backend.app.schemas.cart_schema",
+        "peekOfCode": "carts_schema = CartSchema(many=True)",
+        "detail": "backend.app.schemas.cart_schema",
+        "documentation": {}
+    },
+    {
+        "label": "CharacterSchema",
+        "kind": 6,
+        "importPath": "backend.app.schemas.character_schema",
+        "description": "backend.app.schemas.character_schema",
+        "peekOfCode": "class CharacterSchema(Schema):\n    id = fields.Int()\n    name = fields.Str(required=True)\n    alias = fields.Str(required=True)\n    alignment = fields.Str(required=True)\n    powers = fields.Str(required=True)\n    image_url = fields.Str(required=True)\n    price = fields.Float(required=True)\ncharacter_schema = CharacterSchema()\ncharacters_schema = CharacterSchema(many=True)",
+        "detail": "backend.app.schemas.character_schema",
+        "documentation": {}
+    },
+    {
+        "label": "character_schema",
+        "kind": 5,
+        "importPath": "backend.app.schemas.character_schema",
+        "description": "backend.app.schemas.character_schema",
+        "peekOfCode": "character_schema = CharacterSchema()\ncharacters_schema = CharacterSchema(many=True)",
+        "detail": "backend.app.schemas.character_schema",
+        "documentation": {}
+    },
+    {
+        "label": "characters_schema",
+        "kind": 5,
+        "importPath": "backend.app.schemas.character_schema",
+        "description": "backend.app.schemas.character_schema",
+        "peekOfCode": "characters_schema = CharacterSchema(many=True)",
+        "detail": "backend.app.schemas.character_schema",
+        "documentation": {}
+    },
+    {
+        "label": "UserSchema",
+        "kind": 6,
+        "importPath": "backend.app.schemas.user_schema",
+        "description": "backend.app.schemas.user_schema",
+        "peekOfCode": "class UserSchema(Schema):\n    id = fields.Int(dump_only=True)\n    username = fields.Str(required=True)\n    email = fields.Email(required=True)\n    password = fields.Str(load_only=True, required=True)\n    role = fields.Str(required=True)\nuser_schema = UserSchema()\nusers_schema = UserSchema(many=True)",
+        "detail": "backend.app.schemas.user_schema",
+        "documentation": {}
+    },
+    {
+        "label": "user_schema",
+        "kind": 5,
+        "importPath": "backend.app.schemas.user_schema",
+        "description": "backend.app.schemas.user_schema",
+        "peekOfCode": "user_schema = UserSchema()\nusers_schema = UserSchema(many=True)",
+        "detail": "backend.app.schemas.user_schema",
+        "documentation": {}
+    },
+    {
+        "label": "users_schema",
+        "kind": 5,
+        "importPath": "backend.app.schemas.user_schema",
+        "description": "backend.app.schemas.user_schema",
+        "peekOfCode": "users_schema = UserSchema(many=True)",
+        "detail": "backend.app.schemas.user_schema",
+        "documentation": {}
+    },
+    {
+        "label": "login_required",
+        "kind": 2,
+        "importPath": "backend.app.utils.decorators",
+        "description": "backend.app.utils.decorators",
+        "peekOfCode": "def login_required(f):\n    @wraps(f)\n    def wrapper(*args, **kwargs):\n        if not session.get('user_id'):\n            return jsonify({\"error\": \"Unauthorized\"}), 401\n        return f(*args, **kwargs)\n    return wrapper\ndef admin_required(f):\n    @wraps(f)\n    def decorated_function(*args, **kwargs):",
+        "detail": "backend.app.utils.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "admin_required",
+        "kind": 2,
+        "importPath": "backend.app.utils.decorators",
+        "description": "backend.app.utils.decorators",
+        "peekOfCode": "def admin_required(f):\n    @wraps(f)\n    def decorated_function(*args, **kwargs):\n        if request.headers.get(\"X-Admin\") != \"true\":  # Replace with real auth check\n            return jsonify({\"error\": \"Admin access required\"}), 403\n        return f(*args, **kwargs)\n    return decorated_function",
+        "detail": "backend.app.utils.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "Config",
+        "kind": 6,
+        "importPath": "backend.app.config",
+        "description": "backend.app.config",
+        "peekOfCode": "class Config:\n    SECRET_KEY = os.getenv('FLASK_SECRET_KEY')\n    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')\n    SQLALCHEMY_TRACK_MODIFICATIONS = False\n    CORS_ORIGIN = os.getenv('CORS_ORIGIN')",
+        "detail": "backend.app.config",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "backend.server",
+        "description": "backend.server",
+        "peekOfCode": "app = create_app()\nif __name__ == '__main__':\n    app.run(debug=True, host='0.0.0.0')",
+        "detail": "backend.server",
+        "documentation": {}
+    },
+    {
+        "label": "_Known",
+        "kind": 6,
+        "importPath": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "description": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "peekOfCode": "class _Known:\n    def __init__(self):\n        self.key = []\n        self.value = []\nclass _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0",
+        "detail": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "_String",
+        "kind": 6,
+        "importPath": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "description": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "peekOfCode": "class _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0\n    for _ in value:\n        keys.append(i)\n        i += 1\n    return keys",
+        "detail": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "parse",
+        "kind": 2,
+        "importPath": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "description": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "peekOfCode": "def parse(value, *args, **kwargs):\n    json = _json.loads(value, *args, **kwargs)\n    wrapped = []\n    for value in json:\n        wrapped.append(_wrap(value))\n    input = []\n    for value in wrapped:\n        if isinstance(value, _String):\n            input.append(value.value)\n        else:",
+        "detail": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "stringify",
+        "kind": 2,
+        "importPath": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "description": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "peekOfCode": "def stringify(value, *args, **kwargs):\n    known = _Known()\n    input = []\n    output = []\n    i = int(_index(known, input, value))\n    while i < len(input):\n        output.append(_transform(known, input, input[i]))\n        i += 1\n    return _json.dumps(output, *args, **kwargs)",
+        "detail": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "documentation": {}
+    }
+]

@@ -10,9 +10,8 @@ export default function Navbar() {
   const closeNavbar = () => setExpanded(false);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3 custom-navbar">
-      <div className="container-fluid">
-        <Link className="navbar-brand logo-text" to="/">AllyShop</Link>
+    <nav className="navbar navbar-expand-lg navbar-light bg-light px-3 custom-navbar">
+      <div className="container-fluid navbar-container">
         <button
           className="navbar-toggler"
           type="button"
@@ -22,9 +21,9 @@ export default function Navbar() {
         </button>
 
         <div className={`collapse navbar-collapse ${expanded ? 'show' : ''}`}>
-          <div className="navbar-nav ms-auto">
+          <div className="navbar-nav me-auto">
             <Link className="nav-link" to="/" onClick={closeNavbar}>Home</Link>
-            <Link className="nav-link" to="/cards" onClick={closeNavbar}>Cards</Link>
+            <Link className="nav-link" to="/cards" onClick={closeNavbar}>Browse our kits</Link>
             <Link className="nav-link" to="/about" onClick={closeNavbar}>About</Link>
           </div>
         </div>

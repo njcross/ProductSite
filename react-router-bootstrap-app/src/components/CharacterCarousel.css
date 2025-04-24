@@ -2,14 +2,14 @@
 .character-carousel-section {
   padding: 3rem 2rem;
   background-color: var(--bg-main);
-  color: var(--color-text);
+  color: var(--color-link);
   text-align: center;
 }
 
 .carousel-title {
   font-size: 2.25rem;
   margin-bottom: 2rem;
-  color: var(--color-primary);
+  color: var(--color-heading);
 }
 
 .character-carousel {
@@ -24,7 +24,7 @@
   justify-content: center;
   gap: 2rem;
   padding: 3rem 2rem;
-  background-color: #1a1a1a;
+  background-color: var(--bg-main);
   border-top: 2px solid var(--color-primary);
 }
 
@@ -39,7 +39,7 @@
 }
 
 .carousel-block h3 {
-  color: var(--color-primary);
+  color: var(--color-link);
   margin-bottom: var(--spacing-md);
   font-size: 1.5rem;
 }

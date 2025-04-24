@@ -2,8 +2,8 @@
   max-width: 1200px;
   margin: auto;
   padding: var(--spacing-lg);
-  background: linear-gradient(to bottom right, #1a1a1a, #2d2d2d);
-  color: white;
+  background-color: var(--bg-main);
+  color: var(--color-text);
   border-radius: var(--radius-md);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -41,7 +41,7 @@
 .character-title {
   font-size: 2.5rem;
   font-weight: bold;
-  color: var(--color-primary);
+  color: var(--color-heading);
   margin-bottom: 0.25rem;
 }
 
@@ -51,28 +51,28 @@
 .character-price {
   font-size: 1.1rem;
   line-height: 1.5;
-  color: #e0e0e0;
+  color: var(--color-text);
 }
 
 hr {
-  border-color: #444;
+  border-color: var(--color-text);
 }
 
 .edit-button {
   align-self: flex-start;
   margin-top: 1rem;
-  padding: 0.6rem 1.2rem;
+  padding: var(--padding-full-btn);
   font-size: var(--font-size-base);
-  background-color: var(--color-primary);
+  background-color: var(--bg-action-item);
   border: none;
-  color: white;
+  color: var(--color-text);
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .edit-button:hover {
-  background-color: #e03c31;
+  background-color: var(--color-accent);
   box-shadow: 0 4px 10px rgba(255, 80, 80, 0.3);
   transform: translateY(-2px);
 }
@@ -80,20 +80,20 @@ hr {
 /* Modal styles */
 .modal-body {
   padding: var(--spacing-lg);
-  background-color: #f0f0f0;
-  color: #333;
+  background-color: var(--bg-main);
+  color: var(--color-text);
   border-radius: var(--radius-md);
 }
 
 .modal-header {
-  background-color: var(--color-primary);
-  color: white;
+  background-color: var(--bg-main);
+  color: var(--color-text);
   border-radius: var(--radius-md) 12px 0 0;
 }
 
 .modal-footer {
-  background-color: #f1f1f1;
-  border-top: 1px solid #ddd;
+  background-color: var(--bg-main);
+  border-top: 1px solid var(--color-text-muted);
 }
 
 .modal-footer button {
@@ -103,14 +103,14 @@ hr {
 }
 
 .modal-footer .btn-primary {
-  background-color: var(--color-primary);
+  background-color: var(--bg-main);
   border: none;
-  color: white;
+  color: var(--color-link);
 }
 
 .modal-footer .btn-secondary {
-  background-color: #f8f9fa;
-  border: 1px solid #ccc;
+  background-color: var(--bg-main);
+  border: 1px solid var(--color-text-muted);
 }
 
 /* Responsive adjustments */

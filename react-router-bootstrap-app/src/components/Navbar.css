@@ -1,23 +1,36 @@
 /* Navbar.css */
 .custom-navbar {
   background-color: var(--bg-main);
-  border-bottom: 2px solid var(--color-primary);
+  border-top: 2px solid var(--color-accent);
+  border-bottom: 2px solid var(--color-accent);
   box-shadow: none;
+}
+.navbar {
+  background-color: var(--bg-main) !important;
+}
+.navbar-nav {
+  display: flex;
+  align-items: center;
 }
 
 .logo-text {
   font-size: 1.8rem;
-  color: var(--color-primary);
+  color: var(--color-text);
   font-weight: bold;
 }
 
 .nav-link {
-  color: white !important;
+  background-color: var(--bg-action-item);
+  border-radius: var(--radius-sm);
+  border: var(--color-primary);
+  color: var(--color-link);
   margin-left: 1rem;
+  padding: var(--padding-full-btn);
+  font-weight: bold;
 }
 
 .nav-link:hover {
-  color: var(--color-primary) !important;
+  color: var(--color-accent);
 }
 
 @media (max-width: 768px) {

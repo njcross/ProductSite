@@ -4,8 +4,8 @@ body, html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: var(--bg-alt);
-  color: white;
+  background-color: var(--bg-main);
+  color: var(--color-text);
   overflow-x: hidden;
 }
 
@@ -16,7 +16,7 @@ body, html {
 .app-container {
   padding: 0;
   margin: 0;
-  background-color: var(--bg-alt);
+  background-color: var(--bg-main);
   border: none;
   box-shadow: none;
 }
@@ -26,8 +26,14 @@ body, html {
 .app-title {
   text-align: center;
   font-size: 2.5rem;
-  color: var(--color-primary);
+  color: var(--color-link);
   margin-bottom: 2rem;
+}
+
+button, .btn-primary {
+  background-color: var(--bg-action-item);
+  color: var(--color-link);
+  border: var(--padding-full-btn);
 }
 
 /* Grid layout for cards */
@@ -35,6 +41,19 @@ body, html {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
+}
+
+h1, h2, h3 {
+  color: var(--color-heading);
+}
+
+a {
+  color: var(--color-link);
+}
+
+.section-bg {
+  background-color: var(--bg-main);
+  color: var(--color-text);
 }
 
 @media (max-width: 576px) {

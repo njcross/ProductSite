@@ -12,7 +12,7 @@
 }
 
 .login-card {
-  background: var(--bg-alt);
+  background-color: var(--bg-main);
   padding: 2.5rem 2rem;
   border-radius: var(--radius-md);
   max-width: 500px;
@@ -22,7 +22,7 @@
 }
 
 .login-card h2 {
-  color: var(--color-primary);
+  color: var(--color-text);
   margin-bottom: var(--spacing-lg);
   text-align: center;
   font-weight: bold;
@@ -34,15 +34,15 @@
 }
 
 .login-form label {
-  color: var(--color-text);
+  color: var(--color-accent);
   font-weight: 500;
   margin-bottom: 0.25rem;
   display: inline-block;
 }
 
 .login-form input {
-  background-color: var(--bg-card);
-  border: 1px solid var(--color-primary);
+  background-color: var(--bg-main);
+  border: var(--color-primary);
   color: var(--color-text);
   padding: 0.55rem 0.75rem;
   border-radius: var(--radius-sm);
@@ -51,19 +51,19 @@
 }
 
 .login-form input:focus {
-  border-color: var(--color-accent);
+  background-color: var(--color-accent);
   box-shadow: 0 0 6px rgba(255, 46, 99, 0.5);
   outline: none;
 }
 
 .login-btn {
-  background-color: var(--color-primary);
+  background-color: var(--bg-action-item);
   border: none;
   width: 100%;
   padding: 0.75rem;
   font-weight: bold;
   border-radius: var(--radius-sm);
-  color: white;
+  color: var(--color-link);
   transition: background-color 0.3s ease;
   font-size: var(--font-size-base);
 }

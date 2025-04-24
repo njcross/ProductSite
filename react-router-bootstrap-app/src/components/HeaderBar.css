@@ -2,9 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 2rem;
-  background-color: #111;
-  color: var(--color-primary);
+  padding: 2rem 1rem;
+  background-color: var(--bg-main);
+  color: var(--color-link);
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -27,28 +27,29 @@
   align-items: center;
   flex-grow: 1;
   max-width: 500px;
-  margin-right: auto; /* Push other elements to the right */
+  align-self: center;
+  margin: 0 auto;
 }
 
 .search-box input {
-  padding: 0.5rem 1rem;
+  padding: var(--padding-full-btn);
   border-radius: 8px 0 0 8px;
   border: none;
   flex-grow: 1;
 }
 
 .search-box button {
-  background-color: var(--color-primary);
+  background-color: var(--bg-action-item);
   border: none;
-  color: white;
-  padding: 0.5rem 1rem;
+  color: var(--color-link);
+  padding: var(--padding-full-btn);
   border-radius: 0 8px 8px 0;
   cursor: pointer;
 }
 
 
 .search-box button:hover {
-  background-color: #ff3b57;
+  background-color: var(--color-accent);
 }
 
 .auth-links {
@@ -59,9 +60,9 @@
 }
 
 .auth-btn {
-  background-color: var(--color-primary);
-  color: white;
-  padding: 0.5rem 1rem;
+  background-color: var(--bg-action-item);
+  color: var(--color-link);
+  padding: var(--padding-full-btn);
   border: none;
   border-radius: var(--radius-sm);
   font-weight: bold;
@@ -70,12 +71,12 @@
 }
 
 .auth-btn:hover {
-  background-color: #ff3b57;
+  background-color: var(--color-accent);
 }
 
 .cart-btn {
-  background-color: var(--color-primary);
-  color: white;
+  background-color: var(--bg-action-item);
+  color: var(--color-link);
   padding: 0.4rem 1rem;
   border-radius: var(--radius-sm);
   font-weight: bold;

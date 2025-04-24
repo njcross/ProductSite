@@ -9,6 +9,9 @@ import Navbar from './components/Navbar';
 import HeaderBar from './components/HeaderBar';
 import Login from './pages/Login';
 import CartPage from './pages/CartPage';
+import KitsLandingPage from './pages/KitsLandingPage';
+import { FooterNav } from './components/FooterNav';
+import { FooterNewsletter } from './components/FooterNewsletter';
 import './App.css';
 import './variables.css';
 import { UserProvider } from './context/UserContext';
@@ -31,8 +34,11 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/test" element={<KitsLandingPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <FooterNewsletter />
+        <FooterNav />
         </div>
       </Router>
       </CartProvider>
