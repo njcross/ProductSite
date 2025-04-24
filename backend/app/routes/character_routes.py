@@ -5,6 +5,7 @@ from app import db
 from app.models.character import Character
 from app.schemas.character_schema import character_schema, characters_schema
 from app.utils.decorators import login_required
+from app.utils.decorators import admin_required
 
 character_bp = Blueprint("characters", __name__, url_prefix="/characters")
 
@@ -45,7 +46,7 @@ def get_character(id):
 
 
 @character_bp.route("", methods=["POST"])
-@login_required
+@admin_required
 def create_character():
     data = request.get_json()
     try:
@@ -59,7 +60,7 @@ def create_character():
 
 
 @character_bp.route("/<int:id>", methods=["PUT"])
-@login_required
+@admin_required
 def update_character(id):
     character = db.session.get(Character, id)
     if not character:
@@ -77,7 +78,7 @@ def update_character(id):
 
 
 @character_bp.route("/<int:id>", methods=["DELETE"])
-@login_required
+@admin_required
 def delete_character(id):
     character = db.session.get(Character, id)
     if not character:

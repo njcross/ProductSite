@@ -3,23 +3,19 @@ from flask import Blueprint, request, jsonify, current_app
 import json
 import os
 
-content_bp = Blueprint('content_routes', __name__)
+content_bp = Blueprint('content', __name__)
 
 from app.utils.decorators import admin_required
-
-def is_admin():
-    return request.headers.get("X-Admin") == "true"
 
 @content_bp.route('/api/update-content', methods=['POST'])
 @admin_required
 def update_content():
-    return jsonify({"error": "Unauthorized"}), 403
 
     data = request.get_json()
     if not data or "field" not in data or "value" not in data:
         return jsonify({"error": "Missing 'field' or 'value'"}), 400
 
-    content_path = os.path.join(current_app.root_path, 'static', 'content.json')
+    content_path = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public', 'content.json')
 
     # Ensure file exists
     if not os.path.exists(content_path):

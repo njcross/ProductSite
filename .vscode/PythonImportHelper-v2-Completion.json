@@ -488,6 +488,14 @@
         "documentation": {}
     },
     {
+        "label": "admin_required",
+        "importPath": "app.utils.decorators",
+        "description": "app.utils.decorators",
+        "isExtraImport": true,
+        "detail": "app.utils.decorators",
+        "documentation": {}
+    },
+    {
         "label": "character_schema",
         "importPath": "app.schemas.character_schema",
         "description": "app.schemas.character_schema",
@@ -759,7 +767,7 @@
         "kind": 2,
         "importPath": "backend.app.routes.character_routes",
         "description": "backend.app.routes.character_routes",
-        "peekOfCode": "def get_character(id):\n    character = db.session.get(Character, id)\n    if not character:\n        return jsonify({\"message\": \"Character not found\"}), 404\n    return jsonify(character_schema.dump(character)), 200\n@character_bp.route(\"\", methods=[\"POST\"])\n@login_required\ndef create_character():\n    data = request.get_json()\n    try:",
+        "peekOfCode": "def get_character(id):\n    character = db.session.get(Character, id)\n    if not character:\n        return jsonify({\"message\": \"Character not found\"}), 404\n    return jsonify(character_schema.dump(character)), 200\n@character_bp.route(\"\", methods=[\"POST\"])\n@admin_required\ndef create_character():\n    data = request.get_json()\n    try:",
         "detail": "backend.app.routes.character_routes",
         "documentation": {}
     },
@@ -800,20 +808,11 @@
         "documentation": {}
     },
     {
-        "label": "is_admin",
-        "kind": 2,
-        "importPath": "backend.app.routes.content_routes",
-        "description": "backend.app.routes.content_routes",
-        "peekOfCode": "def is_admin():\n    return request.headers.get(\"X-Admin\") == \"true\"\n@content_bp.route('/api/update-content', methods=['POST'])\n@admin_required\ndef update_content():\n    return jsonify({\"error\": \"Unauthorized\"}), 403\n    data = request.get_json()\n    if not data or \"field\" not in data or \"value\" not in data:\n        return jsonify({\"error\": \"Missing 'field' or 'value'\"}), 400\n    content_path = os.path.join(current_app.root_path, 'static', 'content.json')",
-        "detail": "backend.app.routes.content_routes",
-        "documentation": {}
-    },
-    {
         "label": "update_content",
         "kind": 2,
         "importPath": "backend.app.routes.content_routes",
         "description": "backend.app.routes.content_routes",
-        "peekOfCode": "def update_content():\n    return jsonify({\"error\": \"Unauthorized\"}), 403\n    data = request.get_json()\n    if not data or \"field\" not in data or \"value\" not in data:\n        return jsonify({\"error\": \"Missing 'field' or 'value'\"}), 400\n    content_path = os.path.join(current_app.root_path, 'static', 'content.json')\n    # Ensure file exists\n    if not os.path.exists(content_path):\n        with open(content_path, 'w') as f:\n            json.dump({}, f)",
+        "peekOfCode": "def update_content():\n    data = request.get_json()\n    if not data or \"field\" not in data or \"value\" not in data:\n        return jsonify({\"error\": \"Missing 'field' or 'value'\"}), 400\n    content_path = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public', 'content.json')\n    # Ensure file exists\n    if not os.path.exists(content_path):\n        with open(content_path, 'w') as f:\n            json.dump({}, f)\n    # Load existing data",
         "detail": "backend.app.routes.content_routes",
         "documentation": {}
     },
@@ -840,7 +839,7 @@
         "kind": 5,
         "importPath": "backend.app.routes.content_routes",
         "description": "backend.app.routes.content_routes",
-        "peekOfCode": "content_bp = Blueprint('content_routes', __name__)\nfrom app.utils.decorators import admin_required\ndef is_admin():\n    return request.headers.get(\"X-Admin\") == \"true\"\n@content_bp.route('/api/update-content', methods=['POST'])\n@admin_required\ndef update_content():\n    return jsonify({\"error\": \"Unauthorized\"}), 403\n    data = request.get_json()\n    if not data or \"field\" not in data or \"value\" not in data:",
+        "peekOfCode": "content_bp = Blueprint('content', __name__)\nfrom app.utils.decorators import admin_required\n@content_bp.route('/api/update-content', methods=['POST'])\n@admin_required\ndef update_content():\n    data = request.get_json()\n    if not data or \"field\" not in data or \"value\" not in data:\n        return jsonify({\"error\": \"Missing 'field' or 'value'\"}), 400\n    content_path = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public', 'content.json')\n    # Ensure file exists",
         "detail": "backend.app.routes.content_routes",
         "documentation": {}
     },
