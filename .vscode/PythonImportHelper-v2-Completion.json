@@ -320,6 +320,22 @@
         "documentation": {}
     },
     {
+        "label": "create_app",
+        "importPath": "app",
+        "description": "app",
+        "isExtraImport": true,
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "app",
+        "description": "app",
+        "isExtraImport": true,
+        "detail": "app",
+        "documentation": {}
+    },
+    {
         "label": "db",
         "importPath": "app",
         "description": "app",
@@ -560,6 +576,14 @@
         "documentation": {}
     },
     {
+        "label": "session",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
         "label": "Blueprint",
         "importPath": "flask",
         "description": "flask",
@@ -720,6 +744,30 @@
         "documentation": {}
     },
     {
+        "label": "cross_origin",
+        "importPath": "flask_cors",
+        "description": "flask_cors",
+        "isExtraImport": true,
+        "detail": "flask_cors",
+        "documentation": {}
+    },
+    {
+        "label": "cross_origin",
+        "importPath": "flask_cors",
+        "description": "flask_cors",
+        "isExtraImport": true,
+        "detail": "flask_cors",
+        "documentation": {}
+    },
+    {
+        "label": "cross_origin",
+        "importPath": "flask_cors",
+        "description": "flask_cors",
+        "isExtraImport": true,
+        "detail": "flask_cors",
+        "documentation": {}
+    },
+    {
         "label": "CartItem",
         "importPath": "app.models.cart_item",
         "description": "app.models.cart_item",
@@ -761,6 +809,14 @@
     },
     {
         "label": "admin_required",
+        "importPath": "app.utils.decorators",
+        "description": "app.utils.decorators",
+        "isExtraImport": true,
+        "detail": "app.utils.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "login_required",
         "importPath": "app.utils.decorators",
         "description": "app.utils.decorators",
         "isExtraImport": true,
@@ -823,22 +879,6 @@
         "description": "werkzeug.utils",
         "isExtraImport": true,
         "detail": "werkzeug.utils",
-        "documentation": {}
-    },
-    {
-        "label": "login_required",
-        "importPath": "flask_login",
-        "description": "flask_login",
-        "isExtraImport": true,
-        "detail": "flask_login",
-        "documentation": {}
-    },
-    {
-        "label": "current_user",
-        "importPath": "flask_login",
-        "description": "flask_login",
-        "isExtraImport": true,
-        "detail": "flask_login",
         "documentation": {}
     },
     {
@@ -954,6 +994,15 @@
         "documentation": {}
     },
     {
+        "label": "pytest",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pytest",
+        "description": "pytest",
+        "detail": "pytest",
+        "documentation": {}
+    },
+    {
         "label": "wraps",
         "importPath": "functools",
         "description": "functools",
@@ -992,7 +1041,7 @@
         "kind": 6,
         "importPath": "backend.app.models.favorite",
         "description": "backend.app.models.favorite",
-        "peekOfCode": "class Favorite(db.Model):\n    __tablename__ = 'favorites'\n    id: Mapped[int] = mapped_column(Integer, primary_key=True)\n    user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'), nullable=False)\n    character_id: Mapped[int] = mapped_column(Integer, ForeignKey('characters.id'), nullable=True)\n    filter_json: Mapped[str] = mapped_column(Text, nullable=True)",
+        "peekOfCode": "class Favorite(db.Model):\n    __tablename__ = 'favorites'\n    id: Mapped[int] = mapped_column(Integer, primary_key=True)\n    user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'), nullable=False)\n    character_id: Mapped[int] = mapped_column(Integer, ForeignKey('characters.id'), nullable=True)\n    filter_json: Mapped[str] = mapped_column(Text, nullable=True)\n    filter_name: Mapped[str] = mapped_column(Text, nullable=True)",
         "detail": "backend.app.models.favorite",
         "documentation": {}
     },
@@ -1047,6 +1096,15 @@
         "importPath": "backend.app.routes.auth_routes",
         "description": "backend.app.routes.auth_routes",
         "peekOfCode": "def login():\n    data = request.json\n    user = db.session.execute(select(User).where(User.username == data['username'])).scalar_one_or_none()\n    if not user or not check_password_hash(user.password, data['password']):\n        return jsonify({\"message\": \"Invalid credentials\"}), 401\n    session['user_id'] = user.id\n    session.permanent = True\n    return jsonify({\n        \"message\": \"Login successful\",\n        \"user\": {\"username\": user.username, \"email\": user.email, \"role\": user.role}",
+        "detail": "backend.app.routes.auth_routes",
+        "documentation": {}
+    },
+    {
+        "label": "options_favorites",
+        "kind": 2,
+        "importPath": "backend.app.routes.auth_routes",
+        "description": "backend.app.routes.auth_routes",
+        "peekOfCode": "def options_favorites():\n    return '', 200\n@auth_bp.route('/check-login', methods=['GET'])\ndef check_login():\n    user_id = session.get('user_id')\n    if not user_id:\n        return jsonify({\"loggedIn\": False})\n    user = db.session.get(User, user_id)\n    return jsonify({\"loggedIn\": True, \"user\": user_schema.dump(user)})\n@auth_bp.route('/logout', methods=['POST'])",
         "detail": "backend.app.routes.auth_routes",
         "documentation": {}
     },
@@ -1168,11 +1226,38 @@
         "documentation": {}
     },
     {
+        "label": "options_favorites",
+        "kind": 2,
+        "importPath": "backend.app.routes.character_routes",
+        "description": "backend.app.routes.character_routes",
+        "peekOfCode": "def options_favorites():\n    return '', 200\n@character_bp.route('', methods=['OPTIONS'])\n@cross_origin(supports_credentials=True)\ndef options_favorites2():\n    return '', 200\n@character_bp.route('/by-ids/', methods=['POST'])\ndef get_characters_by_ids():\n    if request.method == 'OPTIONS':\n        return jsonify({\"message\": \"CORS preflight success\"}), 200",
+        "detail": "backend.app.routes.character_routes",
+        "documentation": {}
+    },
+    {
+        "label": "options_favorites2",
+        "kind": 2,
+        "importPath": "backend.app.routes.character_routes",
+        "description": "backend.app.routes.character_routes",
+        "peekOfCode": "def options_favorites2():\n    return '', 200\n@character_bp.route('/by-ids/', methods=['POST'])\ndef get_characters_by_ids():\n    if request.method == 'OPTIONS':\n        return jsonify({\"message\": \"CORS preflight success\"}), 200\n    data = request.get_json()\n    ids = data.get('ids', [])\n    if not isinstance(ids, list) or not all(isinstance(i, int) for i in ids):\n        return jsonify({\"error\": \"Invalid or missing 'ids' list\"}), 400",
+        "detail": "backend.app.routes.character_routes",
+        "documentation": {}
+    },
+    {
+        "label": "get_characters_by_ids",
+        "kind": 2,
+        "importPath": "backend.app.routes.character_routes",
+        "description": "backend.app.routes.character_routes",
+        "peekOfCode": "def get_characters_by_ids():\n    if request.method == 'OPTIONS':\n        return jsonify({\"message\": \"CORS preflight success\"}), 200\n    data = request.get_json()\n    ids = data.get('ids', [])\n    if not isinstance(ids, list) or not all(isinstance(i, int) for i in ids):\n        return jsonify({\"error\": \"Invalid or missing 'ids' list\"}), 400\n    characters = Character.query.filter(Character.id.in_(ids)).all()\n    return jsonify(characters_schema.dump(characters)), 200\n@character_bp.route(\"\", methods=[\"GET\"])",
+        "detail": "backend.app.routes.character_routes",
+        "documentation": {}
+    },
+    {
         "label": "get_characters",
         "kind": 2,
         "importPath": "backend.app.routes.character_routes",
         "description": "backend.app.routes.character_routes",
-        "peekOfCode": "def get_characters():\n    sort_by = request.args.get(\"sortBy\", \"name\")\n    search = request.args.get(\"search\", \"\")\n    page = int(request.args.get(\"page\", 1))\n    per_page = int(request.args.get(\"perPage\", 12))\n    query = select(Character)\n    if search:\n        like_term = f\"%{search}%\"\n        query = query.where(\n            or_(",
+        "peekOfCode": "def get_characters():\n    sort_by = request.args.get(\"sortBy\", \"name\")\n    search = request.args.get(\"search\", \"\")\n    page = int(request.args.get(\"page\", 1))\n    per_page = int(request.args.get(\"perPage\", 12))\n    alignment = request.args.get(\"alignment\", \"\")\n    query = select(Character)\n    if search:\n        like_term = f\"%{search}%\"\n        query = query.where(",
         "detail": "backend.app.routes.character_routes",
         "documentation": {}
     },
@@ -1217,7 +1302,7 @@
         "kind": 5,
         "importPath": "backend.app.routes.character_routes",
         "description": "backend.app.routes.character_routes",
-        "peekOfCode": "character_bp = Blueprint(\"characters\", __name__, url_prefix=\"/characters\")\n@character_bp.route(\"\", methods=[\"GET\"])\ndef get_characters():\n    sort_by = request.args.get(\"sortBy\", \"name\")\n    search = request.args.get(\"search\", \"\")\n    page = int(request.args.get(\"page\", 1))\n    per_page = int(request.args.get(\"perPage\", 12))\n    query = select(Character)\n    if search:\n        like_term = f\"%{search}%\"",
+        "peekOfCode": "character_bp = Blueprint(\"characters\", __name__, url_prefix=\"/characters\")\n@character_bp.route('/by-ids/', methods=['OPTIONS'])\n@cross_origin(supports_credentials=True)\ndef options_favorites():\n    return '', 200\n@character_bp.route('', methods=['OPTIONS'])\n@cross_origin(supports_credentials=True)\ndef options_favorites2():\n    return '', 200\n@character_bp.route('/by-ids/', methods=['POST'])",
         "detail": "backend.app.routes.character_routes",
         "documentation": {}
     },
@@ -1258,11 +1343,29 @@
         "documentation": {}
     },
     {
+        "label": "options_favorites",
+        "kind": 2,
+        "importPath": "backend.app.routes.favorite_routes",
+        "description": "backend.app.routes.favorite_routes",
+        "peekOfCode": "def options_favorites():\n    return '', 200\n@favorite_bp.route('/character/<int:character_id>', methods=['OPTIONS'])\n@cross_origin(supports_credentials=True)\ndef options_favorites2():\n    return '', 200\n@favorite_bp.route('/', methods=['GET'])\n@login_required\ndef get_favorites():\n    if request.method == 'OPTIONS':",
+        "detail": "backend.app.routes.favorite_routes",
+        "documentation": {}
+    },
+    {
+        "label": "options_favorites2",
+        "kind": 2,
+        "importPath": "backend.app.routes.favorite_routes",
+        "description": "backend.app.routes.favorite_routes",
+        "peekOfCode": "def options_favorites2():\n    return '', 200\n@favorite_bp.route('/', methods=['GET'])\n@login_required\ndef get_favorites():\n    if request.method == 'OPTIONS':\n        return '', 200\n    user_favorites = Favorite.query.filter_by(user_id=session.get('user_id')).all()\n    return jsonify(favorites_schema.dump(user_favorites)), 200\n@favorite_bp.route('/', methods=['POST'])",
+        "detail": "backend.app.routes.favorite_routes",
+        "documentation": {}
+    },
+    {
         "label": "get_favorites",
         "kind": 2,
         "importPath": "backend.app.routes.favorite_routes",
         "description": "backend.app.routes.favorite_routes",
-        "peekOfCode": "def get_favorites():\n    user_favorites = Favorite.query.filter_by(user_id=current_user.id).all()\n    return favorites_schema.jsonify(user_favorites), 200\n@favorite_bp.route('/', methods=['POST'])\n@login_required\ndef add_favorite():\n    data = request.json\n    character_id = data.get('character_id')\n    filter_json = data.get('filter_json')\n    if not character_id and not filter_json:",
+        "peekOfCode": "def get_favorites():\n    if request.method == 'OPTIONS':\n        return '', 200\n    user_favorites = Favorite.query.filter_by(user_id=session.get('user_id')).all()\n    return jsonify(favorites_schema.dump(user_favorites)), 200\n@favorite_bp.route('/', methods=['POST'])\n@login_required\ndef add_favorite():\n    if request.method == 'OPTIONS':\n        return '', 200",
         "detail": "backend.app.routes.favorite_routes",
         "documentation": {}
     },
@@ -1271,16 +1374,16 @@
         "kind": 2,
         "importPath": "backend.app.routes.favorite_routes",
         "description": "backend.app.routes.favorite_routes",
-        "peekOfCode": "def add_favorite():\n    data = request.json\n    character_id = data.get('character_id')\n    filter_json = data.get('filter_json')\n    if not character_id and not filter_json:\n        return jsonify({\"error\": \"Either character_id or filter_json is required.\"}), 400\n    favorite = Favorite(user_id=current_user.id, character_id=character_id, filter_json=filter_json)\n    db.session.add(favorite)\n    db.session.commit()\n    return favorite_schema.jsonify(favorite), 201",
+        "peekOfCode": "def add_favorite():\n    if request.method == 'OPTIONS':\n        return '', 200\n    data = request.json\n    character_id = data.get('character_id')\n    filter_json = data.get('filter_json')\n    if not character_id and not filter_json:\n        return jsonify({\"error\": \"Either character_id or filter_json is required.\"}), 400\n    favorite = Favorite(user_id=session.get('user_id'), character_id=character_id, filter_json=filter_json)\n    db.session.add(favorite)",
         "detail": "backend.app.routes.favorite_routes",
         "documentation": {}
     },
     {
-        "label": "delete_favorite",
+        "label": "delete_favorite_by_character",
         "kind": 2,
         "importPath": "backend.app.routes.favorite_routes",
         "description": "backend.app.routes.favorite_routes",
-        "peekOfCode": "def delete_favorite(favorite_id):\n    favorite = Favorite.query.get_or_404(favorite_id)\n    if favorite.user_id != current_user.id:\n        return jsonify({\"error\": \"Unauthorized\"}), 403\n    db.session.delete(favorite)\n    db.session.commit()\n    return jsonify({\"message\": \"Favorite deleted\"}), 200",
+        "peekOfCode": "def delete_favorite_by_character(character_id):\n    favorite = Favorite.query.filter_by(\n        user_id=session.get('user_id'),\n        character_id=character_id\n    ).first()\n    if not favorite:\n        return jsonify({\"error\": \"Favorite not found\"}), 404\n    db.session.delete(favorite)\n    db.session.commit()\n    return jsonify({\"message\": \"Favorite deleted\"}), 200",
         "detail": "backend.app.routes.favorite_routes",
         "documentation": {}
     },
@@ -1289,7 +1392,7 @@
         "kind": 5,
         "importPath": "backend.app.routes.favorite_routes",
         "description": "backend.app.routes.favorite_routes",
-        "peekOfCode": "favorite_bp = Blueprint('favorite_bp', __name__, url_prefix='/api/favorites')\n@favorite_bp.route('/', methods=['GET'])\n@login_required\ndef get_favorites():\n    user_favorites = Favorite.query.filter_by(user_id=current_user.id).all()\n    return favorites_schema.jsonify(user_favorites), 200\n@favorite_bp.route('/', methods=['POST'])\n@login_required\ndef add_favorite():\n    data = request.json",
+        "peekOfCode": "favorite_bp = Blueprint('favorite_bp', __name__, url_prefix='/api/favorites')\n@favorite_bp.route('/', methods=['OPTIONS'])\n@cross_origin(supports_credentials=True)\ndef options_favorites():\n    return '', 200\n@favorite_bp.route('/character/<int:character_id>', methods=['OPTIONS'])\n@cross_origin(supports_credentials=True)\ndef options_favorites2():\n    return '', 200\n@favorite_bp.route('/', methods=['GET'])",
         "detail": "backend.app.routes.favorite_routes",
         "documentation": {}
     },
@@ -1424,7 +1527,7 @@
         "kind": 6,
         "importPath": "backend.app.schemas.favorite_schema",
         "description": "backend.app.schemas.favorite_schema",
-        "peekOfCode": "class FavoriteSchema(Schema):\n    id = fields.Int(dump_only=True)\n    user_id = fields.Int(required=True)\n    character_id = fields.Int(allow_none=True)\n    filter_json = fields.Str(allow_none=True)\nfavorite_schema = FavoriteSchema()\nfavorites_schema = FavoriteSchema(many=True)",
+        "peekOfCode": "class FavoriteSchema(Schema):\n    id = fields.Int(dump_only=True)\n    user_id = fields.Int(required=True)\n    character_id = fields.Int(allow_none=True)\n    filter_json = fields.Str(allow_none=True)\n    filter_name = fields.Str(allow_none=True)\nfavorite_schema = FavoriteSchema()\nfavorites_schema = FavoriteSchema(many=True)",
         "detail": "backend.app.schemas.favorite_schema",
         "documentation": {}
     },
@@ -1498,6 +1601,96 @@
         "description": "backend.app.schemas.user_schema",
         "peekOfCode": "users_schema = UserSchema(many=True)",
         "detail": "backend.app.schemas.user_schema",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 2,
+        "importPath": "backend.app.tests.conftest",
+        "description": "backend.app.tests.conftest",
+        "peekOfCode": "def app():\n    app = create_app()\n    app.config.update({\n        \"TESTING\": True,\n        \"SQLALCHEMY_DATABASE_URI\": \"sqlite:///:memory:\",\n    })\n    with app.app_context():\n        db.create_all()\n        yield app\n        db.session.remove()",
+        "detail": "backend.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "client",
+        "kind": 2,
+        "importPath": "backend.app.tests.conftest",
+        "description": "backend.app.tests.conftest",
+        "peekOfCode": "def client(app):\n    return app.test_client()",
+        "detail": "backend.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "test_register",
+        "kind": 2,
+        "importPath": "backend.app.tests.test_auth",
+        "description": "backend.app.tests.test_auth",
+        "peekOfCode": "def test_register(client):\n    response = client.post('/register', json={\n        \"username\": \"testuser\",\n        \"email\": \"test@example.com\",\n        \"password\": \"password123\"\n    })\n    assert response.status_code == 201\n    assert \"message\" in response.json\ndef test_login(client):\n    response = client.post('/login', json={",
+        "detail": "backend.app.tests.test_auth",
+        "documentation": {}
+    },
+    {
+        "label": "test_login",
+        "kind": 2,
+        "importPath": "backend.app.tests.test_auth",
+        "description": "backend.app.tests.test_auth",
+        "peekOfCode": "def test_login(client):\n    response = client.post('/login', json={\n        \"username\": \"testuser\",\n        \"password\": \"password123\"\n    })\n    assert response.status_code == 200\n    assert \"user\" in response.json",
+        "detail": "backend.app.tests.test_auth",
+        "documentation": {}
+    },
+    {
+        "label": "test_create_character",
+        "kind": 2,
+        "importPath": "backend.app.tests.test_characters",
+        "description": "backend.app.tests.test_characters",
+        "peekOfCode": "def test_create_character(client, admin_auth_header):\n    character_data = {\n        \"name\": \"Test Hero\",\n        \"alias\": \"Hero Alias\",\n        \"alignment\": \"hero\",\n        \"powers\": \"Flying\",\n        \"image_url\": \"http://example.com/image.png\",\n        \"price\": 5.0\n    }\n    response = client.post(\"/characters\", json=character_data, headers=admin_auth_header)",
+        "detail": "backend.app.tests.test_characters",
+        "documentation": {}
+    },
+    {
+        "label": "test_get_characters",
+        "kind": 2,
+        "importPath": "backend.app.tests.test_characters",
+        "description": "backend.app.tests.test_characters",
+        "peekOfCode": "def test_get_characters(client):\n    response = client.get(\"/characters\")\n    assert response.status_code == 200",
+        "detail": "backend.app.tests.test_characters",
+        "documentation": {}
+    },
+    {
+        "label": "test_add_favorite",
+        "kind": 2,
+        "importPath": "backend.app.tests.test_favorites",
+        "description": "backend.app.tests.test_favorites",
+        "peekOfCode": "def test_add_favorite(client, user_auth_header):\n    res = client.post('/api/favorites/', json={\"character_id\": 1}, headers=user_auth_header)\n    assert res.status_code == 201\ndef test_get_favorites(client, user_auth_header):\n    res = client.get('/api/favorites/', headers=user_auth_header)\n    assert res.status_code == 200",
+        "detail": "backend.app.tests.test_favorites",
+        "documentation": {}
+    },
+    {
+        "label": "test_get_favorites",
+        "kind": 2,
+        "importPath": "backend.app.tests.test_favorites",
+        "description": "backend.app.tests.test_favorites",
+        "peekOfCode": "def test_get_favorites(client, user_auth_header):\n    res = client.get('/api/favorites/', headers=user_auth_header)\n    assert res.status_code == 200",
+        "detail": "backend.app.tests.test_favorites",
+        "documentation": {}
+    },
+    {
+        "label": "test_add_newsletter_email",
+        "kind": 2,
+        "importPath": "backend.app.tests.test_newsletter",
+        "description": "backend.app.tests.test_newsletter",
+        "peekOfCode": "def test_add_newsletter_email(client):\n    res = client.post('/api/newsletter', json={\"email\": \"test@newsletter.com\", \"newsletter_value\": \"monthly\"})\n    assert res.status_code == 201\ndef test_get_newsletter_emails(client):\n    client.post('/api/newsletter', json={\"email\": \"fetch@newsletter.com\", \"newsletter_value\": \"weekly\"})\n    res = client.get('/api/newsletter?newsletter_value=weekly')\n    assert res.status_code == 200",
+        "detail": "backend.app.tests.test_newsletter",
+        "documentation": {}
+    },
+    {
+        "label": "test_get_newsletter_emails",
+        "kind": 2,
+        "importPath": "backend.app.tests.test_newsletter",
+        "description": "backend.app.tests.test_newsletter",
+        "peekOfCode": "def test_get_newsletter_emails(client):\n    client.post('/api/newsletter', json={\"email\": \"fetch@newsletter.com\", \"newsletter_value\": \"weekly\"})\n    res = client.get('/api/newsletter?newsletter_value=weekly')\n    assert res.status_code == 200",
+        "detail": "backend.app.tests.test_newsletter",
         "documentation": {}
     },
     {

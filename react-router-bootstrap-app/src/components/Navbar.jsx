@@ -30,7 +30,13 @@ export default function Navbar() {
           <div className="navbar-nav me-auto">
             <Link className="nav-link" to="/" onClick={closeNavbar}>{<EditableField contentKey="content_66" />}</Link>
             <Link className="nav-link" to="/cards" onClick={closeNavbar}>{<EditableField contentKey="content_67" />}</Link>
-            <Link className="nav-link" to="/about" onClick={closeNavbar}>{<EditableField contentKey="content_68" />}</Link>
+            
+            {currentUser && (
+  <Link to="/favorites" className="nav-link" onClick={closeNavbar}>
+    {<EditableField contentKey="content_145" />}
+  </Link>
+)}
+          <Link className="nav-link" to="/about" onClick={closeNavbar}>{<EditableField contentKey="content_68" />}</Link>
              {/* Admin-only Newsletter link */}
              {isAdmin && (
               <Link className="nav-link" to="/newsletter" onClick={closeNavbar}>

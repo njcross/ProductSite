@@ -7,9 +7,13 @@ import './FavoritesPage.css';
 
 
 export default function FavoritesPage() {
-  const { favorites } = useFavorites();
+  const { favorites, fetchFavorites } = useFavorites();
   const [characters, setCharacters] = useState([]);
   const API_BASE = process.env.REACT_APP_API_URL;
+
+  useEffect(() => {
+    fetchFavorites();
+  }, [fetchFavorites]);
 
   useEffect(() => {
     if (favorites.length === 0) {
@@ -17,7 +21,7 @@ export default function FavoritesPage() {
       return;
     }
 
-    fetch(`${API_BASE}/favorites/characters`, {
+    fetch(`${API_BASE}/characters/by-ids/`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -27,7 +31,7 @@ export default function FavoritesPage() {
       body: JSON.stringify({ ids: favorites }),
     })
       .then(res => res.json())
-      .then(data => setCharacters(data))
+      .then(data => {setCharacters(Array.isArray(data) ? data : data.characters)})
       .catch(err => console.error('Failed to fetch favorites', err));
   }, [favorites, API_BASE]);
 

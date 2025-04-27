@@ -7,6 +7,7 @@ from app.models.user import User
 from app.schemas.user_schema import user_schema, UserSchema
 from flask import redirect, url_for
 from flask_dance.contrib.google import make_google_blueprint, g
+from flask_cors import cross_origin
 
 google_bp = make_google_blueprint(
     scope=["profile", "email"],
@@ -90,6 +91,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         session['user_id'] = user.id
+        session['role'] = user.role
         session.permanent = True
         return jsonify({"message": "User registered successfully"}), 201
     except Exception as e:
@@ -102,11 +104,17 @@ def login():
     if not user or not check_password_hash(user.password, data['password']):
         return jsonify({"message": "Invalid credentials"}), 401
     session['user_id'] = user.id
+    session['role'] = user.role
     session.permanent = True
     return jsonify({
         "message": "Login successful",
-        "user": {"username": user.username, "email": user.email, "role": user.role}
+        "user": {"username": user.username, "email": user.email, "role": user.role, "id": user.id} 
     }), 200
+
+@auth_bp.route('/check-login', methods=['OPTIONS'])
+@cross_origin(supports_credentials=True)
+def options_favorites():
+    return '', 200
 
 @auth_bp.route('/check-login', methods=['GET'])
 def check_login():

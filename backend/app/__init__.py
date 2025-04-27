@@ -5,6 +5,7 @@ from flask_cors import CORS
 from app.config import Config
 from datetime import timedelta
 from sqlalchemy import create_engine, text
+from flask_login import LoginManager
 
 db = SQLAlchemy()
 ma = Marshmallow()
@@ -16,7 +17,7 @@ def create_database():
 
 
 
-    
+login_manager = LoginManager()
   
 def create_app():
     app = Flask(__name__)
@@ -34,9 +35,11 @@ def create_app():
     # ✅ Initialize extensions
     db.init_app(app)
     ma.init_app(app)
+    login_manager.init_app(app) 
 
     # ✅ Log to confirm CORS origin is correct
     print("CORS_ORIGIN:", Config.CORS_ORIGIN)
+    login_manager.login_view = "auth.login"
 
     # ✅ CORS needs to match frontend origin and allow credentials
     CORS(app, supports_credentials=True, origins=[Config.CORS_ORIGIN])
@@ -58,10 +61,10 @@ def create_app():
     app.register_blueprint(newsletter_bp)
     app.register_blueprint(favorite_bp)
 
-
     # Without the app context, Flask wouldn't know which app's configuration to use.     
     with app.app_context():
         create_database()
         db.create_all() # uses the schema to create the database tables  
+
 
     return app

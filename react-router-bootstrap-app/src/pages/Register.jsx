@@ -49,10 +49,11 @@ export default function Register() {
           role: 'customer',
         });
 
-        setForm({ username: '', email: '', password: '', confirmPassword: '' });
+        setForm({ username: '', email: '', password: '' });
         setError('');
         setModalMessage(data.message || 'Registration successful!');
         setShowModal(true);
+        navigate('/cards');
       } else {
         setModalMessage(data.message || 'Registration failed.');
         setShowModal(true);

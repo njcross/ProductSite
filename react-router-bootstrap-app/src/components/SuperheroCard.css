@@ -10,9 +10,12 @@
   flex-direction: column;
   overflow: hidden;
   transition: transform var(--transition-default);
-  max-width: 350px;
+  width: 100%; /* full width of wrapper */
+  max-width: 500px; /* allow it to be much wider */
+  min-width: 300px; /* optionally force a minimum so small cards don’t collapse */
   margin: auto;
 }
+
 
 
 .character-card:hover {
@@ -27,11 +30,28 @@
 }
 
 .character-name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap; /* <-- VERY IMPORTANT: NO WRAPPING */
+  gap: 0.5rem;
+}
+
+.character-name-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-grow: 1; /* expand to available space */
+  min-width: 0; /* allows text-overflow inside flex */
   font-size: var(--font-size-xl);
   font-weight: 700;
   color: var(--color-text);
-  margin-bottom: 5px;
 }
+
+.favorite-btn {
+  flex-shrink: 0; /* heart should NOT shrink or wrap */
+}
+
 
 .character-alias {
   font-size: var(--font-size-base);
@@ -81,8 +101,8 @@
 }
 
 .card-img-wrapper {
-  width: 100%;
-  aspect-ratio: 16 / 9;
+  height: 100%;
+  width: auto;
   overflow: hidden;
   border-radius: var(--radius-md) var(--radius-md) 0 0;
   background-color: var(--bg-main); /* fallback if image fails */

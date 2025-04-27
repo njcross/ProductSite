@@ -1,5 +1,6 @@
 import './ViewingOptions.css';
 import EditableField from '../components/EditableField';
+import { useUser } from '../context/UserContext';
 
 export default function ViewingOptions({
   viewMode,
@@ -8,9 +9,11 @@ export default function ViewingOptions({
   onItemsPerPageChange,
   sortBy,
   onSortChange,
-  search,              
-  onClearSearch         
+  search,
+  onClearSearch,
+  onSaveFilter
 }) {
+  const { currentUser } = useUser();
   return (
     <div className="viewing-options">
       <div className="option-group">
@@ -60,6 +63,22 @@ export default function ViewingOptions({
           </div>
         </>
       )}
+
+{currentUser && (
+        <div className="option-group">
+          <button className="save-filter-btn" onClick={onSaveFilter}>
+          <EditableField contentKey="content_144" />
+          </button>
+        </div>
+      )}
+      {currentUser?.role === 'admin' && (
+  <div className="option-group">
+    <button className="add-character-btn" onClick={() => window.location.href = '/add-character'}>
+      <EditableField contentKey="content_145" />
+    </button>
+  </div>
+)}
+
     </div>
   );
 }

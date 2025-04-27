@@ -1,4 +1,3 @@
-// src/components/CharacterList.jsx
 import { useState, useEffect, useCallback } from 'react';
 import SuperheroCard from './SuperheroCard';
 import CharacterForm from './CharacterForm';
@@ -10,7 +9,7 @@ import { useUser } from '../context/UserContext';
 import EditableField from '../components/EditableField';
 import './CharacterList.css';
 
-export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view = 'grid', search = '' }) {
+export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view = 'grid', search = '', alignment = '' }) {
   const { currentUser } = useUser();
   const [characters, setCharacters] = useState([]);
   const [page, setPage] = useState(1);
@@ -24,13 +23,15 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   const API_BASE = process.env.REACT_APP_API_URL;
 
   const fetchCharacters = useCallback(() => {
-    fetch(`${API_BASE}/characters?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`, {
+    let url = `${API_BASE}/characters?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`;
+
+    if (alignment) {
+      url += `&alignment=${encodeURIComponent(alignment)}`;
+    }
+
+    fetch(url, {
       method: 'GET',
-      credentials: 'include',
-      headers: {
-        'ngrok-skip-browser-warning': 'true',
-        credentials: 'include'
-      }
+      credentials: 'include'
     })
       .then(res => res.json())
       .then(data => {
@@ -38,7 +39,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
         setHasNext(data.has_next ?? (data.length === itemsPerPage));
       })
       .catch(err => console.error('Failed to load characters:', err));
-  }, [API_BASE, sortBy, page, itemsPerPage, search]);
+  }, [API_BASE, sortBy, page, itemsPerPage, search, alignment]); // ⬅️ notice we added `alignment` here
 
   useEffect(() => {
     fetchCharacters();
@@ -112,28 +113,21 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
               </Button>
             </Col>
           </Row>
-          <div className="text-end"></div>
         </>
       )}
 
-      <Row className={`character-row d-flex ${view === 'list' ? 'flex-column' : 'justify-content-center'}`}>
-        {characters.map(char => (
-          <Col
-            key={char.id}
-            xs={12}
-            sm={view === 'grid' ? 6 : 12}
-            md={view === 'grid' ? 4 : 12}
-            lg={view === 'grid' ? 3 : 12}
-            className="character-card-wrapper"
-          >
-            <SuperheroCard
-              character={char}
-              onEdit={handleEditClick}
-              onDelete={handleDelete}
-            />
-          </Col>
-        ))}
-      </Row>
+<div className={`character-grid ${view === 'list' ? 'list-view' : 'grid-view'}`}>
+  {characters.map(char => (
+    <div key={char.id} className="character-card-wrapper">
+      <SuperheroCard
+        character={char}
+        onEdit={handleEditClick}
+        onDelete={handleDelete}
+      />
+    </div>
+  ))}
+</div>
+
 
       <div className="pagination-controls">
         <Row className="mt-4">

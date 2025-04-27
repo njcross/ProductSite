@@ -24,7 +24,7 @@ def subscribe():
     new_entry = Newsletter(email=email, newsletter_value=value)
     db.session.add(new_entry)
     db.session.commit()
-    return jsonify({'message': 'Subscribed successfully'}), 200
+    return jsonify({'message': 'Subscribed successfully'}), 201
 
 
 @newsletter_bp.route('/unsubscribe', methods=['POST'])

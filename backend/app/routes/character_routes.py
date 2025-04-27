@@ -6,8 +6,34 @@ from app.models.character import Character
 from app.schemas.character_schema import character_schema, characters_schema
 from app.utils.decorators import login_required
 from app.utils.decorators import admin_required
+from flask_cors import cross_origin
 
 character_bp = Blueprint("characters", __name__, url_prefix="/characters")
+
+
+@character_bp.route('/by-ids/', methods=['OPTIONS'])
+@cross_origin(supports_credentials=True)
+def options_favorites():
+    return '', 200
+
+@character_bp.route('', methods=['OPTIONS'])
+@cross_origin(supports_credentials=True)
+def options_favorites2():
+    return '', 200
+
+@character_bp.route('/by-ids/', methods=['POST'])
+def get_characters_by_ids():
+    if request.method == 'OPTIONS':
+        return jsonify({"message": "CORS preflight success"}), 200
+
+    data = request.get_json()
+    ids = data.get('ids', [])
+
+    if not isinstance(ids, list) or not all(isinstance(i, int) for i in ids):
+        return jsonify({"error": "Invalid or missing 'ids' list"}), 400
+
+    characters = Character.query.filter(Character.id.in_(ids)).all()
+    return jsonify(characters_schema.dump(characters)), 200
 
 @character_bp.route("", methods=["GET"])
 def get_characters():
@@ -15,7 +41,6 @@ def get_characters():
     search = request.args.get("search", "")
     page = int(request.args.get("page", 1))
     per_page = int(request.args.get("perPage", 12))
-
     query = select(Character)
 
     if search:
@@ -28,7 +53,6 @@ def get_characters():
                 Character.powers.ilike(like_term),
             )
         )
-
     query = query.order_by(getattr(Character, sort_by, Character.name))
     characters = db.session.execute(query).scalars().all()
     start = (page - 1) * per_page

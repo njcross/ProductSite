@@ -5,6 +5,7 @@ class FavoriteSchema(Schema):
     user_id = fields.Int(required=True)
     character_id = fields.Int(allow_none=True)
     filter_json = fields.Str(allow_none=True)
+    filter_name = fields.Str(allow_none=True)
 
 favorite_schema = FavoriteSchema()
 favorites_schema = FavoriteSchema(many=True)
