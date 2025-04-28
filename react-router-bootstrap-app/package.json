@@ -13,6 +13,11 @@
     "react-scripts": "^5.0.1",
     "web-vitals": "^4.2.4"
   },
+  "devDependencies": {
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/user-event": "^14.4.3"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
