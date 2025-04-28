@@ -1,13 +1,14 @@
 // src/context/FavoritesContext.jsx
 import { createContext, useContext, useEffect, useState } from 'react';
+import { useUser } from './UserContext'; // <-- 🔥 import this!
 
 export const FavoritesContext = createContext();
 
 export function FavoritesProvider({ children }) {
   const [favorites, setFavorites] = useState([]);
+  const { currentUser } = useUser(); // <-- 🔥 get currentUser
   const API_BASE = process.env.REACT_APP_API_URL || '';
 
-  // Fetch the current favorites
   const fetchFavorites = async () => {
     try {
       const res = await fetch(`${API_BASE}/api/favorites/`, {
@@ -29,7 +30,6 @@ export function FavoritesProvider({ children }) {
     }
   };
 
-  // Toggle a favorite (add or remove)
   const toggleFavorite = async (characterId) => {
     const isFav = favorites.includes(characterId);
     if (isFav) {
@@ -54,7 +54,6 @@ export function FavoritesProvider({ children }) {
     }
   };
 
-  // Remove a favorite
   const removeFavorite = async (characterId) => {
     try {
       const res = await fetch(`${API_BASE}/api/favorites/character/${characterId}`, {
@@ -73,8 +72,12 @@ export function FavoritesProvider({ children }) {
   };
 
   useEffect(() => {
-    fetchFavorites();
-  }, []); // ✅ Only run once on mount (not on API_BASE change)
+    if (currentUser) {
+      fetchFavorites(); // ✅ only if logged in
+    } else {
+      setFavorites([]); // ✅ if logged out, clear favorites
+    }
+  }, [currentUser]); // ✅ Re-run when login status changes
 
   return (
     <FavoritesContext.Provider value={{ favorites, toggleFavorite, removeFavorite }}>
@@ -83,7 +86,6 @@ export function FavoritesProvider({ children }) {
   );
 }
 
-// Custom hook to use the favorites
 export function useFavorites() {
   const context = useContext(FavoritesContext);
   if (!context) {
