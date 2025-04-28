@@ -13,7 +13,7 @@ export default function HeaderBar() {
 
   const handleLogout = async () => {
     try {
-      await fetch(`${API_BASE}/logout`, {
+      await fetch(`/api/logout`, {
         method: 'POST',
         headers: {
           'ngrok-skip-browser-warning': 'true',

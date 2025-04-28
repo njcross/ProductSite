@@ -22,7 +22,7 @@ export default function Cards() {
 
 useEffect(() => {
   if (currentUser) {
-    fetch(`${API_BASE}/api/favorites/`, {
+    fetch(`/api/favorites/`, {
       credentials: 'include',
       headers: { 'ngrok-skip-browser-warning': 'true' }
     })
@@ -40,7 +40,7 @@ useEffect(() => {
     const name = prompt('Give a name to this search:');
     if (!name) return;
 
-    fetch(`${API_BASE}/api/favorites`, {
+    fetch(`/api/favorites`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -78,7 +78,7 @@ useEffect(() => {
   };
 
   const handleDeleteSavedFilter = (id) => {
-    fetch(`${API_BASE}/api/favorites/character/${id}`, {
+    fetch(`/api/favorites/character/${id}`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {

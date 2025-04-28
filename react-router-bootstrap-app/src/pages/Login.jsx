@@ -19,7 +19,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`${API_BASE}/login`, {
+      const res = await fetch(`/login`, {
         method: 'POST',
         headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
         credentials: 'include',

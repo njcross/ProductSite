@@ -52,6 +52,7 @@ def create_app():
     from app.routes.user_settings_routes import user_settings_bp
     from app.routes.newsletter_routes import newsletter_bp
     from app.routes.favorite_routes import favorite_bp
+    from app.routes.health_routes import health_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(cart_bp)
@@ -60,11 +61,17 @@ def create_app():
     app.register_blueprint(user_settings_bp)
     app.register_blueprint(newsletter_bp)
     app.register_blueprint(favorite_bp)
+    app.register_blueprint(health_bp)
 
     # Without the app context, Flask wouldn't know which app's configuration to use.     
     with app.app_context():
         create_database()
-        db.create_all() # uses the schema to create the database tables  
+        try:
+            db.create_all()
+            print("Database tables created!")
+        except Exception as e:
+            print("DB setup failed:", str(e))
+            # uses the schema to create the database tables  
 
 
     return app

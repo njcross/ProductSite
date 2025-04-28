@@ -33,7 +33,7 @@ export default function EditableField({ contentKey, plain = false }) {
   }, [contentKey, content]);
 
   const saveContent = async () => {
-    const res = await fetch(`${API_BASE}/api/update-content`, {
+    const res = await fetch(`/api/update-content`, {
       method: 'POST',
       credentials: 'include',
       headers: {

@@ -21,7 +21,7 @@ export default function FavoritesPage() {
       return;
     }
 
-    fetch(`${API_BASE}/characters/by-ids/`, {
+    fetch(`/characters/by-ids/`, {
       method: 'POST',
       credentials: 'include',
       headers: {

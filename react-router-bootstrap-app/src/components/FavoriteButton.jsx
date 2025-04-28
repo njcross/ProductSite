@@ -8,7 +8,7 @@ export default function FavoriteButton({ characterId }) {
   const { favorites, toggleFavorite: toggleFavoriteFromContext, fetchFavorites } = useFavorites();
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/favorites/`, {
+    fetch(`/api/favorites/`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -27,8 +27,8 @@ export default function FavoriteButton({ characterId }) {
     try {
       const method = isFavorited ? 'DELETE' : 'POST';
       const endpoint = isFavorited
-        ? `${API_BASE}/api/favorites/character/${characterId}`
-        : `${API_BASE}/api/favorites/`;
+        ? `/api/favorites/character/${characterId}`
+        : `/api/favorites/`;
 
       const response = await fetch(endpoint, {
         method,

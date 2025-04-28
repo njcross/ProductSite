@@ -23,7 +23,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   const API_BASE = process.env.REACT_APP_API_URL;
 
   const fetchCharacters = useCallback(() => {
-    let url = `${API_BASE}/characters?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`;
+    let url = `/api/characters?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`;
 
     if (alignment) {
       url += `&alignment=${encodeURIComponent(alignment)}`;
@@ -46,7 +46,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   }, [fetchCharacters]);
 
   const handleDelete = (id) => {
-    fetch(`${API_BASE}/characters/${id}`, {
+    fetch(`/api/characters/${id}`, {
       method: 'DELETE',
       credentials: 'include',
       headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include' },
@@ -71,7 +71,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
 
   const handleCreate = async (formData) => {
     try {
-      const res = await fetch(`${API_BASE}/characters`, {
+      const res = await fetch(`/api/characters`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'ngrok-skip-browser-warning': 'true', 'Content-Type': 'application/json', credentials: 'include' },

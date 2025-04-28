@@ -15,7 +15,7 @@ export default function NewsletterList() {
       return;
     }
     try {
-      const res = await fetch(`${API_BASE}/api/newsletter/list?value=${value}`, {
+      const res = await fetch(`/api/newsletter/list?value=${value}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -38,7 +38,7 @@ export default function NewsletterList() {
 
   const handleDelete = async (email) => {
     try {
-      const res = await fetch(`${API_BASE}/api/newsletter/unsubscribe`, {
+      const res = await fetch(`/api/newsletter/unsubscribe`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

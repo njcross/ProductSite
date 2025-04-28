@@ -13,7 +13,7 @@ export function FooterNewsletter() {
   const handleSubscribe = async () => {
     if (!email) return;
     try {
-      const res = await fetch(`${API_BASE}/api/newsletter/subscribe`, {
+      const res = await fetch(`/api/newsletter/subscribe`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ export function FooterNewsletter() {
   const handleUnsubscribe = async () => {
     if (!email) return;
     try {
-      const res = await fetch(`${API_BASE}/api/newsletter/unsubscribe`, {
+      const res = await fetch(`/api/newsletter/unsubscribe`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

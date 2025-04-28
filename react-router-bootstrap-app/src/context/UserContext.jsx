@@ -8,7 +8,7 @@ export function UserProvider({ children }) {
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await fetch(`${API_BASE}/check-login`, {
+        const res = await fetch(`/check-login`, {
           headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
           credentials: 'include',
         });

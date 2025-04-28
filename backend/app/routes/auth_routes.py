@@ -15,7 +15,7 @@ google_bp = make_google_blueprint(
 )
 
 
-auth_bp = Blueprint('auth', __name__)
+auth_bp = Blueprint('auth', __name__, url_prefix='/api')
 user_schema = UserSchema()
 
 serializer = URLSafeTimedSerializer("super-secret-key")  # Replace with secure key

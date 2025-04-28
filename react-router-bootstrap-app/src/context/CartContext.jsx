@@ -12,7 +12,7 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     if (currentUser) {
-      fetch(`${API_BASE}/cart`, {
+      fetch(`/api/cart`, {
         headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
         credentials: 'include',
       })
@@ -44,7 +44,7 @@ export const CartProvider = ({ children }) => {
       );
       setCart(updated);
 
-      fetch(`${API_BASE}/cart/${existing.id}`, {
+      fetch(`/api/cart/${existing.id}`, {
         method: 'PUT',
         headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -52,7 +52,7 @@ export const CartProvider = ({ children }) => {
       });
     } else {
       const newItem = { character_id: character.id, quantity: 1 };
-      fetch(`${API_BASE}/cart`, {
+      fetch(`/api/cart`, {
         method: 'POST',
         headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -61,7 +61,7 @@ export const CartProvider = ({ children }) => {
         .then(res => res.json())
         .then(() => {
           // Refetch the cart to get ID assigned from backend
-          return fetch(`${API_BASE}/cart`, { credentials: 'include',
+          return fetch(`/api/cart`, { credentials: 'include',
             headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' } });
         })
         .then(res => res.json())
@@ -75,7 +75,7 @@ export const CartProvider = ({ children }) => {
     );
     setCart(updated);
 
-    fetch(`${API_BASE}/cart/${id}`, {
+    fetch(`/api/cart/${id}`, {
       method: 'PUT',
       headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -86,7 +86,7 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = (id) => {
     setCart(prev => prev.filter(item => item.id !== id));
 
-    fetch(`${API_BASE}/cart/${id}`, {
+    fetch(`/api/cart/${id}`, {
       method: 'DELETE',
       credentials: 'include',
     });

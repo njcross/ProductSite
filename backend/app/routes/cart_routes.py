@@ -4,7 +4,7 @@ from app.models.cart_item import CartItem
 from app.schemas.cart_schema import CartSchema
 from app.utils.decorators import login_required
 
-cart_bp = Blueprint('cart', __name__)
+cart_bp = Blueprint('cart', __name__, url_prefix='/api')
 cart_schema = CartSchema()
 carts_schema = CartSchema(many=True)
 

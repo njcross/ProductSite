@@ -15,7 +15,7 @@ export default function UserSettings() {
   const handleChangeEmail = async () => {
     if (!password) return setMessage('Please enter your password to change email.');
     try {
-      await fetch(`${API_BASE}/mock-change-email`, {
+      await fetch(`/mock-change-email`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export default function UserSettings() {
   const handleChangePassword = async () => {
     if (!password || !newPassword) return setMessage('Please fill in both password fields.');
     try {
-      await fetch(`${API_BASE}/mock-change-password`, {
+      await fetch(`/mock-change-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

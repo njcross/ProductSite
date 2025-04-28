@@ -11,7 +11,7 @@ export function FavoritesProvider({ children }) {
   // Add this function inside FavoritesProvider
 const fetchFavorites = async () => {
   try {
-    const res = await fetch(`${API_BASE}/api/favorites/`, {
+    const res = await fetch(`/api/favorites/`, {
       method: 'GET',
       credentials: 'include',
       headers: { 'ngrok-skip-browser-warning': 'true' }
@@ -41,7 +41,7 @@ const toggleFavorite = async (characterId) => {
   }
 
   try {
-    const res = await fetch(`${API_BASE}/api/favorites/`, {
+    const res = await fetch(`/api/favorites/`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -62,7 +62,7 @@ const toggleFavorite = async (characterId) => {
 // Update your removeFavorite like this:
 const removeFavorite = async (characterId) => {
   try {
-    const res = await fetch(`${API_BASE}/api/favorites/character/${characterId}`, {
+    const res = await fetch(`/api/favorites/character/${characterId}`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {

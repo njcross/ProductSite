@@ -8,7 +8,7 @@ from app.utils.decorators import login_required
 from app.utils.decorators import admin_required
 from flask_cors import cross_origin
 
-character_bp = Blueprint("characters", __name__, url_prefix="/characters")
+character_bp = Blueprint("characters", __name__, url_prefix="/api/characters")
 
 
 @character_bp.route('/by-ids/', methods=['OPTIONS'])
