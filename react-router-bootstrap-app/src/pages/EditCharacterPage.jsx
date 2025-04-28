@@ -22,7 +22,7 @@ export default function EditCharacterPage() {
   const API_BASE = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    fetch(`/characters/${id}`, {
+    fetch(`/api/characters/${id}`, {
       'ngrok-skip-browser-warning': 'true',
       credentials: 'include',
       headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include' }
@@ -43,7 +43,7 @@ export default function EditCharacterPage() {
 
   const handleEditSubmit = async (updatedCharacter) => {
     try {
-      const res = await fetch(`/characters/${id}`, {
+      const res = await fetch(`/api/characters/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedCharacter),
