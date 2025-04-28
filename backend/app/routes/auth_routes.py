@@ -81,6 +81,7 @@ def register():
     try:
         data = request.json
         data['role']='customer'
+        del data['confirmPassword']
         user_data = user_schema.load(data)
         user = User(
             username=user_data['username'],
