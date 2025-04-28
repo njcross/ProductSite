@@ -118,7 +118,7 @@ useEffect(() => {
               search={filters.search}
               onSearchChange={(val) => handleFilterChange({ search: val })}
               onClearSearch={handleClearSearch}
-              onSaveSearch={currentUser ? handleSaveSearch : null}
+              onSaveFilter={currentUser ? handleSaveSearch : null}
             />
             <CharacterList
               view={filters.view}
