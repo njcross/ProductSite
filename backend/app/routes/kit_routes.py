@@ -106,21 +106,26 @@ def update_kit(id):
         return jsonify({"message": "Kit not found"}), 404
 
     data = request.get_json()
+
+    # Remove fields that kit_schema.load() can't handle
+    loadable_data = {
+        key: value for key, value in data.items()
+        if key not in ['age', 'ages', 'category', 'categories', 'id', 'age_ids', 'category_ids']
+    }
+
     try:
-        updates = kit_schema.load(data)
+        updates = kit_schema.load(loadable_data)
 
-        # Basic field updates (excluding age/category relationships)
+        # Apply simple field updates
         for key, value in updates.items():
-            if key not in ['age', 'category']:
-                setattr(kit, key, value)
+            setattr(kit, key, value)
 
-        # Handle age_ids
+        # Handle relationship updates manually
         if 'age_ids' in data:
             kit.age = db.session.query(age_options).filter(
                 age_options.id.in_(data['age_ids'])
             ).all()
 
-        # Handle category_ids
         if 'category_ids' in data:
             kit.category = db.session.query(category_options).filter(
                 category_options.id.in_(data['category_ids'])
@@ -131,6 +136,7 @@ def update_kit(id):
 
     except Exception as e:
         return jsonify({"message": "Error updating kit", "error": str(e)}), 400
+
 
 
 
