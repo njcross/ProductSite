@@ -168,7 +168,7 @@ export default function CharacterForm({ initialData, onSubmit }) {
           <Form.Label className="mt-2">Or upload image</Form.Label>
           <Form.Control
             type="file"
-            accept="image/*"
+            accept="images/*"
             onChange={handleUpload}
           />
         </Form.Group>
