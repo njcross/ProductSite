@@ -178,6 +178,16 @@ def create_age_option():
     db.session.commit()
     return jsonify({"id": new_age.id, "name": new_age.name}), 201
 
+@kit_bp.route("/age-options/<int:id>", methods=["DELETE"])
+def delete_age_option(id):
+    age = age_options.query.get(id)
+    if not age:
+        return jsonify({"error": "Age option not found"}), 404
+
+    db.session.delete(age)
+    db.session.commit()
+    return jsonify({"message": "Age option deleted"}), 200
+
 
 @kit_bp.route("/category-options", methods=["POST", "OPTIONS"])
 def create_category_option():
@@ -194,3 +204,12 @@ def create_category_option():
     db.session.commit()
     return jsonify({"id": new_category.id, "name": new_category.name}), 201
 
+@kit_bp.route("/category-options/<int:id>", methods=["DELETE"])
+def delete_category_option(id):
+    category = category_options.query.get(id)
+    if not category:
+        return jsonify({"error": "Category option not found"}), 404
+
+    db.session.delete(category)
+    db.session.commit()
+    return jsonify({"message": "Category option deleted"}), 200

@@ -1,156 +1,100 @@
-.character-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-/* Grid view specific */
-.character-grid.grid-view {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 0.5rem;
-  justify-items: center;
-}
-
-/* List view forces full width */
-.character-grid.list-view {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
 .character-list-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  padding: 1rem;
 }
 
-/* Always */
+/* GRID VIEW */
+.character-grid.grid-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  justify-items: center;
+}
+
+/* LIST VIEW */
+.character-grid.list-view {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* CARD WRAPPER FOR BOTH */
 .character-card-wrapper {
   width: 100%;
-}
-
-/* Grid view: size cards smaller in grid */
-.character-grid.grid-view .character-card-wrapper {
-  width: 100%;
-  max-width: 350px; /* Or whatever card width you want */
-}
-
-/* List view: wrapper stretches fully */
-.character-grid.list-view .character-card-wrapper {
-  width: 100%;
-  max-width: 100%;
   display: flex;
   justify-content: center;
 }
 
-/* 1200px and below: 3 cards */
-@media (max-width: 1200px) {
-  .character-list-container:not(.list-view) .character-card-wrapper {
-    flex: 0 0 calc(33.333% - 1rem);
-    max-width: calc(33.333% - 1rem);
-  }
+/* LIMIT CARD WIDTH IN GRID */
+.character-grid.grid-view .character-card-wrapper {
+  max-width: 350px;
 }
 
-/* 992px and below: 2 cards */
-@media (max-width: 992px) {
-  .character-list-container:not(.list-view) .character-card-wrapper {
-    flex: 0 0 calc(50% - 1rem);
-    max-width: calc(50% - 1rem);
-  }
-}
-
-/* 576px and below: 1 card */
-@media (max-width: 576px) {
-  .character-list-container:not(.list-view) .character-card-wrapper {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-}
-
-
-
-
-/* LIST VIEW: Apply horizontal card layout even on mobile */
-.character-list-container.list-view .character-card {
+/* LIST VIEW: Horizontal layout */
+.character-grid.list-view .character-card {
   display: flex;
   flex-direction: row;
   align-items: stretch;
   width: 100%;
   max-width: 1000px;
-  margin: 0 auto 1.5rem auto;
   background-color: var(--bg-main);
   border-radius: var(--radius-md);
   overflow: hidden;
-  min-height: 160px; /* 👈 keeps it shorter and wider */
+  min-height: 160px;
 }
 
-/* LIST VIEW: Image takes up fixed width */
-.character-list-container:not(.list-view) .character-card img {
-  max-height: 100%;
-  height: 100% !important;
-  width: unset !important;
-  display: block;
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
+/* LIST VIEW: Image fixed width */
+.character-grid.list-view .character-card img {
+  width: 140px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0;
 }
 
 /* LIST VIEW: Content beside image */
-.character-list-container.list-view .card-body {
+.character-grid.list-view .card-body {
   flex: 1;
-  padding: var(--spacing-md) 1.25rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-/* LIST VIEW: Actions wrap and align right */
-.character-list-container.list-view .card-actions {
-  margin-top: 0.5rem;
+/* Card actions layout */
+.card-actions {
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
   flex-wrap: wrap;
+  margin-top: 0.5rem;
 }
 
-/* Responsive overrides to KEEP layout in list view */
+/* Responsive LIST image sizing */
 @media (max-width: 768px) {
-  .character-list-container.list-view .character-card {
+  .character-grid.list-view .character-card {
     flex-direction: row;
     min-height: 140px;
   }
 
-  .character-list-container.list-view .character-card img {
-    width: 120px;
+  .character-grid.list-view .character-card img {
+    width: 100px;
   }
 
-  .character-list-container.list-view .card-body {
+  .character-grid.list-view .card-body {
     padding: 0.75rem;
   }
 
-  .character-list-container.list-view .card-actions {
+  .character-grid.list-view .card-actions {
     justify-content: flex-start;
   }
-
 }
 
-
-/* Center grid even if only 1 item (remove extra single-card hacks) */
-.character-list-container .row {
-  justify-content: center;
-  gap: 1rem;
-  margin: 0;
-}
-
-/* Pagination aligned correctly */
+/* Pagination aligned center */
 .pagination-controls {
-  width: 100%;
   display: flex;
   justify-content: center;
   margin-top: 2rem;
-}
-
-
-.character-card {
-  margin: 0 auto;
 }
