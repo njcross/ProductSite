@@ -21,25 +21,29 @@ export default function CharacterForm({ initialData, onSubmit }) {
   const [newAge, setNewAge] = useState('');
   const [newCategory, setNewCategory] = useState('');
 
-  useEffect(() => {
-    fetch(`${API_BASE}/api/kits/age-options`)
-      .then(res => res.json())
-      .then(setAgeOptions)
-      .catch(console.error);
+  // 1. Fetch options
+useEffect(() => {
+  fetch(`${API_BASE}/api/kits/age-options`)
+    .then(res => res.json())
+    .then(setAgeOptions)
+    .catch(console.error);
 
-    fetch(`${API_BASE}/api/kits/category-options`)
-      .then(res => res.json())
-      .then(setCategoryOptions)
-      .catch(console.error);
+  fetch(`${API_BASE}/api/kits/category-options`)
+    .then(res => res.json())
+    .then(setCategoryOptions)
+    .catch(console.error);
+}, [API_BASE]);
 
-    if (initialData) {
-      setFormData({
-        ...initialData,
-        age_ids: initialData.ages?.map(a => String(a.id)) || [],
-        category_ids: initialData.categories?.map(c => String(c.id)) || [],
-      });
-    }
-  }, [initialData]);
+// 2. Set initialData after options are loaded
+useEffect(() => {
+  if (initialData && ageOptions.length && categoryOptions.length) {
+    setFormData({
+      ...initialData,
+      age_ids: initialData.ages?.map(a => String(a.id)) || [],
+      category_ids: initialData.categories?.map(c => String(c.id)) || [],
+    });
+  }
+}, [initialData, ageOptions, categoryOptions]);
 
   const handleChange = (e) => {
     const { name, value, type, selectedOptions } = e.target;
