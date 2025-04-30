@@ -14,7 +14,7 @@ export default function FavoriteButton({ characterId }) {
     })
       .then(res => res.json())
       .then(data => {
-        const favoritedIds = data.map(f => f.character_id);
+        const favoritedIds = data.map(f => f.kit_id);
         setIsFavorited(favoritedIds.includes(characterId));
       })
       .catch(err => console.error('Failed to fetch favorites:', err));
