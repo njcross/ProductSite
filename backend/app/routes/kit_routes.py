@@ -11,10 +11,7 @@ kit_bp = Blueprint("kits", __name__, url_prefix="/api/kits")
 
 
 @kit_bp.route('/by-ids/', methods=['POST', 'OPTIONS'])
-@cross_origin(supports_credentials=True)
 def get_kits_by_ids():
-    if request.method == 'OPTIONS':
-        return '', 200
 
     data = request.get_json()
     ids = data.get('ids', [])
