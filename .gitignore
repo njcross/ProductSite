@@ -1,0 +1,18 @@
+# Ignore Python bytecode
+**/__pycache__/
+**/*.py[cod]
+
+# Ignore virtual environment
+backend/venv/
+
+# Node modules (just in case)
+node_modules/
+
+# Build files
+build/
+dist/
+
+# Ignore log and environment files
+*.log
+.env
+
