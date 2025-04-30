@@ -11,9 +11,9 @@ import './SuperheroCard.css';
 export default function SuperheroCard({ character, onEdit, onDelete }) {
   const { currentUser } = useUser();
   const { addToCart } = useCart();
-  const { removeFavorite } = useFavorites(); // ⬅️ we add this to remove favorites
+  const { removeFavorite } = useFavorites();
   const navigate = useNavigate();
-  const location = useLocation(); // ⬅️ we add this to check the current URL
+  const location = useLocation();
 
   const isFavoritesPage = location.pathname === '/favorites';
 
@@ -23,53 +23,64 @@ export default function SuperheroCard({ character, onEdit, onDelete }) {
         <Card.Img className="card-img" variant="top" src={character.image_url} alt={character.name} />
       </div>
       <Card.Body>
-  <Card.Title className="character-name d-flex justify-content-between align-items-center">
-    <span className="character-name-text">{character.name}</span>
-    {currentUser && (
-      !isFavoritesPage ? (
-        <FavoriteButton characterId={character.id} />
-      ) : (
-        <Button
-          variant="danger"
-          size="sm"
-          onClick={(e) => {
-            e.stopPropagation();
-            removeFavorite(character.id);
-          }}
-        >
-          Remove
-        </Button>
-      )
-    )}
-  </Card.Title>
+        <Card.Title className="character-name d-flex justify-content-between align-items-center">
+          <span className="character-name-text">{character.name}</span>
+          {currentUser && (
+            !isFavoritesPage ? (
+              <FavoriteButton characterId={character.id} />
+            ) : (
+              <Button
+                variant="danger"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeFavorite(character.id);
+                }}
+              >
+                Remove
+              </Button>
+            )
+          )}
+        </Card.Title>
 
-  <Card.Subtitle className="character-alias">{character.alias}</Card.Subtitle>
-  <Card.Text className="character-description">{character.powers}</Card.Text>
-  <Card.Text className="character-price">
-    ${character.price.toFixed(2)}
-  </Card.Text>
+        <Card.Text className="character-description">
+          {character.description?.length > 100
+            ? character.description.slice(0, 100) + '...'
+            : character.description}
+        </Card.Text>
 
-  <div className="card-actions">
-    {currentUser && (
-      <Button onClick={(e) => {
-        e.stopPropagation();
-        addToCart(character);
-        navigate('/cart');
-      }}>
-        <EditableField contentKey="content_76" />
-      </Button>
-    )}
-    {currentUser?.role === 'admin' && (
-      <Button onClick={(e) => {
-        e.stopPropagation();
-        onDelete(character.id);
-      }} aria-label="Delete">
-        <i className="fas fa-trash-alt"></i>
-      </Button>
-    )}
-  </div>
-</Card.Body>
+        <Card.Text className="character-meta">
+          <strong>Age Range:</strong> {character.age?.map(a => a.name).join(', ') || 'N/A'}
+        </Card.Text>
 
+        <Card.Text className="character-meta">
+          <strong>Categories:</strong> {character.category?.map(c => c.name).join(', ') || 'N/A'}
+        </Card.Text>
+
+        <Card.Text className="character-price">
+          <strong>${character.price.toFixed(2)}</strong>
+        </Card.Text>
+
+        <div className="card-actions">
+          {currentUser && (
+            <Button onClick={(e) => {
+              e.stopPropagation();
+              addToCart(character);
+              navigate('/cart');
+            }}>
+              <EditableField contentKey="content_76" />
+            </Button>
+          )}
+          {currentUser?.role === 'admin' && (
+            <Button onClick={(e) => {
+              e.stopPropagation();
+              onDelete(character.id);
+            }} aria-label="Delete">
+              <i className="fas fa-trash-alt"></i>
+            </Button>
+          )}
+        </div>
+      </Card.Body>
     </Card>
   );
 }

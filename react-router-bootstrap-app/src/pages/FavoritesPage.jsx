@@ -21,7 +21,7 @@ export default function FavoritesPage() {
       return;
     }
 
-    fetch(`/api/characters/by-ids/`, {
+    fetch(`/api/kits/by-ids/`, {
       method: 'POST',
       credentials: 'include',
       headers: {

@@ -9,7 +9,7 @@ import { useUser } from '../context/UserContext';
 import EditableField from '../components/EditableField';
 import './CharacterList.css';
 
-export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view = 'grid', search = '', alignment = '' }) {
+export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view = 'grid', search = '', selectedAges = [], selectedCategories = [] }) { 
   const { currentUser } = useUser();
   const [characters, setCharacters] = useState([]);
   const [page, setPage] = useState(1);
@@ -23,12 +23,11 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   const API_BASE = process.env.REACT_APP_API_URL;
 
   const fetchCharacters = useCallback(() => {
-    let url = `/api/characters?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`;
-
-    if (alignment) {
-      url += `&alignment=${encodeURIComponent(alignment)}`;
-    }
-
+    let url = `${API_BASE}/api/kits?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`;
+    if (Array.isArray(selectedAges) && selectedAges.length)
+      url += `&age_ids=${selectedAges.join(',')}`;
+    if (Array.isArray(selectedCategories) && selectedCategories.length)
+      url += `&category_ids=${selectedCategories.join(',')}`;
     fetch(url, {
       method: 'GET',
       credentials: 'include'
@@ -39,14 +38,14 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
         setHasNext(data.has_next ?? (data.length === itemsPerPage));
       })
       .catch(err => console.error('Failed to load characters:', err));
-  }, [API_BASE, sortBy, page, itemsPerPage, search, alignment]); // ⬅️ notice we added `alignment` here
+  }, [API_BASE, sortBy, page, itemsPerPage, search, selectedAges, selectedCategories]);
 
   useEffect(() => {
     fetchCharacters();
   }, [fetchCharacters]);
 
   const handleDelete = (id) => {
-    fetch(`/api/characters/${id}`, {
+    fetch(`${API_BASE}/api/kits/${id}`, {
       method: 'DELETE',
       credentials: 'include',
       headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include' },
@@ -71,7 +70,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
 
   const handleCreate = async (formData) => {
     try {
-      const res = await fetch(`/api/characters`, {
+      const res = await fetch(`${API_BASE}/api/kits`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'ngrok-skip-browser-warning': 'true', 'Content-Type': 'application/json', credentials: 'include' },

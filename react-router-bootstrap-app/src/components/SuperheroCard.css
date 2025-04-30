@@ -13,7 +13,6 @@
   width: 100%; /* full width of wrapper */
   max-width: 500px; /* allow it to be much wider */
   min-width: 300px; /* optionally force a minimum so small cards don’t collapse */
-  margin: auto;
 }
 
 

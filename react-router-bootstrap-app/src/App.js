@@ -40,8 +40,8 @@ export default function App() {
   }, []);
 
   return (
-    <FavoritesProvider>
     <UserProvider>
+    <FavoritesProvider>
       <CartProvider>
         <ContentContext.Provider value={{ content, setContent }}>
           <Router>
@@ -68,7 +68,8 @@ export default function App() {
           </Router>
         </ContentContext.Provider>
       </CartProvider>
+      </FavoritesProvider>
     </UserProvider>
-    </FavoritesProvider>
+    
   );
 }

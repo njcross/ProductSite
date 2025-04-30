@@ -44,6 +44,15 @@ serializer = URLSafeTimedSerializer("super-secret-key")  # Replace with secure k
 
 #     return redirect("/")  # or return user data if frontend is expecting JSON
 
+@auth_bp.route('/login', methods=['OPTIONS'])
+@cross_origin(supports_credentials=True)
+def login_options():
+    return '', 200
+
+@auth_bp.route('/register', methods=['OPTIONS'])
+@cross_origin(supports_credentials=True)
+def register_options():
+    return '', 200
 
 @auth_bp.route('/token-login', methods=['POST'])
 def token_login():

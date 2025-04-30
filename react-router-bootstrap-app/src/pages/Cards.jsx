@@ -12,11 +12,12 @@ export default function Cards() {
   const [savedFilters, setSavedFilters] = useState([]);
   const API_BASE = process.env.REACT_APP_API_URL;
   const [filters, setFilters] = useState({
-    alignment: '',
     view: 'grid',
     itemsPerPage: 12,
     sortBy: 'name',
-    search: ''
+    search: '',
+    age_ids: [],
+    category_ids: []
   });
 
 
@@ -69,7 +70,8 @@ useEffect(() => {
 
   const handleClearSearch = () => {
     setFilters({
-      alignment: '',
+      age_ids: [],
+      category_ids: [],
       view: 'grid',
       itemsPerPage: 12,
       sortBy: 'name',
@@ -98,14 +100,16 @@ useEffect(() => {
         <h2 className="text-center text-white mb-4">Character Collection</h2>
         <Row>
         <Col md={2} sm={12}>
-            <FilterBy
-              selectedAlignment={filters.alignment}
-              onFilterChange={(val) => handleFilterChange({ alignment: val })}
-              savedFilters={savedFilters}
-              onSelectSavedFilter={handleSelectSavedFilter}
-              onDeleteSavedFilter={handleDeleteSavedFilter}
-              currentUser={currentUser}
-            />
+          <FilterBy
+            selectedAlignment={filters.alignment}
+            selectedAges={filters.age_ids}
+            selectedCategories={filters.category_ids}
+            onFilterChange={handleFilterChange}
+            savedFilters={savedFilters}
+            onSelectSavedFilter={handleSelectSavedFilter}
+            onDeleteSavedFilter={handleDeleteSavedFilter}
+            currentUser={currentUser}
+          />
           </Col>
           <Col md={10} sm={12}>
             <ViewingOptions
@@ -126,6 +130,8 @@ useEffect(() => {
               sortBy={filters.sortBy}
               search={filters.search}
               alignment={filters.alignment}
+              selectedAges={filters.age_ids}
+              selectedCategories={filters.category_ids}
             />
           </Col>
         </Row>

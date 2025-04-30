@@ -15,7 +15,7 @@ def update_content():
     if not data or "field" not in data or "value" not in data:
         return jsonify({"error": "Missing 'field' or 'value'"}), 400
 
-    content_path = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public/', 'content.json')
+    content_path = os.path.join('../../react-router-bootstrap-app/public/', 'content.json')
 
     # Ensure file exists
     if not os.path.exists(content_path):

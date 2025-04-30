@@ -22,7 +22,7 @@ export default function EditCharacterPage() {
   const API_BASE = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    fetch(`/api/characters/${id}`, {
+    fetch(`${API_BASE}/api/kits/${id}`, {
       'ngrok-skip-browser-warning': 'true',
       credentials: 'include',
       headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include' }
@@ -43,7 +43,7 @@ export default function EditCharacterPage() {
 
   const handleEditSubmit = async (updatedCharacter) => {
     try {
-      const res = await fetch(`/api/characters/${id}`, {
+      const res = await fetch(`${API_BASE}/api/kits/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedCharacter),
@@ -89,26 +89,29 @@ export default function EditCharacterPage() {
         </Col>
         <Col md={6} className="info-section">
           <h1 className="character-title">{character.name}</h1>
-          <p className="character-alias">
-            <EditableField contentKey="content_109" /> <strong>{character.alias}</strong>
+
+          <p className="character-description">
+            <strong><EditableField contentKey="content_200" /></strong> {character.description}
           </p>
-          <hr />
-          <p className="character-alignment">
-            <strong><EditableField contentKey="content_110" /></strong> {character.alignment}
-          </p>
-          <p className="character-powers">
-            <strong><EditableField contentKey="content_111" /></strong> {character.powers}
-          </p>
+
           <p className="character-price">
-            <strong><EditableField contentKey="content_112" /></strong> {character.price}
+            <strong><EditableField contentKey="content_112" /></strong> ${character.price}
+          </p>
+
+          <p className="character-age">
+            <strong><EditableField contentKey="content_201" /></strong>{' '}
+            {character.age?.map(a => a.name).join(', ') || 'N/A'}
+          </p>
+
+          <p className="character-category">
+            <strong><EditableField contentKey="content_202" /></strong>{' '}
+            {character.category?.map(c => c.name).join(', ') || 'N/A'}
           </p>
 
           {currentUser?.role === 'admin' && (
-            <>
-              <Button variant="warning" className="edit-button" onClick={handleEditButtonClick}>
-                <EditableField contentKey="content_113" />
-              </Button>
-            </>
+            <Button variant="warning" className="edit-button" onClick={handleEditButtonClick}>
+              <EditableField contentKey="content_113" />
+            </Button>
           )}
         </Col>
       </Row>
