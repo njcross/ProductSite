@@ -43,7 +43,6 @@ if [[ "$DEPLOY_TARGET" == "frontend" || "$DEPLOY_TARGET" == "all" ]]; then
   echo "🔧 Setting permissions and reloading Nginx..."
   ssh -i "$PEM_PATH" $EC2_USER@$EC2_IP << EOF
     sudo chmod -R 755 $REMOTE_REACT_PATH
-    sudo chown -R nginx:nginx $REMOTE_REACT_PATH
     sudo systemctl reload nginx
 EOF
 fi
