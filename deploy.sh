@@ -37,6 +37,8 @@ if [[ "$DEPLOY_TARGET" == "frontend" || "$DEPLOY_TARGET" == "all" ]]; then
 
   echo "🚀 Uploading React build to EC2..."
   scp -i "$PEM_PATH" -r build/* $EC2_USER@$EC2_IP:$REMOTE_REACT_PATH
+  sudo ln -s /home/ec2-user/ProductSite/react-router-bootstrap-app/public/content.json /var/www/react/content.json
+  sudo ln -s /home/ec2-user/ProductSite/react-router-bootstrap-app/public/images /var/www/react/images
 
   echo "🔧 Setting permissions and reloading Nginx..."
   ssh -i "$PEM_PATH" $EC2_USER@$EC2_IP << EOF

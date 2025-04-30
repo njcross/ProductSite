@@ -117,6 +117,32 @@ export default function CharacterForm({ initialData, onSubmit }) {
       alert('Error adding new category: ' + err.message);
     }
   };
+  const handleUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+  
+    const data = new FormData();
+    data.append('image', file);
+  
+    try {
+      const res = await fetch(`${API_BASE}/api/upload-image`, {
+        method: 'POST',
+        credentials: 'include',
+        body: data
+      });
+  
+      if (!res.ok) throw new Error('Image upload failed');
+      const result = await res.json();
+  
+      // Update formData with new image_url
+      setFormData(prev => ({ ...prev, image_url: result.url }));
+      setUrlError('');
+    } catch (err) {
+      console.error(err);
+      setUrlError('Upload failed: ' + err.message);
+    }
+  };
+  
 
   return (
     <div className="character-form-wrapper">
@@ -135,10 +161,18 @@ export default function CharacterForm({ initialData, onSubmit }) {
             value={formData.image_url}
             onChange={handleChange}
             isInvalid={!!urlError}
-            required
+            placeholder="https://example.com/image.png"
           />
           <Form.Control.Feedback type="invalid">{urlError}</Form.Control.Feedback>
+
+          <Form.Label className="mt-2">Or upload image</Form.Label>
+          <Form.Control
+            type="file"
+            accept="image/*"
+            onChange={handleUpload}
+          />
         </Form.Group>
+
 
         <Form.Group controlId="formPrice">
           <Form.Label><EditableField contentKey="content_10" /></Form.Label>

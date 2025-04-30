@@ -56,6 +56,7 @@ def upload_image():
     filename = secure_filename(file.filename)
     save_path = os.path.join(upload_folder, filename)
     file.save(save_path)
+    os.chmod(save_path, 0o755)  # Set file permissions to be readable
 
     image_url = f'/images/{filename}'
     return jsonify({"success": True, "url": image_url})
