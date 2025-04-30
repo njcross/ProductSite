@@ -23,9 +23,8 @@ export default function EditCharacterPage() {
 
   useEffect(() => {
     fetch(`${API_BASE}/api/kits/${id}`, {
-      'ngrok-skip-browser-warning': 'true',
       credentials: 'include',
-      headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include' }
+      headers: { credentials: 'include' }
     })
       .then(res => res.json())
       .then(data => setCharacter(data))
@@ -47,7 +46,6 @@ export default function EditCharacterPage() {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedCharacter),
-        'ngrok-skip-browser-warning': 'true',
         credentials: 'include'
       });
 

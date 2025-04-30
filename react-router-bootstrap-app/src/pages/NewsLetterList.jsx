@@ -19,7 +19,6 @@ export default function NewsletterList() {
         method: 'GET',
         credentials: 'include',
         headers: {
-          'ngrok-skip-browser-warning': 'true',
           'Content-Type': 'application/json',
           credentials: 'include'
         },
@@ -42,7 +41,6 @@ export default function NewsletterList() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true',
           credentials: 'include'
         },
         credentials: 'include',

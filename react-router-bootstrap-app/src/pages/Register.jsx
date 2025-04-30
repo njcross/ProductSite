@@ -31,7 +31,6 @@ export default function Register() {
       const res = await fetch(`${API_BASE}/api/register`, {
         method: 'POST',
         headers: {
-          'ngrok-skip-browser-warning': 'true',
           credentials: 'include',
           'Content-Type': 'application/json'
         },

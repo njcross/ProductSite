@@ -25,8 +25,7 @@ export default function FavoritesPage() {
       method: 'POST',
       credentials: 'include',
       headers: {
-        'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning': 'true',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ ids: favorites }),
     })

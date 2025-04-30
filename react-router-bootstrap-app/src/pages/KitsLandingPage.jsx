@@ -13,7 +13,6 @@ function KitsLandingPage() {
       method: 'GET',
       credentials: 'include',
       headers: {
-        'ngrok-skip-browser-warning': 'true',
         credentials: 'include',
       },
     })

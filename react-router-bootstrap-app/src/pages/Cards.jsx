@@ -24,8 +24,7 @@ export default function Cards() {
 useEffect(() => {
   if (currentUser) {
     fetch(`/api/favorites/`, {
-      credentials: 'include',
-      headers: { 'ngrok-skip-browser-warning': 'true' }
+      credentials: 'include'
     })
       .then(res => res.json())
       .then(data => setSavedFilters(data || []))
@@ -45,8 +44,7 @@ useEffect(() => {
       method: 'POST',
       credentials: 'include',
       headers: {
-        'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning': 'true'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         type: 'filter',
@@ -84,8 +82,7 @@ useEffect(() => {
       method: 'DELETE',
       credentials: 'include',
       headers: {
-        'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning': 'true'
+        'Content-Type': 'application/json'
       },
     })
       .then(() => {
