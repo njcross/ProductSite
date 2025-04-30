@@ -108,12 +108,30 @@ def update_kit(id):
     data = request.get_json()
     try:
         updates = kit_schema.load(data)
+
+        # Basic field updates (excluding age/category relationships)
         for key, value in updates.items():
-            setattr(kit, key, value)
+            if key not in ['age', 'category']:
+                setattr(kit, key, value)
+
+        # Handle age_ids
+        if 'age_ids' in data:
+            kit.age = db.session.query(age_options).filter(
+                age_options.id.in_(data['age_ids'])
+            ).all()
+
+        # Handle category_ids
+        if 'category_ids' in data:
+            kit.category = db.session.query(category_options).filter(
+                category_options.id.in_(data['category_ids'])
+            ).all()
+
         db.session.commit()
         return jsonify(kit_schema.dump(kit)), 200
+
     except Exception as e:
         return jsonify({"message": "Error updating kit", "error": str(e)}), 400
+
 
 
 @kit_bp.route("/<int:id>", methods=["DELETE"])
