@@ -20,10 +20,10 @@ export function FavoritesProvider({ children }) {
       });
       if (!res.ok) throw new Error('Failed to fetch favorites');
       const data = await res.json();
-      const characterIds = (data || [])
-        .filter(fav => fav.character_id !== null)
-        .map(fav => fav.character_id);
-      setFavorites(characterIds);
+      const kitIds = (data || [])
+        .filter(fav => fav.kit_id !== null)
+        .map(fav => fav.kit_id);
+      setFavorites(kitIds);
     } catch (err) {
       console.error('Error fetching favorites:', err);
     }
