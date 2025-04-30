@@ -27,13 +27,13 @@ def add_favorite():
     if request.method == 'OPTIONS':
         return '', 200
     data = request.json
-    character_id = data.get('character_id')
+    kit_id = data.get('kit_id')
     filter_json = data.get('filter_json')
 
-    if not character_id and not filter_json:
+    if not kit_id and not filter_json:
         return jsonify({"error": "Either character_id or filter_json is required."}), 400
 
-    favorite = Favorite(user_id=session.get('user_id'), character_id=character_id, filter_json=filter_json)
+    favorite = Favorite(user_id=session.get('user_id'), kit_id=kit_id, filter_json=filter_json)
     db.session.add(favorite)
     db.session.commit()
 
@@ -44,7 +44,7 @@ def add_favorite():
 def delete_favorite_by_character(character_id):
     favorite = Favorite.query.filter_by(
         user_id=session.get('user_id'),
-        character_id=character_id
+        kit_id=kit_id,
     ).first()
 
     if not favorite:
