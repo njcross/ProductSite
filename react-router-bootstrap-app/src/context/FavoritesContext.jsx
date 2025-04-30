@@ -1,15 +1,15 @@
 // src/context/FavoritesContext.jsx
-import { createContext, useContext, useEffect, useState } from 'react';
-import { useUser } from './UserContext'; // <-- 🔥 import this!
+import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { useUser } from './UserContext';
 
 export const FavoritesContext = createContext();
 
 export function FavoritesProvider({ children }) {
   const [favorites, setFavorites] = useState([]);
-  const { currentUser } = useUser(); // <-- 🔥 get currentUser
+  const { currentUser } = useUser();
   const API_BASE = process.env.REACT_APP_API_URL || '';
 
-  const fetchFavorites = async () => {
+  const fetchFavorites = useCallback(async () => {
     try {
       const res = await fetch(`${API_BASE}/api/favorites/`, {
         method: 'GET',
@@ -27,7 +27,7 @@ export function FavoritesProvider({ children }) {
     } catch (err) {
       console.error('Error fetching favorites:', err);
     }
-  };
+  }, [API_BASE]);
 
   const toggleFavorite = async (characterId) => {
     const isFav = favorites.includes(characterId);
@@ -70,18 +70,18 @@ export function FavoritesProvider({ children }) {
 
   useEffect(() => {
     if (currentUser) {
-      fetchFavorites(); // ✅ only if logged in
+      fetchFavorites();
     } else {
-      setFavorites([]); // ✅ if logged out, clear favorites
+      setFavorites([]);
     }
-  }, [currentUser]); // ✅ Re-run when login status changes
+  }, [currentUser, fetchFavorites]);
 
   return (
     <FavoritesContext.Provider value={{
       favorites,
       toggleFavorite,
       removeFavorite,
-      fetchFavorites 
+      fetchFavorites
     }}>
       {children}
     </FavoritesContext.Provider>
