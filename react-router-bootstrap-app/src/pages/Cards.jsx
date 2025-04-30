@@ -5,17 +5,22 @@ import ViewingOptions from '../components/ViewingOptions';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useUser } from '../context/UserContext';
 import './Cards.css';
+import { useLocation } from 'react-router-dom';
+
+
 
 export default function Cards() {
   const { currentUser } = useUser();
-
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const searchQuery = queryParams.get('search') || '';
   const [savedFilters, setSavedFilters] = useState([]);
   const API_BASE = process.env.REACT_APP_API_URL;
   const [filters, setFilters] = useState({
     view: 'grid',
     itemsPerPage: 12,
     sortBy: 'name',
-    search: '',
+    search: searchQuery,
     age_ids: [],
     category_ids: []
   });
@@ -31,6 +36,12 @@ useEffect(() => {
       .catch(err => console.error('Failed to fetch saved filters:', err));
   }
 }, [currentUser, API_BASE]);
+
+useEffect(() => {
+  const queryParams = new URLSearchParams(location.search);
+  const searchQuery = queryParams.get('search') || '';
+  setFilters(prev => ({ ...prev, search: searchQuery }));
+}, [location.search]);
 
   const handleFilterChange = (updated) => {
     setFilters(prev => ({ ...prev, ...updated }));
