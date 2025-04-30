@@ -77,7 +77,12 @@ export function FavoritesProvider({ children }) {
   }, [currentUser]); // ✅ Re-run when login status changes
 
   return (
-    <FavoritesContext.Provider value={{ favorites, toggleFavorite, removeFavorite }}>
+    <FavoritesContext.Provider value={{
+      favorites,
+      toggleFavorite,
+      removeFavorite,
+      fetchFavorites 
+    }}>
       {children}
     </FavoritesContext.Provider>
   );
