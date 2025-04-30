@@ -27,27 +27,63 @@ export default function FilterBy({
       .catch(console.error);
   }, []);
 
-  const handleMultiSelectChange = (e, type) => {
-    const selected = Array.from(e.target.selectedOptions).map(opt => opt.value);
-    onFilterChange({ [type]: selected });
+  const handleToggle = (type, id) => {
+    const selected = type === 'age_ids' ? selectedAges : selectedCategories;
+    const newSelected = selected.includes(id)
+      ? selected.filter(i => i !== id)
+      : [...selected, id];
+    onFilterChange({ [type]: newSelected });
+  };
+
+  const deleteAge = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this age option?')) return;
+    await fetch(`${API_BASE}/api/kits/age-options/${id}`, { method: 'DELETE', credentials: 'include' });
+    setAgeOptions(prev => prev.filter(a => a.id !== id));
+    onFilterChange({ age_ids: selectedAges.filter(aid => aid !== id) });
+  };
+
+  const deleteCategory = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this category option?')) return;
+    await fetch(`${API_BASE}/api/kits/category-options/${id}`, { method: 'DELETE', credentials: 'include' });
+    setCategoryOptions(prev => prev.filter(c => c.id !== id));
+    onFilterChange({ category_ids: selectedCategories.filter(cid => cid !== id) });
   };
 
   return (
     <div className="filter-by">
-
       <label>Filter by Age</label>
-      <select multiple value={selectedAges} onChange={e => handleMultiSelectChange(e, 'age_ids')}>
+      <ul className="filter-list">
         {ageOptions.map(age => (
-          <option key={age.id} value={String(age.id)}>{age.name}</option>
+          <li key={age.id}>
+            <input
+              type="checkbox"
+              checked={selectedAges.includes(String(age.id))}
+              onChange={() => handleToggle('age_ids', String(age.id))}
+            />
+            {age.name}
+            {currentUser?.role === 'admin' && (
+              <button onClick={() => deleteAge(age.id)} className="delete-btn">×</button>
+            )}
+          </li>
         ))}
-      </select>
+      </ul>
 
       <label>Filter by Category</label>
-      <select multiple value={selectedCategories} onChange={e => handleMultiSelectChange(e, 'category_ids')}>
+      <ul className="filter-list">
         {categoryOptions.map(cat => (
-          <option key={cat.id} value={String(cat.id)}>{cat.name}</option>
+          <li key={cat.id}>
+            <input
+              type="checkbox"
+              checked={selectedCategories.includes(String(cat.id))}
+              onChange={() => handleToggle('category_ids', String(cat.id))}
+            />
+            {cat.name}
+            {currentUser?.role === 'admin' && (
+              <button onClick={() => deleteCategory(cat.id)} className="delete-btn">×</button>
+            )}
+          </li>
         ))}
-      </select>
+      </ul>
 
       {currentUser && savedFilters.length > 0 && (
         <div className="saved-filters">

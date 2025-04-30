@@ -199,38 +199,107 @@ export default function CharacterForm({ initialData, onSubmit }) {
         </Form.Group>
 
         <Form.Group controlId="age_ids">
-          <Form.Label>Target Age Range</Form.Label>
-          <Form.Select multiple name="age_ids" value={formData.age_ids} onChange={handleChange}>
-            {ageOptions.map(age => (
-              <option key={age.id} value={String(age.id)}>{age.name}</option>
-            ))}
-          </Form.Select>
-          <InputGroup className="mt-2">
-            <Form.Control
-              placeholder="New age option"
-              value={newAge}
-              onChange={e => setNewAge(e.target.value)}
-            />
-            <Button onClick={addNewAge}>+</Button>
-          </InputGroup>
-        </Form.Group>
+  <Form.Label>Target Age Range</Form.Label>
+  <div className="custom-select-list">
+    {ageOptions.map(age => (
+      <div key={age.id} className="select-option">
+        <Form.Check 
+          type="checkbox"
+          inline
+          label={age.name}
+          value={String(age.id)}
+          checked={formData.age_ids.includes(String(age.id))}
+          onChange={(e) => {
+            const selected = e.target.checked
+              ? [...formData.age_ids, e.target.value]
+              : formData.age_ids.filter(id => id !== e.target.value);
+            setFormData(prev => ({ ...prev, age_ids: selected }));
+          }}
+        />
+        <Button
+          size="sm"
+          variant="outline-danger"
+          onClick={async () => {
+            if (window.confirm(`Delete age "${age.name}"?`)) {
+              await fetch(`${API_BASE}/api/kits/age-options/${age.id}`, {
+                method: 'DELETE',
+                credentials: 'include'
+              });
+              setAgeOptions(prev => prev.filter(a => a.id !== age.id));
+              setFormData(prev => ({
+                ...prev,
+                age_ids: prev.age_ids.filter(id => id !== String(age.id))
+              }));
+            }
+          }}
+        >
+          ×
+        </Button>
+      </div>
+    ))}
+  </div>
 
-        <Form.Group controlId="category_ids">
-          <Form.Label>Kit Categories</Form.Label>
-          <Form.Select multiple name="category_ids" value={formData.category_ids} onChange={handleChange}>
-            {categoryOptions.map(cat => (
-              <option key={cat.id} value={String(cat.id)}>{cat.name}</option>
-            ))}
-          </Form.Select>
-          <InputGroup className="mt-2">
-            <Form.Control
-              placeholder="New category option"
-              value={newCategory}
-              onChange={e => setNewCategory(e.target.value)}
-            />
-            <Button onClick={addNewCategory}>+</Button>
-          </InputGroup>
-        </Form.Group>
+  <InputGroup className="mt-2">
+    <Form.Control
+      placeholder="New age option"
+      value={newAge}
+      onChange={e => setNewAge(e.target.value)}
+    />
+    <Button onClick={addNewAge}>+</Button>
+  </InputGroup>
+</Form.Group>
+
+<Form.Group controlId="category_ids">
+  <Form.Label>Kit Categories</Form.Label>
+  <div className="custom-select-list">
+    {categoryOptions.map(cat => (
+      <div key={cat.id} className="select-option">
+        <Form.Check 
+          type="checkbox"
+          inline
+          label={cat.name}
+          value={String(cat.id)}
+          checked={formData.category_ids.includes(String(cat.id))}
+          onChange={(e) => {
+            const selected = e.target.checked
+              ? [...formData.category_ids, e.target.value]
+              : formData.category_ids.filter(id => id !== e.target.value);
+            setFormData(prev => ({ ...prev, category_ids: selected }));
+          }}
+        />
+        <Button
+          size="sm"
+          variant="outline-danger"
+          onClick={async () => {
+            if (window.confirm(`Delete category "${cat.name}"?`)) {
+              await fetch(`${API_BASE}/api/kits/category-options/${cat.id}`, {
+                method: 'DELETE',
+                credentials: 'include'
+              });
+              setCategoryOptions(prev => prev.filter(c => c.id !== cat.id));
+              setFormData(prev => ({
+                ...prev,
+                category_ids: prev.category_ids.filter(id => id !== String(cat.id))
+              }));
+            }
+          }}
+        >
+          ×
+        </Button>
+      </div>
+    ))}
+  </div>
+
+  <InputGroup className="mt-2">
+    <Form.Control
+      placeholder="New category option"
+      value={newCategory}
+      onChange={e => setNewCategory(e.target.value)}
+    />
+    <Button onClick={addNewCategory}>+</Button>
+  </InputGroup>
+</Form.Group>
+
 
         <Button type="submit" className="mt-3">
           {initialData ? 'Update' : 'Create'}
