@@ -26,7 +26,24 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  min-width: 300px;
 }
+
+.character-name-text {
+  white-space: normal;
+  word-wrap: break-word;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.character-card {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 
 /* LIMIT CARD WIDTH IN GRID */
 .character-grid.grid-view .character-card-wrapper {
