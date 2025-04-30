@@ -39,8 +39,8 @@ useEffect(() => {
   if (initialData && ageOptions.length && categoryOptions.length) {
     setFormData({
       ...initialData,
-      age_ids: initialData.ages?.map(a => String(a.id)) || [],
-      category_ids: initialData.categories?.map(c => String(c.id)) || [],
+      age_ids: initialData.age?.map(a => String(a.id)) || [],
+      category_ids: initialData.category?.map(c => String(c.id)) || [],
     });
   }
 }, [initialData, ageOptions, categoryOptions]);
