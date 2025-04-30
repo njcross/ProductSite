@@ -3,7 +3,6 @@ import './FilterBy.css';
 import EditableField from '../components/EditableField';
 
 export default function FilterBy({ 
-  selectedCategories, 
   onFilterChange, 
   selectedAges = [], 
   selectedCategories = [],
