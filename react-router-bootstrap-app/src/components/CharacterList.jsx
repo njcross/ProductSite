@@ -48,7 +48,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
     fetch(`${API_BASE}/api/kits/${id}`, {
       method: 'DELETE',
       credentials: 'include',
-      headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include' },
+      headers: { credentials: 'include' },
     })
       .then(() => {
         setModalMessage('Character deleted successfully!');
@@ -73,7 +73,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
       const res = await fetch(`${API_BASE}/api/kits`, {
         method: 'POST',
         credentials: 'include',
-        headers: { 'ngrok-skip-browser-warning': 'true', 'Content-Type': 'application/json', credentials: 'include' },
+        headers: {'Content-Type': 'application/json', credentials: 'include' },
         body: JSON.stringify(formData),
       });
 

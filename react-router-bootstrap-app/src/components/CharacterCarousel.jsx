@@ -17,10 +17,9 @@ export default function CharacterCarousel() {
   const API_BASE = process.env.REACT_APP_API_URL;
 
   const fetchCharacters = useCallback(() => {
-    fetch(`/api/kits`, {
+    fetch(`${API_BASE}/api/kits`, {
       credentials: 'include',
       headers: {
-        'ngrok-skip-browser-warning': 'true',
         credentials: 'include',
       },
     })
@@ -34,11 +33,10 @@ export default function CharacterCarousel() {
   }, [fetchCharacters]);
 
   const handleDelete = (id) => {
-    fetch(`/api/kits/${id}`, {
+    fetch(`${API_BASE}/api/kits/${id}`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {
-        'ngrok-skip-browser-warning': 'true',
         credentials: 'include',
       },
     })

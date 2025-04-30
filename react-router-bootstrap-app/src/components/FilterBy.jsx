@@ -3,7 +3,8 @@ import './FilterBy.css';
 import EditableField from '../components/EditableField';
 
 export default function FilterBy({ 
-  selectedAlignment, 
+  selectedAges,
+  selectedCategories, 
   onFilterChange, 
   selectedAges = [], 
   selectedCategories = [],

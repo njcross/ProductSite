@@ -44,7 +44,7 @@ def create_test_users():
     db.session.add_all([user, admin])
     db.session.commit()
      # Setup a dummy character (ID will be 1 if table is empty)
-    from app.models.character import Character
+    from backend.app.models.kits import Character
     character = Character(
         name="Test Hero",
         alias="Tester",

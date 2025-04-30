@@ -17,10 +17,6 @@ export default function EditableField({ contentKey, plain = false }) {
     if (!content?.[contentKey]) {
       fetch('/content.json', {
         credentials: 'include',
-        headers: {
-          'X-Admin': 'true',
-          'ngrok-skip-browser-warning': 'true',
-        },
       })
         .then(res => res.json())
         .then(data => {
@@ -33,13 +29,11 @@ export default function EditableField({ contentKey, plain = false }) {
   }, [contentKey, content]);
 
   const saveContent = async () => {
-    const res = await fetch(`/api/update-content`, {
+    const res = await fetch(`${API_BASE}/api/update-content`, {
       method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        'X-Admin': 'true',
-        'ngrok-skip-browser-warning': 'true',
       },
       body: JSON.stringify({ field: contentKey, value: newValue }),
     });

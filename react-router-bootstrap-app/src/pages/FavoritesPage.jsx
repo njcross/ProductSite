@@ -21,7 +21,7 @@ export default function FavoritesPage() {
       return;
     }
 
-    fetch(`/api/kits/by-ids/`, {
+    fetch(`${API_BASE}/api/kits/by-ids/`, {
       method: 'POST',
       credentials: 'include',
       headers: {

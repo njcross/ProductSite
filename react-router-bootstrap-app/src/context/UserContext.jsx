@@ -13,7 +13,7 @@ export function UserProvider({ children }) {
     const checkLogin = async () => {
       try {
         const res = await fetch(`${API_BASE}/api/check-login`, {
-          headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
+          headers: { credentials: 'include', 'Content-Type': 'application/json' },
           credentials: 'include',
         });
         const data = await res.json();

@@ -31,8 +31,7 @@ export default function App() {
 
   useEffect(() => {
     fetch('/content.json', {
-      credentials: 'include',
-      headers: { 'ngrok-skip-browser-warning': 'true' },
+      credentials: 'include'
     })
       .then(res => res.json())
       .then(data => setContent(data))

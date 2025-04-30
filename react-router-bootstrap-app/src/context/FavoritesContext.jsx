@@ -16,7 +16,6 @@ export function FavoritesProvider({ children }) {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true',
         },
       });
       if (!res.ok) throw new Error('Failed to fetch favorites');
@@ -43,7 +42,6 @@ export function FavoritesProvider({ children }) {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true',
         },
         body: JSON.stringify({ character_id: characterId }),
       });
@@ -61,7 +59,6 @@ export function FavoritesProvider({ children }) {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true',
         },
       });
       if (!res.ok) throw new Error('Failed to remove favorite');

@@ -8,12 +8,9 @@ export default function FavoriteButton({ characterId }) {
   const { favorites, toggleFavorite: toggleFavoriteFromContext, fetchFavorites } = useFavorites();
 
   useEffect(() => {
-    fetch(`/api/favorites/`, {
+    fetch(`${API_BASE}/api/favorites/`, {
       method: 'GET',
       credentials: 'include',
-      headers: {
-        'ngrok-skip-browser-warning': 'true'
-      }
     })
       .then(res => res.json())
       .then(data => {
@@ -27,15 +24,14 @@ export default function FavoriteButton({ characterId }) {
     try {
       const method = isFavorited ? 'DELETE' : 'POST';
       const endpoint = isFavorited
-        ? `/api/favorites/character/${characterId}`
-        : `/api/favorites/`;
+        ? `${API_BASE}/api/favorites/character/${characterId}`
+        : `${API_BASE}/api/favorites/`;
 
       const response = await fetch(endpoint, {
         method,
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true'
         },
         body: method === 'POST'
           ? JSON.stringify({ character_id: characterId })

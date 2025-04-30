@@ -12,8 +12,8 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     if (currentUser) {
-      fetch(`/api/cart`, {
-        headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
+      fetch(`${API_BASE}/api/cart`, {
+        headers: { credentials: 'include', 'Content-Type': 'application/json' },
         credentials: 'include',
       })
         .then(res => res.json())
@@ -44,25 +44,25 @@ export const CartProvider = ({ children }) => {
       );
       setCart(updated);
 
-      fetch(`/api/cart/${existing.id}`, {
+      fetch(`${API_BASE}/api/cart/${existing.id}`, {
         method: 'PUT',
-        headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
+        headers: { credentials: 'include', 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({ quantity: existing.quantity + 1 }),
       });
     } else {
       const newItem = { character_id: character.id, quantity: 1 };
-      fetch(`/api/cart`, {
+      fetch(`${API_BASE}/api/cart`, {
         method: 'POST',
-        headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
+        headers: { credentials: 'include', 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify(newItem),
       })
         .then(res => res.json())
         .then(() => {
           // Refetch the cart to get ID assigned from backend
-          return fetch(`/api/cart`, { credentials: 'include',
-            headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' } });
+          return fetch(`${API_BASE}/api/cart`, { credentials: 'include',
+            headers: { credentials: 'include', 'Content-Type': 'application/json' } });
         })
         .then(res => res.json())
         .then(data => setCart(data));
@@ -75,9 +75,9 @@ export const CartProvider = ({ children }) => {
     );
     setCart(updated);
 
-    fetch(`/api/cart/${id}`, {
+    fetch(`${API_BASE}/api/cart/${id}`, {
       method: 'PUT',
-      headers: { 'ngrok-skip-browser-warning': 'true', credentials: 'include', 'Content-Type': 'application/json' },
+      headers: {credentials: 'include', 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({ quantity }),
     });
@@ -86,7 +86,7 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = (id) => {
     setCart(prev => prev.filter(item => item.id !== id));
 
-    fetch(`/api/cart/${id}`, {
+    fetch(`${API_BASE}/api/cart/${id}`, {
       method: 'DELETE',
       credentials: 'include',
     });

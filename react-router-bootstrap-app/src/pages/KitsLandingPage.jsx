@@ -9,7 +9,7 @@ function KitsLandingPage() {
   const API_BASE = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    fetch(`/api/kits`, {
+    fetch(`${API_BASE}/api/kits`, {
       method: 'GET',
       credentials: 'include',
       headers: {

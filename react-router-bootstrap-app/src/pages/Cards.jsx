@@ -23,7 +23,7 @@ export default function Cards() {
 
 useEffect(() => {
   if (currentUser) {
-    fetch(`/api/favorites/`, {
+    fetch(`${API_BASE}/api/favorites/`, {
       credentials: 'include'
     })
       .then(res => res.json())
@@ -40,7 +40,7 @@ useEffect(() => {
     const name = prompt('Give a name to this search:');
     if (!name) return;
 
-    fetch(`/api/favorites`, {
+    fetch(`${API_BASE}/api/favorites`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -78,7 +78,7 @@ useEffect(() => {
   };
 
   const handleDeleteSavedFilter = (id) => {
-    fetch(`/api/favorites/character/${id}`, {
+    fetch(`${API_BASE}/api/favorites/character/${id}`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {

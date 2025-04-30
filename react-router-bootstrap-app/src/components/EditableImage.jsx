@@ -19,11 +19,10 @@ export default function EditableImage({ contentKey }) {
     const formData = new FormData();
     formData.append('image', file);
 
-    const uploadRes = await fetch(`/api/upload-image`, {
+    const uploadRes = await fetch(`${API_BASE}/api/upload-image`, {
       method: 'POST',
       credentials: 'include',
-      headers: { 'X-Admin': 'true',
-        'ngrok-skip-browser-warning': 'true',
+      headers: { 
         credentials: 'include'
        },
       
@@ -32,12 +31,10 @@ export default function EditableImage({ contentKey }) {
 
     const uploadData = await uploadRes.json();
     if (uploadData.url) {
-      await fetch(`/api/update-content`, {
+      await fetch(`${API_BASE}/api/update-content`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Admin': 'true',
-          'ngrok-skip-browser-warning': 'true',
             credentials: 'include'
         },
         credentials: 'include',
