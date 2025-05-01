@@ -54,6 +54,7 @@ def create_app():
     from app.routes.favorite_routes import favorite_bp
     from app.routes.health_routes import health_bp
     from app.routes.review_routes import review_bp
+    from app.routes.purchase_routes import purchase_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(cart_bp)
@@ -63,6 +64,8 @@ def create_app():
     app.register_blueprint(newsletter_bp)
     app.register_blueprint(favorite_bp)
     app.register_blueprint(health_bp)
+    app.register_blueprint(review_bp)
+    app.register_blueprint(purchase_bp)
 
     # Without the app context, Flask wouldn't know which app's configuration to use.     
     with app.app_context():

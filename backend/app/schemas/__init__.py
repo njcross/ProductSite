@@ -4,6 +4,7 @@ from .cart_schema import cart_schema, carts_schema
 from .newsletter_schema import newsletter_schema, newsletters_schema
 from .favorite_schema import favorite_schema, favorites_schema
 from .review_schema import review_schema, reviews_schema
+from .purchase_schema import purchase_schema, purchases_schema
 
 __all__ = [
     "user_schema", "users_schema",
@@ -12,4 +13,5 @@ __all__ = [
     "newsletter_schema", "newsletters_schema",
     "favorite_schema", "favorites_schema",
     "review_schema", "reviews_schema",
+    "purchase_schema", "purchases_schema",
 ]

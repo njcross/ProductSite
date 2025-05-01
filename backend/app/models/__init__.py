@@ -4,5 +4,6 @@ from .kits import Kit
 from .newsletter import Newsletter
 from .favorite import Favorite
 from .review import Review
+from .purchase import Purchase
 
-__all__ = ["User", "CartItem", "Kit", "Newsletter", "Favorite", "Review"]
+__all__ = ["User", "CartItem", "Kit", "Newsletter", "Favorite", "Review", "Purchase"]
