@@ -6,7 +6,7 @@ class CartSchema(Schema):
     user_id = fields.Int(required=True)
     kit_id = fields.Int(required=True)
     quantity = fields.Int(required=True)
-    character = fields.Nested(KitSchema, dump_only=True)
+    kit = fields.Nested(KitSchema, dump_only=True)
 
 cart_schema = CartSchema()
 carts_schema = CartSchema(many=True)

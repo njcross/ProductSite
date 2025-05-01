@@ -12,5 +12,5 @@ class CartItem(db.Model):
     kit_id: Mapped[int] = mapped_column(ForeignKey('kits.id'), nullable=False)
     quantity: Mapped[int] = mapped_column(Integer, default=1)
 
-    user = relationship("User")
-    kit = relationship("Kit")
+    user: Mapped["User"] = relationship("User", back_populates="cart_items")
+    kit: Mapped["Kit"] = relationship("Kit", back_populates="cart_items")

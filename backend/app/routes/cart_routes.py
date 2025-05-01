@@ -3,6 +3,7 @@ from app import db
 from app.models.cart_item import CartItem
 from app.schemas.cart_schema import CartSchema
 from app.utils.decorators import login_required
+from sqlalchemy.orm import joinedload
 
 cart_bp = Blueprint('cart', __name__, url_prefix='/api')
 cart_schema = CartSchema()
@@ -12,7 +13,9 @@ carts_schema = CartSchema(many=True)
 @login_required
 def get_cart():
     user_id = session.get('user_id')
-    items = db.session.query(CartItem).filter_by(user_id=user_id).all()
+    items = db.session.query(CartItem)\
+        .options(joinedload(CartItem.kit))\
+        .filter_by(user_id=user_id).all()
     return jsonify(carts_schema.dump(items)), 200
 
 @cart_bp.route('/cart', methods=['POST'])

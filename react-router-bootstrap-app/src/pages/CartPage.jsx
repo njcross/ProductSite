@@ -12,13 +12,12 @@ export default function CartPage() {
   const API_BASE = process.env.REACT_APP_API_URL;
 
   const getDetails = (item) => {
-    const character = item.character || item;
+    const kit = item.kit || item;
     return {
       id: item.id,
-      name: character.name || 'Unnamed',
-      alias: character.alias || '',
-      image_url: character.image_url || '',
-      price: character.price || 0,
+      name: kit.name || 'Unnamed',
+      image_url: kit.image_url || '',
+      price: kit.price || 0,
       quantity: item.quantity || 1,
     };
   };
@@ -76,7 +75,6 @@ export default function CartPage() {
                 </Col>
                 <Col xs={3}>
                   <h5 className="text-white">{details.name}</h5>
-                  <p className="text-white">{details.alias}</p>
                 </Col>
                 <Col xs={3}>
                   <Form.Control
