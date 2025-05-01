@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import EditableImage from '../components/EditableImage';
 import EditableField from '../components/EditableField';
+import CharacterCarousel from '../components/CharacterCarousel';
 import './KitsLandingPage.css';
 
 function KitsLandingPage() {
@@ -23,25 +24,23 @@ function KitsLandingPage() {
   return (
     <div className="kits-landing-page">
       <div className="hero-banner">
-  <div className="hero-content">
-    <h1>Bring the Fun to the Table!</h1>
-    <p>Engaging, low-cost activity kits</p>
-    <div className="hero-cta text-start">
-      <Button variant="danger" className="browse-btn mt-3" href="/cards">
-        <EditableField contentKey="content_120" />
-      </Button>
-    </div>
-  </div>
-  <div className="hero-image-container">
-    <EditableImage contentKey="content_img_130" alt="Choose Kit" className="hero-img" />
-  </div>
-</div>
-
-      
+        <div className="hero-content">
+          <h1><EditableField contentKey="content_203" /></h1>
+          <p><EditableField contentKey="content_204" /></p>
+          <div className="hero-cta text-start">
+            <Button variant="danger" className="browse-btn mt-3" href="/cards">
+              <EditableField contentKey="content_205" />
+            </Button>
+          </div>
+        </div>
+        <div className="hero-image-container">
+          <EditableImage contentKey="content_img_206" alt="Choose Kit" className="hero-img" />
+        </div>
+      </div>
 
       <div className="works-cta text-center">
         <Button variant="danger" className="browse-btn mt-3" href="/cards">
-          <EditableField contentKey="content_121" />
+          <EditableField contentKey="content_207" />
         </Button>
       </div>
 
@@ -49,17 +48,16 @@ function KitsLandingPage() {
       <Container className="steps-section text-center my-5">
         <Row>
           <Col md={4}>
-          <EditableImage contentKey="content_img_127" alt="Choose Kit" className="step-img" />
-                      <h5><EditableField contentKey="content_122" /></h5>
+            <EditableImage contentKey="content_img_208" alt="Choose Kit" className="step-img" />
+            <h5><EditableField contentKey="content_209" /></h5>
           </Col>
           <Col md={4}>
-          <EditableImage contentKey="content_img_128" alt="Get Locker Code" className="step-img" />
-                      <h5><EditableField contentKey="content_123" /></h5>
+            <EditableImage contentKey="content_img_210" alt="Get Locker Code" className="step-img" />
+            <h5><EditableField contentKey="content_211" /></h5>
           </Col>
           <Col md={4}>
-          <EditableImage contentKey="content_img_129" alt="Unlock & Play" className="step-img" />
-
-          <h5><EditableField contentKey="content_124" /></h5>
+            <EditableImage contentKey="content_img_212" alt="Unlock & Play" className="step-img" />
+            <h5><EditableField contentKey="content_213" /></h5>
           </Col>
         </Row>
       </Container>
@@ -67,7 +65,7 @@ function KitsLandingPage() {
       {/* Kits Grid */}
       <Container className="kits-grid my-5">
         <h2 className="text-center mb-4">
-          <EditableField contentKey="content_125" />
+          <EditableField contentKey="content_214" />
         </h2>
         <Row>
           {kits.slice(0, 25).map((kit, idx) => (
@@ -85,25 +83,26 @@ function KitsLandingPage() {
             </Col>
           ))}
         </Row>
-        <EditableField contentKey="content_1" />
+        <EditableField contentKey="content_215" />
       </Container>
-       <section className="container">
+
+      <section className="container">
         <div className="row gx-4 gy-4">
           <div className="col-12 col-md-6 col-lg-4">
             <div className="carousel-column">
-              <h2>{<EditableField contentKey="content_116" />}</h2>
+              <h2><EditableField contentKey="content_216" /></h2>
               <CharacterCarousel filter={[1]} />
             </div>
           </div>
           <div className="col-12 col-md-6 col-lg-4">
             <div className="carousel-column h-100">
-              <h2>{<EditableField contentKey="content_117" />}</h2>
+              <h2><EditableField contentKey="content_217" /></h2>
               <CharacterCarousel filter={[2]} />
             </div>
           </div>
           <div className="col-12 col-md-6 col-lg-4 mx-md-auto">
             <div className="carousel-column h-100">
-              <h2>{<EditableField contentKey="content_118" />}</h2>
+              <h2><EditableField contentKey="content_218" /></h2>
               <CharacterCarousel filter={[4]} />
             </div>
           </div>

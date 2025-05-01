@@ -17,7 +17,7 @@ export default function CharacterCarousel({ itemsPerPage = 12, sortBy = 'name', 
   const API_BASE = process.env.REACT_APP_API_URL;
 
   const fetchCharacters = useCallback(() => {
-    let url = `${API_BASE}/api/kits?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`;
+    let url = `${API_BASE}/api/kits?sortBy=${sortBy}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`;
     if (Array.isArray(filter) && filter.length)
       url += `&category_ids=${filter.join(',')}`;
     fetch(url, {
