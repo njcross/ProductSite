@@ -53,6 +53,7 @@ def create_app():
     from app.routes.newsletter_routes import newsletter_bp
     from app.routes.favorite_routes import favorite_bp
     from app.routes.health_routes import health_bp
+    from app.routes.review_routes import review_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(cart_bp)
