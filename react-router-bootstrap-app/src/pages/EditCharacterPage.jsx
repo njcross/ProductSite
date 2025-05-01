@@ -179,25 +179,43 @@ export default function EditCharacterPage() {
       </div>
 
       {currentUser && (
-        <>
-          <h4><EditableField contentKey="content_220" /></h4>
-          <StarRating rating={userRating} setRating={setUserRating} editable />
-          <textarea
-            value={userComment}
-            onChange={e => setUserComment(e.target.value)}
-            rows={3}
-            placeholder=""
-            className="form-control my-2"
-          />
-          <Button
-            variant="primary"
-            disabled={submittingReview}
-            onClick={submitReview}
-          >
-            <EditableField contentKey="content_222" />
-          </Button>
-        </>
-      )}
+  <>
+    <h4><EditableField contentKey="content_220" /></h4>
+    <StarRating rating={userRating} setRating={setUserRating} editable />
+    <textarea
+      value={userComment}
+      onChange={e => setUserComment(e.target.value)}
+      rows={3}
+      placeholder=""
+      className="form-control my-2"
+    />
+    <Button
+      variant="primary"
+      disabled={submittingReview}
+      onClick={submitReview}
+      className="me-2"
+    >
+      <EditableField contentKey="content_222" />
+    </Button>
+
+    {/* Delete button only for your review */}
+    <Button
+      variant="danger"
+      disabled={submittingReview}
+      onClick={async () => {
+        if (!window.confirm("Delete your review?")) return;
+        await fetch(`${API_BASE}/api/reviews/${id}`, {
+          method: 'DELETE',
+          credentials: 'include',
+        });
+        setRefreshCount(c => c + 1);
+      }}
+    >
+      Delete Review
+    </Button>
+  </>
+)}
+
 
       <hr />
       <h4><EditableField contentKey="content_223" /></h4>
