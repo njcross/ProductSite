@@ -12,4 +12,4 @@ class Review(db.Model):
     __table_args__ = (UniqueConstraint('kit_id', 'user_id', name='unique_kit_user_review'),)
 
     user = db.relationship('User', backref='reviews')
-    kit = db.relationship('Kit', backref='reviews')
+    kit = db.relationship('Kit')
