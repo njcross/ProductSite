@@ -21,13 +21,8 @@ def create_purchase():
     )
     db.session.add(new_purchase)
     db.session.commit()
-    # purchase = (
-    # db.session.query(Purchase)
-    #     .options(joinedload(Purchase.kit), joinedload(Purchase.user))
-    #     .get(new_purchase.id)
-    # )
-    print(new_purchase)
-    return new_purchase, 201
+    purchase = Purchase.query.options(joinedload(Purchase.kit), joinedload(Purchase.user)).filter_by(id=new_purchase.id).first()
+    return jsonify(purchase_schema.dump(purchase)), 201
 
 @purchase_bp.route('/api/purchases', methods=['GET'])
 @login_required
