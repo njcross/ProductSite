@@ -20,17 +20,17 @@ def create_purchase():
     )
     db.session.add(new_purchase)
     db.session.commit()
-    return purchase_schema.jsonify(new_purchase), 201
+    return jsonify(purchase_schema.dump(new_purchase)), 201
 
 @purchase_bp.route('/api/purchases', methods=['GET'])
 @login_required
 def get_my_purchases():
     """Get purchases for the logged-in user"""
     purchases = Purchase.query.filter_by(user_id=session.get('user_id')).all()
-    return purchases_schema.jsonify(purchases), 200
+    return jsonify(purchases_schema.dump(purchases)), 200
 
 @purchase_bp.route('/api/purchases/all', methods=['GET'])
 @admin_required
 def get_all_purchases():
     purchases = Purchase.query.all()
-    return purchases_schema.jsonify(purchases), 200
+    return jsonify(purchases_schema.dump(purchases)), 200

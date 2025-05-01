@@ -15,6 +15,7 @@ export default function CartPage() {
     const kit = item.kit || item;
     return {
       id: item.id,
+      kit_id: kit.id || item.kit_id,
       name: kit.name || 'Unnamed',
       image_url: kit.image_url || '',
       price: kit.price || 0,
@@ -37,12 +38,12 @@ export default function CartPage() {
 
     try {
       for (const item of cart) {
-        const { id, quantity } = getDetails(item);
+        const { kit_id, quantity } = getDetails(item);
         await fetch(`${API_BASE}/api/purchases`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
-          body: JSON.stringify({ kit_id: id, quantity }),
+          body: JSON.stringify({ kit_id: kit_id, quantity }),
         });
       }
 
