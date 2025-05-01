@@ -1,12 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Container, Row, Col, Form } from 'react-bootstrap';
 import { useCart } from '../context/CartContext';
+import { useUser } from '../context/UserContext';
 import EditableField from '../components/EditableField';
 import './CartPage.css';
 
 export default function CartPage() {
-  const { cart, updateQuantity, removeFromCart } = useCart();
+  const { cart, updateQuantity, removeFromCart, clearCart } = useCart();
+  const { currentUser } = useUser();
   const navigate = useNavigate();
+  const API_BASE = process.env.REACT_APP_API_URL;
 
   const getDetails = (item) => {
     const character = item.character || item;
@@ -26,6 +29,31 @@ export default function CartPage() {
         return sum + price * quantity;
       }, 0)
     : 0;
+
+  const handleCheckout = async () => {
+    if (!currentUser) {
+      alert('You must be logged in to checkout.');
+      return;
+    }
+
+    try {
+      for (const item of cart) {
+        const { id, quantity } = getDetails(item);
+        await fetch(`${API_BASE}/api/purchases`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ kit_id: id, quantity }),
+        });
+      }
+
+      clearCart();
+      navigate('/orders');
+    } catch (err) {
+      console.error('Checkout failed:', err);
+      alert('Checkout failed. Please try again.');
+    }
+  };
 
   return (
     <Container className="cart-page">
@@ -75,9 +103,15 @@ export default function CartPage() {
             <EditableField contentKey="content_103" /> ${total.toFixed(2)}
           </h4>
 
-          <Button variant="secondary" onClick={() => navigate(-1)} className="mt-4">
-            <EditableField contentKey="content_105" />
-          </Button>
+          <div className="mt-4 d-flex gap-3 flex-wrap">
+            <Button variant="secondary" onClick={() => navigate(-1)}>
+              <EditableField contentKey="content_105" />
+            </Button>
+
+            <Button variant="success" onClick={handleCheckout}>
+              <EditableField contentKey="content_236" />
+            </Button>
+          </div>
         </>
       )}
     </Container>

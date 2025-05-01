@@ -191,5 +191,17 @@
    "content_img_210": "/images/step2.png",
    "content_img_212": "/images/step3.png",
   "content_img_206": "/images/hero.png",
-  "content_224": "Total Reviews"
+  "content_224": "Total Reviews",
+  "content_225": "Orders",
+  "content_226": "Your Orders",
+  "content_227": "My Orders",
+  "content_228": "All Orders",
+  "content_229": "No purchases found.",
+  "content_230": "User ID",
+  "content_231": "Kit ID",
+  "content_232": "Kit Name",
+  "content_233": "Image",
+  "content_234": "Quantity",
+  "content_235": "Date",
+  "content_236": "Checkout"
 }

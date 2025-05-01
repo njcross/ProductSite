@@ -4,17 +4,24 @@
   border-radius: var(--radius-sm);
   margin-bottom: var(--spacing-lg);
   color: var(--color-text);
-  border: var(--color-primary);
+  border: 1px solid var(--color-primary);
 }
 
-.filter-by h5 {
-  margin-bottom: var(--spacing-md);
+.filter-by h5,
+.filter-by label {
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  font-weight: 600;
   color: var(--color-text);
+  display: block;
+  border-bottom: 1px solid var(--color-primary);
+  padding-bottom: 0.25rem;
 }
 
 .filter-by ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .filter-by li {
@@ -27,19 +34,10 @@
   color: var(--color-accent);
 }
 
-@media (max-width: 768px) {
-  .filter-by {
-    padding: var(--spacing-md);
-  }
-
-  .filter-by select {
-    width: 100%;
-  }
-}
 .filter-list {
   list-style: none;
   padding: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .filter-list li {
@@ -58,3 +56,27 @@
   margin-left: 0.5rem;
 }
 
+.filter-rating,
+.saved-filters {
+  margin-bottom: 1.5rem;
+}
+
+.filter-rating select,
+.saved-filters select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-primary);
+  background-color: var(--bg-main);
+  color: var(--color-text);
+}
+
+@media (max-width: 768px) {
+  .filter-by {
+    padding: var(--spacing-md);
+  }
+
+  .filter-by select {
+    width: 100%;
+  }
+}

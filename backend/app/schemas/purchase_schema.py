@@ -6,7 +6,7 @@ class PurchaseSchema(Schema):
     user_id = fields.Int()
     quantity = fields.Int()
     time_bought = fields.DateTime()
-    kit = fields.Nested('KitSchema', only=['id', 'name'])
+    kit = fields.Nested('KitSchema', only=['id', 'name', 'image_url', 'price'])
     user = fields.Nested('UserSchema', only=['id', 'username'])
 
 purchase_schema = PurchaseSchema()

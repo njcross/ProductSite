@@ -25,6 +25,7 @@ import { ContentContext } from './context/ContentContext';
 import { FavoritesProvider } from './context/FavoritesContext';
 import FavoritesPage from './pages/FavoritesPage';
 import NewsletterList from './pages/NewsLetterList';
+import Orders from './pages/Orders';
 
 export default function App() {
   const [content, setContent] = useState({});
@@ -59,6 +60,7 @@ export default function App() {
                 <Route path="/settings" element={<UserSettings />} />
                 <Route path="/favorites" element={<FavoritesPage />} />
                 <Route path="/newsletter" element={<NewsletterList />} />
+                <Route path="/orders" element={<Orders />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <FooterNewsletter />

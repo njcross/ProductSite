@@ -1,0 +1,80 @@
+.orders-page {
+    background-color: var(--bg-main);
+    padding: var(--spacing-lg);
+    color: var(--color-text);
+    min-height: 100vh;
+  }
+  
+  .orders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+  }
+  
+  .orders-header h2 {
+    font-size: 1.75rem;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .orders-toggle {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .orders-toggle button {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  .orders-toggle button.active {
+    background-color: var(--color-accent);
+  }
+  
+  .order-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-md);
+  }
+  
+  .order-card {
+    background-color: var(--bg-alt);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid var(--color-border);
+    transition: box-shadow 0.3s;
+  }
+  
+  .order-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .order-card img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: var(--radius-xs);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .order-card .kit-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .order-card .kit-info {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+  }

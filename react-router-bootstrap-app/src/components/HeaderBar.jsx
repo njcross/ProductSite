@@ -58,6 +58,9 @@ export default function HeaderBar() {
             <Link to="/cart" className="btn cart-btn">
               <EditableField contentKey="content_52" />
             </Link>
+            {/* <Link to="/orders" className="btn cart-btn">
+              <EditableField contentKey="content_225" />
+            </Link> */}
             <Link to="/settings" className="auth-btn">
             <EditableField contentKey="content_142" />
 </Link>
