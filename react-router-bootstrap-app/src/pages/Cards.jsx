@@ -22,7 +22,8 @@ export default function Cards() {
     sortBy: 'name',
     search: searchQuery,
     age_ids: [],
-    category_ids: []
+    category_ids: [],
+    rating: ''
   });
 
 
@@ -84,7 +85,8 @@ useEffect(() => {
       view: 'grid',
       itemsPerPage: 12,
       sortBy: 'name',
-      search: ''
+      search: '',
+      rating: ''
     });
   };
 

@@ -6,7 +6,6 @@ export default function FilterBy({
   onFilterChange, 
   selectedAges = [], 
   selectedCategories = [],
-  selectedRating = '',
   savedFilters = [], 
   onSelectSavedFilter, 
   onDeleteSavedFilter, 
