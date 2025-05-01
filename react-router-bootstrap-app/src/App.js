@@ -48,14 +48,14 @@ export default function App() {
               <HeaderBar />
               <Navbar />
               <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<KitsLandingPage />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/edit/:id" element={<EditCharacterPage />} />
                 <Route path="/cards" element={<Cards />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/cart" element={<CartPage />} />
-                <Route path="/test" element={<KitsLandingPage />} />
+                <Route path="/test" element={<Home />} />
                 <Route path="/settings" element={<UserSettings />} />
                 <Route path="/favorites" element={<FavoritesPage />} />
                 <Route path="/newsletter" element={<NewsletterList />} />
