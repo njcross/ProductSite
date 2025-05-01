@@ -15,7 +15,7 @@ const StarRating = ({ rating }) => {
       <span key={i} className={`star ${i <= rating ? 'filled' : ''}`}>★</span>
     );
   }
-  return <div className="star-rating mb-2">{stars}</div>;
+  return <div className="star-rating mb-1">{stars}</div>;
 };
 
 export default function SuperheroCard({ character, onEdit, onDelete }) {
@@ -67,8 +67,13 @@ export default function SuperheroCard({ character, onEdit, onDelete }) {
           <strong>Categories:</strong> {character.category?.map(c => c.name).join(', ') || 'N/A'}
         </Card.Text>
 
-        {/* ⭐ Star Rating (Read-only) */}
-        <StarRating rating={character.rating || 0} />
+        {/* ⭐ Star Rating & Review Count (Read-only) */}
+        <div className="rating-section mb-2">
+          <StarRating rating={character.rating || 0} />
+          {character.review_count > 0 && (
+            <small className="text-muted">{character.review_count} review{character.review_count !== 1 ? 's' : ''}</small>
+          )}
+        </div>
 
         <Card.Text className="character-price">
           <strong>${character.price.toFixed(2)}</strong>

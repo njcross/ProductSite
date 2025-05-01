@@ -22,6 +22,8 @@ class KitSchema(Schema):
 
     age = fields.List(fields.Nested(AgeSchema), dump_only=True)
     category = fields.List(fields.Nested(CategorySchema), dump_only=True)
+    average_rating = fields.Float(dump_only=True)
+    review_count = fields.Int(dump_only=True)
 
     @post_load
     def load_relationships(self, data, **kwargs):

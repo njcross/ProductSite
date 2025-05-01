@@ -1,5 +1,5 @@
-from sqlalchemy import String, Integer, Enum, Text, Float
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, Integer, Enum, Text, Float, select, func
+from sqlalchemy.orm import Mapped, mapped_column, column_property
 from app import db
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy import func
@@ -37,6 +37,12 @@ class Kit(db.Model):
     category = db.relationship('category_options', secondary=kit_category, backref='kits')
 
     reviews = db.relationship('Review', back_populates='kit', lazy=True)
+    review_count = column_property(
+        select(func.count(Review.id))
+        .where(Review.kit_id == id)
+        .correlate_except(Review)
+        .scalar_subquery()
+    )
 
     @hybrid_property
     def average_rating(self):

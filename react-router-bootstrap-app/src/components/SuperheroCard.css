@@ -133,3 +133,7 @@
   color: #ccc;
 }
 
+.rating-section small {
+  display: block;
+  margin-top: 2px;
+}

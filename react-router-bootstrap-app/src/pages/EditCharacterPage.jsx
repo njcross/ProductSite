@@ -168,8 +168,15 @@ export default function EditCharacterPage() {
       </Row>
 
       <hr />
-      <h3><EditableField contentKey="content_219" /></h3>
-      <StarRating rating={character.rating || 0} editable={false} />
+      <div className="rating-section">
+        <h3><EditableField contentKey="content_219" /></h3>
+        <StarRating rating={character.rating || 0} editable={false} />
+        {character.review_count > 0 && (
+          <p className="text-muted mt-1">
+            <strong><EditableField contentKey="content_224" />:</strong> {character.review_count}
+          </p>
+        )}
+      </div>
 
       {currentUser && (
         <>
