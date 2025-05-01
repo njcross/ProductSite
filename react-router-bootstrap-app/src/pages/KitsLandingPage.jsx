@@ -87,6 +87,28 @@ function KitsLandingPage() {
         </Row>
         <EditableField contentKey="content_1" />
       </Container>
+       <section className="container">
+        <div className="row gx-4 gy-4">
+          <div className="col-12 col-md-6 col-lg-4">
+            <div className="carousel-column">
+              <h2>{<EditableField contentKey="content_116" />}</h2>
+              <CharacterCarousel filter={[1]} />
+            </div>
+          </div>
+          <div className="col-12 col-md-6 col-lg-4">
+            <div className="carousel-column h-100">
+              <h2>{<EditableField contentKey="content_117" />}</h2>
+              <CharacterCarousel filter={[2]} />
+            </div>
+          </div>
+          <div className="col-12 col-md-6 col-lg-4 mx-md-auto">
+            <div className="carousel-column h-100">
+              <h2>{<EditableField contentKey="content_118" />}</h2>
+              <CharacterCarousel filter={[4]} />
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

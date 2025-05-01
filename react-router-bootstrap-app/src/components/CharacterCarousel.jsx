@@ -7,7 +7,7 @@ import SuperheroCard from './SuperheroCard';
 import ConfirmationModal from './ConfirmationModal';
 import './CharacterCarousel.css';
 
-export default function CharacterCarousel() {
+export default function CharacterCarousel({ itemsPerPage = 12, sortBy = 'name', filter = '', search = '' }) {
   const [characters, setCharacters] = useState([]);
   const [modalMessage, setModalMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
@@ -17,7 +17,10 @@ export default function CharacterCarousel() {
   const API_BASE = process.env.REACT_APP_API_URL;
 
   const fetchCharacters = useCallback(() => {
-    fetch(`${API_BASE}/api/kits`, {
+    let url = `${API_BASE}/api/kits?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`;
+    if (Array.isArray(filter) && filter.length)
+      url += `&category_ids=${filter.join(',')}`;
+    fetch(url, {
       credentials: 'include',
       headers: {
         credentials: 'include',
