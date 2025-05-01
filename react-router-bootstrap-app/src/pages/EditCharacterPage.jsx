@@ -8,17 +8,39 @@ import ConfirmationModal from '../components/ConfirmationModal';
 import { useUser } from '../context/UserContext';
 import './EditCharacterPage.css';
 
+const StarRating = ({ rating, setRating, editable = false }) => {
+  return (
+    <div className="star-rating">
+      {[1, 2, 3, 4, 5].map(star => (
+        <span
+          key={star}
+          className={`star ${star <= rating ? 'filled' : ''} ${editable ? 'editable' : ''}`}
+          onClick={() => editable && setRating(star)}
+        >
+          ★
+        </span>
+      ))}
+    </div>
+  );
+};
+
 export default function EditCharacterPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-
   const { currentUser } = useUser();
+
   const [character, setCharacter] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [userRating, setUserRating] = useState(0);
+  const [userComment, setUserComment] = useState('');
+  const [submittingReview, setSubmittingReview] = useState(false);
+
   const [showEditForm, setShowEditForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const [refreshCount, setRefreshCount] = useState(0);
+
   const API_BASE = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
@@ -31,14 +53,28 @@ export default function EditCharacterPage() {
       .catch(err => console.error('Error fetching character:', err));
   }, [id, refreshCount, API_BASE]);
 
+  useEffect(() => {
+    fetch(`${API_BASE}/api/reviews/${id}`, { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => {
+        setReviews(data);
+        if (currentUser) {
+          const existing = data.find(r => r.user_id === currentUser.id);
+          if (existing) {
+            setUserRating(existing.rating);
+            setUserComment(existing.comment);
+          }
+        }
+      })
+      .catch(err => console.error('Error fetching reviews:', err));
+  }, [id, refreshCount, API_BASE, currentUser]);
+
   const handleModalClose = () => {
     setShowModal(false);
     setRefreshCount(prev => prev + 1);
   };
 
-  const handleEditButtonClick = () => {
-    setShowEditForm(true);
-  };
+  const handleEditButtonClick = () => setShowEditForm(true);
 
   const handleEditSubmit = async (updatedCharacter) => {
     try {
@@ -71,6 +107,23 @@ export default function EditCharacterPage() {
       navigate('/cards');
     } else {
       setShowEditForm(true);
+    }
+  };
+
+  const submitReview = async () => {
+    setSubmittingReview(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/reviews/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ rating: userRating, comment: userComment }),
+      });
+      if (res.ok) setRefreshCount(prev => prev + 1);
+    } catch (err) {
+      console.error('Failed to submit review', err);
+    } finally {
+      setSubmittingReview(false);
     }
   };
 
@@ -113,6 +166,41 @@ export default function EditCharacterPage() {
           )}
         </Col>
       </Row>
+
+      <hr />
+      <h3>Rating</h3>
+      <StarRating rating={character.rating || 0} editable={false} />
+
+      {currentUser && (
+        <>
+          <h4>Your Review</h4>
+          <StarRating rating={userRating} setRating={setUserRating} editable />
+          <textarea
+            value={userComment}
+            onChange={e => setUserComment(e.target.value)}
+            rows={3}
+            placeholder="Leave a comment..."
+            className="form-control my-2"
+          />
+          <Button
+            variant="primary"
+            disabled={submittingReview}
+            onClick={submitReview}
+          >
+            Submit Review
+          </Button>
+        </>
+      )}
+
+      <hr />
+      <h4>User Reviews</h4>
+      {reviews.map((r, i) => (
+        <div key={i} className="review my-3 p-3 border rounded bg-light">
+          <strong>{r.username}</strong>
+          <StarRating rating={r.rating} editable={false} />
+          <p>{r.comment}</p>
+        </div>
+      ))}
 
       <Modal show={showEditForm} onHide={() => setShowEditForm(false)} centered>
         <Modal.Header closeButton>
