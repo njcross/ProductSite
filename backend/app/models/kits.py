@@ -36,7 +36,7 @@ class Kit(db.Model):
     age = db.relationship('age_options', secondary=kit_age, backref='kits')
     category = db.relationship('category_options', secondary=kit_category, backref='kits')
 
-    reviews = db.relationship('Review', back_populates='kit', lazy=True)
+    reviews = db.relationship('Review', back_populates='kit', lazy='dynamic')
     review_count = column_property(
         select(func.count(Review.id))
         .where(Review.kit_id == id)
@@ -46,9 +46,9 @@ class Kit(db.Model):
 
     @hybrid_property
     def average_rating(self):
-        if self.reviews.count() == 0:
+        if not self.reviews:
             return None
-        return round(sum([r.rating for r in self.reviews]) / self.reviews.count(), 1)
+        return round(sum([r.rating for r in self.reviews]) / len(self.reviews), 1)
 
     @average_rating.expression
     def average_rating(cls):
