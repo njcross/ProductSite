@@ -1,0 +1,36 @@
+import flask
+from app import db
+from app.models.purchase import Purchase
+from app.schemas.purchase_schema import PurchaseSchema
+from app.utils.decorators import admin_required, login_required
+from flask import Blueprint, request, jsonify, session
+
+purchase_bp = Blueprint('purchase', __name__)
+purchase_schema = PurchaseSchema()
+purchases_schema = PurchaseSchema(many=True)
+
+@purchase_bp.route('/api/purchases', methods=['POST'])
+@login_required
+def create_purchase():
+    data = request.get_json()
+    new_purchase = Purchase(
+        kit_id=data['kit_id'],
+        user_id=session.get('user_id'),
+        quantity=data['quantity']
+    )
+    db.session.add(new_purchase)
+    db.session.commit()
+    return purchase_schema.jsonify(new_purchase), 201
+
+@purchase_bp.route('/api/purchases', methods=['GET'])
+@login_required
+def get_my_purchases():
+    """Get purchases for the logged-in user"""
+    purchases = Purchase.query.filter_by(user_id=session.get('user_id')).all()
+    return purchases_schema.jsonify(purchases), 200
+
+@purchase_bp.route('/api/purchases/all', methods=['GET'])
+@admin_required
+def get_all_purchases():
+    purchases = Purchase.query.all()
+    return purchases_schema.jsonify(purchases), 200
