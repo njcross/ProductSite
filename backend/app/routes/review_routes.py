@@ -16,11 +16,10 @@ def get_reviews_for_kit(kit_id):
     return reviews_schema.dump(reviews), 200
 
 # ✏️ POST or PUT review (create or update for (kit_id, user_id))
-@review_bp.route('/', methods=['POST'])
+@review_bp.route('/<int:kit_id>', methods=['POST'])
 @login_required
-def create_or_update_review():
+def create_or_update_review(kit_id):
     data = request.json
-    kit_id = data.get('kit_id')
     rating = data.get('rating')
     comment = data.get('comment', '')
 
@@ -43,7 +42,7 @@ def create_or_update_review():
     db.session.commit()
     return review_schema.dump(review), 200
 
-@review_bp.route("/reviews/<int:kit_id>", methods=["DELETE"])
+@review_bp.route("/<int:kit_id>", methods=["DELETE"])
 @login_required
 def delete_own_review(kit_id):
     if "user_id" not in session:
