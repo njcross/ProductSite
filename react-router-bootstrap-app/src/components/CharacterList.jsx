@@ -9,7 +9,7 @@ import { useUser } from '../context/UserContext';
 import EditableField from '../components/EditableField';
 import './CharacterList.css';
 
-export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view = 'grid', search = '', selectedAges = [], selectedCategories = [] }) { 
+export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view = 'grid', search = '', selectedAges = [], selectedCategories = [], rating = '' }) { 
   const { currentUser } = useUser();
   const [characters, setCharacters] = useState([]);
   const [page, setPage] = useState(1);
@@ -23,7 +23,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   const API_BASE = process.env.REACT_APP_API_URL;
 
   const fetchCharacters = useCallback(() => {
-    let url = `${API_BASE}/api/kits?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`;
+    let url = `${API_BASE}/api/kits?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}&min_rating=${rating} `;
     if (Array.isArray(selectedAges) && selectedAges.length)
       url += `&age_ids=${selectedAges.join(',')}`;
     if (Array.isArray(selectedCategories) && selectedCategories.length)

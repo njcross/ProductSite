@@ -112,6 +112,7 @@ useEffect(() => {
             selectedAlignment={filters.alignment}
             selectedAges={filters.age_ids}
             selectedCategories={filters.category_ids}
+            selectedRating={filters.rating}
             onFilterChange={handleFilterChange}
             savedFilters={savedFilters}
             onSelectSavedFilter={handleSelectSavedFilter}
@@ -140,6 +141,7 @@ useEffect(() => {
               alignment={filters.alignment}
               selectedAges={filters.age_ids}
               selectedCategories={filters.category_ids}
+              rating={filters.rating}
             />
           </Col>
         </Row>
