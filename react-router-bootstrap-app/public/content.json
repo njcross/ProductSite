@@ -181,5 +181,10 @@
   "newsletter_empty_state": "No newsletter subscriptions found.",
   "newsletter_fetch_button": "Fetch Subscriptions",
   "newsletter_title": "Play Resources",
-  "content_img_132": "/images/download.jfif"
+  "content_img_132": "/images/download.jfif",
+  "content_219": "Rating",
+  "content_220": "Your Review",
+  "content_221": "Leave a comment...",
+  "content_222": "Submit Review",
+  "content_223": "User Reviews"
 }

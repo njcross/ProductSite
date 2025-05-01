@@ -54,7 +54,7 @@ export default function EditCharacterPage() {
   }, [id, refreshCount, API_BASE]);
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/reviews/${id}`, { credentials: 'include' })
+    fetch(`${API_BASE}/api/reviews/kit/${id}`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
         setReviews(data);
@@ -168,18 +168,18 @@ export default function EditCharacterPage() {
       </Row>
 
       <hr />
-      <h3>Rating</h3>
+      <h3><EditableField contentKey="content_219" /></h3>
       <StarRating rating={character.rating || 0} editable={false} />
 
       {currentUser && (
         <>
-          <h4>Your Review</h4>
+          <h4><EditableField contentKey="content_220" /></h4>
           <StarRating rating={userRating} setRating={setUserRating} editable />
           <textarea
             value={userComment}
             onChange={e => setUserComment(e.target.value)}
             rows={3}
-            placeholder="Leave a comment..."
+            placeholder=""
             className="form-control my-2"
           />
           <Button
@@ -187,13 +187,13 @@ export default function EditCharacterPage() {
             disabled={submittingReview}
             onClick={submitReview}
           >
-            Submit Review
+            <EditableField contentKey="content_222" />
           </Button>
         </>
       )}
 
       <hr />
-      <h4>User Reviews</h4>
+      <h4><EditableField contentKey="content_223" /></h4>
       {reviews.map((r, i) => (
         <div key={i} className="review my-3 p-3 border rounded bg-light">
           <strong>{r.username}</strong>
