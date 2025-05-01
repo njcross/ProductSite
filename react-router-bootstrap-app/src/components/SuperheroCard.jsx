@@ -8,6 +8,16 @@ import EditableField from '../components/EditableField';
 import FavoriteButton from './FavoriteButton';
 import './SuperheroCard.css';
 
+const StarRating = ({ rating }) => {
+  const stars = [];
+  for (let i = 1; i <= 5; i++) {
+    stars.push(
+      <span key={i} className={`star ${i <= rating ? 'filled' : ''}`}>★</span>
+    );
+  }
+  return <div className="star-rating mb-2">{stars}</div>;
+};
+
 export default function SuperheroCard({ character, onEdit, onDelete }) {
   const { currentUser } = useUser();
   const { addToCart } = useCart();
@@ -56,6 +66,9 @@ export default function SuperheroCard({ character, onEdit, onDelete }) {
         <Card.Text className="character-meta">
           <strong>Categories:</strong> {character.category?.map(c => c.name).join(', ') || 'N/A'}
         </Card.Text>
+
+        {/* ⭐ Star Rating (Read-only) */}
+        <StarRating rating={character.rating || 0} />
 
         <Card.Text className="character-price">
           <strong>${character.price.toFixed(2)}</strong>

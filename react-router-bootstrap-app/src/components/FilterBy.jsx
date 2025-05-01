@@ -14,6 +14,7 @@ export default function FilterBy({
   const API_BASE = process.env.REACT_APP_API_URL;
   const [ageOptions, setAgeOptions] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
+  const [selectedRating, setSelectedRating] = useState('');
 
   useEffect(() => {
     fetch(`${API_BASE}/api/kits/age-options`)
@@ -33,6 +34,12 @@ export default function FilterBy({
       ? selected.filter(i => i !== id)
       : [...selected, id];
     onFilterChange({ [type]: newSelected });
+  };
+
+  const handleRatingChange = (e) => {
+    const value = e.target.value;
+    setSelectedRating(value);
+    onFilterChange({ rating: value });
   };
 
   const deleteAge = async (id) => {
@@ -84,6 +91,18 @@ export default function FilterBy({
           </li>
         ))}
       </ul>
+
+      <label>Filter by Minimum Rating</label>
+      <div className="filter-rating">
+        <select value={selectedRating} onChange={handleRatingChange}>
+          <option value="">None</option>
+          <option value="1">1 Star & Up</option>
+          <option value="2">2 Stars & Up</option>
+          <option value="3">3 Stars & Up</option>
+          <option value="4">4 Stars & Up</option>
+          <option value="5">5 Stars Only</option>
+        </select>
+      </div>
 
       {currentUser && savedFilters.length > 0 && (
         <div className="saved-filters">

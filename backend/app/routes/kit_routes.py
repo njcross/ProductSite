@@ -29,7 +29,7 @@ def get_kits():
     search = request.args.get("search", "")
     page = int(request.args.get("page", 1))
     per_page = int(request.args.get("perPage", 12))
-    alignment = request.args.get("alignment")
+    min_rating = request.args.get("min_rating", type=float) 
 
     # Expect comma-separated lists for age/category
     age_ids = request.args.get("age_ids")
@@ -46,9 +46,6 @@ def get_kits():
             Kit.description.ilike(like_term),
         ))
 
-    if alignment:
-        filters.append(Kit.name.ilike(f"%{alignment}%"))  # Adjust this if you reintroduce alignment field
-
     if age_ids:
         age_id_list = [int(i) for i in age_ids.split(",") if i.isdigit()]
         query = query.join(kit_age).filter(kit_age.c.age_id.in_(age_id_list))
@@ -59,6 +56,10 @@ def get_kits():
 
     if filters:
         query = query.where(and_(*filters))
+
+    kits = db.session.execute(query).unique().scalars().all()
+    if min_rating is not None:
+        kits = [kit for kit in kits if (kit.average_rating or 0) >= min_rating]
 
     query = query.order_by(getattr(Kit, sort_by, Kit.name))
 
