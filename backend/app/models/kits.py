@@ -45,10 +45,17 @@ class Kit(db.Model):
     )
 
     @hybrid_property
+    def review_count(self):
+        return self.reviews.count()
+
+
+    @hybrid_property
     def average_rating(self):
-        if not self.reviews:
+        reviews = self.reviews.all()
+        if not reviews:
             return None
-        return round(sum([r.rating for r in self.reviews]) / len(self.reviews), 1)
+        return round(sum(r.rating for r in reviews) / len(reviews), 1)
+
 
     @average_rating.expression
     def average_rating(cls):
@@ -56,5 +63,5 @@ class Kit(db.Model):
             db.session.query(func.avg(Review.rating))
             .filter(Review.kit_id == cls.id)
             .correlate(cls)
-            .as_scalar()
+            .scalar_subquery()
         )
