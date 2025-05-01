@@ -14,7 +14,7 @@ export default function Orders() {
     if (!currentUser) return;
     const url = viewAll && currentUser.role === 'admin'
       ? `${API_BASE}/api/purchases/all`
-      : `${API_BASE}/api/purchases/`;
+      : `${API_BASE}/api/purchases`;
 
     fetch(url, { credentials: 'include' })
       .then(res => res.json())
