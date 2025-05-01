@@ -1,3 +1,9 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+
+Sitemap: https://www.myplaytray.com/sitemap.xml
+
+Disallow: /admin/
+Disallow: /settings/
+Disallow: /api/
