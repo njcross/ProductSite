@@ -9,3 +9,5 @@ class User(db.Model):
     email: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(String(255), nullable=False)
     role: Mapped[str] = mapped_column(Enum('admin', 'customer', name='role_enum'), nullable=False)
+
+    cart_items = db.relationship('CartItem', back_populates='user')
