@@ -26,7 +26,8 @@ def create_purchase():
     #     .options(joinedload(Purchase.kit), joinedload(Purchase.user))
     #     .get(new_purchase.id)
     # )
-    return jsonify(new_purchase), 201
+    print(new_purchase)
+    return new_purchase, 201
 
 @purchase_bp.route('/api/purchases', methods=['GET'])
 @login_required
