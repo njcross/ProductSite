@@ -36,7 +36,7 @@ class Kit(db.Model):
     age = db.relationship('age_options', secondary=kit_age, backref='kits')
     category = db.relationship('category_options', secondary=kit_category, backref='kits')
 
-    reviews = db.relationship('Review', backref='kit', lazy=True)
+    reviews = db.relationship('Review', back_populates='kit', lazy=True)
 
     @hybrid_property
     def average_rating(self):
