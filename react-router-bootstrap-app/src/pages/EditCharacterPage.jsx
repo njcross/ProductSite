@@ -6,23 +6,40 @@ import EditableField from '../components/EditableField';
 import CharacterForm from '../components/CharacterForm';
 import ConfirmationModal from '../components/ConfirmationModal';
 import { useUser } from '../context/UserContext';
+import { useCart } from '../context/CartContext';
+
 import './EditCharacterPage.css';
 
 const StarRating = ({ rating, setRating, editable = false }) => {
+  const [hoveredStar, setHoveredStar] = useState(0);
+
+  const handleMouseEnter = (star) => {
+    if (editable) setHoveredStar(star);
+  };
+
+  const handleMouseLeave = () => {
+    if (editable) setHoveredStar(0);
+  };
+
   return (
-    <div className="star-rating">
-      {[1, 2, 3, 4, 5].map(star => (
-        <span
-          key={star}
-          className={`star ${star <= rating ? 'filled' : ''} ${editable ? 'editable' : ''}`}
-          onClick={() => editable && setRating(star)}
-        >
-          ★
-        </span>
-      ))}
-    </div>
+    <div className={`star-rating ${editable ? 'editable' : ''}`}>
+  {[5, 4, 3, 2, 1].map((star) => (
+    <span
+      key={star}
+      className={`star ${(hoveredStar ? star <= hoveredStar : star <= rating) ? 'filled' : ''}`}
+      onClick={() => editable && setRating(star)}
+      onMouseEnter={() => handleMouseEnter(star)}
+      onMouseLeave={handleMouseLeave}
+    >
+      ★
+    </span>
+  ))}
+</div>
+
   );
 };
+
+
 
 export default function EditCharacterPage() {
   const { id } = useParams();
@@ -40,6 +57,8 @@ export default function EditCharacterPage() {
   const [modalMessage, setModalMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const [refreshCount, setRefreshCount] = useState(0);
+  const { addToCart } = useCart();
+
 
   const API_BASE = process.env.REACT_APP_API_URL;
 
@@ -164,6 +183,19 @@ export default function EditCharacterPage() {
               <EditableField contentKey="content_113" />
             </Button>
           )}
+          {currentUser && (
+  <Button
+    variant="success"
+    className="mt-2"
+    onClick={() => {
+      addToCart(character);
+      navigate('/cart');
+    }}
+  >
+    <EditableField contentKey="content_237" /> {/* e.g., "Add to Cart" */}
+  </Button>
+)}
+
         </Col>
       </Row>
 
