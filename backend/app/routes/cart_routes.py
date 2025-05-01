@@ -11,7 +11,7 @@ carts_schema = CartSchema(many=True)
 @cart_bp.route('/cart', methods=['GET'])
 @login_required
 def get_cart():
-    user_id = session.get
+    user_id = session.get('user_id')
     items = db.session.query(CartItem).filter_by(user_id=user_id).all()
     return jsonify(carts_schema.dump(items)), 200
 
