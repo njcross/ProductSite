@@ -52,3 +52,14 @@ def delete_cart(item_id):
         db.session.commit()
         return jsonify({"message": "Deleted"}), 200
     return jsonify({"message": "Not found"}), 404
+
+@cart_bp.route('/cart/all', methods=['DELETE'])
+@login_required
+def delete_all_cart():
+    user_id = session.get('user_id')
+    if user_id:
+        db.session.query(CartItem).filter_by(user_id=user_id).delete()
+        db.session.commit()
+        return jsonify({"message": "All cart items deleted"}), 200
+    return jsonify({"message": "User not found"}), 404
+
