@@ -69,7 +69,7 @@ export default function SuperheroCard({ character, onEdit, onDelete }) {
 
         {/* ⭐ Star Rating & Review Count (Read-only) */}
         <div className="rating-section mb-2">
-          <StarRating rating={character.rating || 0} />
+          <StarRating rating={character.average_rating || 0} />
           {character.review_count > 0 && (
             <small className="text-muted">{character.review_count} review{character.review_count !== 1 ? 's' : ''}</small>
           )}
