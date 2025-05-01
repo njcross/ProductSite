@@ -4,6 +4,7 @@ from app.models.purchase import Purchase
 from app.schemas.purchase_schema import PurchaseSchema
 from app.utils.decorators import admin_required, login_required
 from flask import Blueprint, request, jsonify, session
+from sqlalchemy.orm import joinedload
 
 purchase_bp = Blueprint('purchase', __name__)
 purchase_schema = PurchaseSchema()
@@ -20,7 +21,13 @@ def create_purchase():
     )
     db.session.add(new_purchase)
     db.session.commit()
-    return jsonify(purchase_schema.dump(new_purchase)), 201
+    db.session.refresh(new_purchase)
+    purchase = (
+    db.session.query(Purchase)
+        .options(joinedload(Purchase.kit), joinedload(Purchase.user))
+        .get(new_purchase.id)
+    )
+    return jsonify(purchase_schema.dump(purchase)), 201
 
 @purchase_bp.route('/api/purchases', methods=['GET'])
 @login_required
