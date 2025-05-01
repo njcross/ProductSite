@@ -1,6 +1,6 @@
 # app/routes/newsletter_routes.py
 from flask import Blueprint, request, jsonify
-from app import db
+from app.extensions import db
 from app.models.newsletter import Newsletter
 from app.utils.decorators import admin_required
 

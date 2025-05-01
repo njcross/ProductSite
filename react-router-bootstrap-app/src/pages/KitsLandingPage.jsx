@@ -3,6 +3,7 @@ import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import EditableImage from '../components/EditableImage';
 import EditableField from '../components/EditableField';
 import CharacterCarousel from '../components/CharacterCarousel';
+import { Helmet } from 'react-helmet';
 import './KitsLandingPage.css';
 
 function KitsLandingPage() {
@@ -23,6 +24,14 @@ function KitsLandingPage() {
 
   return (
     <div className="kits-landing-page">
+      <Helmet>
+  <title>My Play Tray</title>
+  <meta name="description" content="Browse our fun and educational kits for kids of all ages. Unlock & play with  creativity!" />
+  <meta property="og:title" content="My Play Tray" />
+  <meta property="og:description" content="Fun kits delivered to your locker. Perfect for imaginative kids." />
+  <meta property="og:image" content="https://myplaytray.com/images/kit-og-image.jpg" />
+  <meta property="og:url" content="https://myplaytray.com/" />
+</Helmet>
       <div className="hero-banner">
         <div className="hero-content">
           <h1><EditableField contentKey="content_203" /></h1>

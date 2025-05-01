@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_dance.contrib.google import make_google_blueprint
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_cors import CORS
@@ -6,9 +7,10 @@ from app.config import Config
 from datetime import timedelta
 from sqlalchemy import create_engine, text
 from flask_login import LoginManager
+from app.routes.auth_routes import google_bp
+from flask_migrate import Migrate
+from app.extensions import db, ma, migrate
 
-db = SQLAlchemy()
-ma = Marshmallow()
 
 def create_database():
     root_engine = create_engine(Config.ROOT_DATABASE_URL)  # No database specified
@@ -22,7 +24,7 @@ login_manager = LoginManager()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-
+    
     # ✅ Correct secret key
     app.secret_key = Config.SECRET_KEY
 
@@ -31,11 +33,22 @@ def create_app():
     app.config['SESSION_COOKIE_HTTPONLY'] = True
     app.config['SESSION_COOKIE_SAMESITE'] = 'None'  # MUST be None for ngrok to work
     app.config['SESSION_COOKIE_SECURE'] = True      # ngrok uses HTTPS
+    app.config["GOOGLE_OAUTH_CLIENT_ID"] = Config.GOOGLE_CLIENT_ID
+    app.config["GOOGLE_OAUTH_CLIENT_SECRET"] = Config.GOOGLE_CLIENT_SECRET
+
+    google_bp = make_google_blueprint(
+        scope=["profile", "email"],
+        redirect_to="/api/login/google/authorized",
+        client_id=Config.GOOGLE_CLIENT_ID,
+        client_secret=Config.GOOGLE_CLIENT_SECRET
+    )
 
     # ✅ Initialize extensions
     db.init_app(app)
     ma.init_app(app)
     login_manager.init_app(app) 
+
+    migrate.init_app(app, db)
 
     # ✅ Log to confirm CORS origin is correct
     print("CORS_ORIGIN:", Config.CORS_ORIGIN)
@@ -66,6 +79,7 @@ def create_app():
     app.register_blueprint(health_bp)
     app.register_blueprint(review_bp)
     app.register_blueprint(purchase_bp)
+    app.register_blueprint(google_bp, url_prefix="/api/login")
 
     # Without the app context, Flask wouldn't know which app's configuration to use.     
     with app.app_context():

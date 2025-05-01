@@ -1,6 +1,6 @@
 from sqlalchemy import Integer, ForeignKey, Text
 from sqlalchemy.orm import Mapped, mapped_column
-from app import db
+from app.extensions import db
 
 class Favorite(db.Model):
     __tablename__ = 'favorites'

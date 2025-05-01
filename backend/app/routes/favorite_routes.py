@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, session
-from app import db
+from app.extensions import db
 from app.models.favorite import Favorite
 from app.schemas.favorite_schema import favorite_schema, favorites_schema
 from app.utils.decorators import login_required

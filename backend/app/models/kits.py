@@ -1,6 +1,6 @@
 from sqlalchemy import String, Integer, Enum, Text, Float, select, func
 from sqlalchemy.orm import Mapped, mapped_column, column_property
-from app import db
+from app.extensions import db
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy import func
 from app.models.review import Review

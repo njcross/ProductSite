@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, session
-from app import db
+from app.extensions import db
 from app.models.cart_item import CartItem
 from app.schemas.cart_schema import CartSchema
 from app.utils.decorators import login_required

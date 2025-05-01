@@ -1,4 +1,4 @@
-from app import db
+from app.extensions import db
 from sqlalchemy import UniqueConstraint
 
 class Review(db.Model):

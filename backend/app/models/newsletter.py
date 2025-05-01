@@ -1,6 +1,6 @@
 from sqlalchemy import String, Integer
 from sqlalchemy.orm import Mapped, mapped_column
-from app import db
+from app.extensions import db
 
 class Newsletter(db.Model):
     __tablename__ = "newsletter"

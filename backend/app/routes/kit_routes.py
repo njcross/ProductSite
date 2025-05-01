@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from sqlalchemy import select, or_, and_
-from app import db
+from app.extensions import db
 from app.models.kits import Kit, age_options, category_options, kit_age, kit_category
 from app.schemas.kit_schema import kit_schema, kits_schema
 from app.utils.decorators import admin_required

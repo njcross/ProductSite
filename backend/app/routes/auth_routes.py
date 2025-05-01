@@ -2,11 +2,11 @@ from flask import Blueprint, request, jsonify, session, current_app
 from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import select
-from app import db
+from app.extensions import db
 from app.models.user import User
 from app.schemas.user_schema import user_schema, UserSchema
 from flask import redirect, url_for
-from flask_dance.contrib.google import make_google_blueprint, g
+from flask_dance.contrib.google import make_google_blueprint, g, google
 from flask_cors import cross_origin
 
 google_bp = make_google_blueprint(
@@ -20,29 +20,36 @@ user_schema = UserSchema()
 
 serializer = URLSafeTimedSerializer("super-secret-key")  # Replace with secure key
 
-# @auth_bp.route("/login/google/authorized")
-# def google_login():
-#     if not google.authorized:
-#         return redirect(url_for("google.login"))
+@auth_bp.route("/google_login")
+def google_login():
+    if not google.authorized:
+        return redirect(url_for("google.login"))
 
-#     resp = google.get("/oauth2/v2/userinfo")
-#     if not resp.ok:
-#         return jsonify({"message": "Failed to fetch user info"}), 403
+    resp = google.get("/oauth2/v2/userinfo")
+    if not resp.ok:
+        return "Failed to fetch user info", 400
 
-#     info = resp.json()
-#     email = info.get("email")
-#     username = info.get("name") or email.split("@")[0]
+    info = resp.json()
+    email = info["email"]
+    username = info.get("name", email.split('@')[0])
 
-#     user = User.query.filter_by(email=email).first()
-#     if not user:
-#         user = User(username=username, email=email, role='customer')
-#         db.session.add(user)
-#         db.session.commit()
+    user = User.query.filter_by(email=email).first()
 
-#     session['user_id'] = user.id
-#     session.permanent = True
+    if not user:
+        user = User(
+            username=username,
+            email=email,
+            password=None,  # No password for OAuth users
+            role='user',
+            oauth_provider = "google"
+        )
+        db.session.add(user)
+        db.session.commit()
 
-#     return redirect("/")  # or return user data if frontend is expecting JSON
+    # Store user_id in session
+    session["user_id"] = user.id
+
+    return redirect("/")  # Or wherever you want
 
 @auth_bp.route('/login', methods=['OPTIONS'])
 @cross_origin(supports_credentials=True)

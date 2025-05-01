@@ -1,5 +1,5 @@
 import flask
-from app import db
+from app.extensions import db
 from app.models.purchase import Purchase
 from app.schemas.purchase_schema import PurchaseSchema
 from app.utils.decorators import admin_required, login_required

@@ -1,6 +1,6 @@
 from marshmallow import Schema, fields, post_load, ValidationError
 from app.models.kits import Kit, age_options, category_options
-from app import db
+from app.extensions import db
 
 class AgeSchema(Schema):
     id = fields.Int()

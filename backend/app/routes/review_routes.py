@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, session
 from app.utils.decorators import login_required
-from app import db
+from app.extensions import db
 from app.models.review import Review
 from app.schemas.review_schema import ReviewSchema
 from sqlalchemy.exc import SQLAlchemyError

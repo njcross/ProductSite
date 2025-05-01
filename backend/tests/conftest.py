@@ -1,5 +1,6 @@
 import pytest
-from app import create_app, db
+from app import create_app
+from app.extensions import db
 from app.models import User  # adjust import based on your project structure
 from werkzeug.security import generate_password_hash, check_password_hash
 
