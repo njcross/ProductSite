@@ -34,11 +34,11 @@ export const CartProvider = ({ children }) => {
     }
   }, [currentUser, API_BASE]);
 
-  const addToCart = (character) => {
-    const existing = cart.find(item => item.character_id === character.id);
+  const addToCart = (kit) => {
+    const existing = cart.find(item => item.kit === kit.id);
     if (existing) {
       const updated = cart.map(item =>
-        item.character_id === character.id
+        item.kit_id === kit.id
           ? { ...item, quantity: item.quantity + 1 }
           : item
       );
@@ -51,7 +51,7 @@ export const CartProvider = ({ children }) => {
         body: JSON.stringify({ quantity: existing.quantity + 1 }),
       });
     } else {
-      const newItem = { character_id: character.id, quantity: 1 };
+      const newItem = { kit_id: kit.id, quantity: 1 };
       fetch(`${API_BASE}/api/cart`, {
         method: 'POST',
         headers: { credentials: 'include', 'Content-Type': 'application/json' },
