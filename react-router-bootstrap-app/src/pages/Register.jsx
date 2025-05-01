@@ -4,6 +4,7 @@ import { Form, Button, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../components/ConfirmationModal';
 import { useUser } from '../context/UserContext';
+import GoogleSignInButton from '../components/GoogleSignInButton';
 import './Register.css';
 import { setToken } from '../utils/tokenService';
 
@@ -15,6 +16,7 @@ export default function Register() {
   const navigate = useNavigate();
   const API_BASE = process.env.REACT_APP_API_URL;
   const { setCurrentUser } = useUser();
+
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -99,6 +101,8 @@ export default function Register() {
           <Button type="submit" className="register-btn">{<EditableField contentKey="content_58" />}</Button>
         </Form>
       </div>
+      <p>OR</p>
+                <GoogleSignInButton />
 
       <ConfirmationModal
         show={showModal}

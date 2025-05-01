@@ -1,98 +1,120 @@
-# MarvelApp
+# MyPlayTray Frontend
 
-A responsive, full-stack React application for exploring, managing, and purchasing Marvel characters. Users can browse character cards, filter by alignment, sort, search, and manage a shopping cart. Admin users have the ability to add, edit, or delete characters.
+A fully responsive React-based frontend for MyPlayTray, a Marvel-inspired character and kit exploration app. This app allows users to browse kits, save favorites, write reviews, rate items, manage a shopping cart, and checkout. Admins can edit content dynamically and manage the character database.
 
 ## 🚀 Features
 
-- **Character Management**: Admin users can add, edit, and delete Marvel characters with details like name, alias, alignment, powers, image, and price.
-- **Responsive Design**: Optimized for various screen sizes using custom CSS and Bootstrap.
-- **Interactive UI**: Includes a carousel to showcase character cards and a feature section highlighting app capabilities.
-- **Form Validation**: Real-time validation for form inputs, including URL validation for character images.
-- **Routing**: Client-side routing using React Router for seamless navigation.
-- **Shopping Cart**: Users can add characters to a cart and proceed to checkout.
-- **Pagination**: Character listings are paginated for better user experience.
-- **Search and Filter**: Users can search for characters by name and filter by alignment.
-- **Admin Dashboard**: Admin users have access to additional functionalities for managing the character database.
+- **Kit Exploration**: Filter, search, sort, and paginate through kits.
+- **User Authentication**: Register, login, Google OAuth, and secure session handling.
+- **Cart Management**: Add/remove kits, adjust quantities, and checkout.
+- **Ratings & Reviews**: Leave comments and star ratings per kit.
+- **Favorites**: Save kits or searches for easy return visits.
+- **Editable Content**: Admins can edit site text/images via JSON content keys.
+- **Newsletter & Contact**: Footer subscription form + contact form with EmailJS.
+- **Order History**: Users can view previous purchases.
+- **Admin Tools**: Edit characters/kits, dynamic content management, access all purchases.
 
-## 💠 Technologies Used
+## 💠 Tech Stack
 
-- **Frontend**:
-  - [React](https://reactjs.org/)
-  - [React Router](https://reactrouter.com/)
-  - [Bootstrap](https://getbootstrap.com/)
-  - [React-Bootstrap](https://react-bootstrap.github.io/)
-- **Styling**:
-  - Custom CSS
-  - Bootstrap Icons
-- **Backend**:
-  - Assumed to be a RESTful API hosted locally at `http://127.0.0.1:5000/characters`
+- **React**
+- **React Router v6**
+- **React Bootstrap + Bootstrap 5**
+- **React Helmet** (for SEO)
+- **EmailJS** (for contact form)
+- **Context API** (for user, cart, content, and favorites state)
 
-## 📂 Project Structure
+## 📁 Directory Structure
 
-ProductSite/ ├── public/ ├── src/ │ ├── components/ │ │ ├── CharacterCarousel.jsx │ │ ├── SuperheroCard.jsx │ │ ├── CharacterForm.jsx │ │ ├── ConfirmationModal.jsx │ │ ├── PaginationControls.jsx │ ├── pages/ │ │ ├── Home.jsx │ │ ├── About.jsx │ │ ├── Cards.jsx │ │ ├── EditCharacterPage.jsx │ │ ├── NotFound.jsx │ ├── context/ │ │ ├── UserContext.jsx │ │ ├── CartContext.jsx │ ├── App.jsx │ ├── App.css │ ├── Navbar.css │ ├── Home.css │ ├── CharacterForm.css ├── package.json ├── README.md
+```
+src/
+├── components/          # Reusable UI components (e.g., Cards, Modals, Filters)
+├── context/             # React context for global state management
+├── pages/               # Page-level React views (Cards, About, KitsLandingPage, etc.)
+├── utils/               # Helper functions (e.g., tokenService.js)
+├── App.jsx              # Main Router with Routes
+├── variables.css        # CSS variables for consistent theming
+└── App.css              # Global styles
+```
 
+## 🧪 Testing
 
-## 🧑‍💻 Getting Started
+Unit tests use **Jest** + **React Testing Library**.
 
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) (v14 or later)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
-
-### Installation
-
-1. **Clone the repository**:
-
-```bash
-git clone https://github.com/njcross/ProductSite.git
-cd ProductSite
-
-
-## 🧑‍💻 Getting Started
-
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) (v14 or later)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
-
-### Installation
-
-1. **Clone the repository**:
+### Run frontend tests:
 
 ```bash
-git clone https://github.com/njcross/ProductSite.git
-cd ProductSite
-
-2. **Install dependencies**:
-
 npm install
-# or
-yarn install
+npm test
+```
 
-3. **Start the development server**:
+To run once:
 
+```bash
+npm test -- --watchAll=false
+```
+
+Test files are in `src/__tests__/` or next to components.
+
+## 🌐 SEO
+
+- Meta tags handled with `react-helmet`
+- Sitemap auto-generated on build (via `react-router-sitemap`)
+- robots.txt in `public/robots.txt`
+
+## 📦 Deployment
+
+1. Build the app:
+
+```bash
+npm run build
+```
+
+2. Deploy via NGINX or your preferred host. Ensure `index.html` fallback is configured.
+
+## 🌍 Sitemap
+
+Ensure `public/sitemap.xml` exists and add this to your `nginx` config:
+
+```nginx
+location = /sitemap.xml {
+    root /var/www/react;
+}
+```
+
+## ✅ Environment Variables
+
+Place your variables in `.env`:
+
+```
+REACT_APP_API_URL=https://your-backend.com
+REACT_APP_EMAILJS_USER_ID=xxxxxx
+```
+
+## 🧑‍💻 Development Setup
+
+1. Clone the repo:
+
+```bash
+git clone https://github.com/njcross/ProductSite.git
+cd ProductSite/react-router-bootstrap-app
+```
+
+2. Install deps and start:
+
+```bash
+npm install
 npm start
-# or
-yarn start
+```
 
-4. **Access the application**:
+Frontend runs on `http://localhost:3000`. The backend must run on a compatible domain (e.g., `http://localhost:5000`).
 
-Open your browser and navigate to `http://localhost:3000`
+## 📜 License
 
-### Backend Setup
+MIT
 
-Ensure that the backend API is running and accessible at `http://127.0.0.1:5000/characters`.  
-The frontend expects this endpoint for fetching character data.
+## 🙌 Credits
 
-## 📸 Screenshots
-
-*Include screenshots of your application here to showcase its features and UI.*
-
-## 📝 License
-
-This project is licensed under the [MIT License](LICENSE).
-
-## 🙌 Acknowledgments
-
-- [Marvel](https://www.marvel.com/) for inspiring the theme of the application.
-- [React](https://reactjs.org/), [Bootstrap](https://getbootstrap.com/), and [React-Bootstrap](https://react-bootstrap.github.io/) for providing the tools to build this application.
+- [React](https://reactjs.org/)
+- [Bootstrap](https://getbootstrap.com/)
+- [React-Bootstrap](https://react-bootstrap.github.io/)
+- [Marvel](https://www.marvel.com/) for thematic inspiration

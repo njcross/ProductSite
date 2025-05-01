@@ -39,7 +39,8 @@ if [[ "$DEPLOY_TARGET" == "frontend" || "$DEPLOY_TARGET" == "all" ]]; then
   scp -i "$PEM_PATH" -r build/* $EC2_USER@$EC2_IP:$REMOTE_REACT_PATH
   sudo ln -s /home/ec2-user/ProductSite/react-router-bootstrap-app/public/content.json /var/www/react/content.json
   sudo ln -s /home/ec2-user/ProductSite/react-router-bootstrap-app/public/images /var/www/react/images
-
+  sudo ln -s /home/ec2-user/ProductSite/react-router-bootstrap-app/public/sitemap.xml /var/www/react/sitemap.xml
+  sudo ln -s /home/ec2-user/ProductSite/react-router-bootstrap-app/public/robots.txt /var/www/react/robots.txt
   echo "🔧 Setting permissions and reloading Nginx..."
   ssh -i "$PEM_PATH" $EC2_USER@$EC2_IP << EOF
     sudo chmod -R 755 $REMOTE_REACT_PATH

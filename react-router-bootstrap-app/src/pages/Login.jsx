@@ -5,6 +5,7 @@ import { setToken } from '../utils/tokenService';
 import EditableField from '../components/EditableField';import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container } from 'react-bootstrap';
 import { useUser } from '../context/UserContext';
+import GoogleSignInButton from '../components/GoogleSignInButton';
 import './Login.css';
 
 export default function Login() {
@@ -58,6 +59,8 @@ export default function Login() {
 
           <Button type="submit" className="login-btn">{<EditableField contentKey="content_56" />}</Button>
           {message && <p className="mt-3 text-light">{message}</p>}
+          <p>OR</p>
+          <GoogleSignInButton />
         </Form>
       </div>
     </Container>
