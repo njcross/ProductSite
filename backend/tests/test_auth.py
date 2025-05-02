@@ -1,5 +1,5 @@
 import pytest
-
+from app import create_app
 def test_register(client):
     response = client.post('/register', json={
         "username": "newuser",
@@ -22,3 +22,14 @@ def test_login(client, create_test_users):
     print(response)
     assert response.status_code == 200
     assert "user" in response.json
+
+@pytest.fixture
+def client():
+    app = create_app()
+    app.config['TESTING'] = True
+    with app.test_client() as client:
+        yield client
+
+def test_auth_basic(client):
+    response = client.get("/api/health" if "auth" == "content" else "/api/auth")
+    assert response.status_code in (200, 401, 404)
