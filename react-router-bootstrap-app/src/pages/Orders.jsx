@@ -3,6 +3,7 @@ import { useUser } from '../context/UserContext';
 import { Container, Row, Col, Card, Button, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import EditableField from '../components/EditableField';
 import { Helmet } from 'react-helmet';
+import { Table } from 'react-bootstrap';
 import './Orders.css';
 
 export default function Orders() {
