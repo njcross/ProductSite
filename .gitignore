@@ -16,3 +16,4 @@ dist/
 *.log
 .env
 
+backend/backend_test_output.txt

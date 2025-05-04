@@ -74,11 +74,11 @@ export default function CartPage() {
         <>
           {/* Table Headers */}
           <div className="cart-headers d-flex">
-  <div className="cart-col" style={{ flex: '20%' }}></div> {/* Image */}
-  <div className="cart-col" style={{ flex: '30%' }}><EditableField contentKey="content_238" /></div>
-  <div className="cart-col" style={{ flex: '20%' }}><EditableField contentKey="content_239" /></div>
-  <div className="cart-col" style={{ flex: '20%' }}><EditableField contentKey="content_240" /></div>
-  <div className="cart-col" style={{ flex: '10%' }}></div> {/* Trash */}
+  <div className="cart-col" style={{ flex: '1 1 20%' }}></div> {/* Image */}
+  <div className="cart-col" style={{ flex: '1 1 30%' }}><EditableField contentKey="content_238" /></div>
+  <div className="cart-col" style={{ flex: '1 1 20%' }}><EditableField contentKey="content_239" /></div>
+  <div className="cart-col" style={{ flex: '1 1 20%' }}><EditableField contentKey="content_240" /></div>
+  <div className="cart-col" style={{ flex: '1 1 10%' }}></div> {/* Trash */}
 </div>
 
 
@@ -87,13 +87,13 @@ export default function CartPage() {
   const details = getDetails(item);
   return (
     <div className="cart-item d-flex" key={item.id} onClick={() => navigate(`/edit/${details.kit_id}`)}>
-      <div className="cart-col" style={{ flex: '20%' }}>
+      <div className="cart-col" style={{ flex: '1 1 20%' }}>
         <img src={details.image_url} alt={details.name} />
       </div>
-      <div className="cart-col" style={{ flex: '30%' }}>
+      <div className="cart-col" style={{ flex: '1 1 30%' }}>
         <h5>{details.name}</h5>
       </div>
-      <div className="cart-col" style={{ flex: '20%' }} onClick={e => e.stopPropagation()}>
+      <div className="cart-col" style={{ flex: '1 1 20%' }} onClick={e => e.stopPropagation()}>
         <Form.Control
           type="number"
           min={1}
@@ -101,10 +101,10 @@ export default function CartPage() {
           onChange={(e) => updateQuantity(item.id, Number(e.target.value))}
         />
       </div>
-      <div className="cart-col" style={{ flex: '20%' }} onClick={e => e.stopPropagation()}>
+      <div className="cart-col" style={{ flex: '1 1 20%' }} onClick={e => e.stopPropagation()}>
         ${(details.quantity * details.price).toFixed(2)}
       </div>
-      <div className="cart-col" style={{ flex: '10%' }} onClick={e => e.stopPropagation()}>
+      <div className="cart-col" style={{ flex: '1 1 10%' }} onClick={e => e.stopPropagation()}>
         <Button variant="danger" onClick={() => removeFromCart(item.id)}>
           <i className="fas fa-trash-alt"></i>
         </Button>

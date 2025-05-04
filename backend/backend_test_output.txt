@@ -32,4 +32,4 @@ tests/test_purchases.py::test_checkout
     return util.wrap_callable(lambda ctx: fn(), fn)  # type: ignore
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-======================= 32 passed, 1 warning in 23.06s ========================
+======================= 32 passed, 1 warning in 24.11s ========================

@@ -49,6 +49,8 @@ export default function UserSettings() {
 
   const handleDeleteAccount = async () => {
     if (!password) return setMessage('Please fill in both password fields.');
+    const confirmed = window.confirm('Are you sure you want to delete your account? This action cannot be undone.');
+  if (!confirmed) return;
     try {
       await fetch(`${API_BASE}/api/delete-account`, {
         method: 'POST',
@@ -56,11 +58,11 @@ export default function UserSettings() {
           'Content-Type': 'application/json',
           credentials: 'include'
         },
-        body: JSON.stringify({ password: password })
+        body: JSON.stringify({ password }),
       });
-      setMessage('Password updated successfully!');
+      setMessage('Account deleted successfully!');
     } catch {
-      setMessage('Failed to update password.');
+      setMessage('Failed to delete account.');
     }
   };
 
@@ -72,6 +74,7 @@ export default function UserSettings() {
       </Helmet>
       <h2><EditableField contentKey="settings_1" /> {/* "Account Settings" */}</h2>
       <div className="settings-group">
+        <h3><EditableField contentKey="content_242" /> {/* "Change Email" */}</h3>
         <label><EditableField contentKey="settings_2" /> {/* "Email" */}</label>
         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <label><EditableField contentKey="settings_3" /> {/* "Current Password" */}</label>
@@ -80,6 +83,7 @@ export default function UserSettings() {
       </div>
 
       <div className="settings-group">
+      <h3><EditableField contentKey="content_243" /> {/* "Change Password" */}</h3>
         <label><EditableField contentKey="settings_5" /> {/* "New Password" */}</label>
         <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
         <label><EditableField contentKey="settings_3" /> {/* "Current Password" */}</label>
@@ -88,9 +92,10 @@ export default function UserSettings() {
       </div>
 
       <div className="settings-group">
+      <h3><EditableField contentKey="content_244" /> {/* "Delete Account" */}</h3>
         <label><EditableField contentKey="settings_3" /> {/* "Current Password" */}</label>
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button onClick={handleDeleteAccount}><EditableField contentKey="settings_6" /> {/* "Update Password" */}</button>
+        <button onClick={handleDeleteAccount}><EditableField contentKey="content_241" /> {/* "Delete Account" */}</button>
       </div>
       {message && <p className="status-message">{message}</p>}
     </div>
