@@ -11,6 +11,7 @@ export default function CartPage() {
   const { currentUser } = useUser();
   const navigate = useNavigate();
   const API_BASE = process.env.REACT_APP_API_URL;
+  
 
   const getDetails = (item) => {
     const kit = item.kit || item;
@@ -82,7 +83,7 @@ export default function CartPage() {
           {cart.map((item) => {
             const details = getDetails(item);
             return (
-              <Row key={item.id} className="cart-item align-items-center mb-3 p-3 rounded">
+              <Row key={item.id} className="cart-item align-items-center mb-3 p-3 rounded" style={{ cursor: 'pointer'}} onClick={() => navigate(`/kits/${details.kit_id}`)}>
                 <Col xs={3}>
                   <img src={details.image_url} alt={details.name} className="img-fluid rounded" />
                 </Col>

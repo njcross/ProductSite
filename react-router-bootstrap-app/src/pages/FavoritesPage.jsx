@@ -4,12 +4,14 @@ import { useFavorites } from '../context/FavoritesContext';
 import SuperheroCard from '../components/SuperheroCard';
 import { Row, Col, Container } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
+import { useNavigate } from 'react-router-dom';
 import './FavoritesPage.css';
 
 
 export default function FavoritesPage() {
   const { favorites, fetchFavorites } = useFavorites();
   const [characters, setCharacters] = useState([]);
+  const navigate = useNavigate();
   const API_BASE = process.env.REACT_APP_API_URL;
 
   useEffect(() => {

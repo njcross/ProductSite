@@ -78,7 +78,7 @@
   padding-bottom: 0.5rem;
 }
 .cart-header-label {
-  font-size: 0.95rem;
+  font-size: 2rem;
   text-transform: uppercase;
-  color: var(--color-muted);
+  color: var(--color-text);
 }
