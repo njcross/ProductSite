@@ -32,7 +32,7 @@ function KitsLandingPage() {
   <meta property="og:image" content="https://myplaytray.com/images/kit-og-image.jpg" />
   <meta property="og:url" content="https://myplaytray.com/" />
 </Helmet>
-      <section className="hero-section">
+      <section className="hero-section-kit">
       <div className="hero-banner">
         <div className="hero-content">
           <h1><EditableField contentKey="content_203" /></h1>
