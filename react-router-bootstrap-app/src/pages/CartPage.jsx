@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Button, Container, Row, Col, Form } from 'react-bootstrap';
+import { Button, Container, Form } from 'react-bootstrap';
 import { useCart } from '../context/CartContext';
 import { useUser } from '../context/UserContext';
 import EditableField from '../components/EditableField';
@@ -11,7 +11,6 @@ export default function CartPage() {
   const { currentUser } = useUser();
   const navigate = useNavigate();
   const API_BASE = process.env.REACT_APP_API_URL;
-  
 
   const getDetails = (item) => {
     const kit = item.kit || item;
@@ -45,7 +44,7 @@ export default function CartPage() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
-          body: JSON.stringify({ kit_id: kit_id, quantity }),
+          body: JSON.stringify({ kit_id, quantity }),
         });
       }
 
@@ -60,60 +59,67 @@ export default function CartPage() {
   return (
     <Container className="cart-page">
       <Helmet>
-              <title>Your Cart – Play Kits</title>
-              <meta name="description" content="View your selected kits and checkout securely." />
-            </Helmet>
+        <title>Your Cart – My Play Trays</title>
+        <meta name="description" content="View your selected trays and checkout securely." />
+      </Helmet>
       <h2 className="text-white mb-4">
         <EditableField contentKey="content_98" />
       </h2>
-      
+
       {Array.isArray(cart) && cart.length === 0 ? (
         <p className="text-light">
           <EditableField contentKey="content_99" />
         </p>
       ) : (
         <>
-        <Row className="cart-headers text-white fw-bold mb-2 px-3">
-  <Col xs={3}></Col> {/* No header for image */}
-  <Col xs={3}><EditableField contentKey="content_238" /> {/* Name */}</Col>
-  <Col xs={3}><EditableField contentKey="content_239" /> {/* Quantity */}</Col>
-  <Col xs={2}><EditableField contentKey="content_240" /> {/* Total */}</Col>
-  <Col xs={1}></Col> {/* For the delete icon */}
-</Row>
+          {/* Table Headers */}
+          <div className="cart-headers">
+            <div style={{ flex: '1 1 20%' }}></div> {/* Image */}
+            <div style={{ flex: '1 1 30%' }}><EditableField contentKey="content_238" /></div>
+            <div style={{ flex: '1 1 20%' }}><EditableField contentKey="content_239" /></div>
+            <div style={{ flex: '1 1 20%' }}><EditableField contentKey="content_240" /></div>
+            <div style={{ flex: '1 1 10%' }}></div> {/* Trash */}
+          </div>
+
+          {/* Cart Items */}
           {cart.map((item) => {
             const details = getDetails(item);
             return (
-              <Row key={item.id} className="cart-item align-items-center mb-3 p-3 rounded" style={{ cursor: 'pointer'}} onClick={() => navigate(`/edit/${details.kit_id}`)}>
-                <Col xs={3}>
-                  <img src={details.image_url} alt={details.name} className="img-fluid rounded" />
-                </Col>
-                <Col xs={3}>
-                  <h5 className="text-white">{details.name}</h5>
-                </Col>
-                <Col xs={3} onClick={(e) => e.stopPropagation()}>
-                  <Form.Control
-                    type="number"
-                    min={1}
-                    value={details.quantity}
-                    onChange={(e) => updateQuantity(item.id, Number(e.target.value))}
-                  />
-                </Col>
+              <div
+                key={item.id}
+                className="cart-item"
+                onClick={() => navigate(`/edit/${details.kit_id}`)}
+              >
+                <img src={details.image_url} alt={details.name} />
+                <h5>{details.name}</h5>
 
-                <Col xs={2} className="text-white" onClick={(e) => e.stopPropagation()}>
+                <Form.Control
+                  type="number"
+                  min={1}
+                  value={details.quantity}
+                  onClick={(e) => e.stopPropagation()}
+                  onChange={(e) => updateQuantity(item.id, Number(e.target.value))}
+                />
+
+                <div className="cart-price" onClick={(e) => e.stopPropagation()}>
                   ${(details.quantity * details.price).toFixed(2)}
-                </Col>
+                </div>
 
-                <Col xs={1} onClick={(e) => e.stopPropagation()}>
-                  <Button variant="danger" onClick={() => removeFromCart(item.id)}>
-                    <i className="fas fa-trash-alt"></i>
-                  </Button>
-                </Col>
-              </Row>
+                <Button
+                  variant="danger"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFromCart(item.id);
+                  }}
+                >
+                  <i className="fas fa-trash-alt"></i>
+                </Button>
+              </div>
             );
           })}
 
-          <hr className="text-light" />
-          <h4 className="text-white">
+          {/* Total and Buttons */}
+          <h4 className="text-white cart-total">
             <EditableField contentKey="content_103" /> ${total.toFixed(2)}
           </h4>
 

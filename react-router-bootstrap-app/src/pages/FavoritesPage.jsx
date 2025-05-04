@@ -45,8 +45,8 @@ export default function FavoritesPage() {
   return (
     <Container className="favorites-page my-5">
       <Helmet>
-        <title>Favorites – Play Kits</title>
-        <meta name="description" content="Your saved Play kits and search preferences." />
+        <title>Favorites – My Play Trays</title>
+        <meta name="description" content="Your saved Play Trays and search preferences." />
       </Helmet>
       <h2>My Favorite Characters</h2>
       <Row className="character-row d-flex justify-content-center">

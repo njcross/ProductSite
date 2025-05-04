@@ -6,7 +6,7 @@ import EditableImage from '../components/EditableImage';import EditableField fro
   return (
     <div className="not-found-page">
       <Helmet>
-        <title>Page Not Found – Play Kits</title>
+        <title>Page Not Found – Play Trays</title>
         <meta name="description" content="Oops! This page doesn’t exist. Return home to continue your journey." />
       </Helmet>
       <div className="not-found-container">

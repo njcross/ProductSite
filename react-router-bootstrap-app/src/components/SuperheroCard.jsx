@@ -84,6 +84,7 @@ export default function SuperheroCard({ character, onEdit, onDelete }) {
             <Button onClick={(e) => {
               e.stopPropagation();
               addToCart(character);
+              window.scrollTo(0, 0);
               navigate('/cart');
             }}>
               <EditableField contentKey="content_76" />

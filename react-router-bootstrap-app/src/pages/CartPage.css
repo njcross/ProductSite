@@ -6,37 +6,61 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.cart-headers {
+  display: flex;
+  font-weight: bold;
+  color: var(--color-text);
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
 .cart-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   background-color: var(--bg-main);
   border: 1px solid var(--color-text-dark);
-  padding: var(--spacing-md);
+  padding: 1rem;
   border-radius: var(--radius-sm);
+  flex-wrap: wrap;
+  transition: background-color 0.2s;
+}
+
+.cart-item:hover {
+  background-color: var(--bg-alt);
 }
 
 .cart-item img {
-  max-height: 100px;
-  width: auto;
+  height: 80px;
+  width: 80px;
   object-fit: cover;
   border-radius: var(--radius-sm);
+  flex-shrink: 0;
 }
 
-.cart-item h5,
-.cart-item p {
-  margin: 0.25rem 0;
+.cart-item h5 {
+  margin: 0;
+  font-size: 1rem;
+  flex: 1 1 auto;
 }
 
 .cart-item .form-control {
-  max-width: 80px;
+  width: 80px;
   background-color: var(--bg-action-item);
   color: var(--color-link);
   border: 1px solid var(--color-text-dark);
+  text-align: center;
 }
 
 .cart-item .form-control:focus {
   background-color: var(--color-accent);
-  color: var(--color-link);
-  border-color: var(--border-color);
   box-shadow: 0 0 0 0.2rem rgba(237, 29, 36, 0.25);
+}
+
+.cart-item .cart-price {
+  min-width: 80px;
+  text-align: right;
+  font-weight: 500;
 }
 
 .cart-item .btn-danger {
@@ -44,7 +68,6 @@
   font-size: 0.9rem;
 }
 
-/* Total row */
 .cart-total {
   font-size: 1.5rem;
   font-weight: bold;
@@ -52,33 +75,37 @@
   margin-top: 1rem;
 }
 
-/* Responsive adjustments */
+/* ✅ MOBILE STACKING FIX */
 @media (max-width: 768px) {
+  .cart-headers {
+    display: none;
+  }
+
   .cart-item {
     flex-direction: column;
-    text-align: center;
+    align-items: flex-start;
+    text-align: left;
   }
 
   .cart-item img {
-    max-width: 80%;
-    margin-bottom: var(--spacing-md);
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    margin-bottom: 1rem;
+  }
+
+  .cart-item h5,
+  .cart-item .form-control,
+  .cart-item .cart-price,
+  .cart-item .btn-danger {
+    width: 100%;
   }
 
   .cart-item .form-control {
-    margin: 0.5rem auto;
+    margin-bottom: 0.5rem;
   }
 
   .cart-total {
     text-align: center;
   }
-}
-
-.cart-headers {
-  border-bottom: 1px solid var(--color-border);
-  padding-bottom: 0.5rem;
-}
-.cart-headers .editable-wrapper {
-  font-size: 1rem;
-  text-transform: uppercase;
-  color: var(--color-text);
 }

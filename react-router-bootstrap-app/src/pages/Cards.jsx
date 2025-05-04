@@ -109,7 +109,7 @@ useEffect(() => {
     <div className="cards-page">
       <Helmet>
         <title>My Play Tray's Catalog</title>
-        <meta name="description" content="Browse all available Play kits by category, age, and rating." />
+        <meta name="description" content="Browse all available Play trays by category, age, and rating." />
       </Helmet>
       <Container fluid>
         <h2 className="text-center text-white mb-4">Character Collection</h2>

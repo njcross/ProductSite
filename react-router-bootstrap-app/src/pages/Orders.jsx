@@ -29,8 +29,8 @@ export default function Orders() {
   return (
     <Container className="orders-page py-4">
         <Helmet>
-        <title>Purchase History – Play Kits</title>
-        <meta name="description" content="Track your past Play kit purchases." />
+        <title>Purchase History – Play Trays</title>
+        <meta name="description" content="Track your past Play tray purchases." />
       </Helmet>
       <h2 className="text-center mb-4">
         <EditableField contentKey="content_226" />

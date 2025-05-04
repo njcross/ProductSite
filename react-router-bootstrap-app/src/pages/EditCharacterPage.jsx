@@ -124,6 +124,7 @@ export default function EditCharacterPage() {
   const handleModalConfirm = () => {
     setShowModal(false);
     if (isSuccess) {
+      window.scrollTo(0, 0);
       navigate('/cards');
     } else {
       setShowEditForm(true);
@@ -152,7 +153,7 @@ export default function EditCharacterPage() {
   return (
     <Container className="edit-character-page">
       <Helmet>
-        <title>Edit Play Kit: Admin</title>
+        <title>Edit Play Tray: Admin</title>
         <meta name="description" content="Admin tool to update Play kit details." />
       </Helmet>
       <Button variant="secondary" onClick={() => navigate(-1)} className="mb-3">
@@ -194,6 +195,7 @@ export default function EditCharacterPage() {
     className="mt-2"
     onClick={() => {
       addToCart(character);
+      window.scrollTo(0, 0);
       navigate('/cart');
     }}
   >

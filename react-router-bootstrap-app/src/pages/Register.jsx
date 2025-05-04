@@ -78,7 +78,7 @@ export default function Register() {
     <Container className="register-page">
       <Helmet>
         <title>Sign Up – My Play Tray</title>
-        <meta name="description" content="Create your account and start your exploring our Play Kits." />
+        <meta name="description" content="Create your account and start your exploring our Play Trays." />
       </Helmet>
       <div className="register-card">
         <h2>{<EditableField contentKey="content_58" />}</h2>

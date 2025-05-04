@@ -64,7 +64,7 @@ export default function NewsLetterList() {
   return (
     <div className="newsletter-page">
       <Helmet>
-              <title>Newsletter Signups</title>
+              <title>Newsletter Signups - Admin Only</title>
               <meta name="description" content="View and manage newsletter subscribers. Admin Only" />
             </Helmet>
       {currentUser?.role === 'admin' && (
