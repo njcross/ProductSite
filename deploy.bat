@@ -1,5 +1,5 @@
 @echo off
-REM Usage: deploy.bat "commit message" [frontend|backend|all]
+REM Usage: .\deploy.bat "commit message" [frontend|backend|all] defaults to all
 
 IF "%~1"=="" (
     echo ❌ Please provide a commit message.
@@ -44,12 +44,18 @@ IF %ERRORLEVEL% NEQ 0 (
     type frontend_test_output.txt | findstr /C:"FAIL" /C:"●" /C:"expected" /C:"received" /C:"Test Suites:" /C:"Tests:"
     exit /b 1
 )
+ELSE (
+    echo ✅ Frontend tests passed.
+)
 
 echo 🏗️ Building the frontend...
 call npm run build
 IF %ERRORLEVEL% NEQ 0 (
     echo ❌ Build failed. Aborting deployment.
     exit /b 1
+)
+ELSE (
+    echo ✅ Build completed successfully.
 )
 
 echo 🚀 Uploading React build to EC2...
@@ -75,15 +81,18 @@ IF %ERRORLEVEL% NEQ 0 (
     type backend_test_output.txt | findstr /C:"FAILED" /C:"ERROR" /C:"short test summary info"
     exit /b 1
 )
+ELSE (
+    echo ✅ Backend tests passed.
+)
 
 echo 🔄 Restarting backend on EC2...
 ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% ^
-"cd %REMOTE_BACKEND_PATH% && ^
- git stash && git pull origin main && ^
- python3 -m venv venv && source venv/bin/activate && ^
- pip install -r requirements.txt && ^
-@REM  pm2 delete backend || true && ^
-@REM  pm2 start 'gunicorn \"server:app\" --bind 0.0.0.0:5000 --workers 4' --name backend"
+"cd %REMOTE_BACKEND_PATH% && \
+ git stash && \
+ git pull origin main && \
+ source venv/bin/activate && \
+ pip install -r requirements.txt "
+
 
 GOTO end
 
