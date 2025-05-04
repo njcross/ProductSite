@@ -15,7 +15,7 @@
 .character-carousel {
   max-width: 100%;
   padding: var(--spacing-md);
-  max-height: 100%;
+  min-height: 300px;
 }
 
 .multi-carousel-section {
@@ -92,7 +92,6 @@
 
 /* CharacterCarousel container */
 .carousel-column .character-carousel {
-  max-height: 300px; /* Adjust this as needed */
   overflow: hidden;
   display: flex;
   flex-direction: column;
