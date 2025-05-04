@@ -1,5 +1,6 @@
 from flask import Flask
-from flask_dance.contrib.google import make_google_blueprint
+from flask_dance.contrib.google import make_google_blueprint, google
+from flask import session
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_cors import CORS
@@ -8,7 +9,11 @@ from datetime import timedelta
 from sqlalchemy import create_engine, text
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_dance.consumer import oauth_authorized
+from flask_login import login_user
+from app.models.user import User
 from app.extensions import db, ma, migrate
+from backend.app.routes.auth_routes import google_bp
 
 
 def create_database():
@@ -83,6 +88,35 @@ def create_app():
     app.register_blueprint(review_bp)
     app.register_blueprint(purchase_bp)
     app.register_blueprint(google_bp, url_prefix="/api/login")
+    @oauth_authorized.connect_via(google_bp)
+    def google_logged_in(blueprint, token):
+        if not token:
+            return False
+
+        resp = blueprint.session.get("/oauth2/v2/userinfo")
+        if not resp.ok:
+            return False
+
+        info = resp.json()
+        email = info["email"]
+        username = info.get("name", email.split('@')[0])
+
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            user = User(
+                username=username,
+                email=email,
+                password=None,
+                role='user',
+                oauth_provider='google'
+            )
+            db.session.add(user)
+            db.session.commit()
+
+        session["user_id"] = user.id
+        login_user(user)
+
+        return False
 
     # Without the app context, Flask wouldn't know which app's configuration to use.     
     with app.app_context():
