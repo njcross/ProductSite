@@ -17,7 +17,7 @@
     transition: transform 0.3s ease;
   }
   
-  .hero-section:hover {
+  .hero-section-kit:hover {
     transform: translateY(-4px); /* subtle lift on hover */
   }
   
