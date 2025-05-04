@@ -1,51 +1,16 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { CartProvider, useCart } from '../../context/CartContext';
 import { UserProvider } from '../../context/UserContext';
+import { createCartMock } from '../../testing/Mocks/CreateCartMock';
 
-let mockCart = [];
-let fetchCallCount = 0;
+let fetchCallCount;
 
 beforeEach(() => {
-  mockCart = [];
-  fetchCallCount = 0;
-
-  global.fetch = jest.fn((url, options) => {
-    // First GET to load initial cart
-    if (url.endsWith('/api/cart') && (!options || options.method === 'GET')) {
-      fetchCallCount++;
-      return Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve(mockCart),
-      });
-    }
-
-    // POST to add new cart item
-    if (url.endsWith('/api/cart') && options?.method === 'POST') {
-      mockCart.push({ id: 1, kit_id: 42, quantity: 1 });
-      return Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve(mockCart), // usually returns new item or nothing
-      });
-    }
-
-    // PUT to update quantity
-    if (url.includes('/api/cart/') && options?.method === 'PUT') {
-      const id = parseInt(url.split('/').pop());
-      const body = JSON.parse(options.body);
-      mockCart = mockCart.map(item => item.id === id ? { ...item, quantity: body.quantity } : item);
-      return Promise.resolve({ ok: true });
-    }
-
-    // DELETE to remove from cart
-    if (url.includes('/api/cart/') && options?.method === 'DELETE') {
-      const id = parseInt(url.split('/').pop());
-      mockCart = mockCart.filter(item => item.id !== id);
-      return Promise.resolve({ ok: true });
-    }
-
-    return Promise.resolve({ ok: true, json: () => Promise.resolve([]) });
-  });
+  const { fetch_mock, mock_cart_state, fetchCallCount: getFetchCallCount } = createCartMock();
+  global.fetch = fetch_mock;
+  fetchCallCount = getFetchCallCount; // assign the getter function
 });
+
 
 describe('CartContext', () => {
   it('adds, updates, and removes items', async () => {
@@ -60,7 +25,12 @@ describe('CartContext', () => {
     await act(async () => {
       await result.current.addToCart({ id: 42, name: 'Kit A' });
     });
-
+    
+    await waitFor(() => {
+      // Refetch cart triggered in context after POST needs to complete
+      expect(fetchCallCount()).toBeGreaterThan(1); // optional debug check
+    });
+    
     await waitFor(() =>
       expect(result.current.cart).toEqual(
         expect.arrayContaining([
@@ -68,6 +38,7 @@ describe('CartContext', () => {
         ])
       )
     );
+    
 
     await act(async () => {
       await result.current.updateQuantity(1, 3);

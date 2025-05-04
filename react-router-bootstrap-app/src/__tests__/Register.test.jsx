@@ -19,7 +19,7 @@ test('renders register form and submits it', () => {
   fireEvent.change(screen.getByPlaceholderText(/confirm your password/i), { target: { value: 'password123' } });
 
   // Instead of looking for name /register/i, just get first button
-  const submitButton = screen.getByRole('button'); // ✅
+  const submitButton = screen.getByTestId('register-submit');
   fireEvent.click(submitButton);
 
   // ✅ (Later you should mock fetch and assert the API call or redirect)

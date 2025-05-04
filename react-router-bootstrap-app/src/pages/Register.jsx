@@ -103,7 +103,7 @@ export default function Register() {
 
           {error && <p className="error-message">{error}</p>}
 
-          <Button type="submit" className="register-btn">{<EditableField contentKey="content_58" />}</Button>
+          <Button type="submit" className="register-btn" data-testid="register-submit">{<EditableField contentKey="content_58" />}</Button>
         </Form>
       </div>
       <p>OR</p>
