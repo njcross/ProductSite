@@ -13,7 +13,6 @@ from flask_dance.consumer import oauth_authorized
 from flask_login import login_user
 from app.models.user import User
 from app.extensions import db, ma, migrate
-from backend.app.routes.auth_routes import google_bp
 
 
 def create_database():
