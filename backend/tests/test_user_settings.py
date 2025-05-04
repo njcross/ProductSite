@@ -12,3 +12,18 @@ def client():
 def test_user_settings_basic(client):
     response = client.get("/api/health" if "user_settings" == "content" else "/api/user_settings")
     assert response.status_code in (200, 401, 404)
+
+def test_update_email(client, user_auth_header):
+    res = client.post("/api/change-email", json={
+        "email": "updated@example.com",
+        "password": "password123"
+    }, headers=user_auth_header)
+    assert res.status_code in (200, 400)
+
+def test_update_password(client, user_auth_header):
+    res = client.post("/api/change-password", json={
+        "newPassword": "newpass123",
+        "currentPassword": "password123"
+    }, headers=user_auth_header)
+    assert res.status_code in (200, 400)
+
