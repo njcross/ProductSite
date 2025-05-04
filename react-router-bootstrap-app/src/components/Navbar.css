@@ -19,7 +19,7 @@
   font-weight: bold;
 }
 
-.nav-link {
+.nav-link .editable-wrapper{ 
   background-color: var(--bg-action-item);
   border-radius: var(--radius-sm);
   border: var(--color-primary);

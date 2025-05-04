@@ -16,7 +16,7 @@ export default function Navbar() {
   const isAdmin = currentUser?.role === 'admin';
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light px-3 custom-navbar">
+    <nav className="navbar navbar-expand-lg navbar-light px-3 custom-navbar">
       <div className="container-fluid navbar-container">
         <button
           className="navbar-toggler"

@@ -1,10 +1,11 @@
 import React from 'react';
-import { render, screen } from '../../testing/test-utils';
+import { screen } from '@testing-library/react';
+import { renderWithProviders } from '../../testing/test-utils';
 import FavoritesPage from '../../pages/FavoritesPage';
 
 describe('FavoritesPage Page', () => {
   test('renders without crashing', () => {
-    render(<FavoritesPage />);
+    renderWithProviders(<FavoritesPage />);
     expect(screen.getByText).toBeDefined();
   });
 });

@@ -1,10 +1,11 @@
 import React from 'react';
-import { render, screen } from '../../testing/test-utils';
+import { screen } from '@testing-library/react';
+import { renderWithProviders } from '../../testing/test-utils';
 import NewsletterList from '../../pages/NewsLetterList';
 
 describe('NewsLetterList Page', () => {
   test('renders without crashing', () => {
-    render(<NewsletterList />);
+    renderWithProviders(<NewsletterList />);
     expect(screen.getByText).toBeDefined();
   });
 });

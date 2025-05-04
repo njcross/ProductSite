@@ -1,10 +1,11 @@
 import React from 'react';
-import { render, screen } from '../../testing/test-utils';
+import { screen } from '@testing-library/react';
+import { renderWithProviders } from '../../testing/test-utils';
 import NotFound from '../../pages/NotFound';
 
 describe('NotFound Page', () => {
   test('renders without crashing', () => {
-    render(<NotFound />);
+    renderWithProviders(<NotFound />);
     expect(screen.getByText).toBeDefined();
   });
 });

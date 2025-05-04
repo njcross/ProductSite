@@ -1,16 +1,10 @@
-import { RouterProvider } from 'react-router-dom';
-import { router } from './router';
-
 import { useEffect, useState } from 'react';
 import { UserProvider } from './context/UserContext';
 import { CartProvider } from './context/CartContext';
-import { ContentContext } from './context/ContentContext';
 import { FavoritesProvider } from './context/FavoritesContext';
-
-import HeaderBar from './components/HeaderBar';
-import Navbar from './components/Navbar';
-import { FooterNav } from './components/FooterNav';
-import { FooterNewsletter } from './components/FooterNewsletter';
+import { ContentContext } from './context/ContentContext';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './router';
 
 import './App.css';
 import './variables.css';
@@ -30,13 +24,8 @@ export default function App() {
       <FavoritesProvider>
         <CartProvider>
           <ContentContext.Provider value={{ content, setContent }}>
-            <div className="app-container">
-              <HeaderBar />
-              <Navbar />
-              <RouterProvider router={router} />
-              <FooterNewsletter />
-              <FooterNav />
-            </div>
+            {/* RouterProvider wraps entire app layout */}
+            <RouterProvider router={router} />
           </ContentContext.Provider>
         </CartProvider>
       </FavoritesProvider>

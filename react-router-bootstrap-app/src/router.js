@@ -1,10 +1,11 @@
-// src/router.js (optional separate file)
-import {
-    createBrowserRouter,
-    RouterProvider,
-  } from 'react-router-dom';
-  
-  import Home from './pages/Home';
+import { createBrowserRouter, Outlet } from 'react-router-dom';
+import HeaderBar from './components/HeaderBar';
+import Navbar from './components/Navbar';
+import { FooterNav } from './components/FooterNav';
+import { FooterNewsletter } from './components/FooterNewsletter';
+import './App.css';
+
+import Home from './pages/Home';
   import About from './pages/About';
   import Cards from './pages/Cards';
   import NotFound from './pages/NotFound';
@@ -17,26 +18,38 @@ import {
   import FavoritesPage from './pages/FavoritesPage';
   import NewsletterList from './pages/NewsLetterList';
   import Orders from './pages/Orders';
-  
-  export const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <KitsLandingPage />,
-    },
-    { path: '/about', element: <About /> },
-    { path: '/edit/:id', element: <EditCharacterPage /> },
-    { path: '/cards', element: <Cards /> },
-    { path: '/register', element: <Register /> },
-    { path: '/login', element: <Login /> },
-    { path: '/cart', element: <CartPage /> },
-    { path: '/settings', element: <UserSettings /> },
-    { path: '/favorites', element: <FavoritesPage /> },
-    { path: '/newsletter', element: <NewsletterList /> },
-    { path: '/orders', element: <Orders /> },
-    { path: '*', element: <NotFound /> },
-  ], {
-    future: {
-      v7_relativeSplatPath: true,
-    }
-  });
-  
+
+const Layout = () => (
+  <div className="app-container">
+    <HeaderBar />
+    <Navbar />
+    <Outlet />
+    <FooterNewsletter />
+    <FooterNav />
+  </div>
+);
+
+export const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      { index: true, element: <KitsLandingPage /> },
+      { path: 'about', element: <About /> },
+      { path: 'cards', element: <Cards /> },
+      { path: 'edit/:id', element: <EditCharacterPage /> },
+      { path: 'register', element: <Register /> },
+      { path: 'login', element: <Login /> },
+      { path: 'cart', element: <CartPage /> },
+      { path: 'settings', element: <UserSettings /> },
+      { path: 'favorites', element: <FavoritesPage /> },
+      { path: 'newsletter', element: <NewsletterList /> },
+      { path: 'orders', element: <Orders /> },
+      { path: '*', element: <NotFound /> },
+    ],
+  },
+], {
+  future: {
+    v7_relativeSplatPath: true,
+  }
+});

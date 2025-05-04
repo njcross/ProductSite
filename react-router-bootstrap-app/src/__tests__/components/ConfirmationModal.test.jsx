@@ -1,6 +1,6 @@
 import ConfirmationModal from '../../components/ConfirmationModal';
-import { render, screen } from '../../testing/test-utils';
+import { renderWithProviders, screen } from '../../testing/test-utils';
 
 test('renders ConfirmationModal correctly', () => {
-  render(<ConfirmationModal show={false} message="Test message" />);
+  renderWithProviders(<ConfirmationModal show={false} message="Test message" />);
 });

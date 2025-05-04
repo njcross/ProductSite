@@ -1,7 +1,7 @@
 import FilterBy from '../../components/FilterBy';
-import { render, screen } from '../../testing/test-utils';
+import { renderWithProviders, screen } from '../../testing/test-utils';
 
 
 test('renders FilterBy', () => {
-  render(<FilterBy onFilterChange={() => {}} filters={{}} />);
+  renderWithProviders(<FilterBy onFilterChange={() => {}} filters={{}} />);
 });

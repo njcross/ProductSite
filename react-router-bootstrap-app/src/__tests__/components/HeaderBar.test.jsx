@@ -1,6 +1,8 @@
+import { screen } from '@testing-library/react';
+import { renderWithProviders } from '../../testing/test-utils';
 import HeaderBar from '../../components/HeaderBar';
-import { render, screen } from '../../testing/test-utils';
 
-test('renders HeaderBar', () => {
-  render(<HeaderBar />);
+test('renders Search characters input', () => {
+  renderWithProviders(<HeaderBar />);
+  expect(screen.getByPlaceholderText(/search/i)).toBeInTheDocument();
 });

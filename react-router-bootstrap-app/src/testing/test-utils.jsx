@@ -1,31 +1,43 @@
-// test-utils.jsx
+// src/testing/test-utils.jsx
 import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { UserProvider } from '../context/UserContext';
 import { CartProvider } from '../context/CartContext';
 import { FavoritesProvider } from '../context/FavoritesContext';
 import { ContentContext } from '../context/ContentContext';
-import { useState } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
 
-const AllProviders = ({ children }) => {
-  const [content, setContent] = useState({});
+/**
+ * Renders a component within the same provider setup as App.jsx
+ */
+export const renderWithProviders = (
+  ui,
+  {
+    route = '/',
+    content = {},
+    routes = [{ path: route, element: ui }]
+  } = {}
+) => {
+  const router = createMemoryRouter(routes, {
+    initialEntries: [route],
+    future: { v7_relativeSplatPath: true }, // optional if you're using this in production
+  });
 
-  return (
-    <BrowserRouter>
+  const Wrapper = ({ children }) => {
+    const [contentState, setContent] = useState(content);
+
+    return (
       <UserProvider>
-        <CartProvider>
-          <FavoritesProvider>
-            <ContentContext.Provider value={{ content, setContent }}>
-              {children}
+        <FavoritesProvider>
+          <CartProvider>
+            <ContentContext.Provider value={{ content: contentState, setContent }}>
+              <RouterProvider router={router} />
             </ContentContext.Provider>
-          </FavoritesProvider>
-        </CartProvider>
+          </CartProvider>
+        </FavoritesProvider>
       </UserProvider>
-    </BrowserRouter>
-  );
-};
-const customRender = (ui, options) => render(ui, { wrapper: AllProviders, ...options });
+    );
+  };
 
-export * from '@testing-library/react';
-export { customRender as render };
+  return render(<Wrapper>{ui}</Wrapper>);
+};

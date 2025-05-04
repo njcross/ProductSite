@@ -1,10 +1,11 @@
 import React from 'react';
-import { render, screen } from '../../testing/test-utils';
+import { screen } from '@testing-library/react';
+import { renderWithProviders } from '../../testing/test-utils';
 import Home from '../../pages/Home';
 
 describe('Home Page', () => {
   test('renders without crashing', () => {
-    render(<Home />);
+    renderWithProviders(<Home />);
     expect(screen.getByText).toBeDefined();
   });
 });
