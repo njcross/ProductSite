@@ -19,7 +19,7 @@ SET LOCAL_FRONTEND_PATH=C:\Users\njcro\m7project\react-router-bootstrap-app
 SET REMOTE_REACT_PATH=/var/www/react
 
 REM BACKEND paths
-SET LOCAL_BACKEND_PATH=C:\Users\njcro\m7project\flask-backend
+SET LOCAL_BACKEND_PATH=C:\Users\njcro\m7project\backend
 SET REMOTE_BACKEND_PATH=/home/ec2-user/ProductSite/backend
 
 echo ✅ 1. Committing changes...
