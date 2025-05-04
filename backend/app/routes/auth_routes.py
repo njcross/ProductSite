@@ -138,4 +138,5 @@ def check_login():
 @auth_bp.route('/logout', methods=['POST'])
 def logout():
     session.pop('user_id', None)
+    session.clear()
     return redirect("https://myplaytray.com/")

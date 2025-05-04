@@ -47,6 +47,23 @@ export default function UserSettings() {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    if (!password) return setMessage('Please fill in both password fields.');
+    try {
+      await fetch(`${API_BASE}/api/delete-account`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          credentials: 'include'
+        },
+        body: JSON.stringify({ password: password })
+      });
+      setMessage('Password updated successfully!');
+    } catch {
+      setMessage('Failed to update password.');
+    }
+  };
+
   return (
     <div className="user-settings-container">
       <Helmet>
@@ -68,6 +85,12 @@ export default function UserSettings() {
         <label><EditableField contentKey="settings_3" /> {/* "Current Password" */}</label>
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <button onClick={handleChangePassword}><EditableField contentKey="settings_6" /> {/* "Update Password" */}</button>
+      </div>
+
+      <div className="settings-group">
+        <label><EditableField contentKey="settings_3" /> {/* "Current Password" */}</label>
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <button onClick={handleDeleteAccount}><EditableField contentKey="settings_6" /> {/* "Update Password" */}</button>
       </div>
       {message && <p className="status-message">{message}</p>}
     </div>
