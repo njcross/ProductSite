@@ -59,7 +59,7 @@ export default function Orders() {
     <tr>
       <th><EditableField contentKey="content_232" /></th> {/* Kit Name */}
       <th><EditableField contentKey="content_233" /></th> {/* Image */}
-      <th><EditableField contentKey="content_230" /></th> {/* User ID */}
+      {viewAll && <th><EditableField contentKey="content_230" /></th>} {/* User ID */}
       <th><EditableField contentKey="content_231" /></th> {/* Kit ID */}
       <th><EditableField contentKey="content_234" /></th> {/* Quantity */}
       <th><EditableField contentKey="content_235" /></th> {/* Date */}
