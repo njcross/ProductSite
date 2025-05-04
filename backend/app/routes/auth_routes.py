@@ -11,7 +11,7 @@ from flask_cors import cross_origin
 
 google_bp = make_google_blueprint(
     scope=["profile", "email"],
-    redirect_url="/login/google/authorized"
+    redirect_to="api.google_login",
 )
 
 

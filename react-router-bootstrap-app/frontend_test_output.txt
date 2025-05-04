@@ -2,4 +2,3 @@
 > react-router-bootstrap-app@0.1.0 test
 > react-scripts test --watchAll=false
 
-Terminate batch job (Y/N)? 
