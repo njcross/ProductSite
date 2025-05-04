@@ -5,7 +5,7 @@ configfile: pytest.ini
 plugins: Flask-Dance-7.1.0, flask-1.3.0
 collected 32 items
 
-tests\test_auth.py .F.                                                   [  9%]
+tests\test_auth.py ...                                                   [  9%]
 tests\test_auth_routes.py .                                              [ 12%]
 tests\test_cart.py .                                                     [ 15%]
 tests\test_cart_routes.py ....                                           [ 28%]
@@ -26,28 +26,10 @@ tests\test_reviews.py ..                                                 [ 87%]
 tests\test_user_settings.py ...                                          [ 96%]
 tests\test_user_settings_routes.py .                                     [100%]
 
-================================== FAILURES ===================================
-_________________________________ test_login __________________________________
-
-client = <FlaskClient <Flask 'app'>>, create_test_users = (1, 2)
-
-    def test_login(client, create_test_users):
-        # Create the users first using the fixture (now they exist)
-        response = client.post('/api/logout')
->       assert response.status_code == 200
-E       assert 302 == 200
-E        +  where 302 = <WrapperTestResponse streamed [302 FOUND]>.status_code
-
-tests\test_auth.py:16: AssertionError
----------------------------- Captured stdout setup ----------------------------
-CORS_ORIGIN: http://localhost:3000
-Database tables created!
 ============================== warnings summary ===============================
 tests/test_purchases.py::test_checkout
   C:\Users\njcro\m7project\backend\venv\Lib\site-packages\sqlalchemy\sql\schema.py:3596: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
     return util.wrap_callable(lambda ctx: fn(), fn)  # type: ignore
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ===========================
-FAILED tests/test_auth.py::test_login - assert 302 == 200
-================== 1 failed, 31 passed, 1 warning in 22.56s ===================
+======================= 32 passed, 1 warning in 23.22s ========================

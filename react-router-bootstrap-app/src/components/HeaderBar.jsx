@@ -23,6 +23,7 @@ export default function HeaderBar() {
       });
       removeToken();
       setCurrentUser(null);
+      navigate('/');
     } catch (err) {
       console.error('Logout failed:', err);
     }
