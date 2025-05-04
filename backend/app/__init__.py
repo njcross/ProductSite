@@ -37,7 +37,11 @@ def create_app():
     app.config["GOOGLE_OAUTH_CLIENT_SECRET"] = Config.GOOGLE_CLIENT_SECRET
 
     google_bp = make_google_blueprint(
-        scope=["profile", "email"],
+        scope=[
+        "https://www.googleapis.com/auth/userinfo.profile",
+        "https://www.googleapis.com/auth/userinfo.email",
+        "openid"
+        ],
         redirect_url="https://myplaytray.com/api/login/google/authorized",
         client_id=Config.GOOGLE_CLIENT_ID,
         client_secret=Config.GOOGLE_CLIENT_SECRET

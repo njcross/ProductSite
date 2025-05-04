@@ -9,11 +9,6 @@ from flask import redirect, url_for
 from flask_dance.contrib.google import make_google_blueprint, g, google
 from flask_cors import cross_origin
 
-google_bp = make_google_blueprint(
-    scope=["profile", "email"],
-    redirect_url="https://myplaytray.com/api/login/google/authorized"
-)
-
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api')
 user_schema = UserSchema()
