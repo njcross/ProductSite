@@ -74,47 +74,42 @@ export default function CartPage() {
         <>
           {/* Table Headers */}
           <div className="cart-headers">
-            <div style={{ flex: '1 1 20%' }}></div> {/* Image */}
-            <div style={{ flex: '1 1 30%' }}><EditableField contentKey="content_238" /></div>
-            <div style={{ flex: '1 1 20%' }}><EditableField contentKey="content_239" /></div>
-            <div style={{ flex: '1 1 20%' }}><EditableField contentKey="content_240" /></div>
-            <div style={{ flex: '1 1 10%' }}></div> {/* Trash */}
-          </div>
+  <div className="cart-col image-col"></div>
+  <div className="cart-col name-col"><EditableField contentKey="content_238" /></div>
+  <div className="cart-col quantity-col"><EditableField contentKey="content_239" /></div>
+  <div className="cart-col total-col"><EditableField contentKey="content_240" /></div>
+  <div className="cart-col action-col"></div>
+</div>
+
 
           {/* Cart Items */}
           {cart.map((item) => {
             const details = getDetails(item);
             return (
-              <div
-                key={item.id}
-                className="cart-item"
-                onClick={() => navigate(`/edit/${details.kit_id}`)}
-              >
-                <img src={details.image_url} alt={details.name} />
-                <h5>{details.name}</h5>
-
-                <Form.Control
-                  type="number"
-                  min={1}
-                  value={details.quantity}
-                  onClick={(e) => e.stopPropagation()}
-                  onChange={(e) => updateQuantity(item.id, Number(e.target.value))}
-                />
-
-                <div className="cart-price" onClick={(e) => e.stopPropagation()}>
-                  ${(details.quantity * details.price).toFixed(2)}
-                </div>
-
-                <Button
-                  variant="danger"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeFromCart(item.id);
-                  }}
-                >
-                  <i className="fas fa-trash-alt"></i>
-                </Button>
-              </div>
+              <div key={item.id} className="cart-item" onClick={() => navigate(`/edit/${details.kit_id}`)}>
+  <div className="cart-col image-col">
+    <img src={details.image_url} alt={details.name} />
+  </div>
+  <div className="cart-col name-col">
+    <h5>{details.name}</h5>
+  </div>
+  <div className="cart-col quantity-col" onClick={(e) => e.stopPropagation()}>
+    <Form.Control
+      type="number"
+      min={1}
+      value={details.quantity}
+      onChange={(e) => updateQuantity(item.id, Number(e.target.value))}
+    />
+  </div>
+  <div className="cart-col total-col" onClick={(e) => e.stopPropagation()}>
+    ${(details.quantity * details.price).toFixed(2)}
+  </div>
+  <div className="cart-col action-col" onClick={(e) => e.stopPropagation()}>
+    <Button variant="danger" onClick={() => removeFromCart(item.id)}>
+      <i className="fas fa-trash-alt"></i>
+    </Button>
+  </div>
+</div>
             );
           })}
 
