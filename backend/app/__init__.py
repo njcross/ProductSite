@@ -106,7 +106,7 @@ def create_app():
                 username=username,
                 email=email,
                 password="",
-                role='user',
+                role='customer',
                 oauth_provider='google'
             )
             db.session.add(user)
