@@ -38,6 +38,7 @@ export default function FavoritesPage() {
   }, [favorites, API_BASE]);
 
   const handleEditClick = (character) => {
+    window.scrollTo(0, 0);
     navigate(`/edit/${character.id}`);
   };
 

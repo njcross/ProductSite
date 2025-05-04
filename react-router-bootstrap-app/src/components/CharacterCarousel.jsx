@@ -58,6 +58,7 @@ export default function CharacterCarousel({ itemsPerPage = 12, sortBy = 'name', 
   };
 
   const handleEditClick = (character) => {
+    window.scrollTo(0, 0);
     navigate(`/edit/${character.id}`);
   };
 

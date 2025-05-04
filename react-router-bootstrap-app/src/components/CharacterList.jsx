@@ -65,6 +65,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   };
 
   const handleEditClick = (character) => {
+    window.scrollTo(0, 0);
     navigate(`/edit/${character.id}`);
   };
 
