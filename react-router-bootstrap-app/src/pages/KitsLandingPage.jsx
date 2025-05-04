@@ -32,6 +32,7 @@ function KitsLandingPage() {
   <meta property="og:image" content="https://myplaytray.com/images/kit-og-image.jpg" />
   <meta property="og:url" content="https://myplaytray.com/" />
 </Helmet>
+      <section className="hero-section">
       <div className="hero-banner">
         <div className="hero-content">
           <h1><EditableField contentKey="content_203" /></h1>
@@ -46,6 +47,7 @@ function KitsLandingPage() {
           <EditableImage contentKey="content_img_206" alt="Choose Kit" className="hero-img" />
         </div>
       </div>
+      </section>
 
       <div className="works-cta text-center">
         <Button variant="danger" className="browse-btn mt-3" href="/cards">

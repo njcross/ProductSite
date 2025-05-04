@@ -3,20 +3,27 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
   
+  .hero-section {
+    padding-block: 4rem;
+    background-color: var(--bg-alt);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate; /* ensures z-index behaves predictably */
+  }
+
   .hero-banner {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--bg-alt);
-    padding: 3rem 2rem;
-    min-height: 500px;
-    position: relative;
-    overflow: hidden;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
     flex-wrap: wrap;
-  }
+  }  
   
   .hero-content {
-    flex: 1;
+    flex: 1 1 400px;
+    padding: 1rem;
     color: var(--color-white);
     z-index: 1;
     max-width: 500px;
@@ -37,7 +44,7 @@
   }
   
   .hero-image-container {
-    flex: 1;
+    flex: 1 1 400px;
     display: flex;
     justify-content: flex-end;
     height: 100%;
