@@ -107,11 +107,11 @@ export default function Register() {
 
           <Button type="submit" className="register-btn" data-testid="register-submit">{<EditableField contentKey="content_58" />}</Button>
         </Form>
-      </div>
-      <div className="google-signin-section">
+        <div className="google-signin-section">
       <DividerWithText text="OR" />
                 <GoogleSignInButton />
                 </div>
+      </div>
 
       <ConfirmationModal
         show={showModal}
