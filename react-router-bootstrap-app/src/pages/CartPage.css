@@ -72,3 +72,13 @@
     text-align: center;
   }
 }
+
+.cart-headers {
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.5rem;
+}
+.cart-header-label {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}

@@ -65,13 +65,20 @@ export default function CartPage() {
       <h2 className="text-white mb-4">
         <EditableField contentKey="content_98" />
       </h2>
-
+      
       {Array.isArray(cart) && cart.length === 0 ? (
         <p className="text-light">
           <EditableField contentKey="content_99" />
         </p>
       ) : (
         <>
+        <Row className="cart-headers text-white fw-bold mb-2 px-3">
+  <Col xs={3}></Col> {/* No header for image */}
+  <Col xs={3}><EditableField contentKey="content_238" /> {/* Name */}</Col>
+  <Col xs={3}><EditableField contentKey="content_239" /> {/* Quantity */}</Col>
+  <Col xs={2}><EditableField contentKey="content_240" /> {/* Total */}</Col>
+  <Col xs={1}></Col> {/* For the delete icon */}
+</Row>
           {cart.map((item) => {
             const details = getDetails(item);
             return (

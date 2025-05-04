@@ -35,6 +35,10 @@ export default function FavoritesPage() {
       .catch(err => console.error('Failed to fetch favorites', err));
   }, [favorites, API_BASE]);
 
+  const handleEditClick = (character) => {
+    navigate(`/edit/${character.id}`);
+  };
+
   return (
     <Container className="favorites-page my-5">
       <Helmet>
@@ -47,7 +51,7 @@ export default function FavoritesPage() {
           <Col key={char.id} xs={12} sm={6} md={4} lg={3}>
             <SuperheroCard 
               character={char}
-              onEdit={() => navigate(`/edit/${char.id}`)}
+              onEdit={handleEditClick}
             />
           </Col>
         ))}

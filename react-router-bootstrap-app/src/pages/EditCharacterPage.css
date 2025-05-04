@@ -1,6 +1,8 @@
 .edit-character-page {
   max-width: 1200px;
   margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
   padding: var(--spacing-lg);
   background-color: var(--bg-main);
   color: var(--color-text);
