@@ -66,12 +66,12 @@ IF /I "%IS_DRY_RUN%"=="dry-run" (
     echo [dry-run] Would backup current build and upload new one
 ) ELSE (
     echo 📦 Backing up current build on EC2...
-    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "sudo rm -rf /var/www/react_backup && sudo cp -a /var/www/react /var/www/react_backup && \ echo Backup created at /var/www/react_backup_%%timestamp%%"
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "sudo rm -rf /var/www/react_backup && sudo cp -a /var/www/react /var/www/react_backup"
 
-    @REM echo 📤 Uploading new build...
-    @REM scp -i "%PEM_PATH%" -r build/* %EC2_USER%@%EC2_IP%:%REMOTE_REACT_PATH%
+    echo 📤 Uploading new build...
+    scp -i "%PEM_PATH%" -r build/* %EC2_USER%@%EC2_IP%:%REMOTE_REACT_PATH%
 
-    @REM ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "sudo chmod -R 755 %REMOTE_REACT_PATH%"
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "sudo chmod -R 755 %REMOTE_REACT_PATH%"
 )
 
 GOTO end
