@@ -7,7 +7,6 @@ from app.config import Config
 from datetime import timedelta
 from sqlalchemy import create_engine, text
 from flask_login import LoginManager
-from app.routes.auth_routes import google_bp
 from flask_migrate import Migrate
 from app.extensions import db, ma, migrate
 
