@@ -27,7 +27,7 @@ const StarRating = ({ rating, setRating, editable = false }) => {
   {[5, 4, 3, 2, 1].map((star) => (
     <span
       key={star}
-      className={`star ${(hoveredStar ? star <= hoveredStar : star <= rating) ? 'filled' : ''}`}
+      className={`star-edit ${(hoveredStar ? star <= hoveredStar : star <= rating) ? 'filled' : ''}`}
       onClick={() => editable && setRating(star)}
       onMouseEnter={() => handleMouseEnter(star)}
       onMouseLeave={handleMouseLeave}

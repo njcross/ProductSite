@@ -158,7 +158,7 @@ hr {
   justify-content: left;
 }
 
-.star {
+.star-edit {
   font-size: 1.8rem;
   color: #ccc;
   transition: color 0.2s ease;
