@@ -83,14 +83,14 @@ export default function CartPage() {
           {cart.map((item) => {
             const details = getDetails(item);
             return (
-              <Row key={item.id} className="cart-item align-items-center mb-3 p-3 rounded" style={{ cursor: 'pointer'}} onClick={() => navigate(`/kits/${details.kit_id}`)}>
+              <Row key={item.id} className="cart-item align-items-center mb-3 p-3 rounded" style={{ cursor: 'pointer'}} onClick={() => navigate(`/edit/${details.kit_id}`)}>
                 <Col xs={3}>
                   <img src={details.image_url} alt={details.name} className="img-fluid rounded" />
                 </Col>
                 <Col xs={3}>
                   <h5 className="text-white">{details.name}</h5>
                 </Col>
-                <Col xs={3}>
+                <Col xs={3} onClick={(e) => e.stopPropagation()}>
                   <Form.Control
                     type="number"
                     min={1}
@@ -98,10 +98,12 @@ export default function CartPage() {
                     onChange={(e) => updateQuantity(item.id, Number(e.target.value))}
                   />
                 </Col>
-                <Col xs={2} className="text-white">
+
+                <Col xs={2} className="text-white" onClick={(e) => e.stopPropagation()}>
                   ${(details.quantity * details.price).toFixed(2)}
                 </Col>
-                <Col xs={1}>
+
+                <Col xs={1} onClick={(e) => e.stopPropagation()}>
                   <Button variant="danger" onClick={() => removeFromCart(item.id)}>
                     <i className="fas fa-trash-alt"></i>
                   </Button>
