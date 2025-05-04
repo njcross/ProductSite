@@ -91,7 +91,8 @@
 }
 
 .cart-btn .editable-wrapper {
-  /* removed margin-left to match auth-btn */
+  background-color: var(--bg-action-item);
+  font-weight: bold;
   padding: 0;
   background: none;
   color: inherit;
