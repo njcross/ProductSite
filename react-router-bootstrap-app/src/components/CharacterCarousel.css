@@ -52,12 +52,24 @@
 
 /* Make carousel wrapper adapt to mobile */
 .carousel-card-wrapper {
+  display: flex;               /* Ensure it's a flex container */
+  justify-content: center;     /* Center items */
+  align-items: stretch;
+  flex-wrap: wrap;             /* Wrap on small screens */
   min-height: 250px;
   padding: var(--spacing-md);
-   max-width: 240px;        /* smaller width */
   margin: 0 auto;
-  transform: scale(0.95);  /* optional smooth shrink */
+  transform: scale(0.95);
   transition: transform 0.3s ease;
+  max-width: 100%;             /* Prevent overflow */
+  overflow: hidden;            /* Hide any accidental overflows */
+}
+
+.character-card {
+  width: 100%;                 /* Make card adapt to container */
+  max-width: 320px;            /* Optional: cap max width */
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 
 /* Ensure cards shrink nicely */

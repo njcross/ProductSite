@@ -70,7 +70,7 @@ export default function Orders() {
       <tr key={purchase.id}>
         <td>{purchase.kit.name}</td>
         <td><img src={purchase.kit.image_url} alt={purchase.kit.name} style={{ width: '60px' }} /></td>
-        <td>{purchase.user_id}</td>
+        {viewAll && <td>{purchase.user_id}</td>}
         <td>{purchase.kit_id}</td>
         <td>{purchase.quantity}</td>
         <td>{new Date(purchase.time_bought).toLocaleString()}</td>
