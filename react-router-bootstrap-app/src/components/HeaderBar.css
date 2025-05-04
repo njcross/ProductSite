@@ -94,8 +94,7 @@
   background-color: var(--bg-action-item);
   font-weight: bold;
   padding: 0;
-  background: none;
-  color: inherit;
+  color: var(--color-link);
 }
 
 
