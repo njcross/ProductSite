@@ -113,7 +113,6 @@ def create_app():
             db.session.commit()
 
         session["user_id"] = user.id
-        login_user(user)
 
         return False
 
