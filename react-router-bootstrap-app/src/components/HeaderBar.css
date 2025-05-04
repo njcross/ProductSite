@@ -74,27 +74,27 @@
   background-color: var(--color-accent);
 }
 .cart-btn {
+  background-color: var(--bg-action-item);
+  color: var(--color-link);
   padding: var(--padding-full-btn);
   border: none;
   border-radius: var(--radius-sm);
   font-weight: bold;
   text-decoration: none;
   transition: background-color 0.3s ease;
-}
-.cart-btn .editable-wrapper {
-  background-color: var(--bg-action-item);
-  color: var(--color-link);
-  padding: 0.4rem 1rem;
-  border-radius: var(--radius-sm);
-  font-weight: bold;
-  text-decoration: none;
-  margin-left: 1rem;
-  display: inline-block;
-  align-self: center;
+  display: flex;
+  align-items: center;
 }
 
 .cart-btn:hover {
   background-color: var(--color-accent);
+}
+
+.cart-btn .editable-wrapper {
+  /* removed margin-left to match auth-btn */
+  padding: 0;
+  background: none;
+  color: inherit;
 }
 
 
