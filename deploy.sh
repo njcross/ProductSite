@@ -2,6 +2,9 @@
 
 # Usage: ./deploy.sh "commit message" [frontend|backend|all]
 # Example: ./deploy.sh "fix login bug" frontend
+# Example: ./deploy.sh "update backend" backend
+# Example: ./deploy.sh "full deploy" all
+# Windows Example: bash deploy.sh "full deploy" (defaults to all)
 
 if [ -z "$1" ]; then
   echo "❌ Please provide a commit message."
@@ -31,20 +34,29 @@ git push origin main
 if [[ "$DEPLOY_TARGET" == "frontend" || "$DEPLOY_TARGET" == "all" ]]; then
   echo "🎨 Deploying FRONTEND..."
 
-  echo "📦 Building React frontend..."
-  cd "$LOCAL_FRONTEND_PATH" || exit 1
+  echo "🧪 Running frontend tests..."
   npm test -- --watchAll=false
+  if [ $? -ne 0 ]; then
+    echo "❌ Tests failed. Aborting deployment."
+    exit 1
+  fi
+
+  echo "🏗️ Building the frontend..."
   npm run build
+  if [ $? -ne 0 ]; then
+    echo "❌ Build failed. Aborting deployment."
+    exit 1
+  fi
 
   echo "🚀 Uploading React build to EC2..."
-  scp -i "$PEM_PATH" -r build/* $EC2_USER@$EC2_IP:$REMOTE_REACT_PATH
-  sudo ln -s /home/ec2-user/ProductSite/react-router-bootstrap-app/public/content.json /var/www/react/content.json
-  sudo ln -s /home/ec2-user/ProductSite/react-router-bootstrap-app/public/images /var/www/react/images
-  echo "🔧 Setting permissions and reloading Nginx..."
-  ssh -i "$PEM_PATH" $EC2_USER@$EC2_IP << EOF
-    sudo chmod -R 755 $REMOTE_REACT_PATH
-    sudo systemctl reload nginx
-EOF
+#   scp -i "$PEM_PATH" -r build/* $EC2_USER@$EC2_IP:$REMOTE_REACT_PATH
+#   sudo ln -s /home/ec2-user/ProductSite/react-router-bootstrap-app/public/content.json /var/www/react/content.json
+#   sudo ln -s /home/ec2-user/ProductSite/react-router-bootstrap-app/public/images /var/www/react/images
+#   echo "🔧 Setting permissions and reloading Nginx..."
+#   ssh -i "$PEM_PATH" $EC2_USER@$EC2_IP << EOF
+#     sudo chmod -R 755 $REMOTE_REACT_PATH
+#     sudo systemctl reload nginx
+# EOF
 fi
 
 # Deploy backend if needed
@@ -73,8 +85,8 @@ if [[ "$DEPLOY_TARGET" == "backend" || "$DEPLOY_TARGET" == "all" ]]; then
     python3 -m venv venv
     source venv/bin/activate
     pip install -r requirements.txt
-    pm2 delete backend || true
-    pm2 start 'gunicorn "server:app" --bind 0.0.0.0:5000 --workers 4' --name backend
+    # pm2 delete backend || true
+    # pm2 start 'gunicorn "server:app" --bind 0.0.0.0:5000 --workers 4' --name backend
 EOF
 fi
 
