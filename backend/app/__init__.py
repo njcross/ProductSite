@@ -38,7 +38,7 @@ def create_app():
 
     google_bp = make_google_blueprint(
         scope=["profile", "email"],
-        redirect_to="/api/google_login",
+        redirect_url="https://myplaytray.com/api/login/google/authorized",
         client_id=Config.GOOGLE_CLIENT_ID,
         client_secret=Config.GOOGLE_CLIENT_SECRET
     )
