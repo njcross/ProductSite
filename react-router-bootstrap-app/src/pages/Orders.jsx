@@ -53,26 +53,30 @@ export default function Orders() {
           <EditableField contentKey="content_229" />
         </p>
       ) : (
-        <Row xs={1} md={2} lg={3} className="g-4">
-          {purchases.map((purchase) => (
-            <Col key={purchase.id}>
-              <Card className="h-100">
-                <Card.Img variant="top" src={purchase.kit.image_url} alt={purchase.kit.name} />
-                <Card.Body>
-                  <Card.Title>{purchase.kit.name}</Card.Title>
-                  <Card.Text>
-                    <strong><EditableField contentKey="content_230" />:</strong> {purchase.user_id} <br />
-                    <strong><EditableField contentKey="content_231" />:</strong> {purchase.kit_id} <br />
-                    <strong><EditableField contentKey="content_232" />:</strong> {purchase.kit.name} <br />
-                    <strong><EditableField contentKey="content_233" />:</strong> <img src={purchase.kit.image_url} alt="" style={{ width: '60px' }} /> <br />
-                    <strong><EditableField contentKey="content_234" />:</strong> {purchase.quantity} <br />
-                    <strong><EditableField contentKey="content_235" />:</strong> {new Date(purchase.time_bought).toLocaleString()}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
+        <Table responsive bordered hover className="orders-table">
+  <thead>
+    <tr>
+      <th><EditableField contentKey="content_232" /></th> {/* Kit Name */}
+      <th><EditableField contentKey="content_233" /></th> {/* Image */}
+      <th><EditableField contentKey="content_230" /></th> {/* User ID */}
+      <th><EditableField contentKey="content_231" /></th> {/* Kit ID */}
+      <th><EditableField contentKey="content_234" /></th> {/* Quantity */}
+      <th><EditableField contentKey="content_235" /></th> {/* Date */}
+    </tr>
+  </thead>
+  <tbody>
+    {purchases.map((purchase) => (
+      <tr key={purchase.id}>
+        <td>{purchase.kit.name}</td>
+        <td><img src={purchase.kit.image_url} alt={purchase.kit.name} style={{ width: '60px' }} /></td>
+        <td>{purchase.user_id}</td>
+        <td>{purchase.kit_id}</td>
+        <td>{purchase.quantity}</td>
+        <td>{new Date(purchase.time_bought).toLocaleString()}</td>
+      </tr>
+    ))}
+  </tbody>
+</Table>
       )}
     </Container>
   );

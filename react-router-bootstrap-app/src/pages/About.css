@@ -25,9 +25,8 @@
 .author-section a {
   text-decoration: none;
   font-weight: bold;
-  color: var(--color-text);
+  color: var(--color-white);
   transition: color 0.3s ease-in-out;
-  background-color: var(--bg-action-item);
 
 }
 

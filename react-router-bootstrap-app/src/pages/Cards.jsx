@@ -125,6 +125,7 @@ useEffect(() => {
             onSelectSavedFilter={handleSelectSavedFilter}
             onDeleteSavedFilter={handleDeleteSavedFilter}
             currentUser={currentUser}
+            onSaveFilter={currentUser ? handleSaveSearch : null}
           />
           </Col>
           <Col md={10} sm={12}>
@@ -138,7 +139,6 @@ useEffect(() => {
               search={filters.search}
               onSearchChange={(val) => handleFilterChange({ search: val })}
               onClearSearch={handleClearSearch}
-              onSaveFilter={currentUser ? handleSaveSearch : null}
             />
             <CharacterList
               view={filters.view}

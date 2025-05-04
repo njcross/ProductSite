@@ -10,8 +10,7 @@ export default function ViewingOptions({
   sortBy,
   onSortChange,
   search,
-  onClearSearch,
-  onSaveFilter
+  onClearSearch
 }) {
   const { currentUser } = useUser();
 
@@ -59,14 +58,6 @@ export default function ViewingOptions({
         <div className="option-group">
           <button className="clear-search-btn" onClick={onClearSearch}>
             <EditableField contentKey="content_89" />
-          </button>
-        </div>
-      )}
-
-      {currentUser && (
-        <div className="option-group">
-          <button className="save-filter-btn" onClick={onSaveFilter}>
-            <EditableField contentKey="content_144" />
           </button>
         </div>
       )}

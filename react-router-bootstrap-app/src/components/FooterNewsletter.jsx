@@ -60,26 +60,31 @@ export function FooterNewsletter() {
 
   return (
     <div className="footer-newsletter">
+  <div className="newsletter-content-wrapper">
+    <div className="newsletter-text">
       <h4><EditableField contentKey="content_48" /></h4>
       <p><EditableField contentKey="content_49" /></p>
-      <div className="newsletter-form">
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        {!subscribed ? (
-          <button onClick={handleSubscribe}>
-            <EditableField contentKey="content_50" />
-          </button>
-        ) : (
-          <button onClick={handleUnsubscribe}>
-            <EditableField contentKey="unsub_label" />
-          </button>
-        )}
-      </div>
-      {message && <p className="newsletter-message">{message}</p>}
     </div>
+
+    <div className="newsletter-form">
+      <input
+        type="email"
+        placeholder="Enter your email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      {!subscribed ? (
+        <button onClick={handleSubscribe}>
+          <EditableField contentKey="content_50" />
+        </button>
+      ) : (
+        <button onClick={handleUnsubscribe}>
+          <EditableField contentKey="unsub_label" />
+        </button>
+      )}
+    </div>
+  </div>
+  {message && <p className="newsletter-message">{message}</p>}
+</div>
   );
 }

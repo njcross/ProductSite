@@ -9,7 +9,8 @@ export default function FilterBy({
   savedFilters = [], 
   onSelectSavedFilter, 
   onDeleteSavedFilter, 
-  currentUser 
+  currentUser,
+  onSaveFilter
 }) {
   const API_BASE = process.env.REACT_APP_API_URL;
   const [ageOptions, setAgeOptions] = useState([]);
@@ -115,6 +116,13 @@ export default function FilterBy({
           </select>
         </div>
       )}
+      {currentUser && (
+              <div className="option-group">
+                <button className="save-filter-btn" onClick={onSaveFilter}>
+                  <EditableField contentKey="content_144" />
+                </button>
+              </div>
+            )}
     </div>
   );
 }

@@ -76,3 +76,35 @@
     font-size: 0.875rem;
     color: var(--color-text-muted);
   }
+
+  .newsletter-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .newsletter-text {
+    max-width: 500px;
+    text-align: center;
+  }
+  
+  @media (min-width: 768px) {
+    .newsletter-content-wrapper {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+    }
+  
+    .newsletter-text {
+      flex: 2;
+      text-align: left;
+    }
+  
+    .newsletter-form {
+      flex: 1;
+      justify-content: flex-end;
+      max-width: 400px;
+    }
+  }
