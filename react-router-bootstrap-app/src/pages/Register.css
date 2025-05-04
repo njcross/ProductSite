@@ -75,7 +75,8 @@
 }
 
 .register-btn:hover {
-  background-color: var(--bg-color-white);
+  background-color: var(--bg-white);
+  color: var(--color-black);
 }
 
 /* Responsive tweaks */

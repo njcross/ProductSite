@@ -66,7 +66,7 @@ export default function Login() {
           <Button type="submit" className="login-btn">{<EditableField contentKey="content_56" />}</Button>
           {message && <p className="mt-3 text-light">{message}</p>}
           <DividerWithText text="OR" />
-          <GoogleSignInButton />
+          <GoogleSignInButton className="google-signin-btn"/>
         </Form>
       </div>
     </Container>

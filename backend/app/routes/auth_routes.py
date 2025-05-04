@@ -15,8 +15,8 @@ user_schema = UserSchema()
 
 serializer = URLSafeTimedSerializer("super-secret-key")  # Replace with secure key
 
-@auth_bp.route("/google_login")
-def google_login():
+@auth_bp.route("/login/google/authorized")
+def google_authorized():
     if not google.authorized:
         return redirect(url_for("google.login"))
 
@@ -36,15 +36,13 @@ def google_login():
             email=email,
             password=None,  # No password for OAuth users
             role='user',
-            oauth_provider = "google"
+            oauth_provider="google"
         )
         db.session.add(user)
         db.session.commit()
 
-    # Store user_id in session
     session["user_id"] = user.id
-
-    return redirect("/")  # Or wherever you want
+    return redirect("/")  # Or wherever you want users to land after login
 
 @auth_bp.route('/login', methods=['OPTIONS'])
 @cross_origin(supports_credentials=True)
