@@ -69,7 +69,7 @@
 }
 
 .login-btn:hover {
-  background-color: var(--color-accent);
+  background-color: var(--bg-color-white);
 }
 
 .login-card p {

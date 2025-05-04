@@ -1,4 +1,3 @@
-import { Button } from 'react-bootstrap';
 import './GoogleSignInButton.css';
 
 export default function GoogleSignInButton() {
@@ -7,15 +6,13 @@ export default function GoogleSignInButton() {
   };
 
   return (
-    <div className="google-login-wrapper">
-      <Button
-        onClick={handleGoogleLogin}
-        className="google-login-btn"
-        variant="outline-light"
-      >
-        <i className="fab fa-google me-2"></i>
-        Continue with Google
-      </Button>
-    </div>
+    <button className="google-login-btn" onClick={handleGoogleLogin}>
+      <img
+        src="https://developers.google.com/identity/images/g-logo.png"
+        alt="Google logo"
+        className="google-logo"
+      />
+      <span className="google-btn-text">Sign in with Google</span>
+    </button>
   );
 }

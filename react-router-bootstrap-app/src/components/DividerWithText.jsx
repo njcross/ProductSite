@@ -1,3 +1,5 @@
+import './DividerWithText.css';
+
 export default function DividerWithText({ text }) {
     return (
       <div className="divider-text">

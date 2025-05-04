@@ -8,6 +8,7 @@ import { useUser } from '../context/UserContext';
 import GoogleSignInButton from '../components/GoogleSignInButton';
 import { Helmet } from 'react-helmet';
 import './Login.css';
+import DividerWithText from '../components/DividerWithText';
 
 export default function Login() {
   const { setCurrentUser } = useUser()
@@ -64,7 +65,7 @@ export default function Login() {
 
           <Button type="submit" className="login-btn">{<EditableField contentKey="content_56" />}</Button>
           {message && <p className="mt-3 text-light">{message}</p>}
-          <p>OR</p>
+          <DividerWithText text="OR" />
           <GoogleSignInButton />
         </Form>
       </div>
