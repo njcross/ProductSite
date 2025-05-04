@@ -20,7 +20,7 @@ REMOTE_REACT_PATH="/var/www/react"
 
 # BACKEND paths
 LOCAL_BACKEND_PATH="C:/Users/njcro/m7project/flask-backend"
-REMOTE_BACKEND_PATH="/home/ec2-user/backend"
+REMOTE_BACKEND_PATH="/home/ec2-user/ProductSite/backend"
 
 echo "✅ 1. Committing changes..."
 git add .
@@ -33,6 +33,7 @@ if [[ "$DEPLOY_TARGET" == "frontend" || "$DEPLOY_TARGET" == "all" ]]; then
 
   echo "📦 Building React frontend..."
   cd "$LOCAL_FRONTEND_PATH" || exit 1
+  npm test -- --watchAll=false
   npm run build
 
   echo "🚀 Uploading React build to EC2..."
@@ -60,7 +61,6 @@ if [[ "$DEPLOY_TARGET" == "backend" || "$DEPLOY_TARGET" == "all" ]]; then
     echo "❌ Remote tests failed. Deployment halted."
     exit 1
   fi
-  rsync -avz -e "ssh -i $PEM_PATH" ./ $EC2_USER@$EC2_IP:$REMOTE_BACKEND_PATH
 
   echo "🔄 Restarting backend server with PM2..."
   ssh -i "$PEM_PATH" $EC2_USER@$EC2_IP << EOF
@@ -71,7 +71,7 @@ if [[ "$DEPLOY_TARGET" == "backend" || "$DEPLOY_TARGET" == "all" ]]; then
     git pull origin main
     python3 -m venv venv
     source venv/bin/activate
-    pip install -r $REMOTE_BACKEND_PATH/requirements.txt
+    pip install -r requirements.txt
     pm2 delete backend || true
     pm2 start 'gunicorn "server:app" --bind 0.0.0.0:5000 --workers 4' --name backend
 EOF
