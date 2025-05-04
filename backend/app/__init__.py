@@ -105,7 +105,7 @@ def create_app():
             user = User(
                 username=username,
                 email=email,
-                password=None,
+                password="",
                 role='user',
                 oauth_provider='google'
             )
