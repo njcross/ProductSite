@@ -1,4 +1,4 @@
-from flask import Flask
+import flask
 from flask_dance.contrib.google import make_google_blueprint, google
 from flask import session
 from flask_sqlalchemy import SQLAlchemy
@@ -13,6 +13,7 @@ from flask_dance.consumer import oauth_authorized
 from flask_login import login_user
 from app.models.user import User
 from app.extensions import db, ma, migrate
+from flask import redirect
 
 
 def create_database():
@@ -114,7 +115,7 @@ def create_app():
 
         session["user_id"] = user.id
 
-        return False
+        return redirect("https://myplaytray.com/cards")
 
     # Without the app context, Flask wouldn't know which app's configuration to use.     
     with app.app_context():
