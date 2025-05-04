@@ -74,7 +74,7 @@
   background-color: var(--color-accent);
 }
 .cart-btn {
-  background-color: var(--bg-action-item);
+  background-color: var(--bg-action-item) !important;
   color: var(--color-link);
   padding: var(--padding-full-btn);
   border: none;
