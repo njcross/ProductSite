@@ -14,6 +14,24 @@
   border-bottom: 1px solid var(--color-border);
 }
 
+.cart-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.cart-col.name-col {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.cart-col.price-col {
+  justify-content: flex-end;
+  text-align: right;
+}
+
 .cart-item {
   display: flex;
   align-items: center;
@@ -22,6 +40,7 @@
   border: 1px solid var(--color-text-dark);
   padding: 1rem;
   border-radius: var(--radius-sm);
+  margin-bottom: 1rem;
   flex-wrap: wrap;
   transition: background-color 0.2s;
 }
@@ -57,17 +76,6 @@
   box-shadow: 0 0 0 0.2rem rgba(237, 29, 36, 0.25);
 }
 
-.cart-item .cart-price {
-  min-width: 80px;
-  text-align: right;
-  font-weight: 500;
-}
-
-.cart-item .btn-danger {
-  padding: var(--padding-full-btn);
-  font-size: 0.9rem;
-}
-
 .cart-total {
   font-size: 1.5rem;
   font-weight: bold;
@@ -75,7 +83,6 @@
   margin-top: 1rem;
 }
 
-/* ✅ MOBILE STACKING FIX */
 @media (max-width: 768px) {
   .cart-headers {
     display: none;
@@ -87,18 +94,22 @@
     text-align: left;
   }
 
+  .cart-col {
+    width: 100% !important;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .cart-col.price-col {
+    text-align: right;
+    justify-content: flex-end;
+  }
+
   .cart-item img {
     width: 100%;
     max-width: 200px;
     height: auto;
     margin-bottom: 1rem;
-  }
-
-  .cart-item h5,
-  .cart-item .form-control,
-  .cart-item .cart-price,
-  .cart-item .btn-danger {
-    width: 100%;
   }
 
   .cart-item .form-control {
@@ -109,57 +120,3 @@
     text-align: center;
   }
 }
-.cart-headers, .cart-item {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.cart-col {
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Consistent column widths */
-.image-col {
-  flex: 1 1 20%;
-}
-.name-col {
-  flex: 1 1 30%;
-}
-.quantity-col {
-  flex: 1 1 20%;
-}
-.total-col {
-  flex: 1 1 20%;
-  text-align: right;
-}
-.action-col {
-  flex: 1 1 10%;
-  text-align: right;
-}
-
-/* Responsive fixes */
-@media (max-width: 768px) {
-  .cart-headers {
-    display: none;
-  }
-
-  .cart-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .cart-col {
-    width: 100%;
-    padding: 0.25rem 0;
-  }
-
-  .cart-col.total-col,
-  .cart-col.action-col {
-    text-align: left;
-  }
-}
-

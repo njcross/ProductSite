@@ -75,7 +75,7 @@ export default function UserSettings() {
       <h2><EditableField contentKey="settings_1" /> {/* "Account Settings" */}</h2>
       <div className="settings-group">
         <h3><EditableField contentKey="content_242" /> {/* "Change Email" */}</h3>
-        <label><EditableField contentKey="settings_2" /> {/* "Email" */}</label>
+        <label><EditableField contentKey="settings_2" /> {/* "New Email" */}</label>
         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <label><EditableField contentKey="settings_3" /> {/* "Current Password" */}</label>
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
