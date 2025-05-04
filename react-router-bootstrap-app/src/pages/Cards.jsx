@@ -108,7 +108,7 @@ useEffect(() => {
   return (
     <div className="cards-page">
       <Helmet>
-        <title>Play Trays Catalog</title>
+        <title>My Play Tray's Catalog</title>
         <meta name="description" content="Browse all available Play kits by category, age, and rating." />
       </Helmet>
       <Container fluid>

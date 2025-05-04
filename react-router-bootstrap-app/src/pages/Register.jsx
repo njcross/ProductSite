@@ -77,7 +77,7 @@ export default function Register() {
   return (
     <Container className="register-page">
       <Helmet>
-        <title>Sign Up – Play Kits</title>
+        <title>Sign Up – My Play Tray</title>
         <meta name="description" content="Create your account and start your exploring our Play Kits." />
       </Helmet>
       <div className="register-card">

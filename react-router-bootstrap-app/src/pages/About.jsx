@@ -7,7 +7,7 @@ export default function About() {
   return (
     <div className="about-page container py-5">
       <Helmet>
-        <title>About Us – Play Kits</title>
+        <title>About Us – My Play Tray</title>
         <meta name="description" content="Learn about our mission to bring fun, hands-on Play kits experiences." />
       </Helmet>
       <h1 className="mb-4 text-center">{ <EditableField contentKey="content_92" /> }</h1>
