@@ -1,6 +1,6 @@
 @echo off
-REM Usage: .\deploy.bat "commit message" [frontend|backend|all]
-REM Defaults to "all"
+REM Usage: .\deploy.bat "commit message" [frontend|backend|all] [reload] [dry-run]
+REM Defaults to "all" and no reload 
 
 IF "%~1"=="" (
     echo ❌ Please provide a commit message.
@@ -10,6 +10,9 @@ IF "%~1"=="" (
 SET COMMIT_MESSAGE=%~1
 SET DEPLOY_TARGET=%~2
 IF "%DEPLOY_TARGET%"=="" SET DEPLOY_TARGET=all
+SET SHOULD_RELOAD=%~3
+SET IS_DRY_RUN=%~4
+SETLOCAL ENABLEDELAYEDEXPANSION
 
 SET EC2_USER=ec2-user
 SET EC2_IP=3.128.30.231
@@ -31,6 +34,7 @@ git push origin main
 IF "%DEPLOY_TARGET%"=="frontend" GOTO deploy_frontend
 IF "%DEPLOY_TARGET%"=="backend" GOTO deploy_backend
 IF "%DEPLOY_TARGET%"=="all" GOTO deploy_all
+IF "%DEPLOY_TARGET%"=="rollback" GOTO rollback_frontend
 
 GOTO end
 
@@ -58,9 +62,19 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 
 echo 🚀 Uploading React build to EC2...
-scp -i "%PEM_PATH%" -r build/* %EC2_USER%@%EC2_IP%:%REMOTE_REACT_PATH%
+IF /I "%IS_DRY_RUN%"=="dry-run" (
+    echo [dry-run] Would backup current build and upload new one
+) ELSE (
+    echo 📦 Backing up current build on EC2...
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% ^
+     rm -rf /var/www/react_backup && cp -a /var/www/react /var/www/react_backup && \
+     echo Backup created at /var/www/react_backup_%%timestamp%%"
 
-ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "sudo ln -sf /home/ec2-user/ProductSite/react-router-bootstrap-app/public/content.json /var/www/react/content.json && sudo ln -sf /home/ec2-user/ProductSite/react-router-bootstrap-app/public/images /var/www/react/images && sudo chmod -R 755 /var/www/react && sudo systemctl reload nginx"
+    @REM echo 📤 Uploading new build...
+    @REM scp -i "%PEM_PATH%" -r build/* %EC2_USER%@%EC2_IP%:%REMOTE_REACT_PATH%
+
+    @REM ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "sudo chmod -R 755 %REMOTE_REACT_PATH%"
+)
 
 GOTO end
 
@@ -79,15 +93,36 @@ IF %ERRORLEVEL% NEQ 0 (
 ) ELSE (
     echo ✅ Backend tests passed.
 )
+IF /I "%IS_DRY_RUN%"=="dry-run" (
+    echo [dry-run] %*
+) ELSE (
+    echo 🔄 Restarting backend on EC2...
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "cd %REMOTE_BACKEND_PATH% && git stash && git pull origin main && . venv/bin/activate && pip install -r requirements.txt && pm2 delete backend || echo 'no backend running' && pm2 start 'gunicorn \"server:app\" --bind 0.0.0.0:5000 --workers 4' --name backend"
+)
 
-echo 🔄 Restarting backend on EC2...
-ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "cd %REMOTE_BACKEND_PATH% && git stash && git pull origin main && . venv/bin/activate && pip install -r requirements.txt && pm2 delete backend || echo 'no backend running' && pm2 start 'gunicorn \"server:app\" --bind 0.0.0.0:5000 --workers 4' --name backend"
-
-GOTO end
+GOTO maybe_reload
 
 :deploy_all
 call :deploy_frontend
 call :deploy_backend
+GOTO maybe_reload
+
+:maybe_reload
+IF /I "%SHOULD_RELOAD%"=="reload" (
+    echo 🔁 Reloading Nginx on EC2...
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "sudo systemctl reload nginx"
+)
+GOTO end
+
+:rollback_frontend
+echo ↩️ Rolling back frontend to previous build...
+
+IF /I "%IS_DRY_RUN%"=="dry-run" (
+    echo [dry-run] Would rollback build on EC2...
+) ELSE (
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "cp -a /var/www/react_backup/* /var/www/react && sudo systemctl reload nginx"
+)
+
 GOTO end
 
 :end
