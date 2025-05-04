@@ -73,7 +73,14 @@
 .auth-btn:hover {
   background-color: var(--color-accent);
 }
-
+.cart-btn {
+  padding: var(--padding-full-btn);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
 .cart-btn .editable-wrapper {
   background-color: var(--bg-action-item);
   color: var(--color-link);
