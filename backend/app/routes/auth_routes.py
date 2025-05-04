@@ -6,6 +6,7 @@ from app.extensions import db
 from app.models.user import User
 from app.schemas.user_schema import user_schema, UserSchema
 from flask_cors import cross_origin
+from flask import redirect
 
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api')
@@ -137,4 +138,4 @@ def check_login():
 @auth_bp.route('/logout', methods=['POST'])
 def logout():
     session.pop('user_id', None)
-    return jsonify({"message": "Logged out"})
+    return redirect("/")
