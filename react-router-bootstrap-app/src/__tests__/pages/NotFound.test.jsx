@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import NotFound from '../pages/NotFound';
+import { render, screen } from '../../testing/test-utils';
+import NotFound from '../../pages/NotFound';
 
 describe('NotFound Page', () => {
   test('renders without crashing', () => {

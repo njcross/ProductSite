@@ -1,6 +1,6 @@
 import { render, fireEvent, screen } from '@testing-library/react';
 import FavoriteButton from '../components/FavoriteButton';
-import { FavoritesContext } from '../context/FavoritesContext'; // Make sure path is correct!
+import { FavoritesContext } from '../context/FavoritesContext';
 import { BrowserRouter } from 'react-router-dom';
 
 const MockFavoritesProvider = ({ children }) => {

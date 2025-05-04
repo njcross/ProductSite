@@ -6,6 +6,7 @@ import EditableField from '../components/EditableField';
 import CharacterForm from '../components/CharacterForm';
 import ConfirmationModal from '../components/ConfirmationModal';
 import { useUser } from '../context/UserContext';
+import { useCart } from '../context/CartContext';
 import { Helmet } from 'react-helmet';
 
 import './EditCharacterPage.css';

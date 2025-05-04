@@ -1,5 +1,5 @@
-import { render } from '@testing-library/react';
-import HeaderBar from './HeaderBar';
+import HeaderBar from '../../components/HeaderBar';
+import { render, screen } from '../../testing/test-utils';
 
 test('renders HeaderBar', () => {
   render(<HeaderBar />);

@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import Register from '../pages/Register';
+import { render, screen } from '../../testing/test-utils';
+import Register from '../../pages/Register';
 
 describe('Register Page', () => {
   test('renders without crashing', () => {

@@ -1,4 +1,4 @@
-import { setToken, getToken, clearToken } from '../utils/tokenService';
+import { setToken, getToken, removeToken } from '../../utils/tokenService';
 
 describe('tokenService', () => {
   beforeEach(() => {
@@ -12,7 +12,7 @@ describe('tokenService', () => {
 
   it('clears token', () => {
     setToken('abc123');
-    clearToken();
+    removeToken();
     expect(getToken()).toBeNull();
   });
 });

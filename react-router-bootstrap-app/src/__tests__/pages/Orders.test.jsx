@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import Orders from '../pages/Orders';
+import { render, screen } from '../../testing/test-utils';
+import Orders from '../../pages/Orders';
 
 describe('Orders Page', () => {
   test('renders without crashing', () => {

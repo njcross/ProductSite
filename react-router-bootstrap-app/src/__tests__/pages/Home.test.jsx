@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import Home from '../pages/Home';
+import { render, screen } from '../../testing/test-utils';
+import Home from '../../pages/Home';
 
 describe('Home Page', () => {
   test('renders without crashing', () => {

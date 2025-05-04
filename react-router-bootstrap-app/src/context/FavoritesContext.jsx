@@ -62,6 +62,7 @@ export function FavoritesProvider({ children }) {
         },
       });
       if (!res.ok) throw new Error('Failed to remove favorite');
+      setFavorites(prev => prev.filter(id => id !== characterId));
       await fetchFavorites();
     } catch (err) {
       console.error('Error removing favorite:', err);

@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import UserSettings from '../pages/UserSettings';
+import { render, screen } from '../../testing/test-utils';
+import UserSettings from '../../pages/UserSettings';
 
 describe('UserSettings Page', () => {
   test('renders without crashing', () => {

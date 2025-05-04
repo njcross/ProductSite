@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import NewsletterList from '../pages/NewsletterList';
+import { render, screen } from '../../testing/test-utils';
+import NewsletterList from '../../pages/NewsLetterList';
 
-describe('NewsletterList Page', () => {
+describe('NewsLetterList Page', () => {
   test('renders without crashing', () => {
     render(<NewsletterList />);
     expect(screen.getByText).toBeDefined();

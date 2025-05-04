@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import KitsLandingPage from '../pages/KitsLandingPage';
+import { render, screen } from '../../testing/test-utils';
+import KitsLandingPage from '../../pages/KitsLandingPage';
 
 describe('KitsLandingPage Page', () => {
   test('renders without crashing', () => {

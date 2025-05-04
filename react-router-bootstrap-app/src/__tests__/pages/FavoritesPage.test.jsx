@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import FavoritesPage from '../pages/FavoritesPage';
+import { render, screen } from '../../testing/test-utils';
+import FavoritesPage from '../../pages/FavoritesPage';
 
 describe('FavoritesPage Page', () => {
   test('renders without crashing', () => {

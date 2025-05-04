@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import { UserProvider, useUser } from '../context/UserContext';
+import { UserProvider, useUser } from '../../context/UserContext';
 
 describe('UserContext', () => {
   it('provides and updates user state', () => {

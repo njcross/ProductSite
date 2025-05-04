@@ -68,6 +68,7 @@ if [[ "$DEPLOY_TARGET" == "backend" || "$DEPLOY_TARGET" == "all" ]]; then
     git add ../react-router-bootstrap-app/public/content.json
     git commit -m "$COMMIT_MESSAGE"
     git push origin main
+    git stash
     git pull origin main
     python3 -m venv venv
     source venv/bin/activate

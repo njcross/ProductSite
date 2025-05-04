@@ -4,7 +4,7 @@ import { useUser } from '../context/UserContext';
 import { Helmet } from 'react-helmet';
 import './NewsletterList.css'; 
 
-export default function NewsletterList() {
+export default function NewsLetterList() {
   const [value, setValue] = useState('1');
   const [emails, setEmails] = useState([]);
   const [error, setError] = useState('');
