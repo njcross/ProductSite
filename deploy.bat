@@ -83,6 +83,7 @@ cd /d "%LOCAL_BACKEND_PATH%" || exit /b 1
 python -m venv venv
 call venv\Scripts\activate
 pip install -r requirements.txt
+echo 🧪 Running backend tests...
 pytest > backend_test_output.txt
 IF %ERRORLEVEL% NEQ 0 (
     echo ❌ Backend tests failed. See summary below:
