@@ -10,11 +10,13 @@ export default function GoogleSignInButton({ className = '' }) {
       className={`google-login-btn ${className}`}
       onClick={handleGoogleLogin}
     >
+      <div className="google-logo-box">
       <img
         src="https://developers.google.com/identity/images/g-logo.png"
         alt="Google logo"
         className="google-logo"
       />
+      </div>
       <span className="google-btn-text">Sign in with Google</span>
     </button>
   );
