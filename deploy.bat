@@ -81,7 +81,7 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 
 echo 🔄 Restarting backend on EC2...
-ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "cd %REMOTE_BACKEND_PATH% && git stash && git pull origin main && . venv/bin/activate && pip install -r requirements.txt "
+ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "cd %REMOTE_BACKEND_PATH% && git stash && git pull origin main && . venv/bin/activate && pip install -r requirements.txt && pm2 delete backend || echo 'no backend running' && pm2 start 'gunicorn \"server:app\" --bind 0.0.0.0:5000 --workers 4' --name backend"
 
 GOTO end
 
