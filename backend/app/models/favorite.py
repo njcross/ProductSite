@@ -9,3 +9,5 @@ class Favorite(db.Model):
     kit_id: Mapped[int] = mapped_column(Integer, ForeignKey('kits.id'), nullable=True)
     filter_json: Mapped[str] = mapped_column(Text, nullable=True)
     filter_name: Mapped[str] = mapped_column(Text, nullable=True)
+
+    kit = db.relationship("Kit", backref="favorites")

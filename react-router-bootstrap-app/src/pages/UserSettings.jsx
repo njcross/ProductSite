@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useUser } from '../context/UserContext';
 import EditableField from '../components/EditableField';
+import { Helmet } from 'react-helmet';
 import './UserSettings.css';
 
 export default function UserSettings() {
@@ -48,6 +49,10 @@ export default function UserSettings() {
 
   return (
     <div className="user-settings-container">
+      <Helmet>
+        <title>Account Settings – Play Kits</title>
+        <meta name="description" content="Update your profile, email, and password securely." />
+      </Helmet>
       <h2><EditableField contentKey="settings_1" /> {/* "Account Settings" */}</h2>
       <div className="settings-group">
         <label><EditableField contentKey="settings_2" /> {/* "Email" */}</label>

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import EditableField from '../components/EditableField';
+import { useUser } from '../context/UserContext';
+import { Helmet } from 'react-helmet';
 import './NewsletterList.css'; 
 
 export default function NewsletterList() {
@@ -7,6 +9,7 @@ export default function NewsletterList() {
   const [emails, setEmails] = useState([]);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const { currentUser } = useUser();
   const API_BASE = process.env.REACT_APP_API_URL;
 
   const fetchEmails = async () => {
@@ -60,6 +63,11 @@ export default function NewsletterList() {
 
   return (
     <div className="newsletter-page">
+      <Helmet>
+              <title>Newsletter Signups</title>
+              <meta name="description" content="View and manage newsletter subscribers. Admin Only" />
+            </Helmet>
+      {currentUser?.role === 'admin' && (
       <div className="newsletter-form">
         <h1><EditableField contentKey="newsletter_title" defaultText="Newsletter Email List" /></h1>
         
@@ -99,7 +107,7 @@ export default function NewsletterList() {
             <EditableField contentKey="newsletter_empty_state" defaultText="No emails loaded yet." />
           </div>
         )}
-      </div>
+      </div>) } 
     </div>
   );
 }

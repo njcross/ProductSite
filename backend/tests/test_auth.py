@@ -1,21 +1,22 @@
 import pytest
 from app import create_app
 def test_register(client):
-    response = client.post('/register', json={
+    response = client.post('/api/register', json={
         "username": "newuser",
         "email": "newuser@example.com",
         "password": "password123",
+        "confirmPassword": "password123"
     })
     assert response.status_code == 201
     assert "message" in response.json
 
 def test_login(client, create_test_users):
     # Create the users first using the fixture (now they exist)
-    response = client.post('/logout')
+    response = client.post('/api/logout')
     assert response.status_code == 200
 
     # Now login
-    response = client.post('/login', json={
+    response = client.post('/api/login', json={
         "username": "testuser",
         "password": "password123"
     })

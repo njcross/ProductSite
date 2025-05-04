@@ -3,6 +3,7 @@ import { Button, Container, Row, Col, Form } from 'react-bootstrap';
 import { useCart } from '../context/CartContext';
 import { useUser } from '../context/UserContext';
 import EditableField from '../components/EditableField';
+import { Helmet } from 'react-helmet';
 import './CartPage.css';
 
 export default function CartPage() {
@@ -57,6 +58,10 @@ export default function CartPage() {
 
   return (
     <Container className="cart-page">
+      <Helmet>
+              <title>Your Cart – Play Kits</title>
+              <meta name="description" content="View your selected kits and checkout securely." />
+            </Helmet>
       <h2 className="text-white mb-4">
         <EditableField contentKey="content_98" />
       </h2>

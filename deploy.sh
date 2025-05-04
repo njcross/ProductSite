@@ -39,8 +39,6 @@ if [[ "$DEPLOY_TARGET" == "frontend" || "$DEPLOY_TARGET" == "all" ]]; then
   scp -i "$PEM_PATH" -r build/* $EC2_USER@$EC2_IP:$REMOTE_REACT_PATH
   sudo ln -s /home/ec2-user/ProductSite/react-router-bootstrap-app/public/content.json /var/www/react/content.json
   sudo ln -s /home/ec2-user/ProductSite/react-router-bootstrap-app/public/images /var/www/react/images
-  sudo ln -s /home/ec2-user/ProductSite/react-router-bootstrap-app/public/sitemap.xml /var/www/react/sitemap.xml
-  sudo ln -s /home/ec2-user/ProductSite/react-router-bootstrap-app/public/robots.txt /var/www/react/robots.txt
   echo "🔧 Setting permissions and reloading Nginx..."
   ssh -i "$PEM_PATH" $EC2_USER@$EC2_IP << EOF
     sudo chmod -R 755 $REMOTE_REACT_PATH
@@ -54,6 +52,14 @@ if [[ "$DEPLOY_TARGET" == "backend" || "$DEPLOY_TARGET" == "all" ]]; then
 
   echo "📤 Uploading FULL Flask backend (including venv/node_modules) to EC2..."
   cd "$LOCAL_BACKEND_PATH" || exit 1
+  python3 -m venv $LOCAL_BACKEND_PATH/venv
+  $LOCAL_BACKEND_PATH/venv/Scripts/activate
+  pip install -r requirements.txt
+  pytest
+  if [ \$? -ne 0 ]; then
+    echo "❌ Remote tests failed. Deployment halted."
+    exit 1
+  fi
   rsync -avz -e "ssh -i $PEM_PATH" ./ $EC2_USER@$EC2_IP:$REMOTE_BACKEND_PATH
 
   echo "🔄 Restarting backend server with PM2..."
@@ -62,12 +68,12 @@ if [[ "$DEPLOY_TARGET" == "backend" || "$DEPLOY_TARGET" == "all" ]]; then
     git add ../react-router-bootstrap-app/public/content.json
     git commit -m "$COMMIT_MESSAGE"
     git push origin main
-    python3 -m venv $REMOTE_BACKEND_PATH/venv
-    source $REMOTE_BACKEND_PATH/venv/Scripts/activate
+    git pull origin main
+    python3 -m venv venv
+    source venv/bin/activate
     pip install -r $REMOTE_BACKEND_PATH/requirements.txt
-    sudo chmod -R 755 $REMOTE_BACKEND_PATH
-    sudo chown -R ec2-user:ec2-user $REMOTE_BACKEND_PATH
-    pm2 restart backend || pm2 start 'gunicorn "server:app" --bind 0.0.0.0:5000 --workers 4' --name backend
+    pm2 delete backend || true
+    pm2 start 'gunicorn "server:app" --bind 0.0.0.0:5000 --workers 4' --name backend
 EOF
 fi
 

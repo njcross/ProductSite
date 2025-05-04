@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../components/ConfirmationModal';
 import { useUser } from '../context/UserContext';
 import GoogleSignInButton from '../components/GoogleSignInButton';
+import { Helmet } from 'react-helmet';
 import './Register.css';
 import { setToken } from '../utils/tokenService';
 
@@ -73,6 +74,10 @@ export default function Register() {
 
   return (
     <Container className="register-page">
+      <Helmet>
+        <title>Sign Up – Play Kits</title>
+        <meta name="description" content="Create your account and start your exploring our Play Kits." />
+      </Helmet>
       <div className="register-card">
         <h2>{<EditableField contentKey="content_58" />}</h2>
         <Form className="register-form" onSubmit={handleSubmit}>

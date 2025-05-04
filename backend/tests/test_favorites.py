@@ -1,8 +1,11 @@
+import flask
+import pytest
+from flask import session
+def test_get_favorites(client, user_auth_header, create_test_users, create_test_kit):
+    # session.user_id = create_test_users[0].id
+    res_add = client.post("/api/favorites/", json={"character_id": create_test_kit.id}, headers=user_auth_header)
+    assert res_add.status_code == 201
 
-def test_add_favorite(client, user_auth_header):
-    res = client.post('/api/favorites/', json={"character_id": 1}, headers=user_auth_header)
-    assert res.status_code == 201
-
-def test_get_favorites(client, user_auth_header):
-    res = client.get('/api/favorites/', headers=user_auth_header)
-    assert res.status_code == 200
+    res_get = client.get("/api/favorites/", headers=user_auth_header)
+    assert res_get.status_code == 200
+    assert any(fav["kit"]["id"] == create_test_kit.id for fav in res_get.json)

@@ -6,7 +6,7 @@ import EditableField from '../components/EditableField';
 import CharacterForm from '../components/CharacterForm';
 import ConfirmationModal from '../components/ConfirmationModal';
 import { useUser } from '../context/UserContext';
-import { useCart } from '../context/CartContext';
+import { Helmet } from 'react-helmet';
 
 import './EditCharacterPage.css';
 
@@ -150,6 +150,10 @@ export default function EditCharacterPage() {
 
   return (
     <Container className="edit-character-page">
+      <Helmet>
+        <title>Edit Play Kit: Admin</title>
+        <meta name="description" content="Admin tool to update Play kit details." />
+      </Helmet>
       <Button variant="secondary" onClick={() => navigate(-1)} className="mb-3">
         <EditableField contentKey="content_105" />
       </Button>

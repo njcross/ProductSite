@@ -6,6 +6,7 @@ import EditableField from '../components/EditableField';import { useNavigate } f
 import { Form, Button, Container } from 'react-bootstrap';
 import { useUser } from '../context/UserContext';
 import GoogleSignInButton from '../components/GoogleSignInButton';
+import { Helmet } from 'react-helmet';
 import './Login.css';
 
 export default function Login() {
@@ -44,6 +45,10 @@ export default function Login() {
 
   return (
     <Container className="login-page">
+      <Helmet>
+              <title>Log In – Play Kits</title>
+              <meta name="description" content="Access your Play Kits account." />
+            </Helmet>
       <div className="login-card">
         <h2>{<EditableField contentKey="content_56" />}</h2>
         <Form onSubmit={handleSubmit} className="login-form">

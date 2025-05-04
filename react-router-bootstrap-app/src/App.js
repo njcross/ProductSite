@@ -56,7 +56,7 @@ export default function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/cart" element={<CartPage />} />
-                <Route path="/test" element={<Home />} />
+                {/* <Route path="/test" element={<Home />} /> */}
                 <Route path="/settings" element={<UserSettings />} />
                 <Route path="/favorites" element={<FavoritesPage />} />
                 <Route path="/newsletter" element={<NewsletterList />} />

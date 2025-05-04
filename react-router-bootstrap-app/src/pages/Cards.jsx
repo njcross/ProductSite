@@ -6,6 +6,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { useUser } from '../context/UserContext';
 import './Cards.css';
 import { useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 
 
@@ -106,6 +107,10 @@ useEffect(() => {
 
   return (
     <div className="cards-page">
+      <Helmet>
+        <title>Play Trays Catalog</title>
+        <meta name="description" content="Browse all available Play kits by category, age, and rating." />
+      </Helmet>
       <Container fluid>
         <h2 className="text-center text-white mb-4">Character Collection</h2>
         <Row>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useUser } from '../context/UserContext';
 import { Container, Row, Col, Card, Button, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import EditableField from '../components/EditableField';
+import { Helmet } from 'react-helmet';
 import './Orders.css';
 
 export default function Orders() {
@@ -26,6 +27,10 @@ export default function Orders() {
 
   return (
     <Container className="orders-page py-4">
+        <Helmet>
+        <title>Purchase History – Play Kits</title>
+        <meta name="description" content="Track your past Play kit purchases." />
+      </Helmet>
       <h2 className="text-center mb-4">
         <EditableField contentKey="content_226" />
       </h2>
