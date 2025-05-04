@@ -1,6 +1,5 @@
 import flask
 from flask_dance.contrib.google import make_google_blueprint, google
-from flask import session
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_cors import CORS
@@ -13,7 +12,7 @@ from flask_dance.consumer import oauth_authorized
 from flask_login import login_user
 from app.models.user import User
 from app.extensions import db, ma, migrate
-from flask import redirect
+from flask import Flask, session, redirect
 
 
 def create_database():
