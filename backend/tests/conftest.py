@@ -49,7 +49,6 @@ def session(db, app):
 def client(app):
     return app.test_client()
 
-
 @pytest.fixture
 def create_test_kit(app):
     with app.app_context():
@@ -92,8 +91,14 @@ def create_test_users(app):
 
         _db.session.add_all([user, admin])
         _db.session.commit()
-        return user, admin
- 
+        return user.id, admin.id
+
+@pytest.fixture
+def logged_in_client(client, create_test_users):
+    user_id, _ = create_test_users
+    with client.session_transaction() as sess:
+        sess["user_id"] = user_id
+    return client 
 
 @pytest.fixture
 def user_auth_header(client, create_test_users):
