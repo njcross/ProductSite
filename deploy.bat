@@ -1,5 +1,6 @@
 @echo off
-REM Usage: .\deploy.bat "commit message" [frontend|backend|all] defaults to all
+REM Usage: .\deploy.bat "commit message" [frontend|backend|all]
+REM Defaults to "all"
 
 IF "%~1"=="" (
     echo ❌ Please provide a commit message.
@@ -43,8 +44,7 @@ IF %ERRORLEVEL% NEQ 0 (
     echo ❌ Frontend tests failed. See summary below:
     type frontend_test_output.txt | findstr /C:"FAIL" /C:"●" /C:"expected" /C:"received" /C:"Test Suites:" /C:"Tests:"
     exit /b 1
-)
-ELSE (
+) ELSE (
     echo ✅ Frontend tests passed.
 )
 
@@ -53,18 +53,14 @@ call npm run build
 IF %ERRORLEVEL% NEQ 0 (
     echo ❌ Build failed. Aborting deployment.
     exit /b 1
-)
-ELSE (
+) ELSE (
     echo ✅ Build completed successfully.
 )
 
 echo 🚀 Uploading React build to EC2...
-@REM scp -i "%PEM_PATH%" -r build/* %EC2_USER%@%EC2_IP%:%REMOTE_REACT_PATH%
+scp -i "%PEM_PATH%" -r build/* %EC2_USER%@%EC2_IP%:%REMOTE_REACT_PATH%
 
-@REM ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% ^
-@REM "sudo ln -sf /home/ec2-user/ProductSite/react-router-bootstrap-app/public/content.json /var/www/react/content.json && ^
-@REM  sudo ln -sf /home/ec2-user/ProductSite/react-router-bootstrap-app/public/images /var/www/react/images && ^
-@REM  sudo chmod -R 755 /var/www/react && sudo systemctl reload nginx"
+ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "sudo ln -sf /home/ec2-user/ProductSite/react-router-bootstrap-app/public/content.json /var/www/react/content.json && sudo ln -sf /home/ec2-user/ProductSite/react-router-bootstrap-app/public/images /var/www/react/images && sudo chmod -R 755 /var/www/react && sudo systemctl reload nginx"
 
 GOTO end
 
@@ -80,19 +76,12 @@ IF %ERRORLEVEL% NEQ 0 (
     echo ❌ Backend tests failed. See summary below:
     type backend_test_output.txt | findstr /C:"FAILED" /C:"ERROR" /C:"short test summary info"
     exit /b 1
-)
-ELSE (
+) ELSE (
     echo ✅ Backend tests passed.
 )
 
 echo 🔄 Restarting backend on EC2...
-ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% ^
-"cd %REMOTE_BACKEND_PATH% && \
- git stash && \
- git pull origin main && \
- source venv/bin/activate && \
- pip install -r requirements.txt "
-
+ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "cd %REMOTE_BACKEND_PATH% && git stash && git pull origin main && . venv/bin/activate && pip install -r requirements.txt "
 
 GOTO end
 
