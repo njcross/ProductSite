@@ -7,8 +7,15 @@ export default function GoogleSignInButton() {
   };
 
   return (
-    <Button onClick={handleGoogleLogin} className="google-login-btn mt-3" variant="outline-danger">
-      <i className="fab fa-google me-2"></i> Sign in with Google
-    </Button>
+    <div className="google-login-wrapper">
+      <Button
+        onClick={handleGoogleLogin}
+        className="google-login-btn"
+        variant="outline-light"
+      >
+        <i className="fab fa-google me-2"></i>
+        Continue with Google
+      </Button>
+    </div>
   );
 }

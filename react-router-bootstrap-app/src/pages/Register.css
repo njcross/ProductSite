@@ -92,3 +92,28 @@
     font-size: 0.95rem;
   }
 }
+
+.google-signin-section {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.divider-text {
+  text-align: center;
+  margin: 1.5rem 0;
+  color: var(--color-accent);
+  font-weight: 600;
+  position: relative;
+}
+
+.divider-text::before,
+.divider-text::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-accent);
+  margin: 0 1rem;
+  display: inline-block;
+  vertical-align: middle;
+}

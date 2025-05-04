@@ -8,6 +8,8 @@ import GoogleSignInButton from '../components/GoogleSignInButton';
 import { Helmet } from 'react-helmet';
 import './Register.css';
 import { setToken } from '../utils/tokenService';
+import DividerWithText from '../components/DividerWithText';
+
 
 export default function Register() {
   const [form, setForm] = useState({ username: '', email: '', password: '', confirmPassword: '' });
@@ -106,7 +108,7 @@ export default function Register() {
           <Button type="submit" className="register-btn" data-testid="register-submit">{<EditableField contentKey="content_58" />}</Button>
         </Form>
       </div>
-      <p>OR</p>
+      <DividerWithText text="OR" />
                 <GoogleSignInButton />
 
       <ConfirmationModal
