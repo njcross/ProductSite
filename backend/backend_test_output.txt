@@ -20,78 +20,20 @@ tests\test_kits.py ..                                                    [ 56%]
 tests\test_newsletter.py ..                                              [ 62%]
 tests\test_newsletter_routes.py ..                                       [ 68%]
 tests\test_purchase_routes.py .                                          [ 71%]
-tests\test_purchases.py .F                                               [ 78%]
+tests\test_purchases.py ..                                               [ 78%]
 tests\test_review_routes.py .                                            [ 81%]
 tests\test_reviews.py ..                                                 [ 87%]
 tests\test_user_settings.py ...                                          [ 96%]
 tests\test_user_settings_routes.py .                                     [100%]
 
-================================== FAILURES ===================================
-________________________________ test_checkout ________________________________
-
-client = <FlaskClient <Flask 'app'>>
-user_auth_header = {'Authorization': 'Bearer '}, create_test_kit = <Kit 1>
-
-    def test_checkout(client, user_auth_header, create_test_kit):
-        # First add kit to cart
-        res = client.post("/api/cart", json={"kit_id": create_test_kit.id, "quantity": 1}, headers=user_auth_header)
-        assert res.status_code == 201
->       res = client.post("/api/purchases", json={
-            "kit_id": create_test_kit.id,
-            "quantity": 1
-        }, headers=user_auth_header)
-
-tests\test_purchases.py:11: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-venv\Lib\site-packages\werkzeug\test.py:1167: in post
-    return self.open(*args, **kw)
-venv\Lib\site-packages\flask\testing.py:234: in open
-    response = super().open(
-venv\Lib\site-packages\werkzeug\test.py:1116: in open
-    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
-venv\Lib\site-packages\werkzeug\test.py:988: in run_wsgi_app
-    rv = run_wsgi_app(self.application, environ, buffered=buffered)
-venv\Lib\site-packages\werkzeug\test.py:1264: in run_wsgi_app
-    app_rv = app(environ, start_response)
-venv\Lib\site-packages\flask\app.py:1536: in __call__
-    return self.wsgi_app(environ, start_response)
-venv\Lib\site-packages\flask\app.py:1514: in wsgi_app
-    response = self.handle_exception(e)
-venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
-    return cors_after_request(app.make_response(f(*args, **kwargs)))
-venv\Lib\site-packages\flask\app.py:1511: in wsgi_app
-    response = self.full_dispatch_request()
-venv\Lib\site-packages\flask\app.py:919: in full_dispatch_request
-    rv = self.handle_user_exception(e)
-venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
-    return cors_after_request(app.make_response(f(*args, **kwargs)))
-venv\Lib\site-packages\flask\app.py:917: in full_dispatch_request
-    rv = self.dispatch_request()
-venv\Lib\site-packages\flask\app.py:902: in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
-app\utils\decorators.py:11: in wrapper
-    return f(*args, **kwargs)
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-    @purchase_bp.route('/api/purchases', methods=['POST'])
-    @login_required
-    def create_purchase():
-        data = request.get_json()
-        new_purchase = Purchase(
-            kit_id=data['kit_id'],
-            user_id=session.get('user_id'),
-            quantity=data['quantity'],
->           inventory_id=data['inventory_id']
-        )
-E       KeyError: 'inventory_id'
-
-app\routes\purchase_routes.py:21: KeyError
 ============================== warnings summary ===============================
 tests/test_auth.py::test_register
   C:\Users\njcro\m7project\backend\app\routes\auth_routes.py:96: SAWarning: relationship 'Kit.purchases' will copy column kits.id to column purchases.kit_id, which conflicts with relationship(s): 'Kit.purchase' (copies kits.id to purchases.kit_id). If this is not the intention, consider if these relationships should be linked with back_populates, or if viewonly=True should be applied to one or more if they are read-only. For the less common case that foreign key constraints are partially overlapping, the orm.foreign() annotation can be used to isolate the columns that should be written towards.   To silence this warning, add the parameter 'overlaps="purchase"' to the 'Kit.purchases' relationship. (Background on this warning at: https://sqlalche.me/e/20/qzyx) (This warning originated from the `configure_mappers()` process, which was invoked automatically in response to a user-initiated operation.)
     user = User(
 
+tests/test_purchases.py::test_checkout
+  C:\Users\njcro\m7project\backend\venv\Lib\site-packages\sqlalchemy\sql\schema.py:3596: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return util.wrap_callable(lambda ctx: fn(), fn)  # type: ignore
+
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ===========================
-FAILED tests/test_purchases.py::test_checkout - KeyError: 'inventory_id'
-================== 1 failed, 31 passed, 1 warning in 25.46s ===================
+======================= 32 passed, 2 warnings in 25.12s =======================
