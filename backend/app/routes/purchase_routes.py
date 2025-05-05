@@ -17,7 +17,8 @@ def create_purchase():
     new_purchase = Purchase(
         kit_id=data['kit_id'],
         user_id=session.get('user_id'),
-        quantity=data['quantity']
+        quantity=data['quantity'],
+        inventory_id=data['inventory_id']
     )
     db.session.add(new_purchase)
     db.session.commit()

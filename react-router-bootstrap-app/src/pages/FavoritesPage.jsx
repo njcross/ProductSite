@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useFavorites } from '../context/FavoritesContext';
 import SuperheroCard from '../components/SuperheroCard';
 import { Row, Col, Container } from 'react-bootstrap';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import './FavoritesPage.css';
 

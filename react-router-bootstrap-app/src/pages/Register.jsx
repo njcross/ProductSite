@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../components/ConfirmationModal';
 import { useUser } from '../context/UserContext';
 import GoogleSignInButton from '../components/GoogleSignInButton';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import './Register.css';
 import { setToken } from '../utils/tokenService';
 import DividerWithText from '../components/DividerWithText';

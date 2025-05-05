@@ -11,6 +11,7 @@ export default function CharacterForm({ initialData, onSubmit }) {
     description: '',
     age_ids: [],
     category_ids: [],
+    inventories: [], // NEW
   });
 
   const API_BASE = process.env.REACT_APP_API_URL;
@@ -21,29 +22,27 @@ export default function CharacterForm({ initialData, onSubmit }) {
   const [newAge, setNewAge] = useState('');
   const [newCategory, setNewCategory] = useState('');
 
-  // 1. Fetch options
-useEffect(() => {
-  fetch(`${API_BASE}/api/kits/age-options`)
-    .then(res => res.json())
-    .then(setAgeOptions)
-    .catch(console.error);
+  useEffect(() => {
+    fetch(`${API_BASE}/api/kits/age-options`)
+      .then(res => res.json())
+      .then(setAgeOptions)
+      .catch(console.error);
 
-  fetch(`${API_BASE}/api/kits/category-options`)
-    .then(res => res.json())
-    .then(setCategoryOptions)
-    .catch(console.error);
-}, [API_BASE]);
+    fetch(`${API_BASE}/api/kits/category-options`)
+      .then(res => res.json())
+      .then(setCategoryOptions)
+      .catch(console.error);
+  }, [API_BASE]);
 
-// 2. Set initialData after options are loaded
-useEffect(() => {
-  if (initialData && ageOptions.length && categoryOptions.length) {
-    setFormData({
-      ...initialData,
-      age_ids: initialData.age?.map(a => String(a.id)) || [],
-      category_ids: initialData.category?.map(c => String(c.id)) || [],
-    });
-  }
-}, [initialData, ageOptions, categoryOptions]);
+  useEffect(() => {
+    if (initialData && ageOptions.length && categoryOptions.length) {
+      setFormData({
+        ...initialData,
+        age_ids: initialData.age?.map(a => String(a.id)) || [],
+        category_ids: initialData.category?.map(c => String(c.id)) || [],
+      });
+    }
+  }, [initialData, ageOptions, categoryOptions]);
 
   const handleChange = (e) => {
     const { name, value, type, selectedOptions } = e.target;
@@ -75,11 +74,26 @@ useEffect(() => {
     }
 
     try {
-      await onSubmit({
+      const kit = await onSubmit({
         ...formData,
         age_ids: formData.age_ids.map(Number),
         category_ids: formData.category_ids.map(Number),
       });
+
+      // If this is a new kit and has inventories
+      if (!initialData && kit?.id && formData.inventories.length > 0) {
+        for (const inv of formData.inventories) {
+          await fetch(`${API_BASE}/api/inventories`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({
+              ...inv,
+              kit_id: kit.id,
+            }),
+          });
+        }
+      }
     } catch (err) {
       console.error(err);
       setSubmitError('Error submitting form: ' + (err.error || err.message || 'Unknown error'));
@@ -121,24 +135,23 @@ useEffect(() => {
       alert('Error adding new category: ' + err.message);
     }
   };
+
   const handleUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-  
+
     const data = new FormData();
     data.append('image', file);
-  
+
     try {
       const res = await fetch(`${API_BASE}/api/upload-image`, {
         method: 'POST',
         credentials: 'include',
         body: data
       });
-  
+
       if (!res.ok) throw new Error('Image upload failed');
       const result = await res.json();
-  
-      // Update formData with new image_url
       setFormData(prev => ({ ...prev, image_url: result.url }));
       setUrlError('');
     } catch (err) {
@@ -146,7 +159,6 @@ useEffect(() => {
       setUrlError('Upload failed: ' + err.message);
     }
   };
-  
 
   return (
     <div className="character-form-wrapper">
@@ -176,7 +188,6 @@ useEffect(() => {
             onChange={handleUpload}
           />
         </Form.Group>
-
 
         <Form.Group controlId="formPrice">
           <Form.Label><EditableField contentKey="content_10" /></Form.Label>
@@ -304,6 +315,45 @@ useEffect(() => {
   </InputGroup>
 </Form.Group>
 
+        {/* INVENTORY FIELDS (only show if creating) */}
+        {!initialData && (
+          <Form.Group>
+            <Form.Label>Inventory Locations</Form.Label>
+            {formData.inventories.map((inv, index) => (
+              <Row key={index} className="mb-2">
+                <Col><Form.Control placeholder="Location" value={inv.location} onChange={(e) => {
+                  const inventories = [...formData.inventories];
+                  inventories[index].location = e.target.value;
+                  setFormData({ ...formData, inventories });
+                }} /></Col>
+                <Col><Form.Control placeholder="Location Name" value={inv.location_name} onChange={(e) => {
+                  const inventories = [...formData.inventories];
+                  inventories[index].location_name = e.target.value;
+                  setFormData({ ...formData, inventories });
+                }} /></Col>
+                <Col><Form.Control type="number" min="0" placeholder="Quantity" value={inv.quantity} onChange={(e) => {
+                  const inventories = [...formData.inventories];
+                  inventories[index].quantity = e.target.value;
+                  setFormData({ ...formData, inventories });
+                }} /></Col>
+                <Col xs="auto">
+                  <Button variant="outline-danger" onClick={() => {
+                    setFormData({
+                      ...formData,
+                      inventories: formData.inventories.filter((_, i) => i !== index)
+                    });
+                  }}>×</Button>
+                </Col>
+              </Row>
+            ))}
+            <Button variant="outline-primary" onClick={() => {
+              setFormData({
+                ...formData,
+                inventories: [...formData.inventories, { location: '', location_name: '', quantity: 0 }]
+              });
+            }}>+ Add Inventory</Button>
+          </Form.Group>
+        )}
 
         <Button type="submit" className="mt-3">
           {initialData ? 'Update' : 'Create'}

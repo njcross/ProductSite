@@ -11,6 +11,7 @@ from app.routes.favorite_routes import favorite_bp
 from app.routes.health_routes import health_bp
 from app.routes.review_routes import review_bp
 from app.routes.purchase_routes import purchase_bp
+from app.routes.inventory_routes import inventory_bp
 
 # Optionally create a master blueprint if desired (not required if registering in app factory)
 def register_routes(app):
@@ -24,3 +25,4 @@ def register_routes(app):
     app.register_blueprint(health_bp) 
     app.register_blueprint(review_bp)
     app.register_blueprint(purchase_bp)
+    app.register.blueprint(inventory_bp)

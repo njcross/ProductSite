@@ -1,7 +1,7 @@
 import './About.css';
 import ContactForm from '../components/ContactForm';
 import EditableField from '../components/EditableField';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 export default function About() {
   return (

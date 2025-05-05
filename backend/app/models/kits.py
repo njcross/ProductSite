@@ -36,6 +36,10 @@ class Kit(db.Model):
     age = db.relationship('age_options', secondary=kit_age, backref='kits')
     category = db.relationship('category_options', secondary=kit_category, backref='kits')
     cart_items = db.relationship('CartItem', back_populates='kit')
+    # Kit model
+    inventories = db.relationship('Inventory', back_populates='kit', cascade='all, delete-orphan')
+    purchase = db.relationship('Purchase', back_populates='kit')
+
 
     reviews = db.relationship('Review', back_populates='kit', lazy='dynamic')
     review_count = column_property(

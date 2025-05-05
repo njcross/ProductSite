@@ -6,7 +6,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { useUser } from '../context/UserContext';
 import './Cards.css';
 import { useLocation } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 
 

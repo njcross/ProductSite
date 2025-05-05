@@ -3,7 +3,7 @@ import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import EditableImage from '../components/EditableImage';
 import EditableField from '../components/EditableField';
 import CharacterCarousel from '../components/CharacterCarousel';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import './KitsLandingPage.css';
 
 function KitsLandingPage() {

@@ -5,6 +5,7 @@ import { FavoritesProvider } from './context/FavoritesContext';
 import { ContentContext } from './context/ContentContext';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 import './App.css';
 import './variables.css';
@@ -23,10 +24,12 @@ export default function App() {
     <UserProvider>
       <FavoritesProvider>
         <CartProvider>
+          <HelmetProvider>
           <ContentContext.Provider value={{ content, setContent }}>
             {/* RouterProvider wraps entire app layout */}
             <RouterProvider router={router} />
           </ContentContext.Provider>
+          </HelmetProvider>
         </CartProvider>
       </FavoritesProvider>
     </UserProvider>

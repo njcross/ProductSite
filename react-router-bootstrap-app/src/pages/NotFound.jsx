@@ -1,5 +1,5 @@
 import './NotFound.css';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 
 import EditableImage from '../components/EditableImage';import EditableField from '../components/EditableField';export default function NotFound() {

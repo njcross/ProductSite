@@ -14,7 +14,7 @@ carts_schema = CartSchema(many=True)
 def get_cart():
     user_id = session.get('user_id')
     items = db.session.query(CartItem)\
-        .options(joinedload(CartItem.kit))\
+        .options(joinedload(CartItem.kit), joinedload(CartItem.inventory))\
         .filter_by(user_id=user_id).all()
     return jsonify(carts_schema.dump(items)), 200
 
@@ -23,11 +23,20 @@ def get_cart():
 def add_to_cart():
     data = request.json
     user_id = session.get('user_id')
-    item = db.session.query(CartItem).filter_by(user_id=user_id, kit_id=data['kit_id']).first()
+    item = db.session.query(CartItem).filter_by(
+        user_id=user_id,
+        kit_id=data['kit_id'],
+        inventory_id=data.get('inventory_id')  # allow None
+    ).first()
     if item:
         item.quantity += data.get('quantity', 1)
     else:
-        item = CartItem(user_id=user_id, kit_id=data['kit_id'], quantity=data.get('quantity', 1))
+        item = CartItem(
+            user_id=user_id,
+            kit_id=data['kit_id'],
+            inventory_id=data.get('inventory_id'),
+            quantity=data.get('quantity', 1)
+        )
         db.session.add(item)
     db.session.commit()
     return jsonify({"message": "Cart updated"}), 201
@@ -39,6 +48,8 @@ def update_cart(item_id):
     item = db.session.get(CartItem, item_id)
     if item:
         item.quantity = data['quantity']
+        if 'inventory_id' in data:
+            item.inventory_id = data['inventory_id']
         db.session.commit()
         return jsonify({"message": "Updated"}), 200
     return jsonify({"message": "Not found"}), 404

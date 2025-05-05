@@ -83,6 +83,11 @@ cd /d "%LOCAL_BACKEND_PATH%" || exit /b 1
 python -m venv venv
 call venv\Scripts\activate
 pip install -r requirements.txt
+flask db upgrade
+IF %ERRORLEVEL% NEQ 0 (
+    echo ❌ Database migration (flask db upgrade) failed. Aborting backend deployment.
+    exit /b 1
+)
 echo 🧪 Running backend tests...
 pytest > backend_test_output.txt
 IF %ERRORLEVEL% NEQ 0 (

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useUser } from '../context/UserContext';
 import EditableField from '../components/EditableField';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import './UserSettings.css';
 
 export default function UserSettings() {

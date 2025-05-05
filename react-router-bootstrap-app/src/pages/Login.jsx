@@ -6,7 +6,7 @@ import EditableField from '../components/EditableField';import { useNavigate } f
 import { Form, Button, Container } from 'react-bootstrap';
 import { useUser } from '../context/UserContext';
 import GoogleSignInButton from '../components/GoogleSignInButton';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import './Login.css';
 import DividerWithText from '../components/DividerWithText';
 

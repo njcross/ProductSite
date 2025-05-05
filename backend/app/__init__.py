@@ -75,6 +75,7 @@ def create_app():
     from app.routes.health_routes import health_bp
     from app.routes.review_routes import review_bp
     from app.routes.purchase_routes import purchase_bp
+    from app.routes.inventory_routes import inventory_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(cart_bp)
@@ -86,6 +87,7 @@ def create_app():
     app.register_blueprint(health_bp)
     app.register_blueprint(review_bp)
     app.register_blueprint(purchase_bp)
+    app.register_blueprint(inventory_bp)
     app.register_blueprint(google_bp, url_prefix="/api/login")
     @oauth_authorized.connect_via(google_bp)
     def google_logged_in(blueprint, token):

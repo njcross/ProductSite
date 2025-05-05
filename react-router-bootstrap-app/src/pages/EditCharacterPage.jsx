@@ -5,44 +5,37 @@ import { Container, Button, Modal, Row, Col } from 'react-bootstrap';
 import EditableField from '../components/EditableField';
 import CharacterForm from '../components/CharacterForm';
 import ConfirmationModal from '../components/ConfirmationModal';
+import InventorySection from '../components/InventorySection';
 import { useUser } from '../context/UserContext';
 import { useCart } from '../context/CartContext';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 import './EditCharacterPage.css';
 import StarRating from '../components/StarRating';
-
-
-
 
 export default function EditCharacterPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { currentUser } = useUser();
+  const { addToCart } = useCart();
+  const API_BASE = process.env.REACT_APP_API_URL;
 
   const [character, setCharacter] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [userRating, setUserRating] = useState(0);
   const [userComment, setUserComment] = useState('');
   const [submittingReview, setSubmittingReview] = useState(false);
-
   const [showEditForm, setShowEditForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const [refreshCount, setRefreshCount] = useState(0);
-  const { addToCart } = useCart();
-
-
-  const API_BASE = process.env.REACT_APP_API_URL;
+  const [selectedInventoryId, setSelectedInventoryId] = useState(null);
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/kits/${id}`, {
-      credentials: 'include',
-      headers: { credentials: 'include' }
-    })
+    fetch(`${API_BASE}/api/kits/${id}`, { credentials: 'include' })
       .then(res => res.json())
-      .then(data => setCharacter(data))
+      .then(setCharacter)
       .catch(err => console.error('Error fetching character:', err));
   }, [id, refreshCount, API_BASE]);
 
@@ -61,13 +54,6 @@ export default function EditCharacterPage() {
       })
       .catch(err => console.error('Error fetching reviews:', err));
   }, [id, refreshCount, API_BASE, currentUser]);
-
-  const handleModalClose = () => {
-    setShowModal(false);
-    setRefreshCount(prev => prev + 1);
-  };
-
-  const handleEditButtonClick = () => setShowEditForm(true);
 
   const handleEditSubmit = async (updatedCharacter) => {
     try {
@@ -91,6 +77,15 @@ export default function EditCharacterPage() {
       setModalMessage('Error updating character.');
     } finally {
       setShowModal(true);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      await addToCart(character, selectedInventoryId);
+      navigate('/cart');
+    } catch (err) {
+      alert(err.message || 'Failed to add to cart');
     }
   };
 
@@ -129,9 +124,11 @@ export default function EditCharacterPage() {
         <title>Edit My Play Tray: Admin</title>
         <meta name="description" content="Admin tool to update Play kit details." />
       </Helmet>
+
       <Button variant="secondary" onClick={() => navigate(-1)} className="mb-3">
         <EditableField contentKey="content_105" />
       </Button>
+
       <Row className="character-detail-layout">
         <Col md={6} className="image-section">
           <img src={character.image_url} alt={character.name} className="character-img-large" />
@@ -139,43 +136,29 @@ export default function EditCharacterPage() {
         <Col md={6} className="info-section">
           <h1 className="character-title">{character.name}</h1>
 
-          <p className="character-description">
-            <strong><EditableField contentKey="content_200" /></strong> {character.description}
-          </p>
-
-          <p className="character-price">
-            <strong><EditableField contentKey="content_112" /></strong> ${character.price}
-          </p>
-
-          <p className="character-age">
-            <strong><EditableField contentKey="content_201" /></strong>{' '}
-            {character.age?.map(a => a.name).join(', ') || 'N/A'}
-          </p>
-
-          <p className="character-category">
-            <strong><EditableField contentKey="content_202" /></strong>{' '}
-            {character.category?.map(c => c.name).join(', ') || 'N/A'}
-          </p>
+          <p><strong><EditableField contentKey="content_200" /></strong> {character.description}</p>
+          <p><strong><EditableField contentKey="content_112" /></strong> ${character.price}</p>
+          <p><strong><EditableField contentKey="content_201" /></strong> {character.age?.map(a => a.name).join(', ') || 'N/A'}</p>
+          <p><strong><EditableField contentKey="content_202" /></strong> {character.category?.map(c => c.name).join(', ') || 'N/A'}</p>
 
           {currentUser?.role === 'admin' && (
-            <Button variant="warning" className="edit-button" onClick={handleEditButtonClick}>
+            <Button variant="warning" className="edit-button" onClick={() => setShowEditForm(true)}>
               <EditableField contentKey="content_113" />
             </Button>
           )}
-          {currentUser && (
-  <Button
-    variant="success"
-    className="mt-2"
-    onClick={() => {
-      addToCart(character);
-      window.scrollTo(0, 0);
-      navigate('/cart');
-    }}
-  >
-    <EditableField contentKey="content_237" /> {/* e.g., "Add to Cart" */}
-  </Button>
-)}
 
+          <InventorySection
+            kitId={character.id}
+            isAdmin={currentUser?.role === 'admin'}
+            selectedInventoryId={selectedInventoryId}
+            setSelectedInventoryId={setSelectedInventoryId}
+          />
+
+          {currentUser && (
+            <Button variant="success" className="mt-2" onClick={handleAddToCart}>
+              <EditableField contentKey="content_237" />
+            </Button>
+          )}
         </Col>
       </Row>
 
@@ -191,43 +174,39 @@ export default function EditCharacterPage() {
       </div>
 
       {currentUser && (
-  <>
-    <h4><EditableField contentKey="content_220" /></h4>
-    <StarRating rating={userRating} setRating={setUserRating} editable />
-    <textarea
-      value={userComment}
-      onChange={e => setUserComment(e.target.value)}
-      rows={3}
-      placeholder=""
-      className="form-control my-2"
-    />
-    <Button
-      variant="primary"
-      disabled={submittingReview}
-      onClick={submitReview}
-      className="me-2"
-    >
-      <EditableField contentKey="content_222" />
-    </Button>
-
-    {/* Delete button only for your review */}
-    <Button
-      variant="danger"
-      disabled={submittingReview}
-      onClick={async () => {
-        if (!window.confirm("Delete your review?")) return;
-        await fetch(`${API_BASE}/api/reviews/${id}`, {
-          method: 'DELETE',
-          credentials: 'include',
-        });
-        setRefreshCount(c => c + 1);
-      }}
-    >
-      Delete Review
-    </Button>
-  </>
-)}
-
+        <>
+          <h4><EditableField contentKey="content_220" /></h4>
+          <StarRating rating={userRating} setRating={setUserRating} editable />
+          <textarea
+            value={userComment}
+            onChange={e => setUserComment(e.target.value)}
+            rows={3}
+            className="form-control my-2"
+          />
+          <Button
+            variant="primary"
+            disabled={submittingReview}
+            onClick={submitReview}
+            className="me-2"
+          >
+            <EditableField contentKey="content_222" />
+          </Button>
+          <Button
+            variant="danger"
+            disabled={submittingReview}
+            onClick={async () => {
+              if (!window.confirm("Delete your review?")) return;
+              await fetch(`${API_BASE}/api/reviews/${id}`, {
+                method: 'DELETE',
+                credentials: 'include',
+              });
+              setRefreshCount(c => c + 1);
+            }}
+          >
+            Delete Review
+          </Button>
+        </>
+      )}
 
       <hr />
       <h4><EditableField contentKey="content_223" /></h4>
@@ -252,7 +231,7 @@ export default function EditCharacterPage() {
         show={showModal}
         title={isSuccess ? 'Success' : 'Error'}
         message={modalMessage}
-        onHide={handleModalClose}
+        onHide={() => setShowModal(false)}
         onConfirm={handleModalConfirm}
         confirmText={isSuccess ? 'Go to List' : 'Retry'}
         cancelText="Stay on Page"

@@ -5,7 +5,7 @@ import EditableField from '../components/EditableField';import 'bootstrap/dist/c
 import CharacterCarousel from '../components/CharacterCarousel.jsx';
 import FeaturesSection from '../components/FeatureSection.jsx';
 import HeroCarousel from '../components/HeroCarousel.jsx';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import './Home.css';
 
 export default function Home() {
