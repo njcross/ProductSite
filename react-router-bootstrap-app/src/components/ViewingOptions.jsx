@@ -62,13 +62,6 @@ export default function ViewingOptions({
         </div>
       )}
 
-      {currentUser?.role === 'admin' && (
-        <div className="option-group">
-          <button className="add-character-btn" onClick={() => window.location.href = '/add-character'}>
-            <EditableField contentKey="content_145" />
-          </button>
-        </div>
-      )}
     </div>
   );
 }

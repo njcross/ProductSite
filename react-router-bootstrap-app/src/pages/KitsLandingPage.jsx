@@ -25,7 +25,7 @@ function KitsLandingPage() {
   return (
     <div className="kits-landing-page">
       <Helmet>
-  <title>My Play Tray</title>
+  <title>My Play Trays</title>
   <meta name="description" content="Browse our fun and educational kits for kids of all ages. Unlock & play with  creativity!" />
   <meta property="og:title" content="My Play Tray" />
   <meta property="og:description" content="Fun trays delivered to your locker. Perfect for imaginative kids." />

@@ -29,7 +29,7 @@ export default function Orders() {
   return (
     <Container className="orders-page py-4">
         <Helmet>
-        <title>Purchase History – Play Trays</title>
+        <title>Purchase History – My Play Trays</title>
         <meta name="description" content="Track your past Play tray purchases." />
       </Helmet>
       <h2 className="text-center mb-4">

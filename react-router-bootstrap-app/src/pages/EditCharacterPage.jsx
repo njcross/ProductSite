@@ -153,7 +153,7 @@ export default function EditCharacterPage() {
   return (
     <Container className="edit-character-page">
       <Helmet>
-        <title>Edit Play Tray: Admin</title>
+        <title>Edit My Play Tray: Admin</title>
         <meta name="description" content="Admin tool to update Play kit details." />
       </Helmet>
       <Button variant="secondary" onClick={() => navigate(-1)} className="mb-3">

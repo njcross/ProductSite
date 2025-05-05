@@ -69,7 +69,7 @@ export default function UserSettings() {
   return (
     <div className="user-settings-container">
       <Helmet>
-        <title>Account Settings – Play Trays</title>
+        <title>Account Settings – My Play Trays</title>
         <meta name="description" content="Update your profile, email, and password securely." />
       </Helmet>
       <h2><EditableField contentKey="settings_1" /> {/* "Account Settings" */}</h2>

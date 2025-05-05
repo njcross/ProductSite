@@ -47,7 +47,7 @@ export default function Login() {
   return (
     <Container className="login-page">
       <Helmet>
-              <title>Log In – My Play Tray</title>
+              <title>Log In – My Play Trays</title>
               <meta name="description" content="Access your Play Trays account." />
             </Helmet>
       <div className="login-card">
