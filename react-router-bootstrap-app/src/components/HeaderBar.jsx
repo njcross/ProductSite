@@ -56,21 +56,25 @@ export default function HeaderBar() {
       <div className="action-group">
         {currentUser ? (
           <>
-            <Link to="/cart" className="btn cart-btn">
-              <EditableField contentKey="content_52" />
-            </Link>
-            <Link to="/orders" className="btn cart-btn">
-              <EditableField contentKey="content_225" />
-            </Link>
-            <Link to="/settings" className="auth-btn">
-            <EditableField contentKey="content_142" />
+            <Link to="/cart" className="btn cart-btn icon-toggle">
+  <span className="icon-only"><i className="bi bi-cart"></i></span>
+  <span className="text-only"><EditableField contentKey="content_52" /></span>
+</Link>
+<Link to="/orders" className="btn cart-btn icon-toggle">
+  <span className="icon-only"><i className="bi bi-currency-dollar"></i></span>
+  <span className="text-only"><EditableField contentKey="content_225" /></span>
+</Link>
+            <Link to="/settings" className="auth-btn icon-toggle">
+  <span className="icon-only"><i className="bi bi-gear"></i></span>
+  <span className="text-only"><EditableField contentKey="content_142" /></span>
 </Link>
 
 
             <div className="auth-links">
-              <button className="auth-btn" onClick={handleLogout}>
-                <EditableField contentKey="content_54" />
-              </button>
+            <button className="auth-btn icon-toggle" onClick={handleLogout}>
+  <span className="icon-only"><i className="bi bi-box-arrow-right"></i></span>
+  <span className="text-only"><EditableField contentKey="content_54" /></span>
+</button>
             </div>
           </>
         ) : (

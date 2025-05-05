@@ -116,3 +116,27 @@
     align-self: center;
   }
 }
+.icon-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon-toggle .icon-only {
+  display: none;
+}
+
+.icon-toggle .text-only {
+  display: inline;
+}
+
+/* Show only icons on small screens */
+@media (max-width: 768px) {
+  .icon-toggle .icon-only {
+    display: inline;
+  }
+
+  .icon-toggle .text-only {
+    display: none;
+  }
+}
