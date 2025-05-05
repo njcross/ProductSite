@@ -13,7 +13,7 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
     if (currentUser) {
       fetch(`${API_BASE}/api/cart`, {
-        headers: { credentials: 'include', 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
       })
         .then(res => res.json())
@@ -46,7 +46,7 @@ export const CartProvider = ({ children }) => {
           credentials: 'include',
         });
         const inventories = await res.json();
-
+        console.log(inventories);
         const available = inventories.filter(inv => inv.quantity > 0);
 
         if (available.length === 0) {
@@ -72,7 +72,7 @@ export const CartProvider = ({ children }) => {
         }
       }
 
-      const existing = cart.find(item => item.kit === kit.id && item.inventory_id === inventory_id);
+      const existing = cart.find(item => item.kit_id === kit.id && item.inventory_id === inventory_id);
 
       if (existing) {
         const updated = cart.map(item =>
@@ -84,23 +84,22 @@ export const CartProvider = ({ children }) => {
 
         await fetch(`${API_BASE}/api/cart/${existing.id}`, {
           method: 'PUT',
-          headers: { credentials: 'include', 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
           body: JSON.stringify({ quantity: existing.quantity + 1 }),
         });
       } else {
         const newItem = { kit_id: kit.id, quantity: 1, inventory_id };
-        console.log(newItem)
         await fetch(`${API_BASE}/api/cart`, {
           method: 'POST',
-          headers: { credentials: 'include', 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
           body: JSON.stringify(newItem),
         });
 
         const updatedCart = await fetch(`${API_BASE}/api/cart`, {
           credentials: 'include',
-          headers: { credentials: 'include', 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json' },
         }).then(res => res.json());
 
         setCart(updatedCart);
@@ -119,7 +118,7 @@ export const CartProvider = ({ children }) => {
 
     fetch(`${API_BASE}/api/cart/${id}`, {
       method: 'PUT',
-      headers: { credentials: 'include', 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({ quantity }),
     });

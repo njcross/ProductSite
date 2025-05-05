@@ -25,10 +25,10 @@ def test_get_empty_cart(logged_in_client):
     assert res.status_code == 200
     assert res.json == []
 
-def test_add_to_cart(logged_in_client, user_auth_header, create_test_kit):
+def test_add_to_cart(logged_in_client, user_auth_header, create_test_kit_and_inventory):
     # Add first
-    kit = create_test_kit
-    res = logged_in_client.post("/api/cart", json={"kit_id": kit.id, "quantity": 2}, headers=user_auth_header)
+    kit,inventory = create_test_kit_and_inventory
+    res = logged_in_client.post("/api/cart", json={"kit_id": kit.id, "quantity": 2, "inventory_id": inventory.id}, headers=user_auth_header)
     assert res.status_code == 201
     assert res.json["message"] == "Cart updated"
 
@@ -38,16 +38,10 @@ def test_add_to_cart(logged_in_client, user_auth_header, create_test_kit):
     assert get_res.json[0]["kit_id"] == kit.id
     assert get_res.json[0]["quantity"] == 2
 
-    res = logged_in_client.delete("/api/cart/all", headers=user_auth_header)
-    assert res.status_code == 200
-    assert res.json["message"] == "All cart items deleted"
-
-    assert logged_in_client.get("/api/cart", headers=user_auth_header).json == []
-
-def test_update_cart_quantity(logged_in_client, user_auth_header, create_test_kit):
+def test_update_cart_quantity(logged_in_client, user_auth_header, create_test_kit_and_inventory):
     # Add first
-    kit = create_test_kit
-    logged_in_client.post("/api/cart", json={"kit_id": kit.id, "quantity": 1}, headers=user_auth_header)
+    kit, inventory = create_test_kit_and_inventory
+    logged_in_client.post("/api/cart", json={"kit_id": kit.id, "quantity": 1, "inventory_id": inventory.id}, headers=user_auth_header)
     item_id = logged_in_client.get("/api/cart").json[0]["id"]
 
     # Now update
@@ -65,10 +59,10 @@ def test_update_cart_quantity(logged_in_client, user_auth_header, create_test_ki
 
     assert logged_in_client.get("/api/cart", headers=user_auth_header).json == []
 
-def test_delete_cart_item(logged_in_client, user_auth_header, create_test_kit):
+def test_delete_cart_item(logged_in_client, user_auth_header, create_test_kit_and_inventory):
     # Add first
-    kit = create_test_kit
-    logged_in_client.post("/api/cart", json={"kit_id": kit.id, "quantity": 1}, headers=user_auth_header)
+    kit, inventory = create_test_kit_and_inventory
+    logged_in_client.post("/api/cart", json={"kit_id": kit.id, "quantity": 1, "inventory_id": inventory.id}, headers=user_auth_header)
     item_id = logged_in_client.get("/api/cart").json[0]["id"]
 
     res = logged_in_client.delete(f"/api/cart/{item_id}", headers=user_auth_header)

@@ -4,7 +4,9 @@ from app.extensions import db as _db
 from app.models.user import User  # adjust import based on your project structure
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.models.kits import Kit
+from app.models.inventory import Inventory
 from app.schemas.kit_schema import kit_schema, kits_schema
+from app.schemas.inventory_schema import inventory_schema
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 
@@ -50,7 +52,7 @@ def client(app):
     return app.test_client()
 
 @pytest.fixture
-def create_test_kit(app):
+def create_test_kit_and_inventory(app):
     with app.app_context():
         data = {
             "name": "Test Kit",
@@ -64,7 +66,20 @@ def create_test_kit(app):
         _db.session.commit()  # COMMIT is needed for persistence
         _db.session.flush()  # ensures `id` is assigned
         _db.session.refresh(new_kit)  # binds instance to session with updated fields
-        return _db.session.get(Kit, new_kit.id)
+        data2 = {
+            "location": "0,0",
+            "location_name": "test",
+            "quantity": "1",
+            "kit_id": new_kit.id
+        }
+        inventory_data = inventory_schema.load(data2)
+        new_inventory = inventory_data
+        _db.session.add(new_inventory)
+        _db.session.commit()  # COMMIT is needed for persistence
+        _db.session.flush()  # ensures `id` is assigned
+        _db.session.refresh(new_inventory)  
+        return _db.session.get(Kit, new_kit.id), _db.session.get(Inventory, new_inventory.id)
+    
 
 @pytest.fixture(scope="function")
 def client(app):
