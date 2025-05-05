@@ -64,14 +64,14 @@ export default function HeaderBar() {
   <span className="icon-only"><i className="bi bi-currency-dollar"></i></span>
   <span className="text-only"><EditableField contentKey="content_225" /></span>
 </Link>
-            <Link to="/settings" className="auth-btn icon-toggle">
+            <Link to="/settings" className="btn cart-btn icon-toggle">
   <span className="icon-only"><i className="bi bi-gear"></i></span>
   <span className="text-only"><EditableField contentKey="content_142" /></span>
 </Link>
 
 
             <div className="auth-links">
-            <button className="auth-btn icon-toggle" onClick={handleLogout}>
+            <button className="btn cart-btn icon-toggle" onClick={handleLogout}>
   <span className="icon-only"><i className="bi bi-box-arrow-right"></i></span>
   <span className="text-only"><EditableField contentKey="content_54" /></span>
 </button>
@@ -79,11 +79,11 @@ export default function HeaderBar() {
           </>
         ) : (
           <div className="auth-links">
-            <Link to="/login" className="auth-btn">
+            <Link to="/login" className="btn cart-btn">
               <EditableField contentKey="content_56" />
             </Link>
             
-            <Link to="/register" className="auth-btn">
+            <Link to="/register" className="btn cart-btn">
               <EditableField contentKey="content_58" />
             </Link>
           </div>

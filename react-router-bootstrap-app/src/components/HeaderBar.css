@@ -70,9 +70,6 @@
   transition: background-color 0.3s ease;
 }
 
-.auth-btn:hover {
-  background-color: var(--color-accent);
-}
 .cart-btn {
   background-color: var(--bg-action-item) !important;
   color: var(--color-link);
@@ -94,6 +91,15 @@
   color: var(--color-link);
 }
 
+.auth-btn:hover {
+  background-color: var(--color-accent);
+}
+
+.auth-btn .editable-wrapper {
+  background-color: var(--bg-action-item);
+  font-weight: bold;
+  color: var(--color-link);
+}
 
 @media (max-width: 768px) {
   .header-bar {
