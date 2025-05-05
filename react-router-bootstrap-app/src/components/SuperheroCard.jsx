@@ -6,17 +6,9 @@ import { useFavorites } from '../context/FavoritesContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import EditableField from '../components/EditableField';
 import FavoriteButton from './FavoriteButton';
+import StarRating from './StarRating';
 import './SuperheroCard.css';
 
-const StarRating = ({ rating }) => {
-  const stars = [];
-  for (let i = 5; i >= 1; i--) {
-    stars.push(
-      <span key={i} className={`star ${i <= rating ? 'filled' : ''}`}>★</span>
-    );
-  }
-  return <div className="star-rating mb-1">{stars}</div>;
-};
 
 export default function SuperheroCard({ character, onEdit, onDelete }) {
   const { currentUser } = useUser();

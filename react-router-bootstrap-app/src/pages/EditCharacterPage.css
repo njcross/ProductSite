@@ -151,33 +151,6 @@ hr {
   }
 }
 
-.star-rating {
-  display: flex;
-  gap: 0.25rem;
-  flex-direction: row-reverse; /* so star 5 is far right */
-  justify-content: left;
-}
-
-.star-edit {
-  font-size: 1.8rem;
-  color: #ccc;
-  transition: color 0.2s ease;
-}
-
-.star.filled {
-  color: #ffc107;
-}
-
-.star-rating.editable .star {
-  cursor: pointer;
-}
-
-.star-rating.editable .star:hover,
-.star-rating.editable .star:hover ~ .star {
-  color: #ffc107;
-}
-
-
 .review {
   background-color: #f8f9fa;
 }
