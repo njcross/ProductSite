@@ -32,4 +32,4 @@ tests/test_auth.py::test_register
     user = User(
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-======================= 32 passed, 1 warning in 24.64s ========================
+======================= 32 passed, 1 warning in 24.77s ========================
