@@ -88,7 +88,7 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
   };
 
   const handleAdd = async () => {
-    if (!newInventory.locationlocation || !newInventory._name || !newInventory.quantity) {
+    if (!newInventory.locatioh || !newInventory._name || !newInventory.quantity) {
       alert('Fill all fields');
       return;
     }
