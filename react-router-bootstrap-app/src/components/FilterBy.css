@@ -104,7 +104,8 @@
 .filter-by li,
 .filter-list li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  text-align: center;
   gap: 0.5rem;
   padding: 0.4rem 0;
   font-size: 0.95rem;
