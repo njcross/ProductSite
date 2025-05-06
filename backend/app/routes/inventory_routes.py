@@ -38,7 +38,10 @@ def create_inventory():
     data = request.json
 
     rtn = find_address(data['location'])
-    data['coordinates'] = rtn['lat'] + ', ' + rtn['long']
+    if isinstance(rtn, tuple):  # means it's a (Response, status_code)
+        return rtn
+
+    data['coordinates'] = f"{rtn['lat']}, {rtn['lng']}"
     data['location'] = rtn['address']
     inv = Inventory(**data)
     db.session.add(inv)
@@ -55,8 +58,11 @@ def edit_inventory():
     inv.location_name = data.get('location_name', inv.location_name)
     inv.quantity = data.get('quantity', inv.quantity)
     rtn = find_address(data['location'])
-    inv.coordinates = rtn['lat'] + ', ' + rtn['long']
+    if isinstance(rtn, tuple):
+        return rtn
+    inv.coordinates = f"{rtn['lat']}, {rtn['lng']}"
     inv.location = rtn['address']
+
     db.session.commit()
     return jsonify({'message': 'Inventory updated'})
 
