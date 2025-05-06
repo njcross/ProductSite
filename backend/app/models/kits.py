@@ -37,8 +37,9 @@ class Kit(db.Model):
     category = db.relationship('category_options', secondary=kit_category, backref='kits')
     cart_items = db.relationship('CartItem', back_populates='kit')
     # Kit model
+    purchases = db.relationship('Purchase', back_populates='kit', cascade='all, delete-orphan')
     inventories = db.relationship('Inventory', back_populates='kit', cascade='all, delete-orphan')
-    purchase = db.relationship('Purchase', back_populates='kit')
+
 
 
     reviews = db.relationship('Review', back_populates='kit', lazy='dynamic')
