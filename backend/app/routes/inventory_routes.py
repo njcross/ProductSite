@@ -98,7 +98,8 @@ def get_inventory_by_kit(kit_id):
             'location_name': inv.location_name,
             'quantity': inv.quantity,
             'kit_id': inv.kit_id,
-            'id':inv.id
+            'id':inv.id,
+            'coordinates':inv.coordinates
         }
         for inv in inventories
     ])
@@ -113,5 +114,6 @@ def get_inventory_by_id(inventory_id):
         'kit_id': inv.kit_id,
         'location': inv.location,
         'location_name': inv.location_name,
-        'quantity': inv.quantity
+        'quantity': inv.quantity,
+        'coordinates': inv.coordinates
     })
