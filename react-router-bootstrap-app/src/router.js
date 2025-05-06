@@ -18,7 +18,7 @@ import Home from './pages/Home';
   import FavoritesPage from './pages/FavoritesPage';
   import NewsletterList from './pages/NewsLetterList';
   import Orders from './pages/Orders';
-  import InventoryPage from '../pages/InventoryPage';
+  import InventoryPage from './pages/InventoryPage';
 
 const Layout = () => (
   <div className="app-container">
