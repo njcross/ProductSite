@@ -4,13 +4,21 @@ import { useUser } from '../context/UserContext';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import './NewsletterList.css'; 
 
-export default function NewsLetterList() {
+export default function NewsLetterList(user) {
   const [value, setValue] = useState('1');
   const [emails, setEmails] = useState([]);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const { currentUser } = useUser();
   const API_BASE = process.env.REACT_APP_API_URL;
+
+  useEffect(() => {
+      if (!user?.is_admin) {
+        navigate('/');
+        return;
+      }
+
+    }, [user]);
 
   const fetchEmails = async () => {
     if (!/^\d+$/.test(value)) {
