@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../context/UserContext';
 import { Container, Table, Button, Form, Row, Col } from 'react-bootstrap';
 
 export default function InventoryPage({ user }) {
@@ -10,12 +11,13 @@ export default function InventoryPage({ user }) {
     quantity: '',
     kit_id: '',
   });
+  const { currentUser } = useUser();
 
   const API_BASE = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user?.is_admin) {
+    if (currentUser.role !== "admin") {
       navigate('/');
       return;
     }
@@ -24,7 +26,7 @@ export default function InventoryPage({ user }) {
       .then(res => res.json())
       .then(setInventory)
       .catch(console.error);
-  }, [user, navigate]);
+  }, [currentUser, navigate]);
 
   const handleUpdate = (inv) => {
     fetch(`${API_BASE}/api/inventory`, {

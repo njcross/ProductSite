@@ -13,12 +13,12 @@ export default function NewsLetterList(user) {
   const API_BASE = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-      if (!user?.is_admin) {
+      if (currentUser.role !== "admin") {
         navigate('/');
         return;
       }
 
-    }, [user]);
+    }, [currentUser, navigate]);
 
   const fetchEmails = async () => {
     if (!/^\d+$/.test(value)) {
