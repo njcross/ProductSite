@@ -138,7 +138,7 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
 
           {isAdmin ? (
             <>
-              <Col sm={3}><Form.Control value={inv.location} readOnly /></Col>
+              <Col sm={3}><Form.Control value={inv.location} /></Col>
               <Col sm={3}>
                 <Form.Control
                   value={inv.location_name}
