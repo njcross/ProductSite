@@ -5,53 +5,54 @@
   margin-bottom: var(--spacing-lg);
   color: var(--color-text);
   border: 1px solid var(--color-primary);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.filter-by h5,
-.filter-by label {
-  margin-top: var(--spacing-md);
+.filter-by h5 {
+  font-size: 1.1rem;
+  font-weight: 700;
   margin-bottom: var(--spacing-sm);
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: 0.4rem;
+}
+
+.filter-by label {
+  margin: 1rem 0 0.25rem;
   font-weight: 600;
-  color: var(--color-text);
   display: block;
-  border-bottom: 1px solid var(--color-primary);
-  padding-bottom: 0.25rem;
+  color: var(--color-text);
 }
 
-.filter-by ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.filter-by li {
-  padding: var(--spacing-sm) 0;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.filter-by li:hover {
-  color: var(--color-accent);
-}
-
+.filter-by ul,
 .filter-list {
   list-style: none;
   padding: 0;
-  margin-bottom: 1.5rem;
+  margin: 0 0 1.5rem;
 }
 
+.filter-by li,
 .filter-list li {
+  padding: 0.4rem 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  border-radius: var(--radius-xs);
+}
+
+.filter-by li:hover {
+  background-color: var(--bg-hover);
+  color: var(--color-accent);
 }
 
 .delete-btn {
-  background: transparent;
+  background: none;
   border: none;
-  color: red;
-  font-size: 1.2rem;
+  color: var(--color-error, red);
+  font-size: 1.1rem;
   cursor: pointer;
   margin-left: 0.5rem;
 }
@@ -64,19 +65,31 @@
 .filter-rating select,
 .saved-filters select {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.5rem 0.75rem;
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-primary);
   background-color: var(--bg-main);
   color: var(--color-text);
+  font-size: 0.95rem;
+}
+
+.filter-by select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.3);
 }
 
 @media (max-width: 768px) {
   .filter-by {
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm);
   }
 
   .filter-by select {
-    width: 100%;
+    font-size: 0.9rem;
+  }
+
+  .filter-by li {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
