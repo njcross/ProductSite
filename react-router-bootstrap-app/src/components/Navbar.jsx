@@ -43,6 +43,11 @@ export default function Navbar() {
                 <EditableField contentKey="content_143" defaultText="Newsletter" />
               </Link>
             )}
+            {isAdmin && (
+  <Link to="/inventory" className="nav-link">
+    <EditableField contentKey="content_251" defaultText="Inventory" />
+  </Link>
+)}
           </div>
         </div>
       </div>

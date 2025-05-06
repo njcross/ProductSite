@@ -104,6 +104,21 @@ def get_inventory_by_kit(kit_id):
         for inv in inventories
     ])
 
+@inventory_bp.route('', methods=['GET'])
+def get_inventory_by_kit(kit_id):
+    inventories = Inventory.query.all()
+    return jsonify([
+        {
+            'location': inv.location,
+            'location_name': inv.location_name,
+            'quantity': inv.quantity,
+            'kit_id': inv.kit_id,
+            'id':inv.id,
+            'coordinates':inv.coordinates
+        }
+        for inv in inventories
+    ])
+
 @inventory_bp.route('/item/<int:inventory_id>', methods=['GET'])
 def get_inventory_by_id(inventory_id):
     inv = Inventory.query.get(inventory_id)

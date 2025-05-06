@@ -18,6 +18,7 @@ import Home from './pages/Home';
   import FavoritesPage from './pages/FavoritesPage';
   import NewsletterList from './pages/NewsLetterList';
   import Orders from './pages/Orders';
+  import Inventory from '../pages/Inventory';
 
 const Layout = () => (
   <div className="app-container">
@@ -45,6 +46,7 @@ export const router = createBrowserRouter([
       { path: 'favorites', element: <FavoritesPage /> },
       { path: 'newsletter', element: <NewsletterList /> },
       { path: 'orders', element: <Orders /> },
+      { path: 'inventory', element: <Inventory /> },
       { path: '*', element: <NotFound /> },
     ],
   },
