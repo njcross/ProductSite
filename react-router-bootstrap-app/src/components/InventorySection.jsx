@@ -27,26 +27,9 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
       .then(res => res.json())
       .then(data => {
         setInventories(data);
-        if (!isAdmin) {
-          fetchAddresses(data);
-        }
       })
       .catch(console.error);
   }, [kitId]);
-
-  const fetchAddresses = async (inventoryList) => {
-    const map = {};
-    for (let inv of inventoryList) {
-      const [lat, lng] = inv.coordinates.split(',').map(Number);
-      try {
-        const address = await getAddressFromLatLng(lat, lng); // ✅ await here
-        map[inv.location] = address || 'Unknown address';
-      } catch {
-        map[inv.location] = 'Error fetching address';
-      }
-    }
-    setAddressMap(map);
-  };
   
 
   const handleChange = (index, field, value) => {
@@ -105,9 +88,6 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
       const added = { ...newInventory, id: result.inventory };
       setInventories(prev => [...prev, added]);
       setNewInventory({ location: '', location_name: '', quantity: '' });
-      if (!isAdmin) {
-        fetchAddresses([added]);
-      }
     } else {
       alert('Failed to add inventory item');
     }
@@ -161,7 +141,7 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
             </>
           ) : (
             <>
-              <Col><strong>{addressMap[inv.location] || 'Loading address...'}</strong></Col>
+              <Col><strong>{inv.location || 'Loading address...'}</strong></Col>
               <Col>{inv.quantity} units</Col>
             </>
           )}
