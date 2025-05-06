@@ -28,19 +28,6 @@ export default function Orders() {
       .catch(err => console.error('Error fetching purchases:', err));
   }, [currentUser, viewAll, API_BASE]);
 
-  const fetchAddresses = async (purchases) => {
-    const map = {};
-    for (const p of purchases) {
-      const loc = p.inventory?.location;
-      if (loc && !addressMap[loc]) {
-        const [lat, lng] = loc.split(',').map(Number);
-        const address = await getAddressFromLatLng(lat, lng);
-        map[loc] = address || 'Unknown location';
-      }
-    }
-    setAddressMap(prev => ({ ...prev, ...map }));
-  };
-
   if (!currentUser) return null;
 
   return (
@@ -85,8 +72,7 @@ export default function Orders() {
           </thead>
           <tbody>
             {purchases.map((purchase) => {
-              const loc = purchase.inventory?.location;
-              const address = loc ? addressMap[loc] || 'Loading...' : '—';
+              const address = purchase.inventory?.location;
               return (
                 <tr key={purchase.id}>
                   <td>{purchase.kit.name}</td>

@@ -24,3 +24,4 @@ pytest-flask
 gunicorn 
 typing_extensions
 flask_migrate
+requests

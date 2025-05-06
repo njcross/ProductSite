@@ -37,7 +37,7 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
   const fetchAddresses = async (inventoryList) => {
     const map = {};
     for (let inv of inventoryList) {
-      const [lat, lng] = inv.location.split(',').map(Number);
+      const [lat, lng] = inv.coordinates.split(',').map(Number);
       try {
         const address = await getAddressFromLatLng(lat, lng); // ✅ await here
         map[inv.location] = address || 'Unknown address';
@@ -88,7 +88,7 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
   };
 
   const handleAdd = async () => {
-    if (!newInventory.location || !newInventory.location_name || !newInventory.quantity) {
+    if (!newInventory.locationlocation || !newInventory._name || !newInventory.quantity) {
       alert('Fill all fields');
       return;
     }
@@ -180,7 +180,7 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
           <Row className="mb-2">
             <Col sm={4}>
               <Form.Control
-                placeholder="Lat,Long"
+                placeholder="address or place name"
                 value={newInventory.location}
                 onChange={(e) => setNewInventory(prev => ({ ...prev, location: e.target.value }))}
               />
@@ -212,14 +212,14 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           zoom={4}
-          center={parseLatLng(inventories[0].location)}
+          center={parseLatLng(inventories[0].coordinates)}
           options={{ mapId: '15eaad764306adc0' }}
           onLoad={async (map) => {
             const { AdvancedMarkerElement } = await window.google.maps.importLibrary('marker');
             const bounds = new window.google.maps.LatLngBounds();
 
             inventories.forEach(inv => {
-              const { lat, lng } = parseLatLng(inv.location);
+              const { lat, lng } = parseLatLng(inv.coordinates);
               bounds.extend({ lat, lng });
 
               const marker = new AdvancedMarkerElement({

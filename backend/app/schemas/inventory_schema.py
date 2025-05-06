@@ -5,7 +5,8 @@ from app.extensions import db
 
 class InventorySchema(Schema):
     id = fields.Int(dump_only=True)
-    location = fields.Str(required=True)         # format: "lat,lng"
+    location = fields.Str(required=True)        
+    coordinates = fields.Str(required=False) 
     location_name = fields.Str(required=True)
     quantity = fields.Int(required=True)
     kit_id = fields.Int(required=True, load_only=True)

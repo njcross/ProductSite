@@ -2,13 +2,44 @@ from flask import Blueprint, request, jsonify
 from app.models import Inventory
 from app.utils.decorators import login_required, admin_required 
 from app.extensions import db
+import requests
+import os
 
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 inventory_bp = Blueprint('inventory', __name__, url_prefix="/api/inventory")
+def find_address(input_text):
+    
+    url = (
+        'https://maps.googleapis.com/maps/api/place/findplacefromtext/json'
+        f'?input={input_text}&inputtype=textquery&fields=formatted_address,geometry'
+        f'&key={GOOGLE_API_KEY}'
+    )
 
+    try:
+        res = requests.get(url)
+        res_data = res.json()
+
+        if res_data.get('status') != 'OK' or not res_data.get('candidates'):
+            return jsonify({'error': 'Place not found'}), 404
+
+        place = res_data['candidates'][0]
+        return {
+            'address': place['formatted_address'],
+            'lat': place['geometry']['location']['lat'],
+            'lng': place['geometry']['location']['lng'],
+        }
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
 @inventory_bp.route('', methods=['POST'])
 @admin_required
 def create_inventory():
     data = request.json
+
+    rtn = find_address(data['location'])
+    data['coordinates'] = rtn['lat'] + ', ' + rtn['long']
+    data['location'] = rtn['address']
     inv = Inventory(**data)
     db.session.add(inv)
     db.session.commit()
@@ -23,6 +54,9 @@ def edit_inventory():
         return jsonify({'error': 'Inventory not found'}), 404
     inv.location_name = data.get('location_name', inv.location_name)
     inv.quantity = data.get('quantity', inv.quantity)
+    rtn = find_address(data['location'])
+    inv.coordinates = rtn['lat'] + ', ' + rtn['long']
+    inv.location = rtn['address']
     db.session.commit()
     return jsonify({'message': 'Inventory updated'})
 

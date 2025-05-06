@@ -20,6 +20,7 @@ export default function CartPage() {
   const getDetails = (item) => {
     const kit = item.kit || item;
     const location = item.inventory?.location || null;
+    const coordinates = item.inventory?.coordinates || null;
     const inventory_id = item.inventory?.id || null;
 
     return {
@@ -33,25 +34,6 @@ export default function CartPage() {
       inventory_id
     };
   };
-
-  useEffect(() => {
-    const fetchAddresses = async () => {
-      const map = {};
-      for (const item of cart) {
-        const location = item.inventory?.location;
-        if (location && !addressMap[location]) {
-          const [lat, lng] = location.split(',').map(Number);
-          const address = await getAddressFromLatLng(lat, lng);
-          map[location] = address || 'Unknown address';
-        }
-      }
-      setAddressMap(prev => ({ ...prev, ...map }));
-    };
-
-    if (Array.isArray(cart)) {
-      fetchAddresses();
-    }
-  }, [cart]);
 
   const total = Array.isArray(cart)
     ? cart.reduce((sum, item) => {
@@ -156,7 +138,7 @@ export default function CartPage() {
                   ${(details.quantity * details.price).toFixed(2)}
                 </div>
                 <div className="cart-col location-col">
-                  {details.location ? addressMap[details.location] || 'Loading...' : '—'}
+                  {details.location }
                 </div>
                 <div className="cart-col action-col" onClick={(e) => e.stopPropagation()}>
                   <Button variant="danger" onClick={() => removeFromCart(item.id)}>
