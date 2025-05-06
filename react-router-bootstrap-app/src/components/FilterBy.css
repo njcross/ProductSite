@@ -104,7 +104,7 @@
 .filter-by li,
 .filter-list li {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   text-align: center;
   gap: 0.5rem;
   padding: 0.4rem 0;
@@ -117,4 +117,5 @@
 .filter-by input[type="checkbox"] {
   margin: 0;
   accent-color: var(--color-primary);
+  width: 1rem;
 }
