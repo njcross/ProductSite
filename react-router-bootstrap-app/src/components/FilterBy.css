@@ -93,3 +93,27 @@
     align-items: flex-start;
   }
 }
+
+.filter-by ul,
+.filter-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+}
+
+.filter-by li,
+.filter-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  border-radius: var(--radius-xs);
+}
+
+.filter-by input[type="checkbox"] {
+  margin: 0;
+  accent-color: var(--color-primary);
+}
