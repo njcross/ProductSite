@@ -88,6 +88,10 @@ export default function InventoryPage({ user }) {
 
   return (
     <Container className="mt-4">
+      <Helmet>
+              <title>My Play Tray's Inventory Managment - Admin only</title>
+              <meta name="description" content="Browse all inventory of Play trays" />
+            </Helmet>
       <h2>Inventory Management</h2>
 
       <Table bordered hover responsive className="mt-3">
