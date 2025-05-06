@@ -10,7 +10,7 @@ class Purchase(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     time_bought = db.Column(db.DateTime, default=datetime.utcnow)
 
-    kit = db.relationship('Kit', back_populates='purchases', overlaps='purchases')
+    kit = db.relationship('Kit', back_populates='purchases', overlaps='purchase')
     user = db.relationship('User', backref='purchases')
     inventory = db.relationship('Inventory', back_populates='purchases')  # changed backref name
 
