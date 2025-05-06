@@ -46,7 +46,7 @@ export const router = createBrowserRouter([
       { path: 'favorites', element: <FavoritesPage /> },
       { path: 'newsletter', element: <NewsletterList /> },
       { path: 'orders', element: <Orders /> },
-      { path: 'inventory', element: <InventoryPage /> },
+      { path: 'inventory', element: <InventoryPage  user={user} /> },
       { path: '*', element: <NotFound /> },
     ],
   },
