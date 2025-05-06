@@ -44,7 +44,7 @@ export default function Navbar() {
               </Link>
             )}
             {isAdmin && (
-  <Link to="/inventory" className="nav-link">
+  <Link to="/inventory" className="nav-link" onClick={closeNavbar}>
     <EditableField contentKey="content_251" defaultText="Inventory" />
   </Link>
 )}
