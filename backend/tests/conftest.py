@@ -67,7 +67,8 @@ def create_test_kit_and_inventory(app):
         _db.session.flush()  # ensures `id` is assigned
         _db.session.refresh(new_kit)  # binds instance to session with updated fields
         data2 = {
-            "location": "0,0",
+            "location": "empire state building",
+            "coordinates": "0,0",
             "location_name": "test",
             "quantity": "1",
             "kit_id": new_kit.id
