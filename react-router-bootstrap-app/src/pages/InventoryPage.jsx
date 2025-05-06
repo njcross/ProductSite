@@ -15,9 +15,10 @@ export default function InventoryPage({ user }) {
 
   const API_BASE = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
+  const isAdmin = currentUser?.role === 'admin';
 
   useEffect(() => {
-    if (currentUser.role !== "admin") {
+    if (!isAdmin) {
       navigate('/');
       return;
     }
