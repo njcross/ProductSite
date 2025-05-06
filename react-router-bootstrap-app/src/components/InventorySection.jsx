@@ -191,7 +191,7 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
       {isLoaded && inventories.length > 0 && (
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
-          zoom={6}
+          zoom={4}
           center={parseLatLng(inventories[0].coordinates)}
           options={{ mapId: '15eaad764306adc0' }}
           onLoad={async (map) => {
