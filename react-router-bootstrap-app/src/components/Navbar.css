@@ -29,6 +29,11 @@
   font-weight: bold;
 }
 
+.call-to-action{
+  margin-left: auto;
+  justify-content: right;
+}
+
 .nav-link:hover {
   color: var(--color-accent);
 }

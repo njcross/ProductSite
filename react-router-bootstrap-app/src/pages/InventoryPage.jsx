@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
 import { Container, Table, Button, Form, Row, Col } from 'react-bootstrap';
+import FilterBy from '../components/FilterBy';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+import ViewingOptions from '../components/ViewingOptions';
 
 export default function InventoryPage({ user }) {
   const [inventory, setInventory] = useState([]);
@@ -16,6 +19,11 @@ export default function InventoryPage({ user }) {
   const API_BASE = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
   const isAdmin = currentUser?.role === 'admin';
+
+  const [filters, setFilters] = useState({});
+    const [viewMode, setViewMode] = useState('grid');
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [sortBy, setSortBy] = useState('name');
 
   useEffect(() => {
     if (!isAdmin) {
@@ -93,7 +101,24 @@ export default function InventoryPage({ user }) {
               <meta name="description" content="Browse all inventory of Play trays" />
             </Helmet>
       <h2>Inventory Management</h2>
-
+<div className="inventory-page d-flex">
+      <div className="sidebar">
+        <FilterBy
+          filters={filters}
+          setFilters={setFilters}
+          showFavorites={false}
+        />
+      </div>
+      <div className="main-content flex-grow-1">
+        <ViewingOptions
+          viewMode={viewMode}
+          setViewMode={setViewMode}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          showSaveFilter={false}
+        />
       <Table bordered hover responsive className="mt-3">
         <thead>
           <tr>
@@ -130,6 +155,8 @@ export default function InventoryPage({ user }) {
           ))}
         </tbody>
       </Table>
+      </div>
+      </div>
 
       <h4 className="mt-5">Add New Inventory Item</h4>
       <Row className="mb-3">

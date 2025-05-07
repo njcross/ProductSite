@@ -6,6 +6,7 @@ export default function FilterBy({
   onFilterChange, 
   selectedAges = [], 
   selectedCategories = [],
+  selectedLocations = [],
   savedFilters = [], 
   onSelectSavedFilter, 
   onDeleteSavedFilter, 
@@ -15,6 +16,7 @@ export default function FilterBy({
   const API_BASE = process.env.REACT_APP_API_URL;
   const [ageOptions, setAgeOptions] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
+  const [locationOptions, setLocationOptions] = useState([]);
   const [selectedRating, setSelectedRating] = useState('');
 
   useEffect(() => {
@@ -26,6 +28,11 @@ export default function FilterBy({
     fetch(`${API_BASE}/api/kits/category-options`)
       .then(res => res.json())
       .then(setCategoryOptions)
+      .catch(console.error);
+
+    fetch(`${API_BASE}/api/inventory/locations`)
+      .then(res => res.json())
+      .then(data => setLocationOptions)
       .catch(console.error);
   }, []);
 
@@ -104,6 +111,23 @@ export default function FilterBy({
           <option value="5">5 Stars Only</option>
         </select>
       </div>
+
+      <label>Filter by Location</label>
+  <ul className="filter-list">
+    {locationOptions.map((loc, idx) => (
+      <li key={idx}>
+        <input
+          type="checkbox"
+          checked={selectedLocations.includes(loc)}
+          onChange={() => handleToggle('location_names', loc)}
+        />
+        {loc}
+        {currentUser?.role === 'admin' && (
+          <button onClick={() => deleteLocation(loc)} className="delete-btn">×</button>
+        )}
+      </li>
+    ))}
+  </ul>
 
       {currentUser && savedFilters.length > 0 && (
         <div className="saved-filters">

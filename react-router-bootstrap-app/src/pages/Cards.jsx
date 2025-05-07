@@ -24,7 +24,8 @@ export default function Cards() {
     search: searchQuery,
     age_ids: [],
     category_ids: [],
-    rating: ''
+    rating: '',
+    locations: []
   });
 
 
@@ -87,7 +88,8 @@ useEffect(() => {
       itemsPerPage: 12,
       sortBy: 'name',
       search: '',
-      rating: ''
+      rating: '',
+      locations: []
     });
   };
 
@@ -120,6 +122,7 @@ useEffect(() => {
             selectedAges={filters.age_ids}
             selectedCategories={filters.category_ids}
             selectedRating={filters.rating}
+            selectedLocations={filters.locations}
             onFilterChange={handleFilterChange}
             savedFilters={savedFilters}
             onSelectSavedFilter={handleSelectSavedFilter}
@@ -148,6 +151,7 @@ useEffect(() => {
               alignment={filters.alignment}
               selectedAges={filters.age_ids}
               selectedCategories={filters.category_ids}
+              selectedLocations={filters.locations}
               rating={filters.rating}
             />
           </Col>

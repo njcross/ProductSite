@@ -4,6 +4,8 @@ import { Container, Table, ToggleButtonGroup, ToggleButton } from 'react-bootstr
 import EditableField from '../components/EditableField';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { getAddressFromLatLng } from '../utils/googleApiService';
+import FilterBy from '../components/FilterBy';
+import ViewingOptions from '../components/ViewingOptions';
 import './Orders.css';
 
 export default function Orders() {
@@ -12,6 +14,11 @@ export default function Orders() {
   const [addressMap, setAddressMap] = useState({});
   const [viewAll, setViewAll] = useState(false);
   const API_BASE = process.env.REACT_APP_API_URL;
+
+  const [filters, setFilters] = useState({});
+    const [viewMode, setViewMode] = useState('grid');
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [sortBy, setSortBy] = useState('date');
 
   useEffect(() => {
     if (!currentUser) return;
@@ -54,6 +61,25 @@ export default function Orders() {
         </div>
       )}
 
+      <div className="orders-page d-flex">
+          <div className="sidebar">
+            <FilterBy
+              filters={filters}
+              setFilters={setFilters}
+              showFavorites={false}
+            />
+          </div>
+          <div className="main-content flex-grow-1">
+            <ViewingOptions
+              viewMode={viewMode}
+              setViewMode={setViewMode}
+              itemsPerPage={itemsPerPage}
+              setItemsPerPage={setItemsPerPage}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              showSaveFilter={false}
+            />
+
       {purchases.length === 0 ? (
         <p className="text-center text-muted">
           <EditableField contentKey="content_229" />
@@ -87,6 +113,8 @@ export default function Orders() {
           </tbody>
         </Table>
       )}
+      </div>
+      </div>
     </Container>
   );
 }

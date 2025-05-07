@@ -132,3 +132,9 @@ def get_inventory_by_id(inventory_id):
         'quantity': inv.quantity,
         'coordinates': inv.coordinates
     })
+
+# Flask route example
+@inventory_bp.route("/locations")
+def get_inventory_locations():
+    locations = db.session.query(Inventory.location).distinct().all()
+    return jsonify([loc[0] for loc in locations])

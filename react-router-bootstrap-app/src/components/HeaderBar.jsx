@@ -42,6 +42,7 @@ export default function HeaderBar() {
       <div className="logo"><EditableField contentKey="header_logo" /></div>
 
       <form className="search-box" onSubmit={handleSearch}>
+        <label><EditableField contentKey="content_253" /> {/* "Search our trays" */}</label>
         <input
           type="text"
           placeholder="Search characters..."
