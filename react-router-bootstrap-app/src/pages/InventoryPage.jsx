@@ -155,6 +155,12 @@ export default function InventoryPage({ user }) {
           ))}
         </tbody>
       </Table>
+      <PaginationControls
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalItems={100} // Replace with actual total
+                itemsPerPage={itemsPerPage}
+              />
       </div>
       </div>
 

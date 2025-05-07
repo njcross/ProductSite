@@ -25,6 +25,13 @@ kit_category = db.Table(
     db.Column('category_id', db.Integer, db.ForeignKey('category_options.id'), primary_key=True)
 )
 
+kit_inventory = db.Table(
+    'kit_inventory', 
+    db.Column('kit_id', db.Integer, db.ForeignKey('kits.id'), primary_key=True),
+    db.Column('inventory_id', db.Integer, db.ForeignKey('inventory.id'), primary_key=True)
+
+)
+
 class Kit(db.Model):
     __tablename__ = "kits"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)

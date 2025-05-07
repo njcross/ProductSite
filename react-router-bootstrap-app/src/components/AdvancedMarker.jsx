@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import './AdvancedMarker.css'
 
 export default function AdvancedMarker({ map, position, title }) {
   const markerRef = useRef(null);

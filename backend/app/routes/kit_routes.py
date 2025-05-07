@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify
 from sqlalchemy import select, or_, and_
 from app.extensions import db
-from app.models.kits import Kit, age_options, category_options, kit_age, kit_category
+from app.models.kits import Kit, age_options, category_options, kit_age, kit_category, kit_inventory
 from app.schemas.kit_schema import kit_schema, kits_schema
+from app.models.inventory import Inventory
 from app.utils.decorators import admin_required
 from flask_cors import cross_origin
 from sqlalchemy.orm import joinedload
@@ -34,8 +35,9 @@ def get_kits():
     # Expect comma-separated lists for age/category
     age_ids = request.args.get("age_ids")
     category_ids = request.args.get("category_ids")
+    locations = request.args.get("locations")
 
-    query = select(Kit).options(joinedload(Kit.age), joinedload(Kit.category))
+    query = select(Kit).options(joinedload(Kit.age), joinedload(Kit.category), joinedload(Kit.inventories))
 
     filters = []
 
@@ -44,7 +46,9 @@ def get_kits():
         filters.append(or_(
             Kit.name.ilike(like_term),
             Kit.description.ilike(like_term),
+            Inventory.location.ilike(like_term)
         ))
+        query = query.join(kit_inventory)
 
     if age_ids:
         age_id_list = [int(i) for i in age_ids.split(",") if i.isdigit()]
