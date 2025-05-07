@@ -1,5 +1,6 @@
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
+import './InventoryMap.css'
 
 const MAP_CONTAINER_STYLE = {
   width: '100%',

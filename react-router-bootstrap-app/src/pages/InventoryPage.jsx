@@ -5,6 +5,9 @@ import { Container, Table, Button, Form, Row, Col } from 'react-bootstrap';
 import FilterBy from '../components/FilterBy';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import ViewingOptions from '../components/ViewingOptions';
+import FilterBy from '../components/FilterBy';
+import PaginationControls from '../components/PaginationControls';
+import './InventoryPage.css'
 
 export default function InventoryPage({ user }) {
   const [inventory, setInventory] = useState([]);

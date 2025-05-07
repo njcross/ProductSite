@@ -1,0 +1,45 @@
+
+.inventory-page {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.inventory-page .sidebar {
+  width: 250px;
+  background-color: var(--bg-sidebar, #f8f9fa);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color, #ddd);
+}
+
+.inventory-page .main-content {
+  flex-grow: 1;
+  padding: 1rem;
+  background-color: var(--bg-main, #fff);
+  border-radius: 8px;
+  border: 1px solid var(--border-color, #ddd);
+}
+
+.inventory-page h2 {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.inventory-page .table {
+  margin-top: 1rem;
+}
+
+.inventory-page .form-control {
+  font-size: 0.95rem;
+}
+
+.inventory-page .btn {
+  font-size: 0.9rem;
+  padding: 0.375rem 0.75rem;
+}
+
+.inventory-page .pagination {
+  margin-top: 1rem;
+  justify-content: center;
+}

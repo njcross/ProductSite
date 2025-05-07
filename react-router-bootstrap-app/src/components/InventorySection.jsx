@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { getAddressFromLatLng } from '../utils/googleApiService';
+import './InventorySection.css'
 
 const mapContainerStyle = {
   width: '100%',
