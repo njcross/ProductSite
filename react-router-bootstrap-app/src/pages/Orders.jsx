@@ -8,7 +8,6 @@ import setCurrentPage from '../components/PaginationControls';
 import FilterBy from '../components/FilterBy';
 import ViewingOptions from '../components/ViewingOptions';
 import PaginationControls from '../components/PaginationControls';
-import setCurrentPage from '../components/PaginationControls';
 import './Orders.css';
 
 export default function Orders() {
