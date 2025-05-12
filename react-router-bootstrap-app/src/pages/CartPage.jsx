@@ -50,7 +50,7 @@ export default function CartPage() {
     
       try {
         for (const item of cart) {
-          const { kit_id, quantity, inventory_id, location } = getDetails(item);
+          const { kit_id, quantity, inventory_id, location, id } = getDetails(item);
     
           // Check inventory first
           const decrementRes = await fetch(`${API_BASE}/api/inventory/decrement`, {
@@ -77,14 +77,17 @@ export default function CartPage() {
           if (!purchaseRes.ok) {
             console.error('Purchase failed for item:', item);
             alert(`Purchase failed for ${item.kit?.name || 'item'}`);
+            throw new Error(`${item.kit?.name || 'item'}`);
+          }
+          else {
+            removeFromCart(id);
           }
         }
     
-        clearCart();
         navigate('/orders');
       } catch (err) {
         console.error('Checkout failed:', err);
-        alert('Checkout failed. Please try again.');
+        alert('Checkout failed. Please fix:' + err.message);
       }
     };
     
