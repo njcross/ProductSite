@@ -3,9 +3,11 @@ import EditableField from '../components/EditableField';
 import { useUser } from '../context/UserContext';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './NewsletterList.css'; 
 
 export default function NewsLetterList(user) {
+  const navigate = useNavigate();
   const [value, setValue] = useState('1');
   const [emails, setEmails] = useState([]);
   const [error, setError] = useState('');
