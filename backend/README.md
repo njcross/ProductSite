@@ -1,6 +1,6 @@
 # 🛠️ Backend - ProductSite API
 
-This is the **Flask-based backend** for the full-stack Marvel-themed product site, providing RESTful APIs for managing kits (characters), authentication, shopping cart, user settings, reviews, purchases, favorites, content editing, and newsletter subscriptions.
+This is the **Flask-based backend** for the full-stack Marvel-themed product site, providing RESTful APIs for managing kits (play trays), authentication, shopping cart, user settings, reviews, purchases, favorites, content editing, and newsletter subscriptions.
 
 ---
 

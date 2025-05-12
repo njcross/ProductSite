@@ -7,6 +7,7 @@ import { useUser } from '../context/UserContext';
 import './Cards.css';
 import { useLocation } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import EditableField from '../components/EditableField';
 
 
 
@@ -114,7 +115,7 @@ useEffect(() => {
         <meta name="description" content="Browse all available Play trays by category, age, and rating." />
       </Helmet>
       <Container fluid>
-        <h2 className="text-center text-white mb-4">Character Collection</h2>
+        <h2 className="text-center text-white mb-4"><EditableField contentKey="content_254" plain /></h2>
         <Row>
         <Col md={2} sm={12}>
           <FilterBy
