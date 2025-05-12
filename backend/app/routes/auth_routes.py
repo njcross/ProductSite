@@ -6,6 +6,7 @@ from app.extensions import db
 from app.models.user import User
 from app.schemas.user_schema import user_schema, UserSchema
 from flask_cors import cross_origin
+from app.utils.decorators import login_required
 from flask import redirect
 
 
@@ -159,11 +160,10 @@ def check_email_status():
 
 
 @auth_bp.route('/check-login', methods=['GET'])
+@login_required
 def check_login():
-    user_id = session.get('user_id')
-    if not user_id:
-        return jsonify({"loggedIn": False})
-    user = db.session.get(User, user_id)
+    session.modified = True
+    user = db.session.get(User, session['user_id'])
     return jsonify({"loggedIn": True, "user": user_schema.dump(user)})
 
 @auth_bp.route('/logout', methods=['POST'])

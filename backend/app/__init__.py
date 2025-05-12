@@ -10,9 +10,11 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_dance.consumer import oauth_authorized
 from flask_login import login_user
+from flask_session import Session
 from app.models.user import User
 from app.extensions import db, ma, migrate
 from flask import Flask, session, redirect
+import redis
 
 
 def create_database():
@@ -34,11 +36,15 @@ def create_app():
     # ✅ Session settings for cross-origin auth
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
     app.config['SESSION_COOKIE_HTTPONLY'] = True
-    app.config['SESSION_COOKIE_SAMESITE'] = 'None'  # MUST be None for ngrok to work
     app.config['SESSION_COOKIE_SECURE'] = True      # ngrok uses HTTPS
     app.config["GOOGLE_OAUTH_CLIENT_ID"] = Config.GOOGLE_CLIENT_ID
     app.config["GOOGLE_OAUTH_CLIENT_SECRET"] = Config.GOOGLE_CLIENT_SECRET
-
+    # Redis session configuration
+    app.config['SESSION_TYPE'] = 'redis'
+    app.config['SESSION_PERMANENT'] = False
+    app.config['SESSION_USE_SIGNER'] = True
+    app.config['SESSION_KEY_PREFIX'] = 'session:'
+    app.config['SESSION_REDIS'] = redis.StrictRedis(host='localhost', port=6379, db=0)
     google_bp = make_google_blueprint(
         scope=[
         "https://www.googleapis.com/auth/userinfo.profile",
@@ -54,6 +60,7 @@ def create_app():
     db.init_app(app)
     ma.init_app(app)
     login_manager.init_app(app) 
+    Session(app)
 
     migrate.init_app(app, db)
 
