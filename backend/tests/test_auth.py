@@ -5,7 +5,8 @@ def test_register(client):
         "username": "newuser",
         "email": "newuser@example.com",
         "password": "password123",
-        "confirmPassword": "password123"
+        "confirmPassword": "password123",
+        "restore": False
     })
     assert response.status_code == 201
     assert "message" in response.json

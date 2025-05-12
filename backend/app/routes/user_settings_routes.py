@@ -53,5 +53,6 @@ def delete_account():
 
     user.active = False
     db.session.commit()
+    session.pop('user_id', None)
     session.clear()
     return jsonify({"message": "Account deactivated successfully"}), 200

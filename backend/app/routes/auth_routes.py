@@ -115,9 +115,20 @@ def register():
     if existing:
         if existing.active:
             return jsonify({"message": "Email is already registered"}), 400
-        else:
+        elif data.get('restore') == False:
             return jsonify({"message": "Account exists but is deactivated", "canRestore": True}), 409
+        elif data.get('restore') == True:
+            current_password = data.get('password')
 
+            if not existing or not check_password_hash(existing.password, current_password):
+                return jsonify({"message": "Incorrect current password"}), 401
+            existing.active = True
+            db.session.commit()
+            session['user_id'] = existing.id
+            session['role'] = existing.role
+            session.permanent = True
+            return jsonify({"message": "Account restored successfully"}), 200
+    del data['restore']
     user_data = user_schema.load(data)
     user = User(
         username=user_data['username'],

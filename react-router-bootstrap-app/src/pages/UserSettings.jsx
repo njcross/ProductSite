@@ -19,9 +19,9 @@ export default function UserSettings() {
       await fetch(`${API_BASE}/api/change-email`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          credentials: 'include'
+          'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({ email, password })
       });
       setMessage('Email updated successfully!');
@@ -36,9 +36,9 @@ export default function UserSettings() {
       await fetch(`${API_BASE}/api/change-password`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          credentials: 'include'
+          'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({ currentPassword: password, newPassword })
       });
       setMessage('Password updated successfully!');
@@ -55,12 +55,13 @@ export default function UserSettings() {
       await fetch(`${API_BASE}/api/delete-account`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          credentials: 'include'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({ password }),
+        credentials: 'include'
       });
       setMessage('Account deleted successfully!');
+      navigate('/login');
     } catch {
       setMessage('Failed to delete account.');
     }
