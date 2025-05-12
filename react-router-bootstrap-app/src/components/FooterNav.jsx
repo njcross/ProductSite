@@ -1,5 +1,5 @@
 import React from 'react';
-
+import SocialButtons from './SocialButtons';
 
 import EditableField from '../components/EditableField';import './Footer.css';
 
@@ -28,6 +28,7 @@ export function FooterNav() {
           <ul>
             <li><a href="/terms">{<EditableField contentKey="content_45" />}</a></li>
             <li><a href="/privacy">{<EditableField contentKey="content_46" />}</a></li>
+            <SocialButtons />
           </ul>
         </div>
       </div>

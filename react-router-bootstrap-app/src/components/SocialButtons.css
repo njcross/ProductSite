@@ -1,0 +1,17 @@
+
+.social-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+}
+
+.social-buttons a {
+  color: var(--text-color, #333);
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+.social-buttons a:hover {
+  color: var(--accent-color, #007bff);
+}

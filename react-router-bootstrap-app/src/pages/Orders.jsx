@@ -4,6 +4,7 @@ import { Container, Table, ToggleButtonGroup, ToggleButton } from 'react-bootstr
 import EditableField from '../components/EditableField';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { getAddressFromLatLng } from '../utils/googleApiService';
+import setCurrentPage from '../components/PaginationControls';
 import FilterBy from '../components/FilterBy';
 import ViewingOptions from '../components/ViewingOptions';
 import './Orders.css';

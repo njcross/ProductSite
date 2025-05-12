@@ -5,6 +5,7 @@ import { Container, Table, Button, Form, Row, Col } from 'react-bootstrap';
 import FilterBy from '../components/FilterBy';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import ViewingOptions from '../components/ViewingOptions';
+import setCurrentPage from '../components/PaginationControls';
 import PaginationControls from '../components/PaginationControls';
 import './InventoryPage.css'
 
@@ -17,6 +18,7 @@ export default function InventoryPage({ user }) {
     kit_id: '',
   });
   const { currentUser } = useUser();
+  const [page, setPage] = useState(1);
 
   const API_BASE = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
@@ -158,7 +160,7 @@ export default function InventoryPage({ user }) {
         </tbody>
       </Table>
       <PaginationControls
-                currentPage={currentPage}
+                page={page}
                 setCurrentPage={setCurrentPage}
                 totalItems={100} // Replace with actual total
                 itemsPerPage={itemsPerPage}
