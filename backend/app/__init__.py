@@ -1,77 +1,83 @@
-import flask
-from flask_dance.contrib.google import make_google_blueprint, google
+from flask import Flask, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_cors import CORS
-from app.config import Config
-from datetime import timedelta
-from sqlalchemy import create_engine, text
 from flask_login import LoginManager
 from flask_migrate import Migrate
-from flask_dance.consumer import oauth_authorized
-from flask_login import login_user
 from flask_session import Session
-from app.models.user import User
-from app.extensions import db, ma, migrate
-from flask import Flask, session, redirect
+from authlib.integrations.flask_client import OAuth
+from datetime import timedelta
+from sqlalchemy import create_engine, text
 import redis
 
+from app.config import Config
+from app.models.user import User
+from app.extensions import db, ma, migrate
+
+login_manager = LoginManager()
+oauth = OAuth()
 
 def create_database():
-    root_engine = create_engine(Config.ROOT_DATABASE_URL)  # No database specified
+    root_engine = create_engine(Config.ROOT_DATABASE_URL)
     with root_engine.connect() as connection:
         connection.execute(text("CREATE DATABASE IF NOT EXISTS marvel"))
 
-
-
-login_manager = LoginManager()
-  
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-    
-    # ✅ Correct secret key
-    app.secret_key = Config.SECRET_KEY
 
-    # ✅ Session settings for cross-origin auth
+    app.secret_key = Config.SECRET_KEY
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
     app.config['SESSION_COOKIE_HTTPONLY'] = True
-    app.config['SESSION_COOKIE_SECURE'] = True      # ngrok uses HTTPS
-    app.config["GOOGLE_OAUTH_CLIENT_ID"] = Config.GOOGLE_CLIENT_ID
-    app.config["GOOGLE_OAUTH_CLIENT_SECRET"] = Config.GOOGLE_CLIENT_SECRET
-    # Redis session configuration
+    app.config['SESSION_COOKIE_SECURE'] = True
     app.config['SESSION_TYPE'] = 'redis'
     app.config['SESSION_PERMANENT'] = False
     app.config['SESSION_USE_SIGNER'] = True
     app.config['SESSION_KEY_PREFIX'] = 'session:'
     app.config['SESSION_REDIS'] = redis.StrictRedis(host='localhost', port=6379, db=0)
-    google_bp = make_google_blueprint(
-        scope=[
-        "https://www.googleapis.com/auth/userinfo.profile",
-        "https://www.googleapis.com/auth/userinfo.email",
-        "openid"
-        ],
-        redirect_url="https://myplaytray.com/api/login/google/authorized",
-        client_id=Config.GOOGLE_CLIENT_ID,
-        client_secret=Config.GOOGLE_CLIENT_SECRET
-    )
 
-    # ✅ Initialize extensions
     db.init_app(app)
     ma.init_app(app)
-    login_manager.init_app(app) 
+    login_manager.init_app(app)
+    migrate.init_app(app, db)
     Session(app)
 
-    migrate.init_app(app, db)
-
-    # ✅ Log to confirm CORS origin is correct
     print("CORS_ORIGIN:", Config.CORS_ORIGIN)
     login_manager.login_view = "auth.login"
-
-    # ✅ CORS needs to match frontend origin and allow credentials
     CORS(app, supports_credentials=True, origins=Config.CORS_ORIGIN)
 
-    # ✅ Register blueprints
+    oauth.init_app(app)
+    oauth.register(
+        name='google',
+        client_id=Config.GOOGLE_CLIENT_ID,
+        client_secret=Config.GOOGLE_CLIENT_SECRET,
+        server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
+        client_kwargs={
+            'scope': 'openid email profile',
+        }
+    )
+
+    @app.route('/api/login/google')
+    def login_google():
+        redirect_uri = url_for('auth_google_callback', _external=True)
+        return oauth.google.authorize_redirect(redirect_uri)
+
+    @app.route('/api/login/google/authorized')
+    def auth_google_callback():
+        token = oauth.google.authorize_access_token()
+        user_info = oauth.google.parse_id_token(token)
+        email = user_info.get('email')
+        username = user_info.get('name', email.split('@')[0])
+
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            user = User(username=username, email=email, password='', role='customer', oauth_provider='google')
+            db.session.add(user)
+            db.session.commit()
+
+        session['user_id'] = user.id
+        return redirect('https://myplaytray.com/cards')
+
     from app.routes.auth_routes import auth_bp
     from app.routes.cart_routes import cart_bp
     from app.routes.kit_routes import kit_bp
@@ -95,37 +101,7 @@ def create_app():
     app.register_blueprint(review_bp)
     app.register_blueprint(purchase_bp)
     app.register_blueprint(inventory_bp)
-    app.register_blueprint(google_bp, url_prefix="/api/login")
-    @oauth_authorized.connect_via(google_bp)
-    def google_logged_in(blueprint, token):
-        if not token:
-            return False
 
-        resp = blueprint.session.get("/oauth2/v2/userinfo")
-        if not resp.ok:
-            return False
-
-        info = resp.json()
-        email = info["email"]
-        username = info.get("name", email.split('@')[0])
-
-        user = User.query.filter_by(email=email).first()
-        if not user:
-            user = User(
-                username=username,
-                email=email,
-                password="",
-                role='customer',
-                oauth_provider='google'
-            )
-            db.session.add(user)
-            db.session.commit()
-
-        session["user_id"] = user.id
-
-        return redirect("https://myplaytray.com/cards")
-
-    # Without the app context, Flask wouldn't know which app's configuration to use.     
     with app.app_context():
         create_database()
         try:
@@ -133,7 +109,5 @@ def create_app():
             print("Database tables created!")
         except Exception as e:
             print("DB setup failed:", str(e))
-            # uses the schema to create the database tables  
-
 
     return app

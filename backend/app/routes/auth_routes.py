@@ -121,7 +121,7 @@ def register():
         elif data.get('restore') == True:
             current_password = data.get('password')
 
-            if not existing or not check_password_hash(existing.password, current_password):
+            if not existing or (not check_password_hash(existing.password, current_password) and not existing.oauth_provider):
                 return jsonify({"message": "Incorrect current password"}), 401
             existing.active = True
             db.session.commit()
