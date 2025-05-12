@@ -9,7 +9,6 @@ from flask_cors import cross_origin
 favorite_bp = Blueprint('favorite_bp', __name__, url_prefix='/api/favorites')
 
 @favorite_bp.route('/character/<int:character_id>', methods=['OPTIONS'])
-@cross_origin(supports_credentials=True)
 def options_favorites2():
     return '', 200
 

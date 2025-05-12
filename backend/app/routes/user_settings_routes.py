@@ -45,14 +45,13 @@ def change_password():
 def delete_account():
     data = request.json
     current_password = data.get('password')
-
     user_id = session.get('user_id')
-    user = db.session.delete(User, user_id)
+    user = db.session.get(User, user_id)
 
     if not user or not check_password_hash(user.password, current_password):
         return jsonify({"message": "Incorrect current password"}), 401
 
+    user.active = False
     db.session.commit()
     session.clear()
-    session.pop('user_id', None)
-    return jsonify({"message": "Account deleted successfully"}), 200
+    return jsonify({"message": "Account deactivated successfully"}), 200

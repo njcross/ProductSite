@@ -46,12 +46,10 @@ serializer = URLSafeTimedSerializer("super-secret-key")  # Replace with secure k
 #     return redirect("/")  # Or wherever you want
 
 @auth_bp.route('/login', methods=['OPTIONS'])
-@cross_origin(supports_credentials=True)
 def login_options():
     return '', 200
 
 @auth_bp.route('/register', methods=['OPTIONS'])
-@cross_origin(supports_credentials=True)
 def register_options():
     return '', 200
 
@@ -86,46 +84,67 @@ def verify_token():
 
     return jsonify({"message": "Unauthorized"}), 401
 
-@auth_bp.route('/register', methods=['POST'])
-def register():
-    try:
-        data = request.json
-        data['role']='customer'
-        del data['confirmPassword']
-        user_data = user_schema.load(data)
-        user = User(
-            username=user_data['username'],
-            email=user_data['email'],
-            password=generate_password_hash(user_data['password']),
-            role='customer'
-        )
-        db.session.add(user)
-        db.session.commit()
-        session['user_id'] = user.id
-        session['role'] = user.role
-        session.permanent = True
-        return jsonify({"message": "User registered successfully"}), 201
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
-
 @auth_bp.route('/login', methods=['POST'])
 def login():
     data = request.json
     user = db.session.execute(select(User).where(User.username == data['username'])).scalar_one_or_none()
+
     if not user or not check_password_hash(user.password, data['password']):
         return jsonify({"message": "Invalid credentials"}), 401
+
+    if not user.active:
+        return jsonify({"message": "Account is deactivated"}), 403
+
     session['user_id'] = user.id
     session['role'] = user.role
     session.permanent = True
     return jsonify({
         "message": "Login successful",
-        "user": {"username": user.username, "email": user.email, "role": user.role, "id": user.id} 
+        "user": {"username": user.username, "email": user.email, "role": user.role, "id": user.id}
     }), 200
 
-@auth_bp.route('/check-login', methods=['OPTIONS'])
-@cross_origin(supports_credentials=True)
-def options_favorites():
-    return '', 200
+@auth_bp.route('/register', methods=['POST'])
+def register():
+    data = request.json
+    data['role'] = 'customer'
+    email = data.get('email')
+
+    existing = User.query.filter_by(email=email).first()
+
+    if existing:
+        if existing.active:
+            return jsonify({"message": "Email is already registered"}), 400
+        else:
+            return jsonify({"message": "Account exists but is deactivated", "canRestore": True}), 409
+
+    user_data = user_schema.load(data)
+    user = User(
+        username=user_data['username'],
+        email=user_data['email'],
+        password=generate_password_hash(user_data['password']),
+        role='customer',
+        active=True
+    )
+    db.session.add(user)
+    db.session.commit()
+    session['user_id'] = user.id
+    session['role'] = user.role
+    session.permanent = True
+    return jsonify({"message": "User registered successfully"}), 201
+
+@auth_bp.route('/check-email-status', methods=['POST'])
+def check_email_status():
+    email = request.json.get('email')
+    user = User.query.filter_by(email=email).first()
+
+    if not user:
+        return jsonify({"exists": False}), 200
+    return jsonify({
+        "exists": True,
+        "active": user.active,
+        "username": user.username
+    }), 200
+
 
 @auth_bp.route('/check-login', methods=['GET'])
 def check_login():

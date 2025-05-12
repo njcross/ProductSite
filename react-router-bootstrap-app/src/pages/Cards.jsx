@@ -115,7 +115,7 @@ useEffect(() => {
         <meta name="description" content="Browse all available Play trays by category, age, and rating." />
       </Helmet>
       <Container fluid>
-        <h2 className="text-center text-white mb-4"><EditableField contentKey="content_254" plain /></h2>
+        <h2 className="text-center text-white mb-4"><EditableField contentKey="content_254" /></h2>
         <Row>
         <Col md={2} sm={12}>
           <FilterBy

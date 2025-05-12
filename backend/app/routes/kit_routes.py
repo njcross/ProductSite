@@ -13,7 +13,8 @@ kit_bp = Blueprint("kits", __name__, url_prefix="/api/kits")
 
 @kit_bp.route('/by-ids/', methods=['POST', 'OPTIONS'])
 def get_kits_by_ids():
-
+    if request.method == 'OPTIONS':
+        return '', 200
     data = request.get_json()
     ids = data.get('ids', [])
 
@@ -24,8 +25,10 @@ def get_kits_by_ids():
     return jsonify(kits_schema.dump(kits)), 200
 
 
-@kit_bp.route("", methods=["GET"])
+@kit_bp.route("", methods=["GET", "OPTIONS"])
 def get_kits():
+    if request.method == 'OPTIONS':
+        return '', 200
     sort_by = request.args.get("sortBy", "name")
     search = request.args.get("search", "")
     page = int(request.args.get("page", 1))

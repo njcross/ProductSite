@@ -62,7 +62,7 @@ def create_app():
     login_manager.login_view = "auth.login"
 
     # ✅ CORS needs to match frontend origin and allow credentials
-    CORS(app, supports_credentials=True, origins=[Config.CORS_ORIGIN])
+    CORS(app, supports_credentials=True, origins=Config.CORS_ORIGIN)
 
     # ✅ Register blueprints
     from app.routes.auth_routes import auth_bp
