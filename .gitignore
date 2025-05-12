@@ -15,5 +15,7 @@ dist/
 # Ignore log and environment files
 *.log
 .env
+FE.zip
+BE.zip
 
 backend/backend_test_output.txt
