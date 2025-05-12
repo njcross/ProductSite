@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import EditableField from '../components/EditableField';
 import { useUser } from '../context/UserContext';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { useEffect } from 'react';
 import './NewsletterList.css'; 
 
 export default function NewsLetterList(user) {
