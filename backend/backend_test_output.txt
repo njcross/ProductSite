@@ -5,7 +5,7 @@ configfile: pytest.ini
 plugins: Flask-Dance-7.1.0, flask-1.3.0
 collected 32 items
 
-tests\test_auth.py ...                                                   [  9%]
+tests\test_auth.py F..                                                   [  9%]
 tests\test_auth_routes.py .                                              [ 12%]
 tests\test_cart.py .                                                     [ 15%]
 tests\test_cart_routes.py ....                                           [ 28%]
@@ -26,10 +26,170 @@ tests\test_reviews.py ..                                                 [ 87%]
 tests\test_user_settings.py ...                                          [ 96%]
 tests\test_user_settings_routes.py .                                     [100%]
 
+================================== FAILURES ===================================
+________________________________ test_register ________________________________
+
+client = <FlaskClient <Flask 'app'>>
+
+    def test_register(client):
+>       response = client.post('/api/register', json={
+            "username": "newuser",
+            "email": "newuser@example.com",
+            "password": "password123",
+            "confirmPassword": "password123"
+        })
+
+tests\test_auth.py:4: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\werkzeug\test.py:1167: in post
+    return self.open(*args, **kw)
+venv\Lib\site-packages\flask\testing.py:234: in open
+    response = super().open(
+venv\Lib\site-packages\werkzeug\test.py:1116: in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+venv\Lib\site-packages\werkzeug\test.py:988: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+venv\Lib\site-packages\werkzeug\test.py:1264: in run_wsgi_app
+    app_rv = app(environ, start_response)
+venv\Lib\site-packages\flask\app.py:1536: in __call__
+    return self.wsgi_app(environ, start_response)
+venv\Lib\site-packages\flask\app.py:1514: in wsgi_app
+    response = self.handle_exception(e)
+venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+venv\Lib\site-packages\flask\app.py:1511: in wsgi_app
+    response = self.full_dispatch_request()
+venv\Lib\site-packages\flask\app.py:919: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+venv\Lib\site-packages\flask\app.py:917: in full_dispatch_request
+    rv = self.dispatch_request()
+venv\Lib\site-packages\flask\app.py:902: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+app\routes\auth_routes.py:120: in register
+    user_data = user_schema.load(data)
+venv\Lib\site-packages\marshmallow\schema.py:716: in load
+    return self._do_load(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <UserSchema(many=False)>
+data = {'confirmPassword': 'password123', 'email': 'newuser@example.com', 'password': 'password123', 'role': 'customer', ...}
+
+    def _do_load(
+        self,
+        data: (
+            typing.Mapping[str, typing.Any]
+            | typing.Iterable[typing.Mapping[str, typing.Any]]
+        ),
+        *,
+        many: bool | None = None,
+        partial: bool | types.StrSequenceOrSet | None = None,
+        unknown: str | None = None,
+        postprocess: bool = True,
+    ):
+        """Deserialize `data`, returning the deserialized result.
+        This method is private API.
+    
+        :param data: The data to deserialize.
+        :param many: Whether to deserialize `data` as a collection. If `None`, the
+            value for `self.many` is used.
+        :param partial: Whether to validate required fields. If its
+            value is an iterable, only fields listed in that iterable will be
+            ignored will be allowed missing. If `True`, all fields will be allowed missing.
+            If `None`, the value for `self.partial` is used.
+        :param unknown: Whether to exclude, include, or raise an error for unknown
+            fields in the data. Use `EXCLUDE`, `INCLUDE` or `RAISE`.
+            If `None`, the value for `self.unknown` is used.
+        :param postprocess: Whether to run post_load methods..
+        :return: Deserialized data
+        """
+        error_store = ErrorStore()
+        errors: dict[str, list[str]] = {}
+        many = self.many if many is None else bool(many)
+        unknown = (
+            self.unknown
+            if unknown is None
+            else validate_unknown_parameter_value(unknown)
+        )
+        if partial is None:
+            partial = self.partial
+        # Run preprocessors
+        if self._hooks[PRE_LOAD]:
+            try:
+                processed_data = self._invoke_load_processors(
+                    PRE_LOAD, data, many=many, original_data=data, partial=partial
+                )
+            except ValidationError as err:
+                errors = err.normalized_messages()
+                result: list | dict | None = None
+        else:
+            processed_data = data
+        if not errors:
+            # Deserialize data
+            result = self._deserialize(
+                processed_data,
+                error_store=error_store,
+                many=many,
+                partial=partial,
+                unknown=unknown,
+            )
+            # Run field-level validation
+            self._invoke_field_validators(
+                error_store=error_store, data=result, many=many
+            )
+            # Run schema-level validation
+            if self._hooks[VALIDATES_SCHEMA]:
+                field_errors = bool(error_store.errors)
+                self._invoke_schema_validators(
+                    error_store=error_store,
+                    pass_many=True,
+                    data=result,
+                    original_data=data,
+                    many=many,
+                    partial=partial,
+                    field_errors=field_errors,
+                )
+                self._invoke_schema_validators(
+                    error_store=error_store,
+                    pass_many=False,
+                    data=result,
+                    original_data=data,
+                    many=many,
+                    partial=partial,
+                    field_errors=field_errors,
+                )
+            errors = error_store.errors
+            # Run post processors
+            if not errors and postprocess and self._hooks[POST_LOAD]:
+                try:
+                    result = self._invoke_load_processors(
+                        POST_LOAD,
+                        result,
+                        many=many,
+                        original_data=data,
+                        partial=partial,
+                    )
+                except ValidationError as err:
+                    errors = err.normalized_messages()
+        if errors:
+            exc = ValidationError(errors, data=data, valid_data=result)
+            self.handle_error(exc, data, many=many, partial=partial)
+>           raise exc
+E           marshmallow.exceptions.ValidationError: {'confirmPassword': ['Unknown field.']}
+
+venv\Lib\site-packages\marshmallow\schema.py:903: ValidationError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
 ============================== warnings summary ===============================
 tests/test_purchases.py::test_checkout
   C:\Users\njcro\m7project\backend\venv\Lib\site-packages\sqlalchemy\sql\schema.py:3596: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
     return util.wrap_callable(lambda ctx: fn(), fn)  # type: ignore
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-======================= 32 passed, 1 warning in 23.04s ========================
+=========================== short test summary info ===========================
+FAILED tests/test_auth.py::test_register - marshmallow.exceptions.ValidationE...
+================== 1 failed, 31 passed, 1 warning in 24.96s ===================

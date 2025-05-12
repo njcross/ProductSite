@@ -107,6 +107,7 @@ def login():
 def register():
     data = request.json
     data['role'] = 'customer'
+    del data['confirmPassword']
     email = data.get('email')
 
     existing = User.query.filter_by(email=email).first()

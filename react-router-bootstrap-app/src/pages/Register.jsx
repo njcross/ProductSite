@@ -10,19 +10,36 @@ import './Register.css';
 import { setToken } from '../utils/tokenService';
 import DividerWithText from '../components/DividerWithText';
 
-
 export default function Register() {
   const [form, setForm] = useState({ username: '', email: '', password: '', confirmPassword: '' });
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [error, setError] = useState('');
+  const [showRestorePrompt, setShowRestorePrompt] = useState(false);
+  const [canRestoreUser, setCanRestoreUser] = useState(null);
   const navigate = useNavigate();
   const API_BASE = process.env.REACT_APP_API_URL;
   const { setCurrentUser } = useUser();
 
-
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const checkDeletedAccount = async () => {
+    const res = await fetch(`${API_BASE}/api/check-email-status`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: form.email })
+    });
+
+    const data = await res.json();
+
+    if (data.exists && !data.active) {
+      setCanRestoreUser(data);
+      setShowRestorePrompt(true);
+      return true;
+    }
+    return false;
   };
 
   const handleSubmit = async (e) => {
@@ -32,7 +49,15 @@ export default function Register() {
       return setError('Passwords do not match.');
     }
 
+    const deleted = await checkDeletedAccount();
+    if (deleted) return; // wait for user confirmation
+
+    registerUser();
+  };
+
+  const registerUser = async (restore = false) => {
     try {
+      const payload = { ...form, restore }; // include restore flag for backend
       const res = await fetch(`${API_BASE}/api/register`, {
         method: 'POST',
         headers: {
@@ -40,7 +65,7 @@ export default function Register() {
           'Content-Type': 'application/json'
         },
         credentials: 'include',
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
@@ -53,7 +78,7 @@ export default function Register() {
           role: 'customer',
         });
 
-        setForm({ username: '', email: '', password: '' });
+        setForm({ username: '', email: '', password: '', confirmPassword: '' });
         setError('');
         setModalMessage(data.message || 'Registration successful!');
         setShowModal(true);
@@ -67,6 +92,11 @@ export default function Register() {
       setModalMessage('An error occurred. Please try again.');
       setShowModal(true);
     }
+  };
+
+  const handleRestoreDecision = (restore) => {
+    setShowRestorePrompt(false);
+    registerUser(restore);
   };
 
   const handleModalConfirm = () => {
@@ -108,9 +138,9 @@ export default function Register() {
           <Button type="submit" className="register-btn" data-testid="register-submit">{<EditableField contentKey="content_58" />}</Button>
         </Form>
         <div className="google-signin-section">
-      <DividerWithText text="OR" />
-                <GoogleSignInButton />
-                </div>
+          <DividerWithText text="OR" />
+          <GoogleSignInButton />
+        </div>
       </div>
 
       <ConfirmationModal
@@ -121,6 +151,17 @@ export default function Register() {
         onConfirm={handleModalConfirm}
         confirmText="Go to Home"
         cancelText=""
+      />
+
+      <ConfirmationModal
+        show={showRestorePrompt}
+        title="Reactivate Account?"
+        message={`An account with this email already exists but was deactivated. Would you like to restore it?`}
+        onHide={() => setShowRestorePrompt(false)}
+        onConfirm={() => handleRestoreDecision(true)}
+        onCancel={() => handleRestoreDecision(false)}
+        confirmText="Restore Account"
+        cancelText="Create New"
       />
     </Container>
   );
