@@ -46,7 +46,7 @@ export default function Navbar() {
             {isAdmin && (
   <Link to="/inventory" className="nav-link" onClick={closeNavbar}>
     <EditableField contentKey="content_251" defaultText="Inventory" />
-e  </Link>
+  </Link>
 )}
           <div className="call-to-action">
           <EditableField className="call-to-action" contentKey="content_252" defaultText="Invntory" style={{ textAlign: 'center' }}/>
