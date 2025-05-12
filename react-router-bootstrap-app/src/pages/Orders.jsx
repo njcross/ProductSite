@@ -116,7 +116,7 @@ export default function Orders() {
         </Table>
       )}
       <PaginationControls
-                currentPage={currentPage}
+                currentPage={1} // Replace with actual current page
                 setCurrentPage={setCurrentPage}
                 totalItems={100} // Replace with actual total
                 itemsPerPage={itemsPerPage}
