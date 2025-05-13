@@ -3,27 +3,28 @@ platform win32 -- Python 3.10.11, pytest-8.3.5, pluggy-1.5.0
 rootdir: C:\Users\njcro\m7project\backend
 configfile: pytest.ini
 plugins: Flask-Dance-6.0.0, flask-1.3.0
-collected 32 items
+collected 40 items
 
-tests\test_auth.py ...                                                   [  9%]
-tests\test_auth_routes.py .                                              [ 12%]
-tests\test_cart.py .                                                     [ 15%]
-tests\test_cart_routes.py ....                                           [ 28%]
-tests\test_content.py .                                                  [ 31%]
-tests\test_content_routes.py .                                           [ 34%]
-tests\test_favorite.py .                                                 [ 37%]
-tests\test_favorite_routes.py .                                          [ 40%]
-tests\test_favorites.py .                                                [ 43%]
-tests\test_health_routes.py .                                            [ 46%]
-tests\test_kit_routes.py .                                               [ 50%]
-tests\test_kits.py ..                                                    [ 56%]
+tests\test_auth.py ...                                                   [  7%]
+tests\test_auth_routes.py .                                              [ 10%]
+tests\test_cart.py .                                                     [ 12%]
+tests\test_cart_routes.py ....                                           [ 22%]
+tests\test_content.py .                                                  [ 25%]
+tests\test_content_routes.py .                                           [ 27%]
+tests\test_favorite.py .                                                 [ 30%]
+tests\test_favorite_routes.py .                                          [ 32%]
+tests\test_favorites.py .                                                [ 35%]
+tests\test_health_routes.py ..                                           [ 40%]
+tests\test_inventory_routes.py ....                                      [ 50%]
+tests\test_kit_routes.py .                                               [ 52%]
+tests\test_kits.py ..                                                    [ 57%]
 tests\test_newsletter.py ..                                              [ 62%]
-tests\test_newsletter_routes.py ..                                       [ 68%]
-tests\test_purchase_routes.py .                                          [ 71%]
-tests\test_purchases.py ..                                               [ 78%]
-tests\test_review_routes.py .                                            [ 81%]
+tests\test_newsletter_routes.py ...                                      [ 70%]
+tests\test_purchase_routes.py ..                                         [ 75%]
+tests\test_purchases.py ..                                               [ 80%]
+tests\test_review_routes.py .                                            [ 82%]
 tests\test_reviews.py ..                                                 [ 87%]
-tests\test_user_settings.py ...                                          [ 96%]
+tests\test_user_settings.py ....                                         [ 97%]
 tests\test_user_settings_routes.py .                                     [100%]
 
-============================= 32 passed in 28.64s =============================
+============================= 40 passed in 38.94s =============================
