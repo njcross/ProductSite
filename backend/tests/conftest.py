@@ -80,7 +80,23 @@ def create_test_kit_and_inventory(app):
         _db.session.flush()  # ensures `id` is assigned
         _db.session.refresh(new_inventory)  
         return _db.session.get(Kit, new_kit.id), _db.session.get(Inventory, new_inventory.id)
-    
+
+@pytest.fixture
+def create_test_kit(app):
+    with app.app_context():
+        data = {
+            "name": "Test Kit",
+            "description": "This is a test kit.",
+            "price": 19.99,
+            "image_url": "http://example.com/testkit.jpg"
+        }
+        kit_data = kit_schema.load(data)
+        new_kit = Kit(**kit_data)
+        _db.session.add(new_kit)
+        _db.session.commit()  # COMMIT is needed for persistence
+        _db.session.flush()  # ensures `id` is assigned
+        _db.session.refresh(new_kit)  # binds instance to session with updated fields
+        return _db.session.get(Kit, new_kit.id)    
 
 @pytest.fixture(scope="function")
 def client(app):
@@ -108,6 +124,14 @@ def create_test_users(app):
         _db.session.add_all([user, admin])
         _db.session.commit()
         return user.id, admin.id
+
+@pytest.fixture
+def admin_logged_in_client(client, create_test_users):
+    _, admin_id = create_test_users
+    with client.session_transaction() as sess:
+        sess["user_id"] = admin_id
+        sess["role"] = "admin"
+    return client
 
 @pytest.fixture
 def logged_in_client(client, create_test_users):

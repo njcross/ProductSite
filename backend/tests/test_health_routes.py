@@ -15,3 +15,10 @@ def client():
 def test_health_routes_basic(client):
     response = client.get('/api/')
     assert response.status_code in [200, 401, 404]
+
+def test_health_check(client):
+    response = client.get("/api/health")
+    assert response.status_code == 200
+    data = response.get_json()
+    assert data.get("status") == "ok"
+

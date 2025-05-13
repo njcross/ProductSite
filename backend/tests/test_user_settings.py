@@ -27,3 +27,18 @@ def test_update_password(client, user_auth_header):
     }, headers=user_auth_header)
     assert res.status_code in (200, 400)
 
+def test_delete_account(client, user_auth_header):
+    # First, delete the account with the correct password
+    res = client.post("/api/delete-account", json={
+        "password": "password123"
+    }, headers=user_auth_header)
+    assert res.status_code == 200
+    assert res.json.get("message") == "Account deactivated successfully"
+
+    # Try logging in again with the same credentials after deletion
+    login_res = client.post("/api/login", json={
+        "username": "testuser",
+        "password": "password123"
+    })
+    assert login_res.status_code == 403
+

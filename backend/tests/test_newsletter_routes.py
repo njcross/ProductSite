@@ -23,3 +23,10 @@ def test_unsubscribe_newsletter(client):
 def test_newsletter_routes_basic(client):
     response = client.get('/api/')
     assert response.status_code in [200, 401, 404]
+
+def test_newsletter_subscription(client):
+    response = client.post("/api/newsletter/subscribe", json={"newsletter_value":"1","email": "test@example.com"})
+    assert response.status_code == 201
+    data = response.get_json()
+    assert data.get("message") == "Subscribed successfully"
+

@@ -36,13 +36,22 @@ def find_address(input_text):
 @admin_required
 def create_inventory():
     data = request.json
-
-    rtn = find_address(data['location'])
-    if isinstance(rtn, tuple):  # means it's a (Response, status_code)
-        return rtn
-
-    data['coordinates'] = f"{rtn['lat']}, {rtn['lng']}"
-    data['location'] = rtn['address']
+    rtn = data['location']
+    if not data.get("no_address_lookup"):
+        rtn = find_address(data['location'])
+        if isinstance(rtn, tuple):  # means it's a (Response, status_code)
+            return rtn
+        if isinstance(rtn, dict):
+            data['coordinates'] = f"{rtn['lat']}, {rtn['lng']}"
+            data['location'] = rtn['address']
+        else:
+            data['coordinates'] = "0,0"
+            data['location'] = data['location']
+    else:
+        # If skipping address lookup, just use provided location
+        data['coordinates'] = "0,0"
+        # clean up helper key
+        del data['no_address_lookup']
     inv = Inventory(**data)
     db.session.add(inv)
     db.session.commit()
@@ -57,11 +66,24 @@ def edit_inventory():
         return jsonify({'error': 'Inventory not found'}), 404
     inv.location_name = data.get('location_name', inv.location_name)
     inv.quantity = data.get('quantity', inv.quantity)
-    rtn = find_address(data['location'])
-    if isinstance(rtn, tuple):
-        return rtn
-    inv.coordinates = f"{rtn['lat']}, {rtn['lng']}"
-    inv.location = rtn['address']
+    rtn = {}
+    rtn['address'] = data['location']
+    if not data.get("no_address_lookup"):
+        rtn = find_address(data['location'])
+        if isinstance(rtn, tuple):  # means it's a (Response, status_code)
+            return rtn
+        if isinstance(rtn, dict):
+            inv.coordinates = f"{rtn['lat']}, {rtn['lng']}"
+            inv.location = rtn['address']
+        else:
+            inv.coordinates = "0,0"
+            inv.location = data['location']
+    else:
+        # If skipping address lookup, just use provided location
+        inv.coordinates = "0,0"
+        # clean up helper key
+        del data['no_address_lookup']
+    
 
     db.session.commit()
     return jsonify({'message': 'Inventory updated'})
