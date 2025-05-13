@@ -29,6 +29,7 @@ def create_app():
     app.secret_key = Config.SECRET_KEY
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
     app.config['SESSION_COOKIE_HTTPONLY'] = True
+    app.config['SESSION_COOKIE_SAMESITE'] = 'None'
     app.config['SESSION_COOKIE_SECURE'] = True
     app.config['SESSION_TYPE'] = 'redis'
     app.config['SESSION_PERMANENT'] = False

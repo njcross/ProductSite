@@ -117,10 +117,47 @@ GOTO end
 echo ↩️ Rolling back frontend to previous build...
 
 IF /I "%IS_DRY_RUN%"=="dry-run" (
-    echo [dry-run] Would rollback build on EC2...
+    echo [dry-run] Would restart backend and ensure Redis is installed
 ) ELSE (
-    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "cp -a /var/www/react_backup/* /var/www/react && sudo systemctl reload nginx"
+    echo 🧠 Ensuring Redis is installed on EC2...
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "if ! command -v redis-server > /dev/null; then
+        echo Installing Redis from source... &&
+        sudo dnf groupinstall 'Development Tools' -y &&
+        sudo dnf install gcc jemalloc-devel curl -y &&
+        curl -O https://download.redis.io/redis-stable.tar.gz &&
+        tar xzvf redis-stable.tar.gz &&
+        cd redis-stable &&
+        make &&
+        sudo make install &&
+        sudo useradd -r -s /bin/false redis &&
+        sudo mkdir -p /etc/redis /var/lib/redis &&
+        sudo cp redis.conf /etc/redis &&
+        sudo sed -i 's/^supervised .*/supervised systemd/' /etc/redis/redis.conf &&
+        sudo sed -i 's:^dir .*:dir /var/lib/redis:' /etc/redis/redis.conf &&
+        echo '[Unit]
+Description=Redis In-Memory Data Store
+After=network.target
+
+[Service]
+User=redis
+Group=redis
+ExecStart=/usr/local/bin/redis-server /etc/redis/redis.conf
+ExecStop=/usr/local/bin/redis-cli shutdown
+Restart=always
+
+[Install]
+WantedBy=multi-user.target' | sudo tee /etc/systemd/system/redis.service > /dev/null &&
+        sudo systemctl daemon-reload &&
+        sudo systemctl enable redis &&
+        sudo systemctl start redis;
+    else
+        echo ✅ Redis already installed;
+    fi"
+
+    echo 🔄 Restarting backend on EC2...
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "cd %REMOTE_BACKEND_PATH% && git stash && git pull origin main && . venv/bin/activate && pip install -r requirements.txt && flask db upgrade && pm2 delete backend || echo 'no backend running' && pm2 start 'gunicorn \"server:app\" --bind 0.0.0.0:5000 --workers 4' --name backend"
 )
+
 
 GOTO end
 
