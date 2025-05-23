@@ -63,7 +63,7 @@ export default function CharacterList({
   
   useEffect(() => {
     fetchCharacters();
-  }, []);
+  }, [fetchCharacters]);
   
   const handleDelete = (id) => {
     fetch(`${API_BASE}/api/kits/${id}`, {
