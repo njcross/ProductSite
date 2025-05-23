@@ -17,5 +17,8 @@ dist/
 .env
 FE.zip
 BE.zip
+backend_test_output.txt
+frontend_test_output.txt
+
 
 backend/backend_test_output.txt
