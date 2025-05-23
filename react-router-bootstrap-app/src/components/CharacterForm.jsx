@@ -516,7 +516,7 @@ export default function CharacterForm({ initialData, onSubmit }) {
                   >
                     <option value="">Create New</option>
                     {[...new Set(inventoryOptions.map(i => i.location_name))].map((name, i) => (
-                      <option key={i} value={name}>{name}</option>
+                      <option key={i} value={String(name)}>{String(name)}</option>
                     ))}
                   </Form.Select>
                 </Col>
