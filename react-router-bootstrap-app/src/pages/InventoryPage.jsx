@@ -109,6 +109,7 @@ export default function InventoryPage({ user }) {
         <FilterBy
           filters={filters}
           setFilters={setFilters}
+          onFilterChange={(updated) => setFilters(prev => ({ ...prev, ...updated }))}
           showFavorites={false}
         />
       </div>
