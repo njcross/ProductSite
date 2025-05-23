@@ -11,7 +11,7 @@ class Purchase(db.Model):
     time_bought = db.Column(db.DateTime, default=datetime.utcnow)
 
     payment_method = db.Column(db.String(50))
-    available_date = db.Column(db.Date)
+    available_date = db.Column(db.Integer)
     pick_up_date = db.Column(db.Date)
 
     kit = db.relationship('Kit', back_populates='purchases', overlaps="purchase")

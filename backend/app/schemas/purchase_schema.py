@@ -10,7 +10,7 @@ class PurchaseSchema(Schema):
     time_bought = fields.DateTime()
 
     payment_method = fields.Str()
-    available_date = fields.Date()
+    available_date = fields.Int()
     pick_up_date = fields.Date()
 
     # Include nested fields from related models
