@@ -32,28 +32,30 @@ export default function CharacterList({
   const navigate = useNavigate();
   const API_BASE = process.env.REACT_APP_API_URL;
 
-  const fetchCharacters = useCallback(() => {
-    let url = `${API_BASE}/api/kits?sortBy=${sortBy}&sortDir=${sortDir}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`;
-
-    if (rating) url += `&min_rating=${rating}`;
-    if (locations?.length) url += `&locations=${locations.join(',')}`;
-    if (Array.isArray(selectedAges) && selectedAges.length)
-      url += `&age_ids=${selectedAges.join(',')}`;
-    if (Array.isArray(selectedCategories) && selectedCategories.length)
-      url += `&category_ids=${selectedCategories.join(',')}`;
-
-    fetch(url, { method: 'GET', credentials: 'include' })
-      .then(res => res.json())
-      .then(data => {
+  useEffect(() => {
+    const fetchCharacters = async () => {
+      let url = `${API_BASE}/api/kits?sortBy=${sortBy}&sortDir=${sortDir}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`;
+  
+      if (rating) url += `&min_rating=${rating}`;
+      if (locations?.length) url += `&locations=${locations.join(',')}`;
+      if (Array.isArray(selectedAges) && selectedAges.length)
+        url += `&age_ids=${selectedAges.join(',')}`;
+      if (Array.isArray(selectedCategories) && selectedCategories.length)
+        url += `&category_ids=${selectedCategories.join(',')}`;
+  
+      try {
+        const res = await fetch(url, { method: 'GET', credentials: 'include' });
+        const data = await res.json();
         setCharacters(data.characters || data);
         setHasNext(data.has_next ?? (data.length === itemsPerPage));
-      })
-      .catch(err => console.error('Failed to load characters:', err));
-  }, [API_BASE, sortBy, sortDir, page, itemsPerPage, search, rating, locations, selectedAges, selectedCategories]);
-
-  useEffect(() => {
+      } catch (err) {
+        console.error('Failed to load characters:', err);
+      }
+    };
+  
     fetchCharacters();
-  }, [fetchCharacters]);
+  }, [API_BASE, sortBy, sortDir, page, itemsPerPage, search, rating, locations, selectedAges, selectedCategories]);
+  
 
   const handleDelete = (id) => {
     fetch(`${API_BASE}/api/kits/${id}`, {
