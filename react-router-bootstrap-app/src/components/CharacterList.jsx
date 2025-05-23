@@ -58,17 +58,7 @@ export default function CharacterList({
       console.error('Failed to load characters:', err);
     }
   }, [
-    API_BASE,
-    sortBy,
-    sortDir,
-    page,
-    search,
-    rating,
-    locations,
-    selectedAges,
-    selectedCategories,
-    selectedThemes,
-    selectedGrades,
+
   ]);
   
   useEffect(() => {
