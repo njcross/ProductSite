@@ -13,6 +13,14 @@ class category_options(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True)
 
+class grade_options(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True)
+
+class theme_options(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True)
+
 kit_age = db.Table(
     'kit_age',
     db.Column('kit_id', db.Integer, db.ForeignKey('kits.id'), primary_key=True),
@@ -32,6 +40,18 @@ kit_inventory = db.Table(
 
 )
 
+kit_grade = db.Table(
+    'kit_grade',
+    db.Column('kit_id', db.Integer, db.ForeignKey('kits.id'), primary_key=True),
+    db.Column('grade_id', db.Integer, db.ForeignKey('grade_options.id'), primary_key=True)
+)
+
+kit_theme = db.Table(
+    'kit_theme',
+    db.Column('kit_id', db.Integer, db.ForeignKey('kits.id'), primary_key=True),
+    db.Column('theme_id', db.Integer, db.ForeignKey('theme_options.id'), primary_key=True)
+)
+
 class Kit(db.Model):
     __tablename__ = "kits"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -42,6 +62,8 @@ class Kit(db.Model):
 
     age = db.relationship('age_options', secondary=kit_age, backref='kits')
     category = db.relationship('category_options', secondary=kit_category, backref='kits')
+    grade = db.relationship('grade_options', secondary=kit_grade, backref='kits')
+    theme = db.relationship('theme_options', secondary=kit_theme, backref='kits')
     cart_items = db.relationship('CartItem', back_populates='kit')
     # Kit model
     purchases = db.relationship('Purchase', back_populates='kit', cascade='all, delete-orphan')

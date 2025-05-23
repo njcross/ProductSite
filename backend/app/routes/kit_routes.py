@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from sqlalchemy import select, or_, and_
 from app.extensions import db
-from app.models.kits import Kit, age_options, category_options, kit_age, kit_category, kit_inventory
+from app.models.kits import Kit, age_options, category_options, kit_age, kit_category, kit_inventory, kit_grade, kit_theme, theme_options, grade_options
 from app.schemas.kit_schema import kit_schema, kits_schema
 from app.models.inventory import Inventory
 from app.utils.decorators import admin_required
@@ -38,6 +38,8 @@ def get_kits():
     # Expect comma-separated lists for age/category
     age_ids = request.args.get("age_ids")
     category_ids = request.args.get("category_ids")
+    grade_ids = request.args.get("grade_ids")
+    theme_ids = request.args.get("theme_ids")
     locations = request.args.get("locations")
 
     query = select(Kit).options(joinedload(Kit.age), joinedload(Kit.category), joinedload(Kit.inventories))
@@ -61,12 +63,23 @@ def get_kits():
         category_id_list = [int(i) for i in category_ids.split(",") if i.isdigit()]
         query = query.join(kit_category).filter(kit_category.c.category_id.in_(category_id_list))
 
+    if grade_ids:
+        grade_id_list = [int(i) for i in grade_ids.split(",") if i.isdigit()]
+        query = query.join(kit_grade).filter(kit_grade.c.grade_id.in_(grade_id_list))
+
+    if theme_ids:
+        theme_id_list = [int(i) for i in theme_ids.split(",") if i.isdigit()]
+        query = query.join(kit_theme).filter(kit_theme.c.theme_id.in_(theme_id_list))
+
     if filters:
         query = query.where(and_(*filters))
 
     kits = db.session.execute(query).unique().scalars().all()
     if min_rating is not None:
         kits = [kit for kit in kits if (kit.average_rating or 0) >= min_rating]
+    if locations:
+        location_list = [loc.strip() for loc in locations.split(",") if loc.strip()]
+        kits = [kit for kit in kits if any(loc in inv.location for loc in location_list for inv in kit.inventories)]
 
     query = query.order_by(getattr(Kit, sort_by, Kit.name))
 
@@ -81,7 +94,9 @@ def get_kits():
 def get_kit(id):
     kit = db.session.query(Kit).options(
         joinedload(Kit.age),
-        joinedload(Kit.category)
+        joinedload(Kit.category),
+        joinedload(Kit.grade),
+        joinedload(Kit.theme)
     ).get(id)
     if not kit:
         return jsonify({"message": "Kit not found"}), 404
@@ -135,6 +150,16 @@ def update_kit(id):
             kit.category = db.session.query(category_options).filter(
                 category_options.id.in_(data['category_ids'])
             ).all()
+        
+        if 'grade_ids' in data:
+            kit.grade = db.session.query(grade_options).filter(
+                grade_options.id.in_(data['grade_ids'])
+            ).all()
+
+        if 'theme_ids' in data:
+            kit.theme = db.session.query(theme_options).filter(
+                theme_options.id.in_(data['theme_ids'])
+            ).all()
 
         db.session.commit()
         return jsonify(kit_schema.dump(kit)), 200
@@ -167,6 +192,16 @@ def get_age_options():
 def get_category_options():
     categories = category_options.query.all()
     return jsonify([{"id": c.id, "name": c.name} for c in categories]), 200
+
+@kit_bp.route("/grade-options", methods=["GET"])
+def get_grade_options():
+    grades = grade_options.query.all()
+    return jsonify([{"id": g.id, "name": g.name} for g in grades]), 200 
+
+@kit_bp.route("/theme-options", methods=["GET"])
+def get_theme_options():
+    themes = theme_options.query.all()
+    return jsonify([{"id": t.id, "name": t.name} for t in themes]), 200
 
 @kit_bp.route("/age-options", methods=["POST", "OPTIONS"])
 def create_age_option():
@@ -218,3 +253,53 @@ def delete_category_option(id):
     db.session.delete(category)
     db.session.commit()
     return jsonify({"message": "Category option deleted"}), 200
+
+@kit_bp.route("/grade-options", methods=["POST", "OPTIONS"])
+def create_grade_option():
+    data = request.get_json()
+    name = data.get("name", "").strip()
+    if not name:
+        return jsonify({"error": "Name is required"}), 400
+
+    if grade_options.query.filter_by(name=name).first():
+        return jsonify({"error": "Grade option already exists"}), 400
+
+    new_grade = grade_options(name=name)
+    db.session.add(new_grade)
+    db.session.commit()
+    return jsonify({"id": new_grade.id, "name": new_grade.name}), 201
+
+@kit_bp.route("/grade-options/<int:id>", methods=["DELETE"])
+def delete_grade_option(id):
+    grade = grade_options.query.get(id)
+    if not grade:
+        return jsonify({"error": "Grade option not found"}), 404
+
+    db.session.delete(grade)
+    db.session.commit()
+    return jsonify({"message": "Grade option deleted"}), 200
+
+@kit_bp.route("/theme-options", methods=["POST", "OPTIONS"])
+def create_theme_option():
+    data = request.get_json()
+    name = data.get("name", "").strip()
+    if not name:
+        return jsonify({"error": "Name is required"}), 400
+
+    if theme_options.query.filter_by(name=name).first():
+        return jsonify({"error": "Theme option already exists"}), 400
+
+    new_theme = theme_options(name=name)
+    db.session.add(new_theme)
+    db.session.commit()
+    return jsonify({"id": new_theme.id, "name": new_theme.name}), 201
+
+@kit_bp.route("/theme-options/<int:id>", methods=["DELETE"])
+def delete_theme_option(id):
+    theme = theme_options.query.get(id)
+    if not theme:
+        return jsonify({"error": "Theme option not found"}), 404
+
+    db.session.delete(theme)
+    db.session.commit()
+    return jsonify({"message": "Theme option deleted"}), 200

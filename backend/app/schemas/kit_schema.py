@@ -1,5 +1,5 @@
 from marshmallow import Schema, fields, post_load, ValidationError
-from app.models.kits import Kit, age_options, category_options
+from app.models.kits import Kit, age_options, category_options, grade_options, theme_options
 from app.extensions import db
 
 class AgeSchema(Schema):
@@ -7,6 +7,14 @@ class AgeSchema(Schema):
     name = fields.Str()
 
 class CategorySchema(Schema):
+    id = fields.Int()
+    name = fields.Str()
+    
+class GradeSchema(Schema):
+    id = fields.Int()
+    name = fields.Str()
+
+class ThemeSchema(Schema):
     id = fields.Int()
     name = fields.Str()
 
@@ -28,6 +36,8 @@ class KitSchema(Schema):
 
     age = fields.List(fields.Nested(AgeSchema), dump_only=True)
     category = fields.List(fields.Nested(CategorySchema), dump_only=True)
+    grade = fields.List(fields.Nested(GradeSchema), dump_only=True)
+    theme = fields.List(fields.Nested(ThemeSchema), dump_only=True)
     average_rating = fields.Float(dump_only=True)
     review_count = fields.Int(dump_only=True)
 
@@ -42,6 +52,12 @@ class KitSchema(Schema):
         if 'category_ids' in data:
             data['category'] = category_options.query.filter(category_options.id.in_(data['category_ids'])).all()
             del data['category_ids']
+        if 'grade_ids' in data:
+            data['grade'] = grade_options.query.filter(grade_options.id.in_(data['grade_ids'])).all()
+            del data['grade_ids']
+        if 'theme_ids' in data:
+            data['theme'] = theme_options.query.filter(theme_options.id.in_(data['theme_ids'])).all()
+            del data['theme_ids']
         return data
 
 kit_schema = KitSchema()
@@ -50,3 +66,7 @@ age_schema = AgeSchema()
 ages_schema = AgeSchema(many=True)
 category_schema = CategorySchema()
 categories_schema = CategorySchema(many=True)
+grade_schema = GradeSchema()
+grades_schema = GradeSchema(many=True)
+theme_schema = ThemeSchema()
+themes_schema = ThemeSchema(many=True)
