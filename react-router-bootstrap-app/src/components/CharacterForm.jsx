@@ -11,7 +11,9 @@ export default function CharacterForm({ initialData, onSubmit }) {
     description: '',
     age_ids: [],
     category_ids: [],
-    inventories: [], // NEW
+    theme_ids: [],
+    grade_ids: [],
+    inventories: [],
   });
 
   const API_BASE = process.env.REACT_APP_API_URL;
@@ -19,8 +21,12 @@ export default function CharacterForm({ initialData, onSubmit }) {
   const [submitError, setSubmitError] = useState('');
   const [ageOptions, setAgeOptions] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
+  const [themeOptions, setThemeOptions] = useState([]);
+  const [gradeOptions, setGradeOptions] = useState([]);
   const [newAge, setNewAge] = useState('');
   const [newCategory, setNewCategory] = useState('');
+  const [newTheme, setNewTheme] = useState('');
+  const [newGrade, setNewGrade] = useState('');
 
   useEffect(() => {
     fetch(`${API_BASE}/api/kits/age-options`)
@@ -32,6 +38,16 @@ export default function CharacterForm({ initialData, onSubmit }) {
       .then(res => res.json())
       .then(setCategoryOptions)
       .catch(console.error);
+
+    fetch(`${API_BASE}/api/kits/theme-options`)
+      .then(res => res.json())
+      .then(setThemeOptions)
+      .catch(console.error);
+
+    fetch(`${API_BASE}/api/kits/grade-options`)
+      .then(res => res.json())
+      .then(setGradeOptions)
+      .catch(console.error);
   }, [API_BASE]);
 
   useEffect(() => {
@@ -40,9 +56,11 @@ export default function CharacterForm({ initialData, onSubmit }) {
         ...initialData,
         age_ids: initialData.age?.map(a => String(a.id)) || [],
         category_ids: initialData.category?.map(c => String(c.id)) || [],
+        theme_ids: initialData.theme?.map(t => String(t.id)) || [],
+        grade_ids: initialData.grade?.map(g => String(g.id)) || [],
       });
     }
-  }, [initialData, ageOptions, categoryOptions]);
+  }, [initialData, ageOptions, categoryOptions, themeOptions, gradeOptions]);
 
   const handleChange = (e) => {
     const { name, value, type, selectedOptions } = e.target;
@@ -78,6 +96,8 @@ export default function CharacterForm({ initialData, onSubmit }) {
         ...formData,
         age_ids: formData.age_ids.map(Number),
         category_ids: formData.category_ids.map(Number),
+        theme_ids: formData.theme_ids.map(Number),
+        grade_ids: formData.grade_ids.map(Number),
       });
 
       // If this is a new kit and has inventories
@@ -135,6 +155,43 @@ export default function CharacterForm({ initialData, onSubmit }) {
       alert('Error adding new category: ' + err.message);
     }
   };
+
+  const addNewTheme = async () => {
+    if (!newTheme.trim()) return; 
+    try {
+      const res = await fetch(`${API_BASE}/api/kits/theme-options`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newTheme.trim() }),
+      });
+    if (!res.ok) throw new Error('Failed to add theme');
+      const added = await res.json();
+      setThemeOptions(prev => [...prev, added]);  
+      setFormData(prev => ({ ...prev, theme_ids: [...prev.theme_ids, String(added.id)] }));
+      setNewTheme('');
+    } catch (err) {
+      alert('Error adding new theme: ' + err.message);
+    }
+  };
+
+  const addNewGrade = async () => {
+    if (!newGrade.trim()) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/kits/grade-options`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newGrade.trim() }),
+      });
+    if (!res.ok) throw new Error('Failed to add grade');
+      const added = await res.json();
+      setGradeOptions(prev => [...prev, added]);
+      setFormData(prev => ({ ...prev, grade_ids: [...prev.grade_ids, String(added.id)] }));
+      setNewGrade('');
+    } catch (err) {
+      alert('Error adding new grade: ' + err.message);
+    }
+  };
+
 
   const handleUpload = async (e) => {
     const file = e.target.files[0];
@@ -305,6 +362,8 @@ export default function CharacterForm({ initialData, onSubmit }) {
     ))}
   </div>
 
+
+
   <InputGroup className="mt-2">
     <Form.Control
       placeholder="New category option"
@@ -314,6 +373,109 @@ export default function CharacterForm({ initialData, onSubmit }) {
     <Button onClick={addNewCategory}>+</Button>
   </InputGroup>
 </Form.Group>
+
+<Form.Group controlId="theme_ids">
+  <Form.Label>Kit Themes</Form.Label>
+  <div className="custom-select-list">
+    {themeOptions.map(theme => (
+      <div key={theme.id} className="select-option">
+        <Form.Check 
+          type="checkbox"
+          inline
+          label={theme.name}
+          value={String(theme.id)}
+          checked={formData.theme_ids.includes(String(theme.id))}
+          onChange={(e) => {
+            const selected = e.target.checked
+              ? [...formData.theme_ids, e.target.value]
+              : formData.theme_ids.filter(id => id !== e.target.value);
+            setFormData(prev => ({ ...prev, theme_ids: selected }));
+          }}
+        />
+        <Button
+          size="sm"
+          variant="outline-danger"
+          onClick={async () => {
+            if (window.confirm(`Delete theme "${theme.name}"?`)) {
+              await fetch(`${API_BASE}/api/kits/theme-options/${theme.id}`, {
+                method: 'DELETE',
+                credentials: 'include'
+              });
+              setThemeOptions(prev => prev.filter(t => t.id !== theme.id));
+              setFormData(prev => ({
+                ...prev,
+                theme_ids: prev.theme_ids.filter(id => id !== String(theme.id))
+              }));
+            }
+          }}
+        >
+          ×
+        </Button>
+      </div>
+    ))}
+  </div>
+
+  <InputGroup className="mt-2">
+    <Form.Control
+      placeholder="New theme option"
+      value={newTheme}
+      onChange={e => setNewTheme(e.target.value)}
+    />
+    <Button onClick={addNewTheme}>+</Button>
+  </InputGroup>
+</Form.Group>
+
+<Form.Group controlId="grade_ids">
+  <Form.Label>Kit Grades</Form.Label>
+  <div className="custom-select-list">
+    {gradeOptions.map(grade => (
+      <div key={grade.id} className="select-option">
+        <Form.Check 
+          type="checkbox"
+          inline
+          label={grade.name}
+          value={String(grade.id)}
+          checked={formData.grade_ids.includes(String(grade.id))}
+          onChange={(e) => {
+            const selected = e.target.checked
+              ? [...formData.grade_ids, e.target.value]
+              : formData.grade_ids.filter(id => id !== e.target.value);
+            setFormData(prev => ({ ...prev, grade_ids: selected }));
+          }}
+        />
+        <Button
+          size="sm"
+          variant="outline-danger"
+          onClick={async () => {
+            if (window.confirm(`Delete grade "${grade.name}"?`)) {
+              await fetch(`${API_BASE}/api/kits/grade-options/${grade.id}`, {
+                method: 'DELETE',
+                credentials: 'include'
+              });
+              setGradeOptions(prev => prev.filter(g => g.id !== grade.id));
+              setFormData(prev => ({
+                ...prev,
+                grade_ids: prev.grade_ids.filter(id => id !== String(grade.id))
+              }));
+            }
+          }}
+        >
+          ×
+        </Button>
+      </div>
+    ))}
+  </div>
+
+  <InputGroup className="mt-2">
+    <Form.Control
+      placeholder="New grade option"
+      value={newGrade}
+      onChange={e => setNewGrade(e.target.value)}
+    />
+    <Button onClick={addNewGrade}>+</Button>
+  </InputGroup>
+</Form.Group>
+
 
         {/* INVENTORY FIELDS (only show if creating) */}
         {!initialData && (
@@ -353,7 +515,11 @@ export default function CharacterForm({ initialData, onSubmit }) {
               });
             }}>+ Add Inventory</Button>
           </Form.Group>
+
+        
         )}
+
+        
 
         <Button type="submit" className="mt-3">
           {initialData ? 'Update' : 'Create'}
