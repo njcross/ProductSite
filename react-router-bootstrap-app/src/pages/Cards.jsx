@@ -22,6 +22,7 @@ export default function Cards() {
     view: 'grid',
     itemsPerPage: 12,
     sortBy: 'name',
+    sortDir: 'asc',
     search: searchQuery,
     age_ids: [],
     category_ids: [],
@@ -88,6 +89,7 @@ useEffect(() => {
       view: 'grid',
       itemsPerPage: 12,
       sortBy: 'name',
+      sortDir: 'asc',
       search: '',
       rating: '',
       locations: []
@@ -139,6 +141,8 @@ useEffect(() => {
               itemsPerPage={filters.itemsPerPage}
               onItemsPerPageChange={(val) => handleFilterChange({ itemsPerPage: val })}
               sortBy={filters.sortBy}
+              sortDir={filters.sortDir}
+              onSortDirChange={(val) => handleFilterChange({ sortDir: val })}
               onSortChange={(val) => handleFilterChange({ sortBy: val })}
               search={filters.search}
               onSearchChange={(val) => handleFilterChange({ search: val })}
@@ -148,6 +152,7 @@ useEffect(() => {
               view={filters.view}
               itemsPerPage={filters.itemsPerPage}
               sortBy={filters.sortBy}
+              sortDir={filters.sortDir}
               search={filters.search}
               alignment={filters.alignment}
               selectedAges={filters.age_ids}
