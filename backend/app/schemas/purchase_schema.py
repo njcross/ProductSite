@@ -12,6 +12,7 @@ class PurchaseSchema(Schema):
     payment_method = fields.Str()
     available_date = fields.Int()
     pick_up_date = fields.Date()
+    status = fields.Str()
 
     # Include nested fields from related models
     kit = fields.Nested('KitSchema', only=['id', 'name', 'image_url', 'price', 'description'], dump_only=True)

@@ -9,6 +9,7 @@ class Purchase(db.Model):
     inventory_id = db.Column(db.Integer, db.ForeignKey('inventory.id'), nullable=True)
     quantity = db.Column(db.Integer, nullable=False)
     time_bought = db.Column(db.DateTime, default=datetime.utcnow)
+    status = db.Column(db.String(50))
 
     payment_method = db.Column(db.String(50))
     available_date = db.Column(db.Integer)

@@ -23,7 +23,8 @@ def create_purchase():
         inventory_id=data.get('inventory_id'),
         payment_method=data.get('payment_method'),
         available_date="1234",
-        pick_up_date=datetime.now(timezone.utc) + timedelta(hours=24)
+        pick_up_date=datetime.now(timezone.utc) + timedelta(hours=24),
+        status="Ready for pickup"
     )
 
     db.session.add(new_purchase)
