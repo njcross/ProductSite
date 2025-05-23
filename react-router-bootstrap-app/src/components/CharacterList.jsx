@@ -62,7 +62,6 @@ export default function CharacterList({
     sortBy,
     sortDir,
     page,
-    itemsPerPage,
     search,
     rating,
     locations,
