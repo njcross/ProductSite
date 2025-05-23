@@ -5,7 +5,7 @@ from app.schemas.purchase_schema import PurchaseSchema
 from app.utils.decorators import admin_required, login_required
 from flask import Blueprint, request, jsonify, session
 from sqlalchemy.orm import joinedload
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 purchase_bp = Blueprint('purchase', __name__)
 purchase_schema = PurchaseSchema()
@@ -23,7 +23,7 @@ def create_purchase():
         inventory_id=data.get('inventory_id'),
         payment_method=data.get('payment_method'),
         available_date="1234",
-        pick_up_date=datetime.now(datetime.timezone.utc) + timedelta(hours=24)
+        pick_up_date=datetime.now(timezone.utc) + timedelta(hours=24)
     )
 
     db.session.add(new_purchase)
