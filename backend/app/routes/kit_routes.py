@@ -30,6 +30,7 @@ def get_kits():
     if request.method == 'OPTIONS':
         return '', 200
     sort_by = request.args.get("sortBy", "name")
+    sort_dir = request.args.get("sortDir", "asc")
     search = request.args.get("search", "")
     page = int(request.args.get("page", 1))
     per_page = int(request.args.get("perPage", 12))
@@ -93,7 +94,13 @@ def get_kits():
         location_list = [loc.strip() for loc in locations.split(",") if loc.strip()]
         kits = [kit for kit in kits if any(loc in inv.location for loc in location_list for inv in kit.inventories)]
 
-    query = query.order_by(getattr(Kit, sort_by, Kit.name))
+    sort_column = getattr(Kit, sort_by, Kit.name)
+    if sort_dir == "desc":
+        sort_column = sort_column.desc()
+    else:
+        sort_column = sort_column.asc()
+
+    query = query.order_by(sort_column)
 
     all_kits = db.session.execute(query).unique().scalars().all()
     start = (page - 1) * per_page

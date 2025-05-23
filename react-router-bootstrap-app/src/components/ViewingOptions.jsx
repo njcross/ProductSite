@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import './ViewingOptions.css';
 import EditableField from '../components/EditableField';
 import { useUser } from '../context/UserContext';
@@ -9,25 +10,25 @@ export default function ViewingOptions({
   onItemsPerPageChange,
   sortBy,
   onSortChange,
+  sortDir,
+  onSortDirChange,
   search,
   onClearSearch
 }) {
   const { currentUser } = useUser();
 
+  const toggleSortDir = () => {
+    onSortDirChange(sortDir === 'asc' ? 'desc' : 'asc');
+  };
+
   return (
     <div className="viewing-options">
       <div className="option-group">
         <span className="label"><EditableField contentKey="content_79" /></span>
-        <button
-          className={`toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
-          onClick={() => onViewModeChange('grid')}
-        >
+        <button className={`toggle-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => onViewModeChange('grid')}>
           <EditableField contentKey="content_80" />
         </button>
-        <button
-          className={`toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
-          onClick={() => onViewModeChange('list')}
-        >
+        <button className={`toggle-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => onViewModeChange('list')}>
           <EditableField contentKey="content_81" />
         </button>
       </div>
@@ -45,13 +46,16 @@ export default function ViewingOptions({
         </select>
       </div>
 
-      <div className="option-group">
+      <div className="option-group sort-group">
         <label htmlFor="sort-by"><EditableField contentKey="content_85" /></label>
         <select id="sort-by" value={sortBy} onChange={(e) => onSortChange(e.target.value)}>
           <option value="name"><EditableField contentKey="content_86" plain /></option>
           <option value="price"><EditableField contentKey="content_112" plain /></option>
           <option value="description"><EditableField contentKey="content_200" plain /></option>
         </select>
+        <button className="sort-dir-toggle" onClick={toggleSortDir} title="Toggle sort direction">
+          {sortDir === 'asc' ? '▲' : '▼'}
+        </button>
       </div>
 
       {search && (
@@ -61,7 +65,6 @@ export default function ViewingOptions({
           </button>
         </div>
       )}
-
     </div>
   );
 }
