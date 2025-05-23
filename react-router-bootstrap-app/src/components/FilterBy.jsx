@@ -6,6 +6,8 @@ export default function FilterBy({
   onFilterChange, 
   selectedAges = [], 
   selectedCategories = [],
+  selectedThemes = [],
+  selectedGrades = [],
   selectedLocations = [],
   savedFilters = [], 
   onSelectSavedFilter, 
@@ -16,31 +18,32 @@ export default function FilterBy({
   const API_BASE = process.env.REACT_APP_API_URL;
   const [ageOptions, setAgeOptions] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
+  const [themeOptions, setThemeOptions] = useState([]);
+  const [gradeOptions, setGradeOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
   const [selectedRating, setSelectedRating] = useState('');
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/kits/age-options`)
-      .then(res => res.json())
-      .then(setAgeOptions)
-      .catch(console.error);
-
-    fetch(`${API_BASE}/api/kits/category-options`)
-      .then(res => res.json())
-      .then(setCategoryOptions)
-      .catch(console.error);
-
-    fetch(`${API_BASE}/api/inventory/locations`)
-      .then(res => res.json())
-      .then(data => setLocationOptions)
-      .catch(console.error);
+    fetch(`${API_BASE}/api/kits/age-options`).then(res => res.json()).then(setAgeOptions).catch(console.error);
+    fetch(`${API_BASE}/api/kits/category-options`).then(res => res.json()).then(setCategoryOptions).catch(console.error);
+    fetch(`${API_BASE}/api/kits/theme-options`).then(res => res.json()).then(setThemeOptions).catch(console.error);
+    fetch(`${API_BASE}/api/kits/grade-options`).then(res => res.json()).then(setGradeOptions).catch(console.error);
+    fetch(`${API_BASE}/api/inventory/locations`).then(res => res.json()).then(setLocationOptions).catch(console.error);
   }, []);
 
   const handleToggle = (type, id) => {
-    const selected = type === 'age_ids' ? selectedAges : selectedCategories;
-    const newSelected = selected.includes(id)
-      ? selected.filter(i => i !== id)
-      : [...selected, id];
+    const currentSelections = {
+      age_ids: selectedAges,
+      category_ids: selectedCategories,
+      theme_ids: selectedThemes,
+      grade_ids: selectedGrades,
+      location_names: selectedLocations
+    }[type] || [];
+
+    const newSelected = currentSelections.includes(id)
+      ? currentSelections.filter(i => i !== id)
+      : [...currentSelections, id];
+
     onFilterChange({ [type]: newSelected });
   };
 
@@ -48,20 +51,6 @@ export default function FilterBy({
     const value = e.target.value;
     setSelectedRating(value);
     onFilterChange({ rating: value });
-  };
-
-  const deleteAge = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this age option?')) return;
-    await fetch(`${API_BASE}/api/kits/age-options/${id}`, { method: 'DELETE', credentials: 'include' });
-    setAgeOptions(prev => prev.filter(a => a.id !== id));
-    onFilterChange({ age_ids: selectedAges.filter(aid => aid !== id) });
-  };
-
-  const deleteCategory = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this category option?')) return;
-    await fetch(`${API_BASE}/api/kits/category-options/${id}`, { method: 'DELETE', credentials: 'include' });
-    setCategoryOptions(prev => prev.filter(c => c.id !== id));
-    onFilterChange({ category_ids: selectedCategories.filter(cid => cid !== id) });
   };
 
   return (
@@ -76,9 +65,6 @@ export default function FilterBy({
               onChange={() => handleToggle('age_ids', String(age.id))}
             />
             {age.name}
-            {currentUser?.role === 'admin' && (
-              <button onClick={() => deleteAge(age.id)} className="delete-btn">×</button>
-            )}
           </li>
         ))}
       </ul>
@@ -93,9 +79,34 @@ export default function FilterBy({
               onChange={() => handleToggle('category_ids', String(cat.id))}
             />
             {cat.name}
-            {currentUser?.role === 'admin' && (
-              <button onClick={() => deleteCategory(cat.id)} className="delete-btn">×</button>
-            )}
+          </li>
+        ))}
+      </ul>
+
+      <label>Filter by Theme</label>
+      <ul className="filter-list">
+        {themeOptions.map(theme => (
+          <li key={theme.id}>
+            <input
+              type="checkbox"
+              checked={selectedThemes.includes(String(theme.id))}
+              onChange={() => handleToggle('theme_ids', String(theme.id))}
+            />
+            {theme.name}
+          </li>
+        ))}
+      </ul>
+
+      <label>Filter by Grade</label>
+      <ul className="filter-list">
+        {gradeOptions.map(grade => (
+          <li key={grade.id}>
+            <input
+              type="checkbox"
+              checked={selectedGrades.includes(String(grade.id))}
+              onChange={() => handleToggle('grade_ids', String(grade.id))}
+            />
+            {grade.name}
           </li>
         ))}
       </ul>
@@ -113,21 +124,18 @@ export default function FilterBy({
       </div>
 
       <label>Filter by Location</label>
-  <ul className="filter-list">
-    {locationOptions.map((loc, idx) => (
-      <li key={idx}>
-        <input
-          type="checkbox"
-          checked={selectedLocations.includes(loc)}
-          onChange={() => handleToggle('location_names', loc)}
-        />
-        {loc}
-        {currentUser?.role === 'admin' && (
-          <button onClick={() => deleteLocation(loc)} className="delete-btn">×</button>
-        )}
-      </li>
-    ))}
-  </ul>
+      <ul className="filter-list">
+        {locationOptions.map((loc, idx) => (
+          <li key={idx}>
+            <input
+              type="checkbox"
+              checked={selectedLocations.includes(loc)}
+              onChange={() => handleToggle('location_names', loc)}
+            />
+            {loc}
+          </li>
+        ))}
+      </ul>
 
       {currentUser && savedFilters.length > 0 && (
         <div className="saved-filters">
@@ -140,13 +148,14 @@ export default function FilterBy({
           </select>
         </div>
       )}
+
       {currentUser && (
-              <div className="option-group">
-                <button className="save-filter-btn" onClick={onSaveFilter}>
-                  <EditableField contentKey="content_144" />
-                </button>
-              </div>
-            )}
+        <div className="option-group">
+          <button className="save-filter-btn" onClick={onSaveFilter}>
+            <EditableField contentKey="content_144" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

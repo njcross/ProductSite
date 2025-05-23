@@ -76,25 +76,27 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
       alert('Fill all fields');
       return;
     }
-
+  
     const res = await fetch(`${API_BASE}/api/inventory`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({ ...newInventory, kit_id: kitId }),
     });
-
+  
     if (res.ok) {
-      const result = await res.json();
-      const added = { ...newInventory, id: result.inventory };
-      setInventories(prev => [...prev, added]);
       setNewInventory({ location: '', location_name: '', quantity: '' });
+      // Refresh inventory list from server
+      const refreshed = await fetch(`${API_BASE}/api/inventory/${kitId}`, { credentials: 'include' }).then(res => res.json());
+      setInventories(refreshed);
     } else {
       alert('Failed to add inventory item');
     }
   };
+  
 
   const parseLatLng = (str) => {
+    if (!str || !str.includes(',')) return { lat: 0, lng: 0 };
     const [lat, lng] = str.split(',').map(Number);
     return { lat: parseFloat(lat), lng: parseFloat(lng) };
   };
@@ -200,6 +202,7 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
             const bounds = new window.google.maps.LatLngBounds();
 
             inventories.forEach(inv => {
+              if (!inv.coordinates) return;
               const { lat, lng } = parseLatLng(inv.coordinates);
               bounds.extend({ lat, lng });
 

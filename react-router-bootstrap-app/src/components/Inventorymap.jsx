@@ -57,6 +57,7 @@ export default function InventoryMap({ locations }) {
         const bounds = new window.google.maps.LatLngBounds();
       
         inventories.forEach(inv => {
+          if (!inv.coordinates) return;
           const { lat, lng } = parseLatLng(inv.location);
           bounds.extend({ lat, lng });
       
