@@ -92,7 +92,7 @@ def get_kits():
         kits = [kit for kit in kits if (kit.average_rating or 0) >= min_rating]
     if locations:
         location_list = [loc.strip() for loc in locations.split(",") if loc.strip()]
-        kits = [kit for kit in kits if any(loc in inv.location for loc in location_list for inv in kit.inventories)]
+        kits = [kit for kit in kits if any(loc in inv.location_name for loc in location_list for inv in kit.inventories)]
 
     sort_column = getattr(Kit, sort_by, Kit.name)
     if sort_dir == "desc":
