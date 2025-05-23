@@ -61,8 +61,7 @@ export default function FilterBy({
     selectedGrades,
     selectedLocations,
     selectedRating,
-    selectedPriceRange,
-    localKey
+    selectedPriceRange
   ]);
 
   const handleToggle = (type, id) => {
