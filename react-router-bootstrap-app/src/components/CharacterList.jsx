@@ -9,7 +9,17 @@ import { useUser } from '../context/UserContext';
 import EditableField from '../components/EditableField';
 import './CharacterList.css';
 
-export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view = 'grid', search = '', selectedAges = [], selectedCategories = [], rating = '', locations= [] }) { 
+export default function CharacterList({
+  itemsPerPage = 12,
+  sortBy = 'name',
+  sortDir = 'asc',
+  view = 'grid',
+  search = '',
+  selectedAges = [],
+  selectedCategories = [],
+  rating = '',
+  locations = []
+}) {
   const { currentUser } = useUser();
   const [characters, setCharacters] = useState([]);
   const [page, setPage] = useState(1);
@@ -23,22 +33,23 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   const API_BASE = process.env.REACT_APP_API_URL;
 
   const fetchCharacters = useCallback(() => {
-    let url = `${API_BASE}/api/kits?sortBy=${sortBy}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}&min_rating=${rating}&locations=${locations} `;
+    let url = `${API_BASE}/api/kits?sortBy=${sortBy}&sortDir=${sortDir}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`;
+
+    if (rating) url += `&min_rating=${rating}`;
+    if (locations?.length) url += `&locations=${locations.join(',')}`;
     if (Array.isArray(selectedAges) && selectedAges.length)
       url += `&age_ids=${selectedAges.join(',')}`;
     if (Array.isArray(selectedCategories) && selectedCategories.length)
       url += `&category_ids=${selectedCategories.join(',')}`;
-    fetch(url, {
-      method: 'GET',
-      credentials: 'include'
-    })
+
+    fetch(url, { method: 'GET', credentials: 'include' })
       .then(res => res.json())
       .then(data => {
         setCharacters(data.characters || data);
         setHasNext(data.has_next ?? (data.length === itemsPerPage));
       })
       .catch(err => console.error('Failed to load characters:', err));
-  }, [API_BASE, sortBy, page, itemsPerPage, search, selectedAges, selectedCategories]);
+  }, [API_BASE, sortBy, sortDir, page, itemsPerPage, search, rating, locations, selectedAges, selectedCategories]);
 
   useEffect(() => {
     fetchCharacters();
@@ -48,7 +59,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
     fetch(`${API_BASE}/api/kits/${id}`, {
       method: 'DELETE',
       credentials: 'include',
-      headers: { credentials: 'include' },
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(() => {
         setModalMessage('Character deleted successfully!');
@@ -74,7 +85,7 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
       const res = await fetch(`${API_BASE}/api/kits`, {
         method: 'POST',
         credentials: 'include',
-        headers: {'Content-Type': 'application/json', credentials: 'include' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
@@ -105,29 +116,26 @@ export default function CharacterList({ itemsPerPage = 12, sortBy = 'name', view
   return (
     <div className={`character-list-container ${view === 'list' ? 'list-view' : ''}`}>
       {currentUser?.role === 'admin' && (
-        <>
-          <Row>
-            <Col className="d-flex justify-content-end mb-3">
-              <Button variant="danger" onClick={() => setShowCreate(true)}>
-                <EditableField contentKey="content_11" />
-              </Button>
-            </Col>
-          </Row>
-        </>
+        <Row>
+          <Col className="d-flex justify-content-end mb-3">
+            <Button variant="danger" onClick={() => setShowCreate(true)}>
+              <EditableField contentKey="content_11" />
+            </Button>
+          </Col>
+        </Row>
       )}
 
-<div className={`character-grid ${view === 'list' ? 'list-view' : 'grid-view'}`}>
-  {characters.map(char => (
-    <div key={char.id} className="character-card-wrapper">
-      <SuperheroCard
-        character={char}
-        onEdit={handleEditClick}
-        onDelete={handleDelete}
-      />
-    </div>
-  ))}
-</div>
-
+      <div className={`character-grid ${view === 'list' ? 'list-view' : 'grid-view'}`}>
+        {characters.map(char => (
+          <div key={char.id} className="character-card-wrapper">
+            <SuperheroCard
+              character={char}
+              onEdit={handleEditClick}
+              onDelete={handleDelete}
+            />
+          </div>
+        ))}
+      </div>
 
       <div className="pagination-controls">
         <Row className="mt-4">
