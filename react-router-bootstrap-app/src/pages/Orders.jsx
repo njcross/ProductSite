@@ -49,10 +49,30 @@ export default function Orders() {
     return matchAge && matchCategory && matchTheme && matchGrade && matchLocation && matchRating;
   });
 
+  const sortedPurchases = [...filteredPurchases].sort((a, b) => {
+    if (sortBy === 'quantity') return b.quantity - a.quantity;
+    if (sortBy === 'location') return (a.inventory?.location || '').localeCompare(b.inventory?.location || '');
+    return new Date(b.time_bought) - new Date(a.time_bought); // default: date desc
+  });
+
   const paginatedPurchases = filteredPurchases.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  const handleCancel = async (id) => {
+    if (!window.confirm('Are you sure you want to cancel this order?')) return;
+    const res = await fetch(`${API_BASE}/api/purchases/${id}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    });
+    if (res.ok) {
+      setPurchases(prev => prev.filter(p => p.id !== id));
+    } else {
+      alert('Failed to cancel order');
+    }
+  };
+  
 
   return (
     <Container className="orders-page py-4">
@@ -118,6 +138,7 @@ export default function Orders() {
                   <th><EditableField contentKey="content_257" defaultText="Pick-Up Date" /></th>
                   <th><EditableField contentKey="content_258" defaultText="Kit Description" /></th>
                   <th><EditableField contentKey="content_259" defaultText="Total" /></th>
+                  <th><EditableField contentKey="content_268" defaultText="Actions" /></th>
                 </tr>
               </thead>
               <tbody>
@@ -140,6 +161,11 @@ export default function Orders() {
                       <td>{purchase.pick_up_date || '—'}</td>
                       <td>{purchase.kit?.description || '—'}</td>
                       <td>${total}</td>
+                      <td>
+  <Button size="sm" variant="outline-danger" onClick={() => handleCancel(purchase.id)}>
+    Cancel
+  </Button>
+</td>
                     </tr>
                   );
                 })}

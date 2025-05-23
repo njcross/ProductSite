@@ -221,5 +221,22 @@
   "content_256": "Available Date",
   "content_257": "Pick-Up Date",
   "content_258": "Kit Description",
-  "content_259": "Total"
+  "content_259": "Total",
+  "content_260": "View Mode",
+  "content_261": "Grid",
+  "content_262": "List",
+  "content_263": "Items Per Page",
+  "content_264": "Sort By",
+  "content_265": "Date (Newest First)",
+  "content_266": "Quantity",
+  "content_267": "Location",
+  "content_268": "Actions",
+  "content_301": "Filter by Age",
+  "content_302": "Filter by Category",
+  "content_303": "Filter by Theme",
+  "content_304": "Filter by Grade",
+  "content_305": "Filter by Minimum Rating",
+  "content_306": "Filter by Price",
+  "content_307": "Filter by Location",
+  "content_308": "Favorites"
 }

@@ -48,3 +48,14 @@ def get_my_purchases():
 def get_all_purchases():
     purchases = Purchase.query.all()
     return jsonify(purchases_schema.dump(purchases)), 200
+
+@purchase_bp.route('/api/purchases/<int:purchase_id>', methods=['DELETE'])
+@login_required
+def delete_purchase(purchase_id):
+    purchase = Purchase.query.get_or_404(purchase_id)
+    if purchase.user_id != session.get('user_id') and session.get('role') != 'admin':
+        return jsonify({'error': 'Unauthorized'}), 403
+
+    db.session.delete(purchase)
+    db.session.commit()
+    return jsonify({'message': 'Purchase deleted successfully'}), 200

@@ -22,6 +22,7 @@ export default function FilterBy({
   const [gradeOptions, setGradeOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
   const [selectedRating, setSelectedRating] = useState('');
+  const [selectedPriceRange, setSelectedPriceRange] = useState('');
 
   useEffect(() => {
     fetch(`${API_BASE}/api/kits/age-options`).then(res => res.json()).then(setAgeOptions).catch(console.error);
@@ -53,9 +54,15 @@ export default function FilterBy({
     onFilterChange({ rating: value });
   };
 
+  const handlePriceChange = (e) => {
+    const value = e.target.value;
+    setSelectedPriceRange(value);
+    onFilterChange({ price_range: value });
+  };
+
   return (
     <div className="filter-by">
-      <label>Filter by Age</label>
+      <label><EditableField contentKey="content_301" defaultText="Filter by Age" /></label>
       <ul className="filter-list">
         {ageOptions.map(age => (
           <li key={age.id}>
@@ -69,7 +76,7 @@ export default function FilterBy({
         ))}
       </ul>
 
-      <label>Filter by Category</label>
+      <label><EditableField contentKey="content_302" defaultText="Filter by Category" /></label>
       <ul className="filter-list">
         {categoryOptions.map(cat => (
           <li key={cat.id}>
@@ -83,7 +90,7 @@ export default function FilterBy({
         ))}
       </ul>
 
-      <label>Filter by Theme</label>
+      <label><EditableField contentKey="content_303" defaultText="Filter by Theme" /></label>
       <ul className="filter-list">
         {themeOptions.map(theme => (
           <li key={theme.id}>
@@ -97,7 +104,7 @@ export default function FilterBy({
         ))}
       </ul>
 
-      <label>Filter by Grade</label>
+      <label><EditableField contentKey="content_304" defaultText="Filter by Grade" /></label>
       <ul className="filter-list">
         {gradeOptions.map(grade => (
           <li key={grade.id}>
@@ -111,7 +118,7 @@ export default function FilterBy({
         ))}
       </ul>
 
-      <label>Filter by Minimum Rating</label>
+      <label><EditableField contentKey="content_305" defaultText="Filter by Minimum Rating" /></label>
       <div className="filter-rating">
         <select value={selectedRating} onChange={handleRatingChange}>
           <option value="">None</option>
@@ -123,7 +130,18 @@ export default function FilterBy({
         </select>
       </div>
 
-      <label>Filter by Location</label>
+      <label><EditableField contentKey="content_306" defaultText="Filter by Price" /></label>
+      <div className="filter-price">
+        <select value={selectedPriceRange} onChange={handlePriceChange}>
+          <option value="">All</option>
+          <option value="under_5">Under $5</option>
+          <option value="5_10">$5 - $9.99</option>
+          <option value="10_15">$10 - $14.99</option>
+          <option value="over_15">Over $15</option>
+        </select>
+      </div>
+
+      <label><EditableField contentKey="content_307" defaultText="Filter by Location" /></label>
       <ul className="filter-list">
         {locationOptions.map((loc, idx) => (
           <li key={idx}>
@@ -139,7 +157,7 @@ export default function FilterBy({
 
       {currentUser && savedFilters.length > 0 && (
         <div className="saved-filters">
-          <label>Favorites</label>
+          <label><EditableField contentKey="content_308" defaultText="Favorites" /></label>
           <select onChange={(e) => onSelectSavedFilter(e.target.value)}>
             <option value="">Select a Saved Filter</option>
             {savedFilters.map((filter, index) => (
@@ -152,7 +170,7 @@ export default function FilterBy({
       {currentUser && (
         <div className="option-group">
           <button className="save-filter-btn" onClick={onSaveFilter}>
-            <EditableField contentKey="content_144" />
+            <EditableField contentKey="content_144" defaultText="❤ Save This Search" />
           </button>
         </div>
       )}
