@@ -14,15 +14,26 @@ purchases_schema = PurchaseSchema(many=True)
 @login_required
 def create_purchase():
     data = request.get_json()
+
     new_purchase = Purchase(
         kit_id=data['kit_id'],
         user_id=session.get('user_id'),
         quantity=data['quantity'],
-        inventory_id=data['inventory_id']
+        inventory_id=data.get('inventory_id'),
+        payment_method=data.get('payment_method'),
+        available_date=data.get('available_date'),
+        pick_up_date=data.get('pick_up_date')
     )
+
     db.session.add(new_purchase)
     db.session.commit()
-    purchase = Purchase.query.options(joinedload(Purchase.kit), joinedload(Purchase.user)).filter_by(id=new_purchase.id).first()
+
+    purchase = Purchase.query.options(
+        joinedload(Purchase.kit),
+        joinedload(Purchase.user),
+        joinedload(Purchase.inventory)
+    ).filter_by(id=new_purchase.id).first()
+
     return jsonify(purchase_schema.dump(purchase)), 201
 
 @purchase_bp.route('/api/purchases', methods=['GET'])

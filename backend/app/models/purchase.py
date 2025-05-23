@@ -10,7 +10,10 @@ class Purchase(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     time_bought = db.Column(db.DateTime, default=datetime.utcnow)
 
+    payment_method = db.Column(db.String(50))
+    available_date = db.Column(db.Date)
+    pick_up_date = db.Column(db.Date)
+
     kit = db.relationship('Kit', back_populates='purchases', overlaps="purchase")
     user = db.relationship('User', backref='purchases')
-    inventory = db.relationship('Inventory', back_populates='purchases')  # changed backref name
-
+    inventory = db.relationship('Inventory', back_populates='purchases')

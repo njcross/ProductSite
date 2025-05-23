@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, post_dump
 from app.schemas.inventory_schema import InventorySchema
 
 class PurchaseSchema(Schema):
@@ -9,9 +9,19 @@ class PurchaseSchema(Schema):
     quantity = fields.Int()
     time_bought = fields.DateTime()
 
-    kit = fields.Nested('KitSchema', only=['id', 'name', 'image_url', 'price'], dump_only=True)
+    payment_method = fields.Str()
+    available_date = fields.Date()
+    pick_up_date = fields.Date()
+
+    # Include nested fields from related models
+    kit = fields.Nested('KitSchema', only=['id', 'name', 'image_url', 'price', 'description'], dump_only=True)
     user = fields.Nested('UserSchema', only=['id', 'username'], dump_only=True)
     inventory = fields.Nested(InventorySchema, only=['id', 'location', 'location_name'], dump_only=True)
+
+    total = fields.Method("get_total", dump_only=True)
+
+    def get_total(self, obj):
+        return obj.kit.price * obj.quantity if obj.kit and obj.kit.price else None
 
 purchase_schema = PurchaseSchema()
 purchases_schema = PurchaseSchema(many=True)
