@@ -89,6 +89,16 @@ export default function Cards() {
     if (selected) setFilters(selected.filter_data);
   };
 
+  const handleDeleteSavedFilter = (id) => {
+    fetch(`${API_BASE}/api/favorites/character/${id}`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(() => setSavedFilters(prev => prev.filter(f => f.id !== id)))
+      .catch(err => console.error('Failed to delete filter:', err));
+  };
+
   const handleClearSearch = () => {
     setFilters(defaultFilters);
   };
