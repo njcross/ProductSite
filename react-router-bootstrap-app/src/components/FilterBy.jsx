@@ -2,18 +2,19 @@ import { useEffect, useState } from 'react';
 import './FilterBy.css';
 import EditableField from '../components/EditableField';
 
-export default function FilterBy({ 
-  onFilterChange, 
-  selectedAges = [], 
+export default function FilterBy({
+  onFilterChange,
+  selectedAges = [],
   selectedCategories = [],
   selectedThemes = [],
   selectedGrades = [],
   selectedLocations = [],
-  savedFilters = [], 
-  onSelectSavedFilter, 
-  onDeleteSavedFilter, 
+  savedFilters = [],
+  onSelectSavedFilter,
+  onDeleteSavedFilter,
   currentUser,
-  onSaveFilter
+  onSaveFilter,
+  collection = 'default'
 }) {
   const API_BASE = process.env.REACT_APP_API_URL;
   const [ageOptions, setAgeOptions] = useState([]);
@@ -24,13 +25,45 @@ export default function FilterBy({
   const [selectedRating, setSelectedRating] = useState('');
   const [selectedPriceRange, setSelectedPriceRange] = useState('');
 
+  const localKey = `filters_${collection}`;
+
   useEffect(() => {
     fetch(`${API_BASE}/api/kits/age-options`).then(res => res.json()).then(setAgeOptions).catch(console.error);
     fetch(`${API_BASE}/api/kits/category-options`).then(res => res.json()).then(setCategoryOptions).catch(console.error);
     fetch(`${API_BASE}/api/kits/theme-options`).then(res => res.json()).then(setThemeOptions).catch(console.error);
     fetch(`${API_BASE}/api/kits/grade-options`).then(res => res.json()).then(setGradeOptions).catch(console.error);
     fetch(`${API_BASE}/api/inventory/locations`).then(res => res.json()).then(setLocationOptions).catch(console.error);
-  }, []);
+
+    const saved = localStorage.getItem(localKey);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      setSelectedRating(parsed.rating || '');
+      setSelectedPriceRange(parsed.price_range || '');
+      onFilterChange(parsed);
+    }
+  }, [API_BASE, collection]);
+
+  useEffect(() => {
+    const filtersToSave = {
+      age_ids: selectedAges,
+      category_ids: selectedCategories,
+      theme_ids: selectedThemes,
+      grade_ids: selectedGrades,
+      location_names: selectedLocations,
+      rating: selectedRating,
+      price_range: selectedPriceRange
+    };
+    localStorage.setItem(localKey, JSON.stringify(filtersToSave));
+  }, [
+    selectedAges,
+    selectedCategories,
+    selectedThemes,
+    selectedGrades,
+    selectedLocations,
+    selectedRating,
+    selectedPriceRange,
+    localKey
+  ]);
 
   const handleToggle = (type, id) => {
     const currentSelections = {

@@ -1,3 +1,4 @@
+// Cards.jsx
 import React, { useState, useEffect } from 'react';
 import CharacterList from '../components/CharacterList';
 import FilterBy from '../components/FilterBy';
@@ -6,10 +7,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { useUser } from '../context/UserContext';
 import './Cards.css';
 import { useLocation } from 'react-router-dom';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 import EditableField from '../components/EditableField';
-
-
 
 export default function Cards() {
   const { currentUser } = useUser();
@@ -18,7 +17,8 @@ export default function Cards() {
   const searchQuery = queryParams.get('search') || '';
   const [savedFilters, setSavedFilters] = useState([]);
   const API_BASE = process.env.REACT_APP_API_URL;
-  const [filters, setFilters] = useState({
+
+  const defaultFilters = {
     view: 'grid',
     itemsPerPage: 12,
     sortBy: 'name',
@@ -27,26 +27,41 @@ export default function Cards() {
     age_ids: [],
     category_ids: [],
     rating: '',
-    locations: []
+    locations: [],
+    price_range: '',
+    theme_ids: [],
+    grade_ids: []
+  };
+
+  const [filters, setFilters] = useState(() => {
+    const saved = localStorage.getItem('viewingOptions_characters');
+    return saved ? { ...defaultFilters, ...JSON.parse(saved) } : defaultFilters;
   });
 
+  useEffect(() => {
+    if (currentUser) {
+      fetch(`${API_BASE}/api/favorites/`, {
+        credentials: 'include'
+      })
+        .then(res => res.json())
+        .then(data => setSavedFilters(data || []))
+        .catch(err => console.error('Failed to fetch saved filters:', err));
+    }
+  }, [currentUser, API_BASE]);
 
-useEffect(() => {
-  if (currentUser) {
-    fetch(`${API_BASE}/api/favorites/`, {
-      credentials: 'include'
-    })
-      .then(res => res.json())
-      .then(data => setSavedFilters(data || []))
-      .catch(err => console.error('Failed to fetch saved filters:', err));
-  }
-}, [currentUser, API_BASE]);
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const searchQuery = queryParams.get('search') || '';
+    setFilters(prev => {
+      const updated = { ...prev, search: searchQuery };
+      localStorage.setItem('viewingOptions_characters', JSON.stringify(updated));
+      return updated;
+    });
+  }, [location.search]);
 
-useEffect(() => {
-  const queryParams = new URLSearchParams(location.search);
-  const searchQuery = queryParams.get('search') || '';
-  setFilters(prev => ({ ...prev, search: searchQuery }));
-}, [location.search]);
+  useEffect(() => {
+    localStorage.setItem('viewingOptions_characters', JSON.stringify(filters));
+  }, [filters]);
 
   const handleFilterChange = (updated) => {
     setFilters(prev => ({ ...prev, ...updated }));
@@ -59,9 +74,7 @@ useEffect(() => {
     fetch(`${API_BASE}/api/favorites`, {
       method: 'POST',
       credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         type: 'filter',
         name,
@@ -83,30 +96,16 @@ useEffect(() => {
   };
 
   const handleClearSearch = () => {
-    setFilters({
-      age_ids: [],
-      category_ids: [],
-      view: 'grid',
-      itemsPerPage: 12,
-      sortBy: 'name',
-      sortDir: 'asc',
-      search: '',
-      rating: '',
-      locations: []
-    });
+    setFilters(defaultFilters);
   };
 
   const handleDeleteSavedFilter = (id) => {
     fetch(`${API_BASE}/api/favorites/character/${id}`, {
       method: 'DELETE',
       credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
     })
-      .then(() => {
-        setSavedFilters(prev => prev.filter(f => f.id !== id));
-      })
+      .then(() => setSavedFilters(prev => prev.filter(f => f.id !== id)))
       .catch(err => console.error('Failed to delete filter:', err));
   };
 
@@ -117,49 +116,41 @@ useEffect(() => {
         <meta name="description" content="Browse all available Play trays by category, age, and rating." />
       </Helmet>
       <Container fluid>
-        <h2 className="text-center text-white mb-4"><EditableField contentKey="content_254" /></h2>
+        <h2 className="text-center text-white mb-4">
+          <EditableField contentKey="content_254" />
+        </h2>
         <Row>
-        <Col md={2} sm={12}>
-          <FilterBy
-            selectedAlignment={filters.alignment}
-            selectedAges={filters.age_ids}
-            selectedCategories={filters.category_ids}
-            selectedRating={filters.rating}
-            selectedLocations={filters.locations}
-            onFilterChange={handleFilterChange}
-            savedFilters={savedFilters}
-            onSelectSavedFilter={handleSelectSavedFilter}
-            onDeleteSavedFilter={handleDeleteSavedFilter}
-            currentUser={currentUser}
-            onSaveFilter={currentUser ? handleSaveSearch : null}
-          />
+          <Col md={2} sm={12}>
+            <FilterBy
+              selectedAges={filters.age_ids}
+              selectedCategories={filters.category_ids}
+              selectedThemes={filters.theme_ids}
+              selectedGrades={filters.grade_ids}
+              selectedRating={filters.rating}
+              selectedLocations={filters.locations}
+              savedFilters={savedFilters}
+              onFilterChange={handleFilterChange}
+              onSelectSavedFilter={handleSelectSavedFilter}
+              onDeleteSavedFilter={handleDeleteSavedFilter}
+              currentUser={currentUser}
+              onSaveFilter={currentUser ? handleSaveSearch : null}
+            />
           </Col>
           <Col md={10} sm={12}>
             <ViewingOptions
               viewMode={filters.view}
-              onViewModeChange={(val) => handleFilterChange({ view: val })}
+              onViewModeChange={val => handleFilterChange({ view: val })}
               itemsPerPage={filters.itemsPerPage}
-              onItemsPerPageChange={(val) => handleFilterChange({ itemsPerPage: val })}
+              onItemsPerPageChange={val => handleFilterChange({ itemsPerPage: val })}
               sortBy={filters.sortBy}
               sortDir={filters.sortDir}
-              onSortDirChange={(val) => handleFilterChange({ sortDir: val })}
-              onSortChange={(val) => handleFilterChange({ sortBy: val })}
+              onSortDirChange={val => handleFilterChange({ sortDir: val })}
+              onSortChange={val => handleFilterChange({ sortBy: val })}
               search={filters.search}
-              onSearchChange={(val) => handleFilterChange({ search: val })}
+              onSearchChange={val => handleFilterChange({ search: val })}
               onClearSearch={handleClearSearch}
             />
-            <CharacterList
-              view={filters.view}
-              itemsPerPage={filters.itemsPerPage}
-              sortBy={filters.sortBy}
-              sortDir={filters.sortDir}
-              search={filters.search}
-              alignment={filters.alignment}
-              selectedAges={filters.age_ids}
-              selectedCategories={filters.category_ids}
-              selectedLocations={filters.locations}
-              rating={filters.rating}
-            />
+            <CharacterList {...filters} />
           </Col>
         </Row>
       </Container>

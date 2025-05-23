@@ -13,13 +13,22 @@ export default function ViewingOptions({
   sortDir,
   onSortDirChange,
   search,
-  onClearSearch
+  onClearSearch,
+  collection
 }) {
   const { currentUser } = useUser();
 
   const toggleSortDir = () => {
     onSortDirChange(sortDir === 'asc' ? 'desc' : 'asc');
   };
+  useEffect(() => {
+    localStorage.setItem('viewingOptions' + collection, JSON.stringify({
+      view: filters.view,
+      itemsPerPage: filters.itemsPerPage,
+      sortBy: filters.sortBy,
+      sortDir: filters.sortDir
+    }));
+  }, [filters.view, filters.itemsPerPage, filters.sortBy, filters.sortDir]);
 
   return (
     <div className="viewing-options">
