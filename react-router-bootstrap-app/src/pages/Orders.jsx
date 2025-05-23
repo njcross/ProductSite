@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import FilterBy from '../components/FilterBy';
 import ViewingOptions from '../components/ViewingOptions';
 import PaginationControls from '../components/PaginationControls';
+import { Button } from 'react-bootstrap';
 import './Orders.css';
 
 export default function Orders() {
