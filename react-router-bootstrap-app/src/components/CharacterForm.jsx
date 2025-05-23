@@ -487,110 +487,121 @@ export default function CharacterForm({ initialData, onSubmit }) {
         {!initialData && (
           <Form.Group>
           <Form.Label>Inventory Locations</Form.Label>
-          {formData.inventories.map((inv, index) => (
-            <Row key={index} className="mb-2 align-items-end">
-              <Col md={3}>
-                <Form.Label>Use Existing Location</Form.Label>
-                <Form.Select
-                  value={inv.existing || ''}
-                  onChange={(e) => {
-                    const selectedName = e.target.value;
-                    const selected = inventoryOptions.find(i => i.location_name === selectedName);
-                    const updated = [...formData.inventories];
-                    updated[index] = selected
-                      ? {
-                          ...inv,
-                          location: selected.location,
-                          location_name: selected.location_name,
-                          existing: selectedName,
-                          quantity: inv.quantity || ''
-                        }
-                      : { location: '', location_name: '', quantity: '', existing: '' };
-                    setFormData(prev => ({ ...prev, inventories: updated }));
-                  }}
-                >
-                  <option value="">Create New</option>
-                  {[...new Set(inventoryOptions.map(i => i.location_name))].map((name, i) => (
-                    <option key={i} value={name}>{name}</option>
-                  ))}
-                </Form.Select>
-              </Col>
-
-              <Col md={3}>
-                <Form.Label>Location</Form.Label>
-                <Form.Control
-                  value={inv.location}
-                  disabled={!!inv.existing}
-                  onChange={(e) => {
-                    const updated = [...formData.inventories];
-                    updated[index].location = e.target.value;
-                    setFormData({ ...formData, inventories: updated });
-                  }}
-                  placeholder="Lat,Lng"
-                />
-              </Col>
-
-              <Col md={3}>
-                <Form.Label>Location Name</Form.Label>
-                <Form.Control
-                  value={inv.location_name}
-                  disabled={!!inv.existing}
-                  onChange={(e) => {
-                    const updated = [...formData.inventories];
-                    updated[index].location_name = e.target.value;
-                    setFormData({ ...formData, inventories: updated });
-                  }}
-                  list="locationNames"
-                  placeholder="Warehouse A"
-                />
-                <datalist id="locationNames">
-                  {[...new Set(inventoryOptions.map(i => i.location_name))].map((name, i) => (
-                    <option key={i} value={name} />
-                  ))}
-                </datalist>
-              </Col>
-
-              <Col md={2}>
-                <Form.Label>Quantity</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={inv.quantity}
-                  onChange={(e) => {
-                    const updated = [...formData.inventories];
-                    updated[index].quantity = e.target.value;
-                    setFormData({ ...formData, inventories: updated });
-                  }}
-                  placeholder="0"
-                />
-              </Col>
-
-              <Col xs="auto" className="pt-4">
-                <Button
-                  variant="outline-danger"
-                  onClick={() => {
-                    setFormData({
-                      ...formData,
-                      inventories: formData.inventories.filter((_, i) => i !== index),
-                    });
-                  }}
-                >
-                  ×
-                </Button>
-              </Col>
-            </Row>
-          ))}
+          {formData.inventories.map((inv, index) => {
+            const selectedName = inv.existing || '';
+            const matched = inventoryOptions.find(i => i.location_name === selectedName) || {};
+            return (
+              <Row key={index} className="mb-2 align-items-end">
+                <Col md={3}>
+                  <Form.Label>Use Existing Location</Form.Label>
+                  <Form.Select
+                    value={selectedName}
+                    onChange={(e) => {
+                      const name = e.target.value;
+                      const match = inventoryOptions.find(i => i.location_name === name);
+                      const updated = [...formData.inventories];
+                      if (match) {
+                        updated[index] = {
+                          ...updated[index],
+                          location: match.location,
+                          location_name: match.location_name,
+                          existing: name,
+                          quantity: updated[index].quantity || ''
+                        };
+                      } else {
+                        updated[index] = { location: '', location_name: '', quantity: '', existing: '' };
+                      }
+                      setFormData(prev => ({ ...prev, inventories: updated }));
+                    }}
+                  >
+                    <option value="">Create New</option>
+                    {[...new Set(inventoryOptions.map(i => i.location_name))].map((name, i) => (
+                      <option key={i} value={name}>{name}</option>
+                    ))}
+                  </Form.Select>
+                </Col>
+        
+                <Col md={3}>
+                  <Form.Label>Location</Form.Label>
+                  <Form.Control
+                    value={inv.location || ''}
+                    disabled={!!inv.existing}
+                    onChange={(e) => {
+                      const updated = [...formData.inventories];
+                      updated[index].location = e.target.value;
+                      setFormData({ ...formData, inventories: updated });
+                    }}
+                    placeholder="Lat,Lng"
+                  />
+                </Col>
+        
+                <Col md={3}>
+                  <Form.Label>Location Name</Form.Label>
+                  <Form.Control
+                    value={inv.location_name || ''}
+                    disabled={!!inv.existing}
+                    onChange={(e) => {
+                      const updated = [...formData.inventories];
+                      updated[index].location_name = e.target.value;
+                      setFormData({ ...formData, inventories: updated });
+                    }}
+                    list="locationNames"
+                    placeholder="Warehouse A"
+                  />
+                  <datalist id="locationNames">
+                    {[...new Set(inventoryOptions.map(i => i.location_name))].map((name, i) => (
+                      <option key={i} value={name} />
+                    ))}
+                  </datalist>
+                </Col>
+        
+                <Col md={2}>
+                  <Form.Label>Quantity</Form.Label>
+                  <Form.Control
+                    type="number"
+                    value={inv.quantity || ''}
+                    onChange={(e) => {
+                      const updated = [...formData.inventories];
+                      updated[index].quantity = e.target.value;
+                      setFormData({ ...formData, inventories: updated });
+                    }}
+                    placeholder="0"
+                  />
+                </Col>
+        
+                <Col xs="auto" className="pt-4">
+                  <Button
+                    variant="outline-danger"
+                    onClick={() => {
+                      setFormData({
+                        ...formData,
+                        inventories: formData.inventories.filter((_, i) => i !== index),
+                      });
+                    }}
+                  >
+                    ×
+                  </Button>
+                </Col>
+              </Row>
+            );
+          })}
+        
           <Button
             variant="outline-primary"
             onClick={() =>
               setFormData({
                 ...formData,
-                inventories: [...formData.inventories, { location: '', location_name: '', quantity: '', existing: '' }],
+                inventories: [...formData.inventories, {
+                  location: '',
+                  location_name: '',
+                  quantity: '',
+                  existing: ''
+                }],
               })
             }
           >
             + Add Inventory
           </Button>
-
         </Form.Group>
         
 
