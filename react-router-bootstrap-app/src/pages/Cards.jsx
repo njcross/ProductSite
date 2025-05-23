@@ -191,6 +191,7 @@ export default function Cards() {
               selectedGrades={memorizedGrades}
               selectedThemes={memorizedThemes}
               rating={filters.rating}
+              locations={filters.locations}
               page={filters.page}
               onPageChange={(val) => handleFilterChange({ page: val })} 
             />
