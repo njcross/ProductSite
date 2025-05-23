@@ -185,7 +185,7 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
                     }));
                   }}
                 >
-                  <option value="">-- Select Existing --</option>
+                  <option value="">-- Create New --</option>
                   {inventoryOptions.map((opt, i) => (
                     <option key={i} value={opt.location}>
                       {opt.location_name || opt.location}
