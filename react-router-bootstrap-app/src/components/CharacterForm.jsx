@@ -487,7 +487,11 @@ export default function CharacterForm({ initialData, onSubmit }) {
         {!initialData && (
           <Form.Group>
           <Form.Label>Inventory Locations</Form.Label>
-          {formData.inventories.map((inv, index) => (
+          {[
+            ...new Map(
+              formData.inventories.map(inv => [`${inv.location}-${inv.location_name}`, inv])
+            ).values()
+          ].map((inv, index) => (
             <Row key={index} className="mb-2">
               <Col>
                 <Form.Control
@@ -512,7 +516,7 @@ export default function CharacterForm({ initialData, onSubmit }) {
                   }}
                 />
                 <datalist id="locationNames">
-                  {Array.from(new Set(inventoryOptions.map(i => i.location_name))).map((name, i) => (
+                  {[...new Set(inventoryOptions.map(i => i.location_name))].map((name, i) => (
                     <option key={i} value={name} />
                   ))}
                 </datalist>
@@ -545,6 +549,7 @@ export default function CharacterForm({ initialData, onSubmit }) {
               </Col>
             </Row>
           ))}
+
           <Button
             variant="outline-primary"
             onClick={() => {

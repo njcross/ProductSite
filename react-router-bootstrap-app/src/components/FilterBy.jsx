@@ -175,16 +175,17 @@ export default function FilterBy({
 
       <label><EditableField contentKey="content_307" defaultText="Filter by Location" /></label>
       <ul className="filter-list">
-        {locationOptions.map((loc, idx) => (
-          <li key={idx}>
-            <input
-              type="checkbox"
-              checked={selectedLocations.includes(loc)}
-              onChange={() => handleToggle('location_names', loc)}
-            />
-            {loc}
-          </li>
-        ))}
+      {[...new Set(locationOptions)].map((loc, idx) => (
+        <li key={idx}>
+          <input
+            type="checkbox"
+            checked={selectedLocations.includes(loc)}
+            onChange={() => handleToggle('location_names', loc)}
+          />
+          {loc}
+        </li>
+      ))}
+
       </ul>
 
       {currentUser && savedFilters.length > 0 && (
