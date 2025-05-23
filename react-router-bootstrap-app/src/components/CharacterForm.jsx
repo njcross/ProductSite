@@ -487,33 +487,61 @@ export default function CharacterForm({ initialData, onSubmit }) {
         {!initialData && (
           <Form.Group>
           <Form.Label>Inventory Locations</Form.Label>
-          {[
-            ...new Map(
-              formData.inventories.map(inv => [`${inv.location}-${inv.location_name}`, inv])
-            ).values()
-          ].map((inv, index) => (
-            <Row key={index} className="mb-2">
-              <Col>
-                <Form.Control
-                  placeholder="Location"
-                  value={inv.location}
+          {formData.inventories.map((inv, index) => (
+            <Row key={index} className="mb-2 align-items-end">
+              <Col md={3}>
+                <Form.Label>Use Existing Location</Form.Label>
+                <Form.Select
+                  value={inv.existing || ''}
                   onChange={(e) => {
-                    const inventories = [...formData.inventories];
-                    inventories[index].location = e.target.value;
-                    setFormData({ ...formData, inventories });
+                    const selectedName = e.target.value;
+                    const selected = inventoryOptions.find(i => i.location_name === selectedName);
+                    const updated = [...formData.inventories];
+                    updated[index] = selected
+                      ? {
+                          ...inv,
+                          location: selected.location,
+                          location_name: selected.location_name,
+                          existing: selectedName,
+                          quantity: inv.quantity || ''
+                        }
+                      : { location: '', location_name: '', quantity: '', existing: '' };
+                    setFormData(prev => ({ ...prev, inventories: updated }));
                   }}
+                >
+                  <option value="">Create New</option>
+                  {[...new Set(inventoryOptions.map(i => i.location_name))].map((name, i) => (
+                    <option key={i} value={name}>{name}</option>
+                  ))}
+                </Form.Select>
+              </Col>
+
+              <Col md={3}>
+                <Form.Label>Location</Form.Label>
+                <Form.Control
+                  value={inv.location}
+                  disabled={!!inv.existing}
+                  onChange={(e) => {
+                    const updated = [...formData.inventories];
+                    updated[index].location = e.target.value;
+                    setFormData({ ...formData, inventories: updated });
+                  }}
+                  placeholder="Lat,Lng"
                 />
               </Col>
-              <Col>
+
+              <Col md={3}>
+                <Form.Label>Location Name</Form.Label>
                 <Form.Control
-                  placeholder="Location Name"
-                  list="locationNames"
                   value={inv.location_name}
+                  disabled={!!inv.existing}
                   onChange={(e) => {
-                    const inventories = [...formData.inventories];
-                    inventories[index].location_name = e.target.value;
-                    setFormData({ ...formData, inventories });
+                    const updated = [...formData.inventories];
+                    updated[index].location_name = e.target.value;
+                    setFormData({ ...formData, inventories: updated });
                   }}
+                  list="locationNames"
+                  placeholder="Warehouse A"
                 />
                 <datalist id="locationNames">
                   {[...new Set(inventoryOptions.map(i => i.location_name))].map((name, i) => (
@@ -521,20 +549,22 @@ export default function CharacterForm({ initialData, onSubmit }) {
                   ))}
                 </datalist>
               </Col>
-              <Col>
+
+              <Col md={2}>
+                <Form.Label>Quantity</Form.Label>
                 <Form.Control
                   type="number"
-                  min="0"
-                  placeholder="Quantity"
                   value={inv.quantity}
                   onChange={(e) => {
-                    const inventories = [...formData.inventories];
-                    inventories[index].quantity = e.target.value;
-                    setFormData({ ...formData, inventories });
+                    const updated = [...formData.inventories];
+                    updated[index].quantity = e.target.value;
+                    setFormData({ ...formData, inventories: updated });
                   }}
+                  placeholder="0"
                 />
               </Col>
-              <Col xs="auto">
+
+              <Col xs="auto" className="pt-4">
                 <Button
                   variant="outline-danger"
                   onClick={() => {
@@ -549,18 +579,18 @@ export default function CharacterForm({ initialData, onSubmit }) {
               </Col>
             </Row>
           ))}
-
           <Button
             variant="outline-primary"
-            onClick={() => {
+            onClick={() =>
               setFormData({
                 ...formData,
-                inventories: [...formData.inventories, { location: '', location_name: '', quantity: 0 }],
-              });
-            }}
+                inventories: [...formData.inventories, { location: '', location_name: '', quantity: '', existing: '' }],
+              })
+            }
           >
             + Add Inventory
           </Button>
+
         </Form.Group>
         
 
