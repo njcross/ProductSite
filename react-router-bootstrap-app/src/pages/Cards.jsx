@@ -68,12 +68,24 @@ export default function Cards() {
       'sortBy', 'sortDir', 'search',
       'age_ids', 'category_ids', 'rating', 'locations'
     ].some(key => key in updated);
-    setFilters(prev => ({
-      ...prev,
-      ...updated,
-      page: shouldResetPage ? 1 : prev.page 
-    }));
+  
+    setFilters(prev => {
+      const next = { ...prev, ...updated };
+  
+      // 👇 Reset sort direction to 'asc' if sortBy has changed
+      if ('sortBy' in updated && updated.sortBy !== prev.sortBy) {
+        next.sortDir = 'asc';
+      }
+  
+      // 👇 Reset to page 1 if certain filters changed
+      if (shouldResetPage) {
+        next.page = 1;
+      }
+  
+      return next;
+    });
   };
+  
 
   const handleSaveSearch = () => {
     const name = prompt('Give a name to this search:');

@@ -17,14 +17,15 @@ export default function CharacterList({
   search = '',
   selectedAges = [],
   selectedCategories = [],
-  selectedThemses = [],
+  selectedThemes = [],
   selectedGrades = [],
   rating = '',
-  locations = []
+  locations = [],
+  page,
+  onPageChange
 }) {
   const { currentUser } = useUser();
   const [characters, setCharacters] = useState([]);
-  const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -43,6 +44,10 @@ export default function CharacterList({
       url += `&age_ids=${selectedAges.join(',')}`;
     if (Array.isArray(selectedCategories) && selectedCategories.length)
       url += `&category_ids=${selectedCategories.join(',')}`;
+    if (Array.isArray(selectedThemes) && selectedThemes.length)
+      url += `&theme_ids=${selectedThemes.join(',')}`;
+    if (Array.isArray(selectedGrades) && selectedGrades.length)
+      url += `&grade_ids=${selectedGrades.join(',')}`;
   
     try {
       const res = await fetch(url, { method: 'GET', credentials: 'include' });
@@ -63,7 +68,7 @@ export default function CharacterList({
     locations,
     selectedAges,
     selectedCategories,
-    selectedThemses,
+    selectedThemes,
     selectedGrades,
   ]);
   
@@ -160,7 +165,7 @@ export default function CharacterList({
           <Col className="d-flex justify-content-center">
             <PaginationControls
               page={page}
-              onPageChange={setPage}
+              onPageChange={onPageChange}
               hasNext={hasNext}
             />
           </Col>
