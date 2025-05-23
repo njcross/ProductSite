@@ -8,6 +8,7 @@ import './Cards.css';
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import EditableField from '../components/EditableField';
+import { useMemo } from 'react';
 
 export default function Cards() {
   const { currentUser } = useUser();
@@ -34,6 +35,12 @@ export default function Cards() {
     const saved = localStorage.getItem('viewingOptions_characters');
     return saved ? { ...defaultFilters, ...JSON.parse(saved) } : defaultFilters;
   });
+
+  const memoizedAges = useMemo(() => filters.age_ids, [filters.age_ids]);
+  const memoizedCategories = useMemo(() => filters.category_ids, [filters.category_ids]);
+  const memoizedLocations = useMemo(() => filters.locations, [filters.locations]);
+  const memorizedGrades = useMemo(() => filters.grade_ids, [filters.grade_ids]);
+  const memorizedThemes = useMemo(() => filters.theme_ids, [filters.theme_ids]);
 
   useEffect(() => {
     if (currentUser) {
@@ -166,9 +173,11 @@ export default function Cards() {
               sortDir={filters.sortDir}
               search={filters.search}
               alignment={filters.alignment}
-              selectedAges={filters.age_ids}
-              selectedCategories={filters.category_ids}
-              selectedLocations={filters.locations}
+              selectedAges={memoizedAges}
+              selectedCategories={memoizedCategories}
+              selectedLocations={memoizedLocations}
+              selectedGrades={memorizedGrades}
+              selectedThemes={memorizedThemes}
               rating={filters.rating}
               page={filters.page}
               onPageChange={(val) => handleFilterChange({ page: val })} 

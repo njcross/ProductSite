@@ -17,6 +17,8 @@ export default function CharacterList({
   search = '',
   selectedAges = [],
   selectedCategories = [],
+  selectedThemses = [],
+  selectedGrades = [],
   rating = '',
   locations = []
 }) {
@@ -60,7 +62,9 @@ export default function CharacterList({
     rating,
     locations,
     selectedAges,
-    selectedCategories
+    selectedCategories,
+    selectedThemses,
+    selectedGrades,
   ]);
   
   useEffect(() => {
