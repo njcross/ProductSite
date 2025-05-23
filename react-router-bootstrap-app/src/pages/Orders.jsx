@@ -139,6 +139,7 @@ export default function Orders() {
                   <th><EditableField contentKey="content_257" defaultText="Pick-Up Date" /></th>
                   <th><EditableField contentKey="content_258" defaultText="Kit Description" /></th>
                   <th><EditableField contentKey="content_259" defaultText="Total" /></th>
+                  <th><EditableField contentKey="content_269" defaultText="Status" /></th>
                   <th><EditableField contentKey="content_268" defaultText="Actions" /></th>
                 </tr>
               </thead>
@@ -162,6 +163,7 @@ export default function Orders() {
                       <td>{purchase.pick_up_date || '—'}</td>
                       <td>{purchase.kit?.description || '—'}</td>
                       <td>${total}</td>
+                      <td>{purchase.status || '—'}</td>
                       <td>
   <Button size="sm" variant="outline-danger" onClick={() => handleCancel(purchase.id)}>
     Cancel
