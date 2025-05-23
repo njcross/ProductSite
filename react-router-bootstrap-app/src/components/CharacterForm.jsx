@@ -515,8 +515,10 @@ export default function CharacterForm({ initialData, onSubmit }) {
                     }}
                   >
                     <option value="">Create New</option>
-                    {[...new Set(inventoryOptions.map(i => i.location_name))].map((name, i) => (
-                      <option key={i} value={String(name)}>{String(name)}</option>
+                    {[...new Set(inventoryOptions.map(i => i.location_name))]
+                      .filter(name => typeof name === 'string' && name.trim() !== '')
+                      .map((name, i) => (
+                        <option key={i} value={String(name)}>{String(name)}</option>
                     ))}
                   </Form.Select>
                 </Col>
