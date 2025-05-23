@@ -27,6 +27,7 @@ export default function CharacterForm({ initialData, onSubmit }) {
   const [newCategory, setNewCategory] = useState('');
   const [newTheme, setNewTheme] = useState('');
   const [newGrade, setNewGrade] = useState('');
+  const [inventoryOptions, setInventoryOptions] = useState([]);
 
   useEffect(() => {
     fetch(`${API_BASE}/api/kits/age-options`)
@@ -47,6 +48,11 @@ export default function CharacterForm({ initialData, onSubmit }) {
     fetch(`${API_BASE}/api/kits/grade-options`)
       .then(res => res.json())
       .then(setGradeOptions)
+      .catch(console.error);
+
+    fetch(`${API_BASE}/api/inventory/locations`)
+      .then(res => res.json())
+      .then(setInventoryOptions)
       .catch(console.error);
   }, [API_BASE]);
 
@@ -480,41 +486,78 @@ export default function CharacterForm({ initialData, onSubmit }) {
         {/* INVENTORY FIELDS (only show if creating) */}
         {!initialData && (
           <Form.Group>
-            <Form.Label>Inventory Locations</Form.Label>
-            {formData.inventories.map((inv, index) => (
-              <Row key={index} className="mb-2">
-                <Col><Form.Control placeholder="Location" value={inv.location} onChange={(e) => {
-                  const inventories = [...formData.inventories];
-                  inventories[index].location = e.target.value;
-                  setFormData({ ...formData, inventories });
-                }} /></Col>
-                <Col><Form.Control placeholder="Location Name" value={inv.location_name} onChange={(e) => {
-                  const inventories = [...formData.inventories];
-                  inventories[index].location_name = e.target.value;
-                  setFormData({ ...formData, inventories });
-                }} /></Col>
-                <Col><Form.Control type="number" min="0" placeholder="Quantity" value={inv.quantity} onChange={(e) => {
-                  const inventories = [...formData.inventories];
-                  inventories[index].quantity = e.target.value;
-                  setFormData({ ...formData, inventories });
-                }} /></Col>
-                <Col xs="auto">
-                  <Button variant="outline-danger" onClick={() => {
+          <Form.Label>Inventory Locations</Form.Label>
+          {formData.inventories.map((inv, index) => (
+            <Row key={index} className="mb-2">
+              <Col>
+                <Form.Control
+                  placeholder="Location"
+                  value={inv.location}
+                  onChange={(e) => {
+                    const inventories = [...formData.inventories];
+                    inventories[index].location = e.target.value;
+                    setFormData({ ...formData, inventories });
+                  }}
+                />
+              </Col>
+              <Col>
+                <Form.Control
+                  placeholder="Location Name"
+                  list="locationNames"
+                  value={inv.location_name}
+                  onChange={(e) => {
+                    const inventories = [...formData.inventories];
+                    inventories[index].location_name = e.target.value;
+                    setFormData({ ...formData, inventories });
+                  }}
+                />
+                <datalist id="locationNames">
+                  {Array.from(new Set(inventoryOptions.map(i => i.location_name))).map((name, i) => (
+                    <option key={i} value={name} />
+                  ))}
+                </datalist>
+              </Col>
+              <Col>
+                <Form.Control
+                  type="number"
+                  min="0"
+                  placeholder="Quantity"
+                  value={inv.quantity}
+                  onChange={(e) => {
+                    const inventories = [...formData.inventories];
+                    inventories[index].quantity = e.target.value;
+                    setFormData({ ...formData, inventories });
+                  }}
+                />
+              </Col>
+              <Col xs="auto">
+                <Button
+                  variant="outline-danger"
+                  onClick={() => {
                     setFormData({
                       ...formData,
-                      inventories: formData.inventories.filter((_, i) => i !== index)
+                      inventories: formData.inventories.filter((_, i) => i !== index),
                     });
-                  }}>×</Button>
-                </Col>
-              </Row>
-            ))}
-            <Button variant="outline-primary" onClick={() => {
+                  }}
+                >
+                  ×
+                </Button>
+              </Col>
+            </Row>
+          ))}
+          <Button
+            variant="outline-primary"
+            onClick={() => {
               setFormData({
                 ...formData,
-                inventories: [...formData.inventories, { location: '', location_name: '', quantity: 0 }]
+                inventories: [...formData.inventories, { location: '', location_name: '', quantity: 0 }],
               });
-            }}>+ Add Inventory</Button>
-          </Form.Group>
+            }}
+          >
+            + Add Inventory
+          </Button>
+        </Form.Group>
+        
 
         
         )}
