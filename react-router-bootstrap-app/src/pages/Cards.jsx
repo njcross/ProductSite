@@ -20,6 +20,7 @@ export default function Cards() {
   const defaultFilters = {
     view: 'grid',
     itemsPerPage: 12,
+    page: 1,
     sortBy: 'name',
     sortDir: 'asc',
     search: searchQuery,
@@ -56,7 +57,15 @@ export default function Cards() {
   }, [filters]);
 
   const handleFilterChange = (updated) => {
-    setFilters(prev => ({ ...prev, ...updated }));
+    const shouldResetPage = [
+      'sortBy', 'sortDir', 'search',
+      'age_ids', 'category_ids', 'rating', 'locations'
+    ].some(key => key in updated);
+    setFilters(prev => ({
+      ...prev,
+      ...updated,
+      page: shouldResetPage ? 1 : prev.page 
+    }));
   };
 
   const handleSaveSearch = () => {
@@ -161,6 +170,8 @@ export default function Cards() {
               selectedCategories={filters.category_ids}
               selectedLocations={filters.locations}
               rating={filters.rating}
+              page={filters.page}
+              onPageChange={(val) => handleFilterChange({ page: val })} 
             />
           </Col>
         </Row>
