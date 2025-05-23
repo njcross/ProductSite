@@ -130,84 +130,26 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
 
           {isAdmin ? (
             <>
-              <Row className="mb-2 align-items-end">
-              {/* Existing location dropdown */}
-              <Col sm={4}>
-                <Form.Group controlId="existingLocation">
-                  <Form.Label>Choose Existing Location</Form.Label>
-                  <Form.Select
-                    value={newInventory.location}
-                    onChange={(e) => {
-                      const selected = e.target.value;
-                      setNewInventory(prev => ({
-                        ...prev,
-                        location: selected,
-                        location_name: selected  // Default name same as location
-                      }));
-                    }}
-                  >
-                    <option value="">-- Select Existing --</option>
-                    {Array.from(new Set(inventoryOptions)).map((loc, i) => (
-                      <option key={i} value={loc}>{loc}</option>
-                    ))}
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-
-              {/* OR enter new location manually */}
-              <Col sm={4}>
-                <Form.Group controlId="manualLocation">
-                  <Form.Label>Or Enter New Location</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="New Address or Place"
-                    value={newInventory.location}
-                    onChange={(e) => setNewInventory(prev => ({
-                      ...prev,
-                      location: e.target.value,
-                      location_name: e.target.value  // Use same value as name by default
-                    }))}
-                  />
-                </Form.Group>
-              </Col>
-
-              {/* Optional: override location_name */}
+              <Col sm={3}><Form.Control value={inv.location} /></Col>
               <Col sm={3}>
-                <Form.Group controlId="locationName">
-                  <Form.Label>Display Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Optional custom name"
-                    value={newInventory.location_name}
-                    onChange={(e) => setNewInventory(prev => ({
-                      ...prev,
-                      location_name: e.target.value
-                    }))}
-                  />
-                </Form.Group>
+                <Form.Control
+                  value={inv.location_name}
+                  onChange={(e) => handleChange(i, 'location_name', e.target.value)}
+                />
               </Col>
-
-              {/* Quantity */}
-              <Col sm={1}>
-                <Form.Group controlId="quantity">
-                  <Form.Label>Qty</Form.Label>
-                  <Form.Control
-                    type="number"
-                    min="0"
-                    value={newInventory.quantity}
-                    onChange={(e) => setNewInventory(prev => ({
-                      ...prev,
-                      quantity: e.target.value
-                    }))}
-                  />
-                </Form.Group>
+              <Col sm={2}>
+                <Form.Control
+                  type="number"
+                  value={inv.quantity}
+                  onChange={(e) => handleChange(i, 'quantity', e.target.value)}
+                />
               </Col>
-
               <Col sm="auto">
-                <Button className="mt-2" onClick={handleAdd}>＋</Button>
+                <Button variant="outline-success" onClick={() => handleUpdate(i)}>💾</Button>
               </Col>
-            </Row>
-
+              <Col sm="auto">
+                <Button variant="outline-danger" onClick={() => handleDelete(inv.location)}>🗑</Button>
+              </Col>
             </>
           ) : (
             <>
@@ -227,31 +169,81 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
       {isAdmin && (
         <div className="mt-4">
           <h5>Add New Inventory</h5>
-          <Row className="mb-2">
+          <Row className="mb-2 align-items-end">
+            {/* Existing location dropdown */}
             <Col sm={4}>
-              <Form.Control
-                placeholder="address or place name"
-                value={newInventory.location}
-                onChange={(e) => setNewInventory(prev => ({ ...prev, location: e.target.value }))}
-              />
+              <Form.Group controlId="existingLocation">
+                <Form.Label>Choose Existing Location</Form.Label>
+                <Form.Select
+                  value={newInventory.location}
+                  onChange={(e) => {
+                    const selected = e.target.value;
+                    setNewInventory(prev => ({
+                      ...prev,
+                      location: selected,
+                      location_name: selected  // Default name same as location
+                    }));
+                  }}
+                >
+                  <option value="">-- Select Existing --</option>
+                  {Array.from(new Set(inventoryOptions)).map((loc, i) => (
+                    <option key={i} value={loc}>{loc}</option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
             </Col>
+
+            {/* OR enter new location manually */}
             <Col sm={4}>
-              <Form.Control
-                placeholder="Location Name"
-                value={newInventory.location_name}
-                onChange={(e) => setNewInventory(prev => ({ ...prev, location_name: e.target.value }))}
-              />
+              <Form.Group controlId="manualLocation">
+                <Form.Label>Or Enter New Location</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="New Address or Place"
+                  value={newInventory.location}
+                  onChange={(e) => setNewInventory(prev => ({
+                    ...prev,
+                    location: e.target.value,
+                    location_name: e.target.value  // Use same value as name by default
+                  }))}
+                />
+              </Form.Group>
             </Col>
-            <Col sm={2}>
-              <Form.Control
-                type="number"
-                placeholder="Qty"
-                value={newInventory.quantity}
-                onChange={(e) => setNewInventory(prev => ({ ...prev, quantity: e.target.value }))}
-              />
+
+            {/* Optional: override location_name */}
+            <Col sm={3}>
+              <Form.Group controlId="locationName">
+                <Form.Label>Display Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Optional custom name"
+                  value={newInventory.location_name}
+                  onChange={(e) => setNewInventory(prev => ({
+                    ...prev,
+                    location_name: e.target.value
+                  }))}
+                />
+              </Form.Group>
             </Col>
-            <Col sm={2}>
-              <Button onClick={handleAdd}>＋</Button>
+
+            {/* Quantity */}
+            <Col sm={1}>
+              <Form.Group controlId="quantity">
+                <Form.Label>Qty</Form.Label>
+                <Form.Control
+                  type="number"
+                  min="0"
+                  value={newInventory.quantity}
+                  onChange={(e) => setNewInventory(prev => ({
+                    ...prev,
+                    quantity: e.target.value
+                  }))}
+                />
+              </Form.Group>
+            </Col>
+
+            <Col sm="auto">
+              <Button className="mt-2" onClick={handleAdd}>＋</Button>
             </Col>
           </Row>
         </div>
