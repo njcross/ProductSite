@@ -88,32 +88,47 @@ export default function Orders() {
         </p>
       ) : (
         <Table responsive bordered hover className="orders-table">
-          <thead>
-            <tr>
-              <th><EditableField contentKey="content_232" /></th> {/* Kit Name */}
-              <th><EditableField contentKey="content_233" /></th> {/* Image */}
-              {viewAll && <th><EditableField contentKey="content_230" /></th>} {/* User ID */}
-              <th><EditableField contentKey="content_250" defaultText="Location" /></th> {/* Location */}
-              <th><EditableField contentKey="content_234" /></th> {/* Quantity */}
-              <th><EditableField contentKey="content_235" /></th> {/* Date */}
-            </tr>
-          </thead>
-          <tbody>
-            {purchases.map((purchase) => {
-              const address = purchase.inventory?.location;
-              return (
-                <tr key={purchase.id}>
-                  <td>{purchase.kit.name}</td>
-                  <td><img src={purchase.kit.image_url} alt={purchase.kit.name} style={{ width: '60px' }} /></td>
-                  {viewAll && <td>{purchase.user_id}</td>}
-                  <td>{address}</td>
-                  <td>{purchase.quantity}</td>
-                  <td>{new Date(purchase.time_bought).toLocaleString()}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
+  <thead>
+    <tr>
+      <th><EditableField contentKey="content_232" defaultText="Kit Name" /></th>
+      <th><EditableField contentKey="content_233" defaultText="Image" /></th>
+      {viewAll && <th><EditableField contentKey="content_230" defaultText="User ID" /></th>}
+      <th><EditableField contentKey="content_250" defaultText="Location" /></th>
+      <th><EditableField contentKey="content_234" defaultText="Quantity" /></th>
+      <th><EditableField contentKey="content_235" defaultText="Date" /></th>
+      <th><EditableField contentKey="content_255" defaultText="Payment Method" /></th>
+      <th><EditableField contentKey="content_256" defaultText="Available Date" /></th>
+      <th><EditableField contentKey="content_257" defaultText="Pick-Up Date" /></th>
+      <th><EditableField contentKey="content_258" defaultText="Kit Description" /></th>
+      <th><EditableField contentKey="content_259" defaultText="Total" /></th>
+    </tr>
+  </thead>
+  <tbody>
+    {purchases.map((purchase) => {
+      const address = purchase.inventory?.location;
+      const total = purchase.kit?.price && purchase.quantity
+        ? (purchase.kit.price * purchase.quantity).toFixed(2)
+        : '—';
+
+      return (
+        <tr key={purchase.id}>
+          <td>{purchase.kit?.name}</td>
+          <td><img src={purchase.kit?.image_url} alt={purchase.kit?.name} style={{ width: '60px' }} /></td>
+          {viewAll && <td>{purchase.user_id}</td>}
+          <td>{address}</td>
+          <td>{purchase.quantity}</td>
+          <td>{new Date(purchase.time_bought).toLocaleString()}</td>
+          <td>{purchase.payment_method || '—'}</td>
+          <td>{purchase.available_date || '—'}</td>
+          <td>{purchase.pick_up_date || '—'}</td>
+          <td>{purchase.kit?.description || '—'}</td>
+          <td>${total}</td>
+        </tr>
+      );
+    })}
+  </tbody>
+</Table>
+
       )}
       <PaginationControls
                 currentPage={1} // Replace with actual current page
