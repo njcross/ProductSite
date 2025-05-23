@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { ContentContext } from '../context/ContentContext';
 import { useUser } from '../context/UserContext';
 
-export default function EditableField({ contentKey, plain = false }) {
+export default function EditableField({ contentKey, plain = false, defaultText = '' }) {
   const { content, setContent } = useContext(ContentContext);
   const { currentUser } = useUser();
 
@@ -20,9 +20,9 @@ export default function EditableField({ contentKey, plain = false }) {
       })
         .then(res => res.json())
         .then(data => {
-          setText(data[contentKey] || '');
+          setText(data[contentKey] || defaultText);
         })
-        .catch(() => setText(''));
+        .catch(() => setText(defaultText));
     } else {
       setText(content[contentKey]);
     }

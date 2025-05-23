@@ -2,7 +2,7 @@ import React from 'react';
 import EditableField from '../components/EditableField';
 import './PaginationControls.css';
 
-export default function PaginationControls({ page, onPageChange, hasNext, currentPage }) {
+export default function PaginationControls({ page = "1", onPageChange, hasNext, currentPage }) {
   return (
     <div className="pagination-controls">
       {page > 1 && (
@@ -14,7 +14,7 @@ export default function PaginationControls({ page, onPageChange, hasNext, curren
       )}
 
       <span className="page-number">
-        <EditableField contentKey="content_72" /> {page}
+        <EditableField contentKey="content_72" defaultText=""/> {page}
       </span>
    
 
