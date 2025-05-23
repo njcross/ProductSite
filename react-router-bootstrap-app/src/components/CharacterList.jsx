@@ -57,7 +57,7 @@ export default function CharacterList({
     } catch (err) {
       console.error('Failed to load characters:', err);
     }
-  }, [API_BASE, sortBy, sortDir, page, itemsPerPage, search
+  }, [API_BASE, sortBy, sortDir, page, itemsPerPage, search, selectedAges, selectedCategories, rating, locations
 
   ]);
   
