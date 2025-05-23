@@ -186,9 +186,12 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
                   }}
                 >
                   <option value="">-- Select Existing --</option>
-                  {Array.from(new Set(inventoryOptions)).map((loc, i) => (
-                    <option key={i} value={loc}>{loc}</option>
+                  {inventoryOptions.map((opt, i) => (
+                    <option key={i} value={opt.location}>
+                      {opt.location_name || opt.location}
+                    </option>
                   ))}
+
                 </Form.Select>
               </Form.Group>
             </Col>
