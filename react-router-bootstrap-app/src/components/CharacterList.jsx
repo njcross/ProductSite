@@ -32,7 +32,7 @@ export default function CharacterList({
   const navigate = useNavigate();
   const API_BASE = process.env.REACT_APP_API_URL;
 
-  const fetchCharacters = async () => {
+  const fetchCharacters = useCallback(async () => {
     let url = `${API_BASE}/api/kits?sortBy=${sortBy}&sortDir=${sortDir}&page=${page}&perPage=${itemsPerPage}&search=${encodeURIComponent(search || '')}`;
   
     if (rating) url += `&min_rating=${rating}`;
@@ -50,13 +50,23 @@ export default function CharacterList({
     } catch (err) {
       console.error('Failed to load characters:', err);
     }
-  };
+  }, [
+    API_BASE,
+    sortBy,
+    sortDir,
+    page,
+    itemsPerPage,
+    search,
+    rating,
+    locations,
+    selectedAges,
+    selectedCategories
+  ]);
   
   useEffect(() => {
     fetchCharacters();
-  }, [sortBy, sortDir, page, itemsPerPage, search, rating, locations, selectedAges, selectedCategories]);
+  }, [fetchCharacters]);
   
-
   const handleDelete = (id) => {
     fetch(`${API_BASE}/api/kits/${id}`, {
       method: 'DELETE',
@@ -67,7 +77,7 @@ export default function CharacterList({
         setModalMessage('Character deleted successfully!');
         setIsSuccess(true);
         setShowModal(true);
-        fetchCharacters(); 
+        fetchCharacters(); // ✅ will now correctly refer to the memoized version
       })
       .catch(err => {
         console.error('Failed to delete:', err);
@@ -76,6 +86,7 @@ export default function CharacterList({
         setShowModal(true);
       });
   };
+  
   
 
   const handleEditClick = (character) => {
