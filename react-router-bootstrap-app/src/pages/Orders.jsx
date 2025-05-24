@@ -7,6 +7,7 @@ import FilterBy from '../components/FilterBy';
 import ViewingOptions from '../components/ViewingOptions';
 import PaginationControls from '../components/PaginationControls';
 import { Button } from 'react-bootstrap';
+import ReviewModal from '../components/ReviewModal';
 import './Orders.css';
 
 export default function Orders() {
@@ -18,6 +19,8 @@ export default function Orders() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [sortBy, setSortBy] = useState('date');
   const [currentPage, setCurrentPage] = useState(1);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [activeKitId, setActiveKitId] = useState(null);
 
   const API_BASE = process.env.REACT_APP_API_URL;
 
@@ -265,6 +268,18 @@ export default function Orders() {
                           </Button>
                         )}
                         <br />
+                        <Button
+                          size="sm"
+                          variant="outline-info"
+                          className="mb-2"
+                          onClick={() => {
+                            setActiveKitId(purchase.kit?.id);
+                            setShowReviewModal(true);
+                          }}
+                        >
+                          Review
+                        </Button>
+                        <br />
                         <Button size="sm" variant="outline-danger" onClick={() => handleCancel(purchase.id)}>
                           Cancel
                         </Button>
@@ -282,6 +297,12 @@ export default function Orders() {
             setCurrentPage={setCurrentPage}
             totalItems={filteredPurchases.length}
             itemsPerPage={itemsPerPage}
+          />
+          <ReviewModal
+            show={showReviewModal}
+            onHide={() => setShowReviewModal(false)}
+            kitId={activeKitId}
+            onSubmit={() => setRefreshCount(prev => prev + 1)}
           />
         </div>
       </div>

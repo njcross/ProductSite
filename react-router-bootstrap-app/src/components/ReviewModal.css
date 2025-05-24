@@ -1,0 +1,12 @@
+.review-modal .modal-body {
+    padding-bottom: 0.5rem;
+  }
+  
+  .review-modal .form-group + .form-group {
+    margin-top: 1rem;
+  }
+  
+  .review-form .form-control {
+    margin-bottom: 1rem;
+  }
+  
