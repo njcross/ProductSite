@@ -37,6 +37,10 @@ ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "chmod +x /home/ec2-user/restart_backend
 
 echo ✅ 1. Committing changes...
 git pull origin main
+IF %ERRORLEVEL% NEQ 0 (
+    echo ❌ Merge/rebase failed. Resolve conflicts manually before proceeding.
+    exit /b 1
+)
 git add .
 git commit -m "%COMMIT_MESSAGE%"
 git push origin main
