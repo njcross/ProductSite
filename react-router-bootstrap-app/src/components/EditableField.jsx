@@ -61,7 +61,7 @@ export default function EditableField({ contentKey, plain = false, defaultText =
             }}
             autoFocus
           />
-          {(newValue.trim() !== '' && newValue !== text) && (
+          {(newValue !== text) && (
             <button onClick={saveContent} className="editable-done">
               Done
             </button>
