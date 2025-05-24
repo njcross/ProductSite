@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -e
 
 cd /home/ec2-user/ProductSite
@@ -35,10 +34,4 @@ else
     echo "✅ No changes to push for content.json."
 fi
 
-echo "🚀 Restarting backend..."
-cd /home/ec2-user/ProductSite/backend
-source venv/bin/activate
-pip install -r requirements.txt
-flask db upgrade
-pm2 delete backend || echo "no backend running"
-pm2 start "gunicorn 'server:app' --bind 0.0.0.0:5000 --workers 4" --name backend
+echo "✅ content.json sync complete."

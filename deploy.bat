@@ -28,6 +28,13 @@ SET REMOTE_BACKEND_PATH=/home/ec2-user/ProductSite/backend
 
 SET LOCAL_ROOT_PATH=C:\Users\njcro\m7project
 
+cd "%LOCAL_ROOT_PATH%" || exit /b 1
+echo Uploading restart script...
+scp -i "%PEM_PATH%" restart_backend.sh %EC2_USER%@%EC2_IP%:/home/ec2-user/
+
+echo Restarting backend on EC2...
+ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "chmod +x /home/ec2-user/restart_backend.sh && /home/ec2-user/restart_backend.sh"
+
 echo ✅ 1. Committing changes...
 git pull origin main
 git add .
@@ -54,6 +61,10 @@ IF %ERRORLEVEL% NEQ 0 (
 ) ELSE (
     echo ✅ Frontend tests passed.
 )
+
+echo 🔄 Syncing content.json from server...
+scp -i "%PEM_PATH%" %EC2_USER%@%EC2_IP%:/home/ec2-user/ProductSite/react-router-bootstrap-app/public/content.json "%LOCAL_FRONTEND_PATH%\public\content.json"
+
 
 echo 🏗️ Building the frontend...
 call npm run build
@@ -98,12 +109,8 @@ IF %ERRORLEVEL% NEQ 0 (
 IF /I "%IS_DRY_RUN%"=="dry-run" (
     echo [dry-run] %*
 ) ELSE (
-    cd "%LOCAL_ROOT_PATH%" || exit /b 1
-    echo Uploading restart script...
-    scp -i "%PEM_PATH%" restart_backend.sh %EC2_USER%@%EC2_IP%:/home/ec2-user/
-
     echo Restarting backend on EC2...
-    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "chmod +x /home/ec2-user/restart_backend.sh && /home/ec2-user/restart_backend.sh"
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "cd /home/ec2-user/ProductSite/backend && source venv/bin/activate && pip install -r requirements.txt && flask db upgrade && pm2 delete backend || echo 'no backend running' && pm2 start \"gunicorn 'server:app' --bind 0.0.0.0:5000 --workers 4\" --name backend"
 )
 
 GOTO maybe_reload
