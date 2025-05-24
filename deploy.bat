@@ -155,8 +155,39 @@ WantedBy=multi-user.target' | sudo tee /etc/systemd/system/redis.service > /dev/
     fi"
 
     echo 🔄 Restarting backend on EC2...
-    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "cd %REMOTE_BACKEND_PATH% && git stash && git pull origin main && . venv/bin/activate && pip install -r requirements.txt && flask db upgrade && pm2 delete backend || echo 'no backend running' && pm2 start 'gunicorn \"server:app\" --bind 0.0.0.0:5000 --workers 4' --name backend"
-)
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% bash << 'EOF'
+    cd /home/ec2-user/ProductSite/react-router-bootstrap-app/public
+
+    # 1. Add and commit local content.json changes if any
+    if [ -f content.json ] && [ -n "$(git status --porcelain content.json)" ]; then
+        echo "📄 Committing local content.json changes before pulling..."
+        git add content.json
+        git commit -m "📝 Auto-commit: Preserve local content.json before pull"
+    fi
+
+    # 2. Pull latest changes
+    cd /home/ec2-user/ProductSite/backend
+    git pull origin main
+
+    # 3. Push any merged content.json changes back
+    cd /home/ec2-user/ProductSite/react-router-bootstrap-app/public
+    if [ -n "$(git status --porcelain content.json)" ]; then
+        echo "📤 Pushing merged content.json changes..."
+        git add content.json
+        git commit -m "🔀 Auto-merge: Update content.json after pull"
+        git push origin main
+    fi
+
+    # 4. Resume backend deployment
+    cd /home/ec2-user/ProductSite/backend
+    . venv/bin/activate
+    pip install -r requirements.txt
+    flask db upgrade
+    pm2 delete backend || echo "no backend running"
+    pm2 start "gunicorn 'server:app' --bind 0.0.0.0:5000 --workers 4" --name backend
+    EOF
+
+    )
 
 
 GOTO end

@@ -152,14 +152,13 @@ export default function Orders() {
               <thead>
                 <tr>
                   <th><EditableField contentKey="content_232" defaultText="Kit Name" /></th>
-                  <th><EditableField contentKey="content_233" defaultText="Image" /></th>
                   {viewAll && <th><EditableField contentKey="content_230" defaultText="User ID" /></th>}
                   <th><EditableField contentKey="content_250" defaultText="Location" /></th>
                   <th><EditableField contentKey="content_234" defaultText="Quantity" /></th>
-                  <th><EditableField contentKey="content_235" defaultText="Date" /></th>
+                  <th><EditableField contentKey="content_235" defaultText="Order Date" /></th>
                   <th><EditableField contentKey="content_255" defaultText="Payment Method" /></th>
-                  <th><EditableField contentKey="content_256" defaultText="Available Date" /></th>
-                  <th><EditableField contentKey="content_257" defaultText="Pick-Up Date" /></th>
+                  <th><EditableField contentKey="content_256" defaultText="Locker Combo" /></th>
+                  <th><EditableField contentKey="content_257" defaultText="Return Due Date" /></th>
                   <th><EditableField contentKey="content_258" defaultText="Kit Description" /></th>
                   <th><EditableField contentKey="content_259" defaultText="Total" /></th>
                   <th><EditableField contentKey="content_269" defaultText="Status" /></th>
@@ -175,8 +174,7 @@ export default function Orders() {
 
                   return (
                     <tr key={purchase.id}>
-                      <td>{purchase.kit?.name}</td>
-                      <td><img src={purchase.kit?.image_url} alt={purchase.kit?.name} style={{ width: '60px' }} /></td>
+                      <td>{purchase.kit?.name} <img src={purchase.kit?.image_url} alt={purchase.kit?.name} style={{ width: '60px' }} /></td>
                       {viewAll && <td>{purchase.user_id}</td>}
                       <td>{address}</td>
                       <td>{purchase.quantity}</td>
