@@ -534,7 +534,7 @@ export default function CharacterForm({ initialData, onSubmit }) {
                       updated[index].location = e.target.value;
                       setFormData({ ...formData, inventories: updated });
                     }}
-                    placeholder="Lat,Lng"
+                    placeholder="address or place"
                   />
                 </Col>
         
@@ -558,7 +558,7 @@ export default function CharacterForm({ initialData, onSubmit }) {
                   </datalist>
                 </Col>
         
-                <Col md={2}>
+                <Col md={3}>
                   <Form.Label>Quantity</Form.Label>
                   <Form.Control
                     type="number"

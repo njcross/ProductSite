@@ -171,7 +171,7 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
           <h5>Add New Inventory</h5>
           <Row className="mb-2 align-items-end">
             {/* Existing location dropdown */}
-            <Col sm={4}>
+            <Col sm={3}>
               <Form.Group controlId="existingLocation">
                 <Form.Label>Choose Existing Location</Form.Label>
                 <Form.Select
@@ -197,7 +197,7 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
             </Col>
 
             {/* OR enter new location manually */}
-            <Col sm={4}>
+            <Col sm={3}>
               <Form.Group controlId="manualLocation">
                 <Form.Label>Or Enter New Location</Form.Label>
                 <Form.Control
@@ -230,7 +230,7 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
             </Col>
 
             {/* Quantity */}
-            <Col sm={1}>
+            <Col sm={2}>
               <Form.Group controlId="quantity">
                 <Form.Label>Qty</Form.Label>
                 <Form.Control
