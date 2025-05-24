@@ -19,6 +19,7 @@ import Home from './pages/Home';
   import NewsletterList from './pages/NewsLetterList';
   import Orders from './pages/Orders';
   import InventoryPage from './pages/InventoryPage';
+  import ResourcesPage from './pages/ResourcesPage';
 
 const Layout = () => (
   <div className="app-container">
@@ -47,6 +48,7 @@ export const router = createBrowserRouter([
       { path: 'newsletter', element: <NewsletterList /> },
       { path: 'orders', element: <Orders /> },
       { path: 'inventory', element: <InventoryPage /> },
+      { path: 'resources', element: <ResourcesPage /> },
       { path: '*', element: <NotFound /> },
     ],
   },
