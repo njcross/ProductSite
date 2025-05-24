@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Button, Modal, Row, Col } from 'react-bootstrap';
+import { Container, Button, Modal, Row, Col, Form } from 'react-bootstrap';
 
 import EditableField from '../components/EditableField';
 import CharacterForm from '../components/CharacterForm';
@@ -8,7 +8,7 @@ import ConfirmationModal from '../components/ConfirmationModal';
 import InventorySection from '../components/InventorySection';
 import { useUser } from '../context/UserContext';
 import { useCart } from '../context/CartContext';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 
 import './EditCharacterPage.css';
 import StarRating from '../components/StarRating';
@@ -24,6 +24,9 @@ export default function EditCharacterPage() {
   const [reviews, setReviews] = useState([]);
   const [userRating, setUserRating] = useState(0);
   const [userComment, setUserComment] = useState('');
+  const [userAgeIds, setUserAgeIds] = useState([]);
+  const [lengthOfPlay, setLengthOfPlay] = useState('');
+  const [ageOptions, setAgeOptions] = useState([]);
   const [submittingReview, setSubmittingReview] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -40,6 +43,13 @@ export default function EditCharacterPage() {
   }, [id, refreshCount, API_BASE]);
 
   useEffect(() => {
+    fetch(`${API_BASE}/api/kits/age-options`)
+      .then(res => res.json())
+      .then(setAgeOptions)
+      .catch(console.error);
+  }, [API_BASE]);
+
+  useEffect(() => {
     fetch(`${API_BASE}/api/reviews/kit/${id}`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
@@ -49,6 +59,8 @@ export default function EditCharacterPage() {
           if (existing) {
             setUserRating(existing.rating);
             setUserComment(existing.comment);
+            setUserAgeIds(existing.age?.map(a => a.id) || []);
+            setLengthOfPlay(existing.length_of_play || '');
           }
         }
       })
@@ -106,7 +118,12 @@ export default function EditCharacterPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ rating: userRating, comment: userComment }),
+        body: JSON.stringify({
+          rating: userRating,
+          comment: userComment,
+          age_ids: userAgeIds,
+          length_of_play: lengthOfPlay
+        }),
       });
       if (res.ok) setRefreshCount(prev => prev + 1);
     } catch (err) {
@@ -183,6 +200,34 @@ export default function EditCharacterPage() {
             rows={3}
             className="form-control my-2"
           />
+
+          <Form.Group className="mb-3">
+            <Form.Label>Age</Form.Label>
+            <Form.Select
+              multiple
+              value={userAgeIds.map(String)}
+              onChange={e => setUserAgeIds(Array.from(e.target.selectedOptions, opt => Number(opt.value)))}
+            >
+              {ageOptions.map(option => (
+                <option key={option.id} value={option.id}>{option.name}</option>
+              ))}
+            </Form.Select>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Length of Play</Form.Label>
+            <Form.Select
+              value={lengthOfPlay}
+              onChange={e => setLengthOfPlay(e.target.value)}
+            >
+              <option value="">Select</option>
+              <option value="<15 mins">&lt;15 mins</option>
+              <option value="15-30 mins">15-30 mins</option>
+              <option value="30-45 mins">30-45 mins</option>
+              <option value="45+ mins">45+ mins</option>
+            </Form.Select>
+          </Form.Group>
+
           <Button
             variant="primary"
             disabled={submittingReview}
@@ -220,6 +265,8 @@ export default function EditCharacterPage() {
           </strong>
           <StarRating rating={r.rating} editable={false} />
           <p>{r.comment}</p>
+          {r.age?.length > 0 && <p><strong>Age:</strong> {r.age.map(a => a.name).join(', ')}</p>}
+          {r.length_of_play && <p><strong>Length of Play:</strong> {r.length_of_play}</p>}
         </div>
       ))}
 
