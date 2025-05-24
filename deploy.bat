@@ -96,50 +96,46 @@ IF /I "%IS_DRY_RUN%"=="dry-run" (
     echo [dry-run] %*
 ) ELSE (
     echo 🔄 Restarting backend on EC2...
-    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% bash << 'EOF'
-# 1. Add and commit local content.json changes if any
-echo "🔍 Inspecting content.json status..."
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "bash -c '
 cd /home/ec2-user/ProductSite
+CONTENT_PATH=\"react-router-bootstrap-app/public/content.json\"
 
-CONTENT_PATH="react-router-bootstrap-app/public/content.json"
-
-if [ -f "$CONTENT_PATH" ]; then
-    echo "📁 Found content.json"
-    if [ -n "$(git status --porcelain "$CONTENT_PATH")" ]; then
-        echo "📄 Committing local content.json changes before pulling..."
-        git add "$CONTENT_PATH"
-        git config user.name "Auto Deploy"
-        git config user.email "deploy@myplaytray.com"
-        git commit -m "📝 Auto-commit: Preserve local content.json before pull"
+echo 🔍 Inspecting content.json status...
+if [ -f \"$CONTENT_PATH\" ]; then
+    echo 📁 Found content.json
+    if [ -n \"\$(git status --porcelain \"$CONTENT_PATH\")\" ]; then
+        echo 📄 Committing local content.json changes before pulling...
+        git add \"$CONTENT_PATH\"
+        git config user.name \"Auto Deploy\"
+        git config user.email \"deploy@myplaytray.com\"
+        git commit -m \"📝 Auto-commit: Preserve local content.json before pull\"
     else
-        echo "✅ No content.json changes to commit."
+        echo ✅ No content.json changes to commit.
     fi
 else
-    echo "❌ content.json not found at $CONTENT_PATH"
-    ls -la "$(dirname $CONTENT_PATH)"
+    echo ❌ content.json not found at $CONTENT_PATH
+    ls -la \"$(dirname \"$CONTENT_PATH\")\"
 fi
 
-
-# 2. Pull latest changes
 git pull origin main
 
-# 3. Push any merged content.json changes back
-if [ -n "$(git status --porcelain $CONTENT_PATH)" ]; then
-    echo "📤 Pushing merged content.json changes..."
-    git add "$CONTENT_PATH"
-    git commit -m "🔀 Auto-merge: Update content.json after pull"
+if [ -n \"\$(git status --porcelain \"$CONTENT_PATH\")\" ]; then
+    echo 📤 Pushing merged content.json changes...
+    git add \"$CONTENT_PATH\"
+    git commit -m \"🔀 Auto-merge: Update content.json after pull\"
     git push origin main
 else
-    echo "✅ No changes to push for content.json."
+    echo ✅ No changes to push for content.json.
 fi
-# 4. Resume backend deployment
+
 cd /home/ec2-user/ProductSite/backend
 . venv/bin/activate
 pip install -r requirements.txt
 flask db upgrade
-pm2 delete backend || echo "no backend running"
-pm2 start "gunicorn 'server:app' --bind 0.0.0.0:5000 --workers 4" --name backend
-EOF
+pm2 delete backend || echo no backend running
+pm2 start \"gunicorn 'server:app' --bind 0.0.0.0:5000 --workers 4\" --name backend
+'"
+
 )
 
 GOTO maybe_reload
