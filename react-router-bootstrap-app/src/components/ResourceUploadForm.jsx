@@ -25,33 +25,21 @@ export default function ResourceUploadForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
-
-    if (!formData.thumbnail || !formData.file) {
-      setError('Please upload both a thumbnail and a file.');
-      return;
-    }
 
     try {
+      // Upload thumbnail
       const thumbData = new FormData();
       thumbData.append('image', formData.thumbnail);
-      const thumbRes = await fetch(`${API_BASE}/api/upload-image`, {
-        method: 'POST',
-        credentials: 'include',
-        body: thumbData,
-      });
-      const { url: thumbnail_url } = await thumbRes.json();
+      const thumbRes = await fetch(`${API_BASE}/api/upload-image`, { method: 'POST', body: thumbData, credentials: 'include' });
+      const thumbResult = await thumbRes.json();
 
+      // Upload file
       const fileData = new FormData();
-      fileData.append('image', formData.file); // same endpoint supports file uploads
-      const fileRes = await fetch(`${API_BASE}/api/upload-image`, {
-        method: 'POST',
-        credentials: 'include',
-        body: fileData,
-      });
-      const { url: file_url } = await fileRes.json();
+      fileData.append('image', formData.file); // assuming same upload endpoint
+      const fileRes = await fetch(`${API_BASE}/api/upload-image`, { method: 'POST', body: fileData, credentials: 'include' });
+      const fileResult = await fileRes.json();
 
+      // Create resource
       const res = await fetch(`${API_BASE}/api/resources`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -59,17 +47,20 @@ export default function ResourceUploadForm() {
         body: JSON.stringify({
           title: formData.title,
           description: formData.description,
-          thumbnail_url,
-          file_url,
+          thumbnail_url: thumbResult.url,
+          file_url: fileResult.url,
         }),
       });
 
-      if (!res.ok) throw new Error('Failed to upload resource.');
-      setSuccess('Resource uploaded successfully!');
-      setFormData({ title: '', description: '', thumbnail: null, file: null });
+      if (res.ok) {
+        setFormData(initialFormState);
+        if (onUploadSuccess) onUploadSuccess();
+      } else {
+        alert('Failed to upload resource');
+      }
     } catch (err) {
       console.error(err);
-      setError(err.message);
+      alert('Upload failed');
     }
   };
 
