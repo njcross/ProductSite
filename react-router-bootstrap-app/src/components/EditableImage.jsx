@@ -42,6 +42,7 @@ export default function EditableImage({ contentKey }) {
       setContent((prev) => {
         const updated = { ...prev, [contentKey]: uploadData.url };
         sessionStorage.setItem('content_cache', JSON.stringify(updated));
+        sessionStorage.setItem('force_content_refetch', 'true'); // 👈 force fresh load on next refresh
         return updated;
       });
 

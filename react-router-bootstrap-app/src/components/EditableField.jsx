@@ -33,6 +33,8 @@ export default function EditableField({ contentKey, plain = false, defaultText =
         const updated = { ...prev, [contentKey]: newValue };
         // ✅ Update sessionStorage
         sessionStorage.setItem('content_cache', JSON.stringify(updated));
+        sessionStorage.setItem('force_content_refetch', 'true'); // 👈 mark it for refresh
+
         return updated;
       });
       setEditing(false);

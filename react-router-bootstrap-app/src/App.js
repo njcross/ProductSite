@@ -14,25 +14,31 @@ export default function App() {
   const [content, setContent] = useState({});
 
   useEffect(() => {
-    const cached = sessionStorage.getItem('content_cache');
-    if (cached) {
-      try {
-        setContent(JSON.parse(cached));
-        return; // ✅ Skip fetch if session cache exists
-      } catch {
-        sessionStorage.removeItem('content_cache');
+    const shouldRefetch = sessionStorage.getItem('force_content_refetch') === 'true';
+  
+    if (!shouldRefetch) {
+      const cached = sessionStorage.getItem('content_cache');
+      if (cached) {
+        try {
+          setContent(JSON.parse(cached));
+          return;
+        } catch {
+          sessionStorage.removeItem('content_cache');
+        }
       }
     }
-
-    // ✅ Only fetch once per tab session
+  
+    // Fetch from server
     fetch('/content.json', { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
         setContent(data);
         sessionStorage.setItem('content_cache', JSON.stringify(data));
+        sessionStorage.removeItem('force_content_refetch'); // ✅ Clear the marker
       })
       .catch(err => console.error('Failed to load content.json', err));
   }, []);
+  
 
   const updateContent = (key, value) => {
     setContent(prev => {
