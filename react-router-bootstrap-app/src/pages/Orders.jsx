@@ -226,7 +226,11 @@ export default function Orders() {
                       <td>
                         {currentUser.role === 'admin' ? (
                           <select
-                            value={purchase.status}
+                            value={
+                              ['Ready for pickup', 'Being prepared', 'Over-due', 'Cancelled', 'Checked-out'].includes(purchase.status)
+                                ? purchase.status
+                                : ''
+                            }
                             onChange={(e) => {
                               const value = e.target.value;
                               setPurchases(prev =>
@@ -234,6 +238,7 @@ export default function Orders() {
                               );
                             }}
                           >
+                            <option value="" disabled>-- Select Status --</option>
                             {['Ready for pickup', 'Being prepared', 'Over-due', 'Cancelled', 'Checked-out'].map(option => (
                               <option key={option} value={option}>{option}</option>
                             ))}
@@ -242,6 +247,7 @@ export default function Orders() {
                           purchase.status || '—'
                         )}
                       </td>
+
 
                       {/* Action Buttons */}
                       <td>

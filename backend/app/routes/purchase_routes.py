@@ -62,7 +62,7 @@ def delete_purchase(purchase_id):
     db.session.commit()
     return jsonify({'message': 'Purchase deleted successfully'}), 200
 
-@purchase_bp.route('/api/purchases/<int:purchase_id>', methods=['PATCH'])
+@purchase_bp.route('/api/purchases/<int:purchase_id>', methods=['PUT'])
 @admin_required
 def update_purchase(purchase_id):
     """Admin-only endpoint to update purchase fields"""
