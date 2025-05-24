@@ -163,12 +163,18 @@ cd /home/ec2-user/ProductSite
 
 CONTENT_PATH="react-router-bootstrap-app/public/content.json"
 
-if [ -f "$CONTENT_PATH" ] && [ -n "$(git status --porcelain $CONTENT_PATH)" ]; then
-    echo "📄 Committing local content.json changes before pulling..."
-    git add "$CONTENT_PATH"
-    git config user.name "Auto Deploy"
-    git config user.email "deploy@myplaytray.com"
-    git commit -m "📝 Auto-commit: Preserve local content.json before pull"
+if [ -f "$CONTENT_PATH" ]; then
+    if [ -n "$(git status --porcelain $CONTENT_PATH)" ]; then
+        echo "📄 Committing local content.json changes before pulling..."
+        git add "$CONTENT_PATH"
+        git config user.name "Auto Deploy"
+        git config user.email "deploy@myplaytray.com"
+        git commit -m "📝 Auto-commit: Preserve local content.json before pull"
+    else
+        echo "✅ No content.json changes to commit."
+    fi
+else
+    echo "⚠️ content.json file not found."
 fi
 
 # 2. Pull latest changes
@@ -180,8 +186,9 @@ if [ -n "$(git status --porcelain $CONTENT_PATH)" ]; then
     git add "$CONTENT_PATH"
     git commit -m "🔀 Auto-merge: Update content.json after pull"
     git push origin main
+else
+    echo "✅ No changes to push for content.json."
 fi
-
 # 4. Resume backend deployment
 cd /home/ec2-user/ProductSite/backend
 . venv/bin/activate
