@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { ContentContext } from '../context/ContentContext';
 import { useUser } from '../context/UserContext';
-import { useNavigate } from 'react-router-dom';
 
 export default function EditableField({ contentKey, plain = false, defaultText = '' }) {
   const { content, setContent } = useContext(ContentContext);
@@ -10,7 +9,6 @@ export default function EditableField({ contentKey, plain = false, defaultText =
   const [editing, setEditing] = useState(false);
   const [text, setText] = useState(content?.[contentKey] || '');
   const [newValue, setNewValue] = useState('');
-  const navigate = useNavigate();
   const API_BASE = process.env.REACT_APP_API_URL;
 
   const isAdmin = currentUser?.role === 'admin';
@@ -28,21 +26,18 @@ export default function EditableField({ contentKey, plain = false, defaultText =
       },
       body: JSON.stringify({ field: contentKey, value: newValue }),
     });
-  
+
     if (res.ok) {
       setText(newValue);
       setContent((prev) => {
         const updated = { ...prev, [contentKey]: newValue };
-        // ✅ Update sessionStorage
         sessionStorage.setItem('content_cache', JSON.stringify(updated));
-        sessionStorage.setItem('force_content_refetch', 'true'); // 👈 mark it for refresh
-
+        sessionStorage.setItem('force_content_refetch', 'true');
         return updated;
       });
       window.location.reload();
     }
   };
-  
 
   if (plain) return text;
 
@@ -54,15 +49,23 @@ export default function EditableField({ contentKey, plain = false, defaultText =
             type="text"
             value={newValue}
             onChange={(e) => setNewValue(e.target.value)}
+            onBlur={() => {
+              if (newValue.trim() === '' || newValue === text) {
+                setEditing(false);
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') {
+                setEditing(false);
+              }
+            }}
             autoFocus
           />
-          <button
-          onClick={saveContent}
-          className="editable-done"
-          disabled={newValue.trim() === '' || newValue === text}
-        >
-          Done
-        </button>
+          {(newValue.trim() !== '' && newValue !== text) && (
+            <button onClick={saveContent} className="editable-done">
+              Done
+            </button>
+          )}
         </span>
       ) : (
         <span
