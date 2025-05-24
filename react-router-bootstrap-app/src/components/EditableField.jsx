@@ -68,15 +68,22 @@ export default function EditableField({ contentKey, plain = false, defaultText =
           )}
         </span>
       ) : (
-        <span
-          onClick={() => {
-            if (isAdmin) {
-              setNewValue(text);
-              setEditing(true);
-            }
-          }}
-        >
-          {text} {isAdmin && <span className="edit-icon">✏️</span>}
+        <span>
+          {text}
+          {isAdmin && (
+            <span
+              onClick={(e) => {
+                e.preventDefault();
+                setNewValue(text);
+                setEditing(true);
+              }}
+              className="edit-icon"
+              style={{ cursor: 'pointer', marginLeft: '4px' }}
+              title="Edit"
+            >
+              ✏️
+            </span>
+          )}
         </span>
       )}
     </span>
