@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useUser } from '../context/UserContext';
 import { ContentContext } from '../context/ContentContext';
-import { useNavigate } from 'react-router-dom';
 
 export default function EditableImage({ contentKey }) {
   const { currentUser } = useUser();
@@ -11,8 +10,6 @@ export default function EditableImage({ contentKey }) {
 
   const [src, setSrc] = useState('');
   const [showUpload, setShowUpload] = useState(false);
-  const navigate = useNavigate();
-
   // ✅ Load from context
   useEffect(() => {
     setSrc(content?.[contentKey] || '');
@@ -48,7 +45,7 @@ export default function EditableImage({ contentKey }) {
         return updated;
       });
       setSrc(uploadData.url);
-      navigate(0);
+      window.location.reload();
     }
   };
 

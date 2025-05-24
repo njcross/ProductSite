@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { ContentContext } from '../context/ContentContext';
 import { useUser } from '../context/UserContext';
-import { useNavigate } from 'react-router-dom';
 
 export default function EditableField({ contentKey, plain = false, defaultText = '' }) {
   const { content, setContent } = useContext(ContentContext);
@@ -10,7 +9,6 @@ export default function EditableField({ contentKey, plain = false, defaultText =
   const [editing, setEditing] = useState(false);
   const [text, setText] = useState(content?.[contentKey] || '');
   const [newValue, setNewValue] = useState('');
-  const navigate = useNavigate();
   const API_BASE = process.env.REACT_APP_API_URL;
 
   const isAdmin = currentUser?.role === 'admin';
@@ -39,7 +37,7 @@ export default function EditableField({ contentKey, plain = false, defaultText =
 
         return updated;
       });
-      navigate(0);
+      window.location.reload();
     }
   };
   
