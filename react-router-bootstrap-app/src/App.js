@@ -14,7 +14,7 @@ export default function App() {
   const [content, setContent] = useState({});
 
   useEffect(() => {
-    const shouldRefetch = sessionStorage.getItem('force_content_refetch') === 'true';
+    const shouldRefetch = sessionStorage.getItem('force_content_refetch') == 'true';
   
     if (!shouldRefetch) {
       const cached = sessionStorage.getItem('content_cache');
