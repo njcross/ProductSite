@@ -36,13 +36,13 @@ echo Restarting backend on EC2...
 ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "chmod +x /home/ec2-user/restart_backend.sh && /home/ec2-user/restart_backend.sh"
 
 echo ✅ 1. Committing changes...
+git add .
+git commit -m "%COMMIT_MESSAGE%"
 git pull origin main
 IF %ERRORLEVEL% NEQ 0 (
     echo ❌ Merge/rebase failed. Resolve conflicts manually before proceeding.
     exit /b 1
 )
-git add .
-git commit -m "%COMMIT_MESSAGE%"
 git push origin main
 
 IF "%DEPLOY_TARGET%"=="frontend" GOTO deploy_frontend
