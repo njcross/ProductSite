@@ -8,7 +8,7 @@ def send_bulk_email(subject, body, emails):
     sender_password = Config.GOOGLE_EMAIL_PASSWORD
 
     try:
-        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server = smtplib.SMTP("smtp.office365.com", 587)
         server.starttls()
         server.login(sender_email, sender_password)
 
@@ -25,4 +25,4 @@ def send_bulk_email(subject, body, emails):
         server.quit()
         return True, "Emails sent successfully"
     except Exception as e:
-        return False, str(e)
+        return False, str(sender_email)
