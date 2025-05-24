@@ -1,8 +1,10 @@
-import { render, screen } from '@testing-library/react';
-import { HelmetProvider } from 'react-helmet-async';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import ResourcesPage from '../../pages/ResourcesPage';
+import { UserContext } from '../../context/UserContext';
 
+// Mock the fetch response
 const mockResources = [
   {
     id: 1,
@@ -28,12 +30,17 @@ afterEach(() => {
 test('renders list of resources from API', async () => {
   render(
     <HelmetProvider>
-      <MemoryRouter>
-        <ResourcesPage isAdmin={false} />
-      </MemoryRouter>
+      <UserContext.Provider value={{ currentUser: { role: 'user' } }}>
+        <MemoryRouter>
+          <ResourcesPage />
+        </MemoryRouter>
+      </UserContext.Provider>
     </HelmetProvider>
   );
 
-  expect(await screen.findByText(/First Resource/i)).toBeInTheDocument();
-  expect(screen.getByText(/Test description/i)).toBeInTheDocument();
+  // Wait for content to load
+  await waitFor(() => {
+    expect(screen.getByText(/First Resource/i)).toBeInTheDocument();
+    expect(screen.getByText(/Test description/i)).toBeInTheDocument();
+  });
 });
