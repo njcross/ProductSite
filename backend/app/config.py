@@ -17,3 +17,5 @@ class Config:
     GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
     GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
     OAUTHLIB_INSECURE_TRANSPORT = True  # Only for local dev
+    GOOGLE_EMAIL_DOMAIN = os.getenv('GOOGLE_EMAIL_DOMAIN', 'example.com')
+    GOOGLE_EMAIL_PASSWORD = os.getenv('GOOGLE_EMAIL_PASSWORD', 'password')

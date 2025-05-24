@@ -1,10 +1,11 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from app.config import Config
 
 def send_bulk_email(subject, body, emails):
-    sender_email = "your_email@gmail.com"
-    sender_password = "your_app_password"  # Use an app-specific password, NOT your main password.
+    sender_email = Config.GOOGLE_EMAIL_DOMAIN
+    sender_password = Config.GOOGLE_EMAIL_PASSWORD
 
     try:
         server = smtplib.SMTP("smtp.gmail.com", 587)
