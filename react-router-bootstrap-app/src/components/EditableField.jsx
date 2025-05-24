@@ -57,6 +57,11 @@ export default function EditableField({ contentKey, plain = false, defaultText =
             onKeyDown={(e) => {
               if (e.key === 'Escape') {
                 setEditing(false);
+              } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (newValue !== text) {
+                  saveContent();
+                }
               }
             }}
             autoFocus
