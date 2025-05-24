@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ResourceCard from '../components/ResourceCard';
 import ResourceUploadForm from '../components/ResourceUploadForm';
+import { Helmet } from 'react-helmet-async';
 import './ResourcesPage.css';
 
 export default function ResourcesPage({ isAdmin }) {
@@ -16,6 +17,10 @@ export default function ResourcesPage({ isAdmin }) {
 
   return (
     <div className="resources-page">
+      <Helmet>
+              <title>Resources – My Play Tray</title>
+              <meta name="description" content="Awesome downloadable resources to make the most out of your Play Trays." />
+            </Helmet>
       <h1>Parent Resources</h1>
       {isAdmin && <ResourceUploadForm />}
       <div className="resource-grid">

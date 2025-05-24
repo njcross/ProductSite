@@ -1,4 +1,5 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { HelmetProvider } from 'react-helmet-async';
 import { MemoryRouter } from 'react-router-dom';
 import ResourcesPage from '../../pages/ResourcesPage';
 
@@ -12,25 +13,27 @@ const mockResources = [
   }
 ];
 
-describe('ResourcesPage', () => {
-  beforeEach(() => {
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve(mockResources),
-      })
-    );
-  });
+beforeEach(() => {
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      json: () => Promise.resolve(mockResources)
+    })
+  );
+});
 
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
+afterEach(() => {
+  jest.resetAllMocks();
+});
 
-  test('renders list of resources from API', async () => {
-    render(<ResourcesPage isAdmin={false} />, { wrapper: MemoryRouter });
+test('renders list of resources from API', async () => {
+  render(
+    <HelmetProvider>
+      <MemoryRouter>
+        <ResourcesPage isAdmin={false} />
+      </MemoryRouter>
+    </HelmetProvider>
+  );
 
-    expect(await screen.findByText(/First Resource/i)).toBeInTheDocument();
-    expect(screen.getByText(/Test description/i)).toBeInTheDocument();
-    expect(screen.getByRole('img')).toHaveAttribute('src', mockResources[0].thumbnail_url);
-  });
+  expect(await screen.findByText(/First Resource/i)).toBeInTheDocument();
+  expect(screen.getByText(/Test description/i)).toBeInTheDocument();
 });

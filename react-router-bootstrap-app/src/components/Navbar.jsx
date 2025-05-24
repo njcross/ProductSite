@@ -48,6 +48,9 @@ export default function Navbar() {
     <EditableField contentKey="content_251" defaultText="Inventory" />
   </Link>
 )}
+          <Link to="/resources" className="nav-link" onClick={closeNavbar}>
+            <EditableField contentKey="content_312" />
+          </Link>
           <div className="call-to-action">
           <EditableField className="call-to-action" contentKey="content_252" defaultText="Invntory" style={{ textAlign: 'center' }}/>
           </div>
