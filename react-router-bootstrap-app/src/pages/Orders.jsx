@@ -182,53 +182,90 @@ export default function Orders() {
                       <td>{purchase.quantity}</td>
                       <td>{new Date(purchase.time_bought).toLocaleString()}</td>
                       <td>{purchase.payment_method || '—'}</td>
-                      <td>{currentUser.role === 'admin' ? (
-                        <EditableField
-                          contentKey={`available_date_${purchase.id}`}
-                          defaultText={purchase.available_date}
-                          type="number"
-                          onSave={(newValue) => handleUpdate(purchase.id, 'available_date', newValue)}
-                        />
-                      ) : (
-                        purchase.available_date || '—'
-                      )}
-                      </td>
-                      <td>{currentUser.role === 'admin' ? (
-                        <EditableField
-                          contentKey={`pickup_date_${purchase.id}`}
-                          defaultText={new Date(purchase.pick_up_date).toISOString().split('T')[0]}
-                          type="date"
-                          onSave={(newValue) => handleUpdate(purchase.id, 'pick_up_date', newValue)}
-                        />
-                      ) : (
-                        new Date(purchase.pick_up_date).toLocaleDateString()
-                      )}
-                      </td>
-                      <td>{purchase.kit?.description || '—'}</td>
-                      <td>${total}</td>
-                      <td>{currentUser.role === 'admin' ? (
-                        <EditableField
-                          contentKey={`status_${purchase.id}`}
-                          defaultText={purchase.status}
-                          type="select"
-                          options={[
-                            'Ready for pickup',
-                            'Being prepared',
-                            'Over-due',
-                            'Cancelled',
-                            'Checked-out'
-                          ]}
-                          onSave={(newStatus) => handleUpdate(purchase.id, 'status', newStatus)}
-                        />
-                      ) : (
-                        purchase.status || '—'
-                      )}
-                      </td>
+
+                      {/* Available Date */}
                       <td>
-  <Button size="sm" variant="outline-danger" onClick={() => handleCancel(purchase.id)}>
-    Cancel
-  </Button>
-</td>
+                        {currentUser.role === 'admin' ? (
+                          <input
+                            type="number"
+                            value={purchase.available_date || ''}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              setPurchases(prev =>
+                                prev.map(p => p.id === purchase.id ? { ...p, available_date: value } : p)
+                              );
+                            }}
+                          />
+                        ) : (purchase.available_date || '—')}
+                      </td>
+
+                      {/* Pick-Up Date */}
+                      <td>
+                        {currentUser.role === 'admin' ? (
+                          <input
+                            type="date"
+                            value={purchase.pick_up_date?.slice(0, 10) || ''}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              setPurchases(prev =>
+                                prev.map(p => p.id === purchase.id ? { ...p, pick_up_date: value } : p)
+                              );
+                            }}
+                          />
+                        ) : (
+                          new Date(purchase.pick_up_date).toLocaleDateString()
+                        )}
+                      </td>
+
+                      <td>{purchase.kit?.description || '—'}</td>
+
+                      {/* Total */}
+                      <td>${total}</td>
+
+                      {/* Status Dropdown */}
+                      <td>
+                        {currentUser.role === 'admin' ? (
+                          <select
+                            value={purchase.status}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              setPurchases(prev =>
+                                prev.map(p => p.id === purchase.id ? { ...p, status: value } : p)
+                              );
+                            }}
+                          >
+                            {['Ready for pickup', 'Being prepared', 'Over-due', 'Cancelled', 'Checked-out'].map(option => (
+                              <option key={option} value={option}>{option}</option>
+                            ))}
+                          </select>
+                        ) : (
+                          purchase.status || '—'
+                        )}
+                      </td>
+
+                      {/* Action Buttons */}
+                      <td>
+                        {currentUser.role === 'admin' && (
+                          <Button
+                            size="sm"
+                            variant="outline-success"
+                            className="mb-2"
+                            onClick={() => {
+                              const { status, available_date, pick_up_date } = purchase;
+                              handleUpdate(purchase.id, 'status', status);
+                              handleUpdate(purchase.id, 'available_date', available_date);
+                              handleUpdate(purchase.id, 'pick_up_date', pick_up_date);
+                            }}
+                          >
+                            Save
+                          </Button>
+                        )}
+                        <br />
+                        <Button size="sm" variant="outline-danger" onClick={() => handleCancel(purchase.id)}>
+                          Cancel
+                        </Button>
+                      </td>
+
                     </tr>
                   );
                 })}
