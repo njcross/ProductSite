@@ -73,6 +73,29 @@ export default function Orders() {
       alert('Failed to cancel order');
     }
   };
+
+  const handleUpdate = async (id, field, value) => {
+    try {
+      const res = await fetch(`${API_BASE}/api/purchases/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ [field]: value }),
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        setPurchases(prev =>
+          prev.map(p => (p.id === id ? { ...p, ...updated } : p))
+        );
+      } else {
+        alert('Failed to update purchase');
+      }
+    } catch (err) {
+      console.error('Error updating purchase:', err);
+      alert('Error updating purchase');
+    }
+  };
+  
   
 
   return (
@@ -159,11 +182,48 @@ export default function Orders() {
                       <td>{purchase.quantity}</td>
                       <td>{new Date(purchase.time_bought).toLocaleString()}</td>
                       <td>{purchase.payment_method || '—'}</td>
-                      <td>{purchase.available_date || '—'}</td>
-                      <td>{purchase.pick_up_date || '—'}</td>
+                      <td>{currentUser.role === 'admin' ? (
+                        <EditableField
+                          contentKey={`available_date_${purchase.id}`}
+                          defaultText={purchase.available_date}
+                          type="number"
+                          onSave={(newValue) => handleUpdate(purchase.id, 'available_date', newValue)}
+                        />
+                      ) : (
+                        purchase.available_date || '—'
+                      )}
+                      </td>
+                      <td>{currentUser.role === 'admin' ? (
+                        <EditableField
+                          contentKey={`pickup_date_${purchase.id}`}
+                          defaultText={new Date(purchase.pick_up_date).toISOString().split('T')[0]}
+                          type="date"
+                          onSave={(newValue) => handleUpdate(purchase.id, 'pick_up_date', newValue)}
+                        />
+                      ) : (
+                        new Date(purchase.pick_up_date).toLocaleDateString()
+                      )}
+                      </td>
                       <td>{purchase.kit?.description || '—'}</td>
                       <td>${total}</td>
-                      <td>{purchase.status || '—'}</td>
+                      <td>{currentUser.role === 'admin' ? (
+                        <EditableField
+                          contentKey={`status_${purchase.id}`}
+                          defaultText={purchase.status}
+                          type="select"
+                          options={[
+                            'Ready for pickup',
+                            'Being prepared',
+                            'Over-due',
+                            'Cancelled',
+                            'Checked-out'
+                          ]}
+                          onSave={(newStatus) => handleUpdate(purchase.id, 'status', newStatus)}
+                        />
+                      ) : (
+                        purchase.status || '—'
+                      )}
+                      </td>
                       <td>
   <Button size="sm" variant="outline-danger" onClick={() => handleCancel(purchase.id)}>
     Cancel

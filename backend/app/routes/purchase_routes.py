@@ -61,3 +61,26 @@ def delete_purchase(purchase_id):
     db.session.delete(purchase)
     db.session.commit()
     return jsonify({'message': 'Purchase deleted successfully'}), 200
+
+@purchase_bp.route('/api/purchases/<int:purchase_id>', methods=['PATCH'])
+@admin_required
+def update_purchase(purchase_id):
+    """Admin-only endpoint to update purchase fields"""
+    purchase = Purchase.query.get_or_404(purchase_id)
+    data = request.get_json()
+
+    # Update allowed fields if present in request data
+    allowed_fields = ['status', 'available_date', 'pick_up_date', 'payment_method', 'quantity', 'inventory_id']
+    for field in allowed_fields:
+        if field in data:
+            setattr(purchase, field, data[field])
+
+    db.session.commit()
+
+    updated_purchase = Purchase.query.options(
+        joinedload(Purchase.kit),
+        joinedload(Purchase.user),
+        joinedload(Purchase.inventory)
+    ).filter_by(id=purchase.id).first()
+
+    return jsonify(purchase_schema.dump(updated_purchase)), 200
