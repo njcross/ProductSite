@@ -11,6 +11,7 @@ export default function EditableImage({ contentKey }) {
 
   const [src, setSrc] = useState('');
   const [showUpload, setShowUpload] = useState(false);
+  const navigate = useNavigate();
 
   // ✅ Load from context
   useEffect(() => {
@@ -47,7 +48,6 @@ export default function EditableImage({ contentKey }) {
         return updated;
       });
       setSrc(uploadData.url);
-      const navigate = useNavigate();
       navigate(0);
     }
   };
