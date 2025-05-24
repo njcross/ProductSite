@@ -15,7 +15,7 @@ export default function App() {
 
   useEffect(() => {
     const shouldRefetch = sessionStorage.getItem('force_content_refetch') == 'true';
-  
+    console.log('shouldRefetch:', shouldRefetch);
     if (!shouldRefetch) {
       const cached = sessionStorage.getItem('content_cache');
       if (cached) {
@@ -37,7 +37,7 @@ export default function App() {
         sessionStorage.removeItem('force_content_refetch'); // Clear flag after refresh
       })
       .catch(err => console.error('Failed to load content.json', err));
-  }, []);
+  }, [sessionStorage]);
   
   
 
