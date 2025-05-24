@@ -28,16 +28,17 @@ export default function App() {
       }
     }
   
-    // Fetch from server
+    // Always refetch if flagged
     fetch('/content.json', { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
         setContent(data);
         sessionStorage.setItem('content_cache', JSON.stringify(data));
-        sessionStorage.removeItem('force_content_refetch'); // ✅ Clear the marker
+        sessionStorage.removeItem('force_content_refetch'); // Clear flag after refresh
       })
       .catch(err => console.error('Failed to load content.json', err));
   }, []);
+  
   
 
   const updateContent = (key, value) => {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { ContentContext } from '../context/ContentContext';
 import { useUser } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function EditableField({ contentKey, plain = false, defaultText = '' }) {
   const { content, setContent } = useContext(ContentContext);
@@ -37,8 +38,8 @@ export default function EditableField({ contentKey, plain = false, defaultText =
 
         return updated;
       });
-      window.location.reload(); // ✅ Force reload to get fresh content
-      setEditing(false);
+      const navigate = useNavigate();
+      navigate(0);
     }
   };
   

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useUser } from '../context/UserContext';
 import { ContentContext } from '../context/ContentContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function EditableImage({ contentKey }) {
   const { currentUser } = useUser();
@@ -45,9 +46,9 @@ export default function EditableImage({ contentKey }) {
         sessionStorage.setItem('force_content_refetch', 'true'); // 👈 force fresh load on next refresh
         return updated;
       });
-      window.location.reload();
       setSrc(uploadData.url);
-      setShowUpload(false);
+      const navigate = useNavigate();
+      navigate(0);
     }
   };
 
