@@ -3,6 +3,8 @@ from flask import Blueprint, request, jsonify
 from app.extensions import db
 from app.models.newsletter import Newsletter
 from app.utils.decorators import admin_required
+from app.utils.email import send_bulk_email
+
 
 newsletter_bp = Blueprint('newsletter', __name__, url_prefix='/api/newsletter')
 
@@ -49,3 +51,21 @@ def list_by_value():
 
     emails = Newsletter.query.filter_by(newsletter_value=value).all()
     return jsonify([entry.email for entry in emails]), 200
+
+@newsletter_bp.route('/send', methods=['POST'])
+@admin_required
+def send_newsletter():
+    data = request.get_json()
+    subject = data.get('subject')
+    body = data.get('body')
+    emails = data.get('emails')
+
+    if not subject or not body or not emails:
+        return jsonify({'error': 'Missing subject, body, or email list.'}), 400
+
+    success, msg = send_bulk_email(subject, body, emails)
+    if success:
+        return jsonify({'message': msg}), 200
+    else:
+        return jsonify({'error': msg}), 500
+

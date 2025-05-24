@@ -14,6 +14,32 @@ export default function NewsLetterList(user) {
   const [message, setMessage] = useState('');
   const { currentUser } = useUser();
   const API_BASE = process.env.REACT_APP_API_URL;
+  const [emailSubject, setEmailSubject] = useState('');
+  const [emailBody, setEmailBody] = useState('');
+
+  const sendNewsletter = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/api/newsletter/send`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          subject: emailSubject,
+          body: emailBody,
+          emails,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to send newsletter');
+      setMessage('Newsletter sent successfully!');
+      setError('');
+    } catch (err) {
+      setError(err.message || 'Error sending newsletter.');
+    }
+  };
+
 
   useEffect(() => {
       if (currentUser.role !== "admin") {
@@ -118,6 +144,32 @@ export default function NewsLetterList(user) {
             <EditableField contentKey="newsletter_empty_state" defaultText="No emails loaded yet." />
           </div>
         )}
+        {emails.length > 0 && (
+          <div className="newsletter-email-editor mt-4">
+            <h3><EditableField contentKey="newsletter_compose_title" defaultText="Compose Newsletter" /></h3>
+            
+            <input
+              type="text"
+              placeholder="Subject"
+              className="form-control mb-2"
+              value={emailSubject}
+              onChange={(e) => setEmailSubject(e.target.value)}
+            />
+            
+            <textarea
+              placeholder="Write your email content here..."
+              className="form-control mb-2"
+              rows={6}
+              value={emailBody}
+              onChange={(e) => setEmailBody(e.target.value)}
+            ></textarea>
+
+            <button onClick={sendNewsletter} className="btn btn-primary">
+              <EditableField contentKey="newsletter_send_button" defaultText="Send" />
+            </button>
+          </div>
+        )}
+
       </div>) } 
     </div>
   );
