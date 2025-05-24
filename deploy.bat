@@ -156,15 +156,15 @@ WantedBy=multi-user.target' | sudo tee /etc/systemd/system/redis.service > /dev/
 
     echo 🔄 Restarting backend on EC2...
     ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% bash << 'EOF'
-cd /home/ec2-user/ProductSite/react-router-bootstrap-app/public/
-
 # 1. Add and commit local content.json changes if any
+echo "🔍 Inspecting content.json status..."
 cd /home/ec2-user/ProductSite
 
 CONTENT_PATH="react-router-bootstrap-app/public/content.json"
 
 if [ -f "$CONTENT_PATH" ]; then
-    if [ -n "$(git status --porcelain $CONTENT_PATH)" ]; then
+    echo "📁 Found content.json"
+    if [ -n "$(git status --porcelain "$CONTENT_PATH")" ]; then
         echo "📄 Committing local content.json changes before pulling..."
         git add "$CONTENT_PATH"
         git config user.name "Auto Deploy"
@@ -174,8 +174,10 @@ if [ -f "$CONTENT_PATH" ]; then
         echo "✅ No content.json changes to commit."
     fi
 else
-    echo "⚠️ content.json file not found."
+    echo "❌ content.json not found at $CONTENT_PATH"
+    ls -la "$(dirname $CONTENT_PATH)"
 fi
+
 
 # 2. Pull latest changes
 git pull origin main
