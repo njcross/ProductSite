@@ -8,12 +8,13 @@ from app.schemas.user_schema import user_schema, UserSchema
 from flask_cors import cross_origin
 from app.utils.decorators import login_required
 from flask import redirect
+from app.config import Config
 
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api')
 user_schema = UserSchema()
 
-serializer = URLSafeTimedSerializer("super-secret-key")  # Replace with secure key
+serializer = URLSafeTimedSerializer(Config.SECRET_KEY)  
 
 # @auth_bp.route("/google_login")
 # def google_login():
