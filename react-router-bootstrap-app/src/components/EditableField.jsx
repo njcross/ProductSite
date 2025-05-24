@@ -39,8 +39,7 @@ export default function EditableField({ contentKey, plain = false, defaultText =
 
         return updated;
       });
-      console.log(sessionStorage.getItem('force_content_refetch')); // Debugging line
-      navigate(0); // Reload the page to reflect changes
+      window.location.reload();
     }
   };
   
