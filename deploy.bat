@@ -156,7 +156,7 @@ WantedBy=multi-user.target' | sudo tee /etc/systemd/system/redis.service > /dev/
 
     echo 🔄 Restarting backend on EC2...
     ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% bash << 'EOF'
-    cd /home/ec2-user/ProductSite/react-router-bootstrap-app/public
+    cd /home/ec2-user/ProductSite/react-router-bootstrap-app/public/
 
     # 1. Add and commit local content.json changes if any
     if [ -f content.json ] && [ -n "$(git status --porcelain content.json)" ]; then
