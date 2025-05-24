@@ -126,7 +126,7 @@ export default function InventoryPage({ user }) {
       <Table bordered hover responsive className="mt-3">
         <thead>
           <tr>
-            <th>Kit ID</th>
+            <th>Tray Name</th>
             <th>Location</th>
             <th>Name</th>
             <th>Quantity</th>
@@ -136,7 +136,16 @@ export default function InventoryPage({ user }) {
         <tbody>
           {inventory.map((inv, i) => (
             <tr key={inv.id}>
-              <td>{inv.kit_id}</td>
+              <td>
+                {inv.kit?.image_url && (
+                  <img
+                    src={inv.kit.image_url}
+                    alt={inv.kit.name}
+                    style={{ width: '50px', marginRight: '8px' }}
+                  />
+                )}
+                {inv.kit?.name || `Kit ID: ${inv.kit_id}`}
+              </td>
               <td>{inv.location}</td>
               <td>
                 <Form.Control

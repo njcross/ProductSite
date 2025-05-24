@@ -2,6 +2,8 @@ from flask import Blueprint, request, jsonify
 from app.models import Inventory
 from app.utils.decorators import login_required, admin_required 
 from app.extensions import db
+from sqlalchemy.orm import joinedload
+from app.schemas.kit_schema import kit_schema
 import requests
 import os
 
@@ -113,37 +115,41 @@ def decrement_quantity():
 
 @inventory_bp.route('/<int:kit_id>', methods=['GET'])
 def get_inventory_by_kit(kit_id):
-    inventories = Inventory.query.filter_by(kit_id=kit_id).all()
+    inventories = Inventory.query.options(joinedload(Inventory.kit)).filter_by(kit_id=kit_id).all()
     return jsonify([
         {
+            'id': inv.id,
+            'kit_id': inv.kit_id,
             'location': inv.location,
             'location_name': inv.location_name,
             'quantity': inv.quantity,
-            'kit_id': inv.kit_id,
-            'id':inv.id,
-            'coordinates':inv.coordinates
+            'coordinates': inv.coordinates,
+            'kit': kit_schema.dump(inv.kit)
         }
         for inv in inventories
     ])
+
 
 @inventory_bp.route('', methods=['GET'])
 def get_inventory():
-    inventories = Inventory.query.all()
+    inventories = Inventory.query.options(joinedload(Inventory.kit)).all()
     return jsonify([
         {
+            'id': inv.id,
+            'kit_id': inv.kit_id,
             'location': inv.location,
             'location_name': inv.location_name,
             'quantity': inv.quantity,
-            'kit_id': inv.kit_id,
-            'id':inv.id,
-            'coordinates':inv.coordinates
+            'coordinates': inv.coordinates,
+            'kit': kit_schema.dump(inv.kit)
         }
         for inv in inventories
     ])
 
+
 @inventory_bp.route('/item/<int:inventory_id>', methods=['GET'])
 def get_inventory_by_id(inventory_id):
-    inv = Inventory.query.get(inventory_id)
+    inv = Inventory.query.options(joinedload(Inventory.kit)).get(inventory_id)
     if not inv:
         return jsonify({'error': 'Inventory not found'}), 404
     return jsonify({
@@ -152,8 +158,10 @@ def get_inventory_by_id(inventory_id):
         'location': inv.location,
         'location_name': inv.location_name,
         'quantity': inv.quantity,
-        'coordinates': inv.coordinates
+        'coordinates': inv.coordinates,
+        'kit': kit_schema.dump(inv.kit)
     })
+
 
 # Flask route example
 @inventory_bp.route("/locations")
