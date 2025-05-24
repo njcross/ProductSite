@@ -8,25 +8,9 @@ collected 43 items
 tests\test_auth.py ...                                                   [  6%]
 tests\test_auth_routes.py .                                              [  9%]
 tests\test_cart.py .                                                     [ 11%]
-tests\test_cart_routes.py ....                                           [ 20%]
-tests\test_content.py .                                                  [ 23%]
-tests\test_content_routes.py .                                           [ 25%]
-tests\test_favorite.py .                                                 [ 27%]
-tests\test_favorite_routes.py .                                          [ 30%]
-tests\test_favorites.py .                                                [ 32%]
-tests\test_health_routes.py ..                                           [ 37%]
-tests\test_inventory_routes.py ....                                      [ 46%]
-tests\test_kit_routes.py .                                               [ 48%]
-tests\test_kits.py ..                                                    [ 53%]
-tests\test_newsletter.py ..                                              [ 58%]
-tests\test_newsletter_routes.py ...                                      [ 65%]
-tests\test_purchase_routes.py ..                                         [ 69%]
-tests\test_purchases.py ..                                               [ 74%]
-tests\test_resource.py .                                                 [ 76%]
-tests\test_resource_routes.py ..                                         [ 81%]
-tests\test_review_routes.py .                                            [ 83%]
-tests\test_reviews.py ..                                                 [ 88%]
-tests\test_user_settings.py ....                                         [ 97%]
-tests\test_user_settings_routes.py .                                     [100%]
+tests\test_cart_routes.py ..
 
-============================= 43 passed in 52.13s =============================
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KeyboardInterrupt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\ssl.py:1265: KeyboardInterrupt
+(to show a full traceback on KeyboardInterrupt use --full-trace)
+============================= 7 passed in 16.10s ==============================
