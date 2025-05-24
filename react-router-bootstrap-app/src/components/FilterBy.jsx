@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import './FilterBy.css';
 import EditableField from '../components/EditableField';
+import ReactSlider from 'react-slider';
+import './Slider.css';
+
 
 export default function FilterBy({
   onFilterChange,
@@ -24,6 +27,10 @@ export default function FilterBy({
   const [locationOptions, setLocationOptions] = useState([]);
   const [selectedRating, setSelectedRating] = useState('');
   const [selectedPriceRange, setSelectedPriceRange] = useState('');
+  const MIN_PRICE = 0;
+  const MAX_PRICE = 30;
+
+  const [priceRange, setPriceRange] = useState([MIN_PRICE, MAX_PRICE]);
 
   const localKey = `filters_${collection}`;
 
@@ -38,7 +45,9 @@ export default function FilterBy({
     if (saved) {
       const parsed = JSON.parse(saved);
       setSelectedRating(parsed.rating || '');
-      setSelectedPriceRange(parsed.price_range || '');
+      if (parsed.price_range && Array.isArray(parsed.price_range)) {
+        setPriceRange(parsed.price_range);
+      }
       onFilterChange(parsed);
     }
   }, [API_BASE, collection]);
@@ -51,7 +60,7 @@ export default function FilterBy({
       grade_ids: selectedGrades,
       location_names: selectedLocations,
       rating: selectedRating,
-      price_range: selectedPriceRange
+      price_range: priceRange
     };
     localStorage.setItem(localKey, JSON.stringify(filtersToSave));
   }, [
@@ -61,7 +70,7 @@ export default function FilterBy({
     selectedGrades,
     selectedLocations,
     selectedRating,
-    selectedPriceRange
+    priceRange
   ]);
 
   const handleToggle = (type, id) => {
@@ -88,7 +97,8 @@ export default function FilterBy({
 
   const handlePriceChange = (e) => {
     const value = e.target.value;
-    setSelectedPriceRange(value);
+    const [min, max] = value.split('_').map(Number);
+    setPriceRange([min, max]);
     onFilterChange({ price_range: value });
   };
 
@@ -164,14 +174,30 @@ export default function FilterBy({
 
       <label><EditableField contentKey="content_306" defaultText="Filter by Price" /></label>
       <div className="filter-price">
-        <select value={selectedPriceRange} onChange={handlePriceChange}>
-          <option value="">All</option>
-          <option value="under_5">Under $5</option>
-          <option value="5_10">$5 - $9.99</option>
-          <option value="10_15">$10 - $14.99</option>
-          <option value="over_15">Over $15</option>
-        </select>
+        <div className="price-values">
+          ${priceRange[0]} – ${priceRange[1]}
+        </div>
+        <ReactSlider
+          className="price-slider"
+          thumbClassName="slider-thumb"
+          trackClassName="slider-track"
+          min={MIN_PRICE}
+          max={MAX_PRICE}
+          value={priceRange}
+          onChange={(val) => {
+            setPriceRange(val);
+            onFilterChange({ price_range: `${val[0]}_${val[1]}` });
+          }}
+          pearling
+          minDistance={1}
+          withTracks
+          renderThumb={(props, state) => (
+            <div {...props}>{state.valueNow}</div>
+          )}
+        />
+
       </div>
+
 
       <label><EditableField contentKey="content_307" defaultText="Filter by Location" /></label>
       <ul className="filter-list">

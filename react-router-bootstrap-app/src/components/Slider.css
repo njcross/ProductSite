@@ -1,0 +1,42 @@
+/* Slider container */
+.my-slider {
+    position: relative;
+    width: 100%;           /* or set a specific width */
+    height: 30px;          /* sufficient height to contain thumbs */
+  }
+  
+  /* Track (default state) */
+  .my-slider .my-slider-track {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);   /* center the track vertically */
+    width: 100%;
+    height: 6px;                   /* thickness of the slider bar */
+    background: #ddd;              /* light gray base track */
+    border-radius: 3px;
+  }
+  
+  /* Filled portion of the track (e.g. between thumbs or from min to thumb) */
+  .my-slider .my-slider-track.my-slider-track-0 {
+    background: #83a9ff;           /* blue fill for the first segment */
+  }
+  
+  /* Thumb (draggable handle) */
+  .my-slider .my-slider-thumb {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);   /* center the thumb vertically on the track */
+    width: 16px;
+    height: 16px;
+    background: #fff;              /* white thumb background */
+    border: 2px solid #3774ff;     /* blue border to make it visible */
+    border-radius: 50%;            /* round thumb */
+    cursor: pointer;              /* hand cursor on hover */
+    box-shadow: 0 0 2px rgba(0,0,0,0.4);  /* a slight shadow for depth */
+  }
+  
+  /* Thumb when active (being dragged) */
+  .my-slider .my-slider-thumb.my-slider-thumb-active {
+    background: #ccc;              /* change color when active (optional) */
+  }
+  

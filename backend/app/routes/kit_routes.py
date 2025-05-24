@@ -74,14 +74,12 @@ def get_kits():
     
     price_range = request.args.get("price_range")
     if price_range:
-        if price_range == "under_5":
-            filters.append(Kit.price < 5)
-        elif price_range == "5_10":
-            filters.append(and_(Kit.price >= 5, Kit.price < 10))
-        elif price_range == "10_15":
-            filters.append(and_(Kit.price >= 10, Kit.price <= 14.99))
-        elif price_range == "over_15":
-            filters.append(Kit.price > 15)
+        try:
+            min_price, max_price = map(float, price_range.split('_'))
+            filters.append(and_(Kit.price >= min_price, Kit.price <= max_price))
+        except ValueError:
+            return jsonify({"error": "Invalid price range format. Expected 'min_max'."}), 400
+
 
     if filters:
         query = query.where(and_(*filters))

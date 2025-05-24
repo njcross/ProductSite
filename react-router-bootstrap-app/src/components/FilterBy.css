@@ -119,3 +119,29 @@
   accent-color: var(--color-primary);
   width: 1rem;
 }
+
+.price-slider {
+  margin: 1rem 0;
+  height: 25px;
+}
+
+.slider-thumb {
+  height: 24px;
+  width: 24px;
+  background-color: var(--color-primary, #007bff);
+  border-radius: 50%;
+  cursor: grab;
+  text-align: center;
+  color: white;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slider-track {
+  background: #ddd;
+  height: 4px;
+}
+
+
