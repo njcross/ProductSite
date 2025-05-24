@@ -212,7 +212,12 @@ export default function EditCharacterPage() {
       <h4><EditableField contentKey="content_223" /></h4>
       {reviews.map((r, i) => (
         <div key={i} className="review my-3 p-3 border rounded bg-light">
-          <strong>{r.username}</strong>
+          <strong>
+            {r.username}
+            {r.verified && (
+              <span className="text-success ms-2" title="Verified Purchase">✔️ <small>Verified</small></span>
+            )}
+          </strong>
           <StarRating rating={r.rating} editable={false} />
           <p>{r.comment}</p>
         </div>

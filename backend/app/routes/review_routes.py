@@ -4,6 +4,7 @@ from app.extensions import db
 from app.models.review import Review
 from app.schemas.review_schema import ReviewSchema
 from sqlalchemy.exc import SQLAlchemyError
+from app.models.purchase import Purchase
 
 review_bp = Blueprint('review_bp', __name__, url_prefix='/api/reviews')
 review_schema = ReviewSchema()
@@ -13,7 +14,17 @@ reviews_schema = ReviewSchema(many=True)
 @review_bp.route('/kit/<int:kit_id>', methods=['GET'])
 def get_reviews_for_kit(kit_id):
     reviews = Review.query.filter_by(kit_id=kit_id).all()
-    return reviews_schema.dump(reviews), 200
+    result = []
+    for review in reviews:
+        is_verified = Purchase.query.filter_by(user_id=review.user_id, kit_id=kit_id).first() is not None
+        result.append({
+            'user_id': review.user_id,
+            'username': review.user.username,
+            'rating': review.rating,
+            'comment': review.comment,
+            'verified': is_verified
+        })
+    return jsonify(result)
 
 # ✏️ POST or PUT review (create or update for (kit_id, user_id))
 @review_bp.route('/<int:kit_id>', methods=['POST'])

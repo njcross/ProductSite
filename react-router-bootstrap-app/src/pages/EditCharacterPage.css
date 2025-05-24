@@ -155,3 +155,7 @@ hr {
   background-color: #f8f9fa;
 }
 
+.review .text-success {
+  font-weight: normal;
+  font-size: 0.9rem;
+}
