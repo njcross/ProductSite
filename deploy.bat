@@ -26,7 +26,10 @@ REM BACKEND paths
 SET LOCAL_BACKEND_PATH=C:\Users\njcro\m7project\backend
 SET REMOTE_BACKEND_PATH=/home/ec2-user/ProductSite/backend
 
+SET LOCAL_ROOT_PATH=C:\Users\njcro\m7project
+
 echo ✅ 1. Committing changes...
+git pull origin main
 git add .
 git commit -m "%COMMIT_MESSAGE%"
 git push origin main
@@ -95,6 +98,7 @@ IF %ERRORLEVEL% NEQ 0 (
 IF /I "%IS_DRY_RUN%"=="dry-run" (
     echo [dry-run] %*
 ) ELSE (
+    cd "%LOCAL_ROOT_PATH%" || exit /b 1
     echo Uploading restart script...
     scp -i "%PEM_PATH%" restart_backend.sh %EC2_USER%@%EC2_IP%:/home/ec2-user/
 
