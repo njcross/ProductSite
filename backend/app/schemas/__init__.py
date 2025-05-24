@@ -6,6 +6,7 @@ from .favorite_schema import favorite_schema, favorites_schema
 from .review_schema import review_schema, reviews_schema
 from .purchase_schema import purchase_schema, purchases_schema
 from .inventory_schema import inventory_schema, inventories_schema
+from .resource_schema import resource_schema, resources_schema
 
 __all__ = [
     "user_schema", "users_schema",
@@ -16,4 +17,5 @@ __all__ = [
     "review_schema", "reviews_schema",
     "purchase_schema", "purchases_schema",
     "inventory_schema", "inventories_schema",
+    "resource_schema", "resources_schema"
 ]

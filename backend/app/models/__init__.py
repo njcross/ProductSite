@@ -6,5 +6,6 @@ from .favorite import Favorite
 from .review import Review
 from .purchase import Purchase
 from .inventory import Inventory
+from .resource import Resource
 
-__all__ = ["User", "CartItem", "Kit", "Newsletter", "Favorite", "Review", "Purchase", "Inventory"]
+__all__ = ["User", "CartItem", "Kit", "Newsletter", "Favorite", "Review", "Purchase", "Inventory", "Resource"]
