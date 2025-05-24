@@ -45,7 +45,7 @@ export default function EditableImage({ contentKey }) {
         sessionStorage.setItem('force_content_refetch', 'true'); // 👈 force fresh load on next refresh
         return updated;
       });
-
+      window.location.reload();
       setSrc(uploadData.url);
       setShowUpload(false);
     }

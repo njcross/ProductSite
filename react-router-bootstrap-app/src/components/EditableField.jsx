@@ -37,6 +37,7 @@ export default function EditableField({ contentKey, plain = false, defaultText =
 
         return updated;
       });
+      window.location.reload(); // ✅ Force reload to get fresh content
       setEditing(false);
     }
   };
