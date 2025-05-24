@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useUser } from '../context/UserContext'; // Assuming you have a custom hook to get user info
+import React, { useState, useEffect, useContext } from 'react';
+import { useUser } from '../context/UserContext';
+import { ContentContext } from '../context/ContentContext';
 
 export default function EditableImage({ contentKey }) {
+  const { currentUser } = useUser();
+  const { content, setContent } = useContext(ContentContext);
+  const isAdmin = currentUser?.role === 'admin';
+  const API_BASE = process.env.REACT_APP_API_URL;
+
   const [src, setSrc] = useState('');
   const [showUpload, setShowUpload] = useState(false);
-  const { currentUser } = useUser();
-    const isAdmin = currentUser?.role === 'admin';
-    const API_BASE = process.env.REACT_APP_API_URL;
 
+  // ✅ Load from context
   useEffect(() => {
-    fetch('/content.json')
-      .then(res => res.json())
-      .then(data => setSrc(data[contentKey] || ''));
-  }, [contentKey]);
+    setSrc(content?.[contentKey] || '');
+  }, [contentKey, content]);
 
   const handleUpload = async (e) => {
     const file = e.target.files[0];
@@ -22,11 +24,7 @@ export default function EditableImage({ contentKey }) {
     const uploadRes = await fetch(`${API_BASE}/api/upload-image`, {
       method: 'POST',
       credentials: 'include',
-      headers: { 
-        credentials: 'include'
-       },
-      
-      body: formData
+      body: formData,
     });
 
     const uploadData = await uploadRes.json();
@@ -35,11 +33,18 @@ export default function EditableImage({ contentKey }) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-            credentials: 'include'
         },
         credentials: 'include',
-        body: JSON.stringify({ field: contentKey, value: uploadData.url })
+        body: JSON.stringify({ field: contentKey, value: uploadData.url }),
       });
+
+      // ✅ Update context and sessionStorage
+      setContent((prev) => {
+        const updated = { ...prev, [contentKey]: uploadData.url };
+        sessionStorage.setItem('content_cache', JSON.stringify(updated));
+        return updated;
+      });
+
       setSrc(uploadData.url);
       setShowUpload(false);
     }
@@ -51,12 +56,16 @@ export default function EditableImage({ contentKey }) {
       {isAdmin && (
         <div>
           {!showUpload && (
-            <button className="edit-icon" onClick={() => setShowUpload(true)}>Upload Image</button>
+            <button className="edit-icon" onClick={() => setShowUpload(true)}>
+              Upload Image
+            </button>
           )}
           {showUpload && (
             <span>
               <input type="file" accept="image/*" onChange={handleUpload} />
-              <button className="editable-done" onClick={() => setShowUpload(false)}>Done</button>
+              <button className="editable-done" onClick={() => setShowUpload(false)}>
+                Done
+              </button>
             </span>
           )}
         </div>

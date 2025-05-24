@@ -14,18 +14,7 @@ export default function EditableField({ contentKey, plain = false, defaultText =
   const isAdmin = currentUser?.role === 'admin';
 
   useEffect(() => {
-    if (!content?.[contentKey]) {
-      fetch('/content.json', {
-        credentials: 'include',
-      })
-        .then(res => res.json())
-        .then(data => {
-          setText(data[contentKey] || defaultText);
-        })
-        .catch(() => setText(defaultText));
-    } else {
-      setText(content[contentKey]);
-    }
+    setText(content?.[contentKey] || defaultText);
   }, [contentKey, content]);
 
   const saveContent = async () => {
@@ -37,13 +26,19 @@ export default function EditableField({ contentKey, plain = false, defaultText =
       },
       body: JSON.stringify({ field: contentKey, value: newValue }),
     });
-
+  
     if (res.ok) {
       setText(newValue);
-      setContent((prev) => ({ ...prev, [contentKey]: newValue }));
+      setContent((prev) => {
+        const updated = { ...prev, [contentKey]: newValue };
+        // ✅ Update sessionStorage
+        sessionStorage.setItem('content_cache', JSON.stringify(updated));
+        return updated;
+      });
       setEditing(false);
     }
   };
+  
 
   if (plain) return text;
 
@@ -57,7 +52,13 @@ export default function EditableField({ contentKey, plain = false, defaultText =
             onChange={(e) => setNewValue(e.target.value)}
             autoFocus
           />
-          <button onClick={saveContent} className="editable-done">Done</button>
+          <button
+          onClick={saveContent}
+          className="editable-done"
+          disabled={newValue.trim() === '' || newValue === text}
+        >
+          Done
+        </button>
         </span>
       ) : (
         <span
