@@ -1,5 +1,6 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from app.extensions import db
+
 
 class Purchase(db.Model):
     __tablename__ = 'purchases'
@@ -8,7 +9,7 @@ class Purchase(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     inventory_id = db.Column(db.Integer, db.ForeignKey('inventory.id'), nullable=True)
     quantity = db.Column(db.Integer, nullable=False)
-    time_bought = db.Column(db.DateTime, default=datetime.utcnow)
+    time_bought = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     status = db.Column(db.String(50))
 
     payment_method = db.Column(db.String(50))
