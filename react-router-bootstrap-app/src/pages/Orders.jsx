@@ -156,7 +156,7 @@ export default function Orders() {
                 <tr>
                   <th><EditableField contentKey="content_232" defaultText="Kit Name" /></th>
                   {viewAll && <th><EditableField contentKey="content_230" defaultText="User ID" /></th>}
-                  <th><EditableField contentKey="content_250" defaultText="Location" /></th>
+                  <th><EditableField contentKey="content_250" defaultText="Location Name" /></th>
                   <th><EditableField contentKey="content_234" defaultText="Quantity" /></th>
                   <th><EditableField contentKey="content_235" defaultText="Order Date" /></th>
                   <th><EditableField contentKey="content_255" defaultText="Payment Method" /></th>
@@ -170,7 +170,7 @@ export default function Orders() {
               </thead>
               <tbody>
                 {paginatedPurchases.map(purchase => {
-                  const address = purchase.inventory?.location;
+                  const address = purchase.inventory?.location_name;
                   const total = purchase.kit?.price && purchase.quantity
                     ? (purchase.kit.price * purchase.quantity).toFixed(2)
                     : '—';
