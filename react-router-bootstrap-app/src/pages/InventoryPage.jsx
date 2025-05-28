@@ -151,7 +151,12 @@ export default function InventoryPage({ user }) {
                 )}
                 {inv.kit?.name || `Kit ID: ${inv.kit_id}`}
               </td>
-              <td>{inv.location}</td>
+              <td>
+                <Form.Control
+                  value={inv.location}
+                  onChange={(e) => handleChange(i, 'location_name', e.target.value)}
+              />
+              </td>
               <td>
                 <Form.Control
                   value={inv.location_name}
