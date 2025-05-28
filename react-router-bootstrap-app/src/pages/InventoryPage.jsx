@@ -41,11 +41,16 @@ export default function InventoryPage({ user }) {
   }, [currentUser, navigate]);
 
   const handleUpdate = (inv) => {
+    const payload = {
+      ...inv,
+      kit_id: inv.kit_id || inv.kit?.id,
+    };
+
     fetch(`${API_BASE}/api/inventory`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify(inv),
+      body: JSON.stringify(payload),
     })
       .then(res => {
         if (!res.ok) throw new Error('Failed to update');
