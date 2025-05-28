@@ -12,7 +12,7 @@ class ShippingAddressSchema(Schema):
     postal_code = fields.Str(required=True)
     country = fields.Str(required=True)
 
-    purchases = fields.Nested('PurchaseSchema', many=True, dump_only=True)
+    purchases = fields.Nested('PurchaseSchema', many=True, dump_only=True, only=('id', 'quantity'))
 
     @post_load
     def make_shipping_address(self, data, **kwargs):

@@ -11,7 +11,7 @@ class InventorySchema(Schema):
     quantity = fields.Int(required=True)
     kit_id = fields.Int(required=True, load_only=True)
 
-    purchases = fields.Nested('PurchaseSchema', many=True, dump_only=True)
+    purchases = fields.Nested('PurchaseSchema', many=True, dump_only=True, only=('id', 'quantity', 'status'))
     kit = fields.Nested('KitSchema', dump_only=True)
 
     @post_load
