@@ -43,6 +43,11 @@ def create_app():
     migrate.init_app(app, db)
     Session(app)
 
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
+
+
     print("CORS_ORIGIN:", Config.CORS_ORIGIN)
     login_manager.login_view = "auth.login"
     CORS(app, supports_credentials=True, origins=Config.CORS_ORIGIN)

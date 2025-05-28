@@ -2,10 +2,13 @@ from flask import Blueprint, jsonify, request, session
 from app.models import ShippingAddress
 from app.extensions import db
 from app.utils.decorators import login_required
+from app.schemas.shipping_address_schema import ShippingAddressSchema
 
 from app.schemas.shipping_address_schema import shipping_address_schema, shipping_addresses_schema
 
 shipping_bp = Blueprint('shipping', __name__, url_prefix='/api/shipping-addresses')
+shipping_address_schema = ShippingAddressSchema()
+shipping_addresses_schema = ShippingAddressSchema(many=True)
 
 @shipping_bp.route('', methods=['GET'])
 @login_required
