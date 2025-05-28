@@ -11,6 +11,7 @@ class Purchase(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     time_bought = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     status = db.Column(db.String(50))
+    shipping_address_id = db.Column(db.Integer, db.ForeignKey('shipping_address.id'), nullable=True)
 
     payment_method = db.Column(db.String(50))
     available_date = db.Column(db.Integer)
@@ -19,3 +20,5 @@ class Purchase(db.Model):
     kit = db.relationship('Kit', back_populates='purchases', overlaps="purchase")
     user = db.relationship('User', backref='purchases')
     inventory = db.relationship('Inventory', back_populates='purchases')
+
+    shipping_address = db.relationship("ShippingAddress", back_populates="purchases")

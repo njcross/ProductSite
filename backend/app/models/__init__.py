@@ -7,5 +7,6 @@ from .review import Review
 from .purchase import Purchase
 from .inventory import Inventory
 from .resource import Resource
+from .shipping_address import ShippingAddress
 
-__all__ = ["User", "CartItem", "Kit", "Newsletter", "Favorite", "Review", "Purchase", "Inventory", "Resource"]
+__all__ = ["User", "CartItem", "Kit", "Newsletter", "Favorite", "Review", "Purchase", "Inventory", "Resource", "ShippingAddress"]

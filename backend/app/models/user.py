@@ -13,3 +13,5 @@ class User(db.Model):
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
     cart_items = db.relationship('CartItem', back_populates='user')
+    shipping_addresses = db.relationship("ShippingAddress", back_populates="user", cascade="all, delete-orphan")
+
