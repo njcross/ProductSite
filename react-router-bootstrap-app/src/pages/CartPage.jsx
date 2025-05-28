@@ -7,6 +7,7 @@ import { useUser } from '../context/UserContext';
 import EditableField from '../components/EditableField';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { getAddressFromLatLng } from '../utils/googleApiService';
+import ShippingModal from '../components/ShippingModal';
 import './CartPage.css';
 
 export default function CartPage() {
@@ -234,84 +235,18 @@ export default function CartPage() {
         </>
       )}
       {showShippingModal && (
-  <div className="shipping-modal">
-    <h5>Select a Shipping Address</h5>
-    <Form.Select
-      className="mb-3"
-      value={selectedAddressId || ''}
-      onChange={(e) => {
-  setSelectedAddressId(e.target.value);
-  setShippingAddressId(e.target.value);
-}}
-
-    >
-      <option value="">-- Select Saved Address --</option>
-      {shippingAddresses.map(addr => (
-        <option key={addr.id} value={addr.id}>
-          {addr.line1}, {addr.city}, {addr.state}
-        </option>
-      ))}
-    </Form.Select>
-
-    <h6>Or Enter New Address</h6>
-    {['line1', 'city', 'state', 'postal_code', 'country'].map((field) => (
-      <Form.Control
-        key={field}
-        className="mb-2"
-        placeholder={field.replace('_', ' ')}
-        value={newAddress[field]}
-        onChange={(e) => setNewAddress(prev => ({ ...prev, [field]: e.target.value }))}
-      />
-    ))}
-
-    <Button className="mt-3" onClick={async () => {
-      let shipping_address_id = selectedAddressId;
-
-      if (!shipping_address_id) {
-        const res = await fetch(`${API_BASE}/api/shipping-addresses`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify(newAddress),
-        });
-
-        if (!res.ok) {
-          alert('Failed to create address.');
-          return;
-        }
-
-        const newAddr = await res.json();
-        shipping_address_id = newAddr.id;
-        setShippingAddressId(shipping_address_id);
-      }
-
-      for (const item of warehouseItems) {
-        const res = await fetch(`${API_BASE}/api/purchases`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({
-            kit_id: item.kit_id,
-            quantity: item.quantity,
-            inventory_id: item.inventory_id,
-            shipping_address_id,
-          }),
-        });
-
-        if (!res.ok) {
-          alert(`Warehouse purchase failed`);
-        } else {
-          removeFromCart(item.cartId);
-        }
-      }
-
-      setShowShippingModal(false);
-      navigate('/orders');
-    }}>
-      Confirm Shipping & Complete Warehouse Purchase
-    </Button>
-  </div>
+  <ShippingModal
+    API_BASE={API_BASE}
+    warehouseItems={warehouseItems}
+    setShowShippingModal={setShowShippingModal}
+    shippingAddresses={shippingAddresses}
+    setShippingAddresses={setShippingAddresses}
+    removeFromCart={removeFromCart}
+    navigate={navigate}
+    setShippingAddressId={setShippingAddressId}
+  />
 )}
+
 
     </Container>
   );
