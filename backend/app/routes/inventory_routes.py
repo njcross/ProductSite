@@ -116,6 +116,7 @@ def delete_inventory():
 def decrement_quantity():
     data = request.json
     location_name = data.get('location_name', '').lower()
+    quantity = data.get('quantity', 1)
     if location_name == 'warehouse':
         inv = Inventory.query.filter_by(location_name='warehouse').first()
     else:
@@ -126,7 +127,7 @@ def decrement_quantity():
         inv = Inventory.query.filter_by(kit_id=kit_id, location=location).first()
         if not inv or inv.quantity <= 0:
             return jsonify({'error': 'Insufficient inventory'}), 400
-    inv.quantity -= 1
+    inv.quantity = inv.quantity - quantity
     db.session.commit()
     return jsonify({'message': 'Inventory decremented', 'new_quantity': inv.quantity})
 
@@ -136,6 +137,7 @@ def increment_quantity():
     data = request.get_json()
     kit_id = data.get('kit_id')
     location = data.get('location')
+    quantity = data.get('quantity', 1)
 
     if kit_id is None or location is None:
         return jsonify({'error': 'Missing kit_id or location'}), 400
@@ -144,7 +146,7 @@ def increment_quantity():
     if not inv:
         return jsonify({'error': 'Inventory record not found'}), 404
 
-    inv.quantity += 1
+    inv.quantity = inv.quantity + quantity
     db.session.commit()
 
     return jsonify({'message': 'Inventory incremented', 'new_quantity': inv.quantity})

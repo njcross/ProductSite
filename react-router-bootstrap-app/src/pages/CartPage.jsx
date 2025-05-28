@@ -76,7 +76,7 @@ export default function CartPage() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
-            body: JSON.stringify({ kit_id, location, location_name }),
+            body: JSON.stringify({ kit_id, location, location_name, inventory_id, quantity }),
           });
     
           if (!decrementRes.ok) {
@@ -112,7 +112,7 @@ export default function CartPage() {
           //     method: 'POST',
           //     headers: { 'Content-Type': 'application/json' },
           //     credentials: 'include',
-          //     body: JSON.stringify({ kit_id, location }),
+          //     body: JSON.stringify({ kit_id, location, location_name, inventory_id, quantity }),
           //   });
           //   return;
           // }
@@ -126,18 +126,28 @@ export default function CartPage() {
             warehouse.push({ kit_id, quantity, inventory_id, cartId: id });
             continue;
           }
-          if (selectedAddressId) {
-            purchasePayload.shipping_address_id = selectedAddressId;
-          }
+          const payload = {
+            kit_id,
+            quantity,
+            inventory_id,
+            ...(selectedAddressId && { shipping_address_id: selectedAddressId })
+          };
           const res = await fetch(`${API_BASE}/api/purchases`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
-            body: JSON.stringify({ kit_id, quantity, inventory_id }),
+            body: JSON.stringify(payload),
           });
     
           if (!res.ok) {
             alert(`Purchase failed for ${item.kit?.name || 'item'}`);
+             // add back the inventory if Stripe fails
+            const incrementRes = await fetch(`${API_BASE}/api/inventory/increment`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
+              body: JSON.stringify({ kit_id, location, location_name, inventory_id, quantity }),
+            });
             throw new Error(`${item.kit?.name || 'item'}`);
           } else {
             removeFromCart(id);
