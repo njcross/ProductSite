@@ -39,22 +39,26 @@ def find_address(input_text):
 @admin_required
 def create_inventory():
     data = request.json
-    rtn = data['location']
-    if not data.get("no_address_lookup"):
-        rtn = find_address(data['location'])
-        if isinstance(rtn, tuple):  # means it's a (Response, status_code)
-            return rtn
-        if isinstance(rtn, dict):
-            data['coordinates'] = f"{rtn['lat']}, {rtn['lng']}"
-            data['location'] = rtn['address']
+    location_name = data.get('location_name', '').lower()
+    if location_name == 'warehouse':
+        data['coordinates'] = ''
+        data['location'] = ''
+    else:
+        rtn = data['location']
+        if not data.get("no_address_lookup"):
+            rtn = find_address(data['location'])
+            if isinstance(rtn, tuple):  # (Response, status_code)
+                return rtn
+            if isinstance(rtn, dict):
+                data['coordinates'] = f"{rtn['lat']}, {rtn['lng']}"
+                data['location'] = rtn['address']
+            else:
+                data['coordinates'] = "0,0"
+                data['location'] = data['location']
         else:
             data['coordinates'] = "0,0"
-            data['location'] = data['location']
-    else:
-        # If skipping address lookup, just use provided location
-        data['coordinates'] = "0,0"
-        # clean up helper key
-        del data['no_address_lookup']
+            del data['no_address_lookup']
+
     inv = Inventory(**data)
     db.session.add(inv)
     db.session.commit()
@@ -70,22 +74,26 @@ def edit_inventory():
     inv.location_name = data.get('location_name', inv.location_name)
     inv.quantity = data.get('quantity', inv.quantity)
     rtn = {}
-    rtn['address'] = data['location']
-    if not data.get("no_address_lookup"):
-        rtn = find_address(data['location'])
-        if isinstance(rtn, tuple):  # means it's a (Response, status_code)
-            return rtn
-        if isinstance(rtn, dict):
-            inv.coordinates = f"{rtn['lat']}, {rtn['lng']}"
-            inv.location = rtn['address']
+    location_name = data.get('location_name', '').lower()
+    if location_name == 'warehouse':
+        inv.coordinates = ''
+        inv.location = ''
+    else:
+        rtn['address'] = data['location']
+        if not data.get("no_address_lookup"):
+            rtn = find_address(data['location'])
+            if isinstance(rtn, tuple):  # (Response, status_code)
+                return rtn
+            if isinstance(rtn, dict):
+                inv.coordinates = f"{rtn['lat']}, {rtn['lng']}"
+                inv.location = rtn['address']
+            else:
+                inv.coordinates = "0,0"
+                inv.location = data['location']
         else:
             inv.coordinates = "0,0"
-            inv.location = data['location']
-    else:
-        # If skipping address lookup, just use provided location
-        inv.coordinates = "0,0"
-        # clean up helper key
-        del data['no_address_lookup']
+            del data['no_address_lookup']
+
     
 
     db.session.commit()
@@ -117,11 +125,22 @@ def decrement_quantity():
 @inventory_bp.route('/increment', methods=['POST'])
 @login_required
 def increment_quantity():
-    data = request.json
-    inv = Inventory.query.filter_by(kit_id=data['kit_id'], location=data['location']).first()
+    data = request.get_json()
+    kit_id = data.get('kit_id')
+    location = data.get('location')
+
+    if kit_id is None or location is None:
+        return jsonify({'error': 'Missing kit_id or location'}), 400
+
+    inv = Inventory.query.filter_by(kit_id=kit_id, location=location).first()
+    if not inv:
+        return jsonify({'error': 'Inventory record not found'}), 404
+
     inv.quantity += 1
     db.session.commit()
+
     return jsonify({'message': 'Inventory incremented', 'new_quantity': inv.quantity})
+
 
 @inventory_bp.route('/<int:kit_id>', methods=['GET'])
 def get_inventory_by_kit(kit_id):

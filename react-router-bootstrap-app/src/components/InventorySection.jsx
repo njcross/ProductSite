@@ -264,7 +264,7 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
             const bounds = new window.google.maps.LatLngBounds();
 
             inventories.forEach(inv => {
-              if (!inv.coordinates) return;
+              if (!inv.coordinates || inv.location_name?.toLowerCase() === 'warehouse') return;
               const { lat, lng } = parseLatLng(inv.coordinates);
               bounds.extend({ lat, lng });
 
