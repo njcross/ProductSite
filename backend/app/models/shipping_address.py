@@ -13,3 +13,4 @@ class ShippingAddress(db.Model):
     country: Mapped[str] = mapped_column(String(100))
 
     user = relationship("User", back_populates="shipping_addresses")
+    purchases = relationship("Purchase", back_populates="shipping_address", cascade="all, delete-orphan")

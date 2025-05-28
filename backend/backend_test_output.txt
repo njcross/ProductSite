@@ -1490,7 +1490,7 @@ Database tables created!
 ================================== FAILURES ===================================
 ________________________________ test_register ________________________________
 
-self = <Mapper at 0x24d3181fed0; ShippingAddress>, key = 'purchases'
+self = <Mapper at 0x1c519d0fed0; ShippingAddress>, key = 'purchases'
 _configure_mappers = False
 
     def get_property(
@@ -1580,7 +1580,7 @@ venv\Lib\site-packages\sqlalchemy\orm\relationships.py:1592: in _add_reverse_pro
     other = self.mapper.get_property(key, _configure_mappers=False)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-self = <Mapper at 0x24d3181fed0; ShippingAddress>, key = 'purchases'
+self = <Mapper at 0x1c519d0fed0; ShippingAddress>, key = 'purchases'
 _configure_mappers = False
 
     def get_property(
@@ -2076,4 +2076,4 @@ ERROR tests/test_reviews.py::test_post_review - sqlalchemy.exc.InvalidRequest...
 ERROR tests/test_user_settings.py::test_update_email - sqlalchemy.exc.Invalid...
 ERROR tests/test_user_settings.py::test_update_password - sqlalchemy.exc.Inva...
 ERROR tests/test_user_settings.py::test_delete_account - sqlalchemy.exc.Inval...
-============= 6 failed, 16 passed, 21 errors in 62.59s (0:01:02) ==============
+================== 6 failed, 16 passed, 21 errors in 49.67s ===================
