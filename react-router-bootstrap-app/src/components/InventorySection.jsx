@@ -81,8 +81,17 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
   };
 
   const handleAdd = async () => {
-    if (!newInventory.location || !newInventory.location_name || !newInventory.quantity) {
-      alert('Fill all fields');
+    const { location, location_name, quantity } = newInventory;
+
+    if (!location_name || !quantity) {
+      alert('Please provide a location name and quantity.');
+      return;
+    }
+
+    const isWarehouse = location_name.trim().toLowerCase() === 'warehouse';
+
+    if (!isWarehouse && !location) {
+      alert('Please provide a location address (or select from existing).');
       return;
     }
   
