@@ -40,3 +40,5 @@ pytest-flask==1.3.0
 # Cryptography (needed by authlib, esp. for JWT and OpenID)
 cryptography>=41.0.7
 cffi>=1.15.1
+
+stripe

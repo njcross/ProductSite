@@ -13,6 +13,7 @@ from app.routes.review_routes import review_bp
 from app.routes.purchase_routes import purchase_bp
 from app.routes.inventory_routes import inventory_bp
 from app.routes.resource_routes import resource_bp
+from app.routes.checkout_routes import checkout_bp
 
 # Optionally create a master blueprint if desired (not required if registering in app factory)
 def register_routes(app):
@@ -28,3 +29,4 @@ def register_routes(app):
     app.register_blueprint(purchase_bp)
     app.register.blueprint(inventory_bp)
     app.register_blueprint(resource_bp)
+    app.register_blueprint(checkout_bp)

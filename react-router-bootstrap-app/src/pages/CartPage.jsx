@@ -65,6 +65,43 @@ export default function CartPage() {
             alert(`Inventory issue for ${item.kit?.name || 'item'}: ${err.error || 'Unavailable'}`);
             continue; // Skip this item if decrement fails
           }
+          // Stripe logic after all inventory checks are done
+          // const stripeRes = await fetch(`${API_BASE}/create-checkout-session`, {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          //   credentials: 'include',
+          //   body: JSON.stringify({
+          //     items: cart,
+          //     userEmail: currentUser?.email,
+          //     shippingAddress: {
+          //       line1: '123 Main St', // You can customize this with a form later
+          //       city: 'Anytown',
+          //       state: 'CA',
+          //       postal_code: '90210',
+          //       country: 'US',
+          //     },
+          //   }),
+          // });
+
+          // if (!stripeRes.ok) {
+          //   const err = await stripeRes.json();
+          //   alert(`Stripe Checkout Error: ${err.error || 'Something went wrong'}`);
+          //   // add back the inventory if Stripe fails
+          //   const incrementRes = await fetch(`${API_BASE}/api/inventory/increment`, {
+          //     method: 'POST',
+          //     headers: { 'Content-Type': 'application/json' },
+          //     credentials: 'include',
+          //     body: JSON.stringify({ kit_id, location }),
+          //   });
+          //   return;
+          // }
+
+          const { sessionId } = await stripeRes.json();
+          const stripe = await window.Stripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
+          await stripe.redirectToCheckout({ sessionId });
+
     
           // Proceed to purchase if inventory decrement succeeded
           const purchaseRes = await fetch(`${API_BASE}/api/purchases`, {

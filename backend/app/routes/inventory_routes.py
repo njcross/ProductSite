@@ -114,6 +114,15 @@ def decrement_quantity():
     db.session.commit()
     return jsonify({'message': 'Inventory decremented', 'new_quantity': inv.quantity})
 
+@inventory_bp.route('/increment', methods=['POST'])
+@login_required
+def increment_quantity():
+    data = request.json
+    inv = Inventory.query.filter_by(kit_id=data['kit_id'], location=data['location']).first()
+    inv.quantity += 1
+    db.session.commit()
+    return jsonify({'message': 'Inventory incremented', 'new_quantity': inv.quantity})
+
 @inventory_bp.route('/<int:kit_id>', methods=['GET'])
 def get_inventory_by_kit(kit_id):
     inventories = Inventory.query.options(joinedload(Inventory.kit)).filter_by(kit_id=kit_id).all()
