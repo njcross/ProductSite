@@ -17,6 +17,7 @@ export default function CartPage() {
   const [showShippingModal, setShowShippingModal] = useState(false);
   const [shippingAddresses, setShippingAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [shippingAddressId, setShippingAddressId] = useState(null);
   const [newAddress, setNewAddress] = useState({
     line1: '', city: '', state: '', postal_code: '', country: ''
   });
@@ -124,7 +125,9 @@ export default function CartPage() {
             warehouse.push({ kit_id, quantity, inventory_id, cartId: id });
             continue;
           }
-    
+          if (selectedAddressId) {
+            purchasePayload.shipping_address_id = selectedAddressId;
+          }
           const res = await fetch(`${API_BASE}/api/purchases`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -236,7 +239,11 @@ export default function CartPage() {
     <Form.Select
       className="mb-3"
       value={selectedAddressId || ''}
-      onChange={(e) => setSelectedAddressId(e.target.value)}
+      onChange={(e) => {
+  setSelectedAddressId(e.target.value);
+  setShippingAddressId(e.target.value);
+}}
+
     >
       <option value="">-- Select Saved Address --</option>
       {shippingAddresses.map(addr => (
@@ -275,6 +282,7 @@ export default function CartPage() {
 
         const newAddr = await res.json();
         shipping_address_id = newAddr.id;
+        setShippingAddressId(shipping_address_id);
       }
 
       for (const item of warehouseItems) {
