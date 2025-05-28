@@ -92,6 +92,7 @@ def create_app():
     from app.routes.inventory_routes import inventory_bp
     from app.routes.resource_routes import resource_bp
     from app.routes.checkout_routes import checkout_bp
+    from app.routes.shipping_address_routes import shipping_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(cart_bp)
@@ -106,6 +107,7 @@ def create_app():
     app.register_blueprint(inventory_bp)
     app.register_blueprint(resource_bp)
     app.register_blueprint(checkout_bp)
+    app.register_blueprint(shipping_bp)
 
     with app.app_context():
         create_database()
