@@ -5,28 +5,2075 @@ configfile: pytest.ini
 plugins: Flask-Dance-6.0.0, flask-1.3.0
 collected 43 items
 
-tests\test_auth.py ...                                                   [  6%]
+tests\test_auth.py FE.                                                   [  6%]
 tests\test_auth_routes.py .                                              [  9%]
 tests\test_cart.py .                                                     [ 11%]
-tests\test_cart_routes.py ....                                           [ 20%]
+tests\test_cart_routes.py EEEE                                           [ 20%]
 tests\test_content.py .                                                  [ 23%]
 tests\test_content_routes.py .                                           [ 25%]
 tests\test_favorite.py .                                                 [ 27%]
 tests\test_favorite_routes.py .                                          [ 30%]
-tests\test_favorites.py .                                                [ 32%]
+tests\test_favorites.py E                                                [ 32%]
 tests\test_health_routes.py ..                                           [ 37%]
-tests\test_inventory_routes.py ....                                      [ 46%]
+tests\test_inventory_routes.py EEEE                                      [ 46%]
 tests\test_kit_routes.py .                                               [ 48%]
-tests\test_kits.py ..                                                    [ 53%]
-tests\test_newsletter.py ..                                              [ 58%]
-tests\test_newsletter_routes.py ...                                      [ 65%]
-tests\test_purchase_routes.py ..                                         [ 69%]
-tests\test_purchases.py ..                                               [ 74%]
-tests\test_resource.py .                                                 [ 76%]
-tests\test_resource_routes.py ..                                         [ 81%]
+tests\test_kits.py EF                                                    [ 53%]
+tests\test_newsletter.py E.                                              [ 58%]
+tests\test_newsletter_routes.py F.F                                      [ 65%]
+tests\test_purchase_routes.py .E                                         [ 69%]
+tests\test_purchases.py EE                                               [ 74%]
+tests\test_resource.py F                                                 [ 76%]
+tests\test_resource_routes.py FE                                         [ 81%]
 tests\test_review_routes.py .                                            [ 83%]
-tests\test_reviews.py ..                                                 [ 88%]
-tests\test_user_settings.py ....                                         [ 97%]
+tests\test_reviews.py EE                                                 [ 88%]
+tests\test_user_settings.py .EEE                                         [ 97%]
 tests\test_user_settings_routes.py .                                     [100%]
 
-============================= 43 passed in 58.79s =============================
+=================================== ERRORS ====================================
+________________________ ERROR at setup of test_login _________________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+____________________ ERROR at setup of test_get_empty_cart ____________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+_____________________ ERROR at setup of test_add_to_cart ______________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+_________________ ERROR at setup of test_update_cart_quantity _________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+___________________ ERROR at setup of test_delete_cart_item ___________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+____________________ ERROR at setup of test_get_favorites _____________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+____________________ ERROR at setup of test_get_inventory _____________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+___________________ ERROR at setup of test_create_inventory ___________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+___________________ ERROR at setup of test_update_inventory ___________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+___________________ ERROR at setup of test_delete_inventory ___________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+___________________ ERROR at setup of test_create_character ___________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+________________ ERROR at setup of test_get_newsletter_emails _________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+___________________ ERROR at setup of test_create_purchase ____________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+____________________ ERROR at setup of test_list_purchases ____________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+_______________________ ERROR at setup of test_checkout _______________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+________________ ERROR at setup of test_post_and_get_resource _________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+_____________________ ERROR at setup of test_get_reviews ______________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture
+    def create_test_kit_and_inventory(app):
+        with app.app_context():
+            data = {
+                "name": "Test Kit",
+                "description": "This is a test kit.",
+                "price": 19.99,
+                "image_url": "http://example.com/testkit.jpg"
+            }
+            kit_data = kit_schema.load(data)
+>           new_kit = Kit(**kit_data)
+
+tests\conftest.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+_____________________ ERROR at setup of test_post_review ______________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+_____________________ ERROR at setup of test_update_email _____________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+___________________ ERROR at setup of test_update_password ____________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+____________________ ERROR at setup of test_delete_account ____________________
+
+app = <Flask 'app'>
+
+    @pytest.fixture(scope="function")
+    def create_test_users(app):
+        with app.app_context():
+            _db.drop_all()
+            _db.create_all()
+    
+>           user = User(
+                username="testuser",
+                email="testuser@example.com",
+                password=generate_password_hash("password123"),
+                role="customer"
+            )
+
+tests\conftest.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+================================== FAILURES ===================================
+________________________________ test_register ________________________________
+
+self = <Mapper at 0x24d3181fed0; ShippingAddress>, key = 'purchases'
+_configure_mappers = False
+
+    def get_property(
+        self, key: str, _configure_mappers: bool = False
+    ) -> MapperProperty[Any]:
+        """return a MapperProperty associated with the given key."""
+    
+        if _configure_mappers:
+            self._check_configure()
+    
+        try:
+>           return self._props[key]
+E           KeyError: 'purchases'
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2522: KeyError
+
+The above exception was the direct cause of the following exception:
+
+client = <FlaskClient <Flask 'app'>>
+
+    def test_register(client):
+>       response = client.post('/api/register', json={
+            "username": "newuser",
+            "email": "newuser@example.com",
+            "password": "password123",
+            "confirmPassword": "password123",
+            "restore": False
+        })
+
+tests\test_auth.py:4: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\werkzeug\test.py:1248: in post
+    return self.open(*args, **kw)
+venv\Lib\site-packages\flask\testing.py:238: in open
+    response = super().open(
+venv\Lib\site-packages\werkzeug\test.py:1197: in open
+    response = self.run_wsgi_app(request.environ, buffered=buffered)
+venv\Lib\site-packages\werkzeug\test.py:1069: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+venv\Lib\site-packages\werkzeug\test.py:1345: in run_wsgi_app
+    app_rv = app(environ, start_response)
+venv\Lib\site-packages\flask\app.py:2552: in __call__
+    return self.wsgi_app(environ, start_response)
+venv\Lib\site-packages\flask\app.py:2532: in wsgi_app
+    response = self.handle_exception(e)
+venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+venv\Lib\site-packages\flask\app.py:2529: in wsgi_app
+    response = self.full_dispatch_request()
+venv\Lib\site-packages\flask\app.py:1825: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+venv\Lib\site-packages\flask\app.py:1823: in full_dispatch_request
+    rv = self.dispatch_request()
+venv\Lib\site-packages\flask\app.py:1799: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+app\routes\auth_routes.py:115: in register
+    existing = User.query.filter_by(email=email).first()
+venv\Lib\site-packages\flask_sqlalchemy\model.py:22: in __get__
+    return cls.query_class(
+venv\Lib\site-packages\sqlalchemy\orm\query.py:276: in __init__
+    self._set_entities(entities)
+venv\Lib\site-packages\sqlalchemy\orm\query.py:289: in _set_entities
+    coercions.expect(
+venv\Lib\site-packages\sqlalchemy\sql\coercions.py:388: in expect
+    insp._post_inspect
+venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:1257: in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2724: in _post_inspect
+    self._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4255: in _do_configure_registries
+    mapper._post_configure_properties()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2418: in _post_configure_properties
+    prop.init()
+venv\Lib\site-packages\sqlalchemy\orm\interfaces.py:589: in init
+    self.do_init()
+venv\Lib\site-packages\sqlalchemy\orm\relationships.py:1661: in do_init
+    self._generate_backref()
+venv\Lib\site-packages\sqlalchemy\orm\relationships.py:2147: in _generate_backref
+    self._add_reverse_property(self.back_populates)
+venv\Lib\site-packages\sqlalchemy\orm\relationships.py:1592: in _add_reverse_property
+    other = self.mapper.get_property(key, _configure_mappers=False)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <Mapper at 0x24d3181fed0; ShippingAddress>, key = 'purchases'
+_configure_mappers = False
+
+    def get_property(
+        self, key: str, _configure_mappers: bool = False
+    ) -> MapperProperty[Any]:
+        """return a MapperProperty associated with the given key."""
+    
+        if _configure_mappers:
+            self._check_configure()
+    
+        try:
+            return self._props[key]
+        except KeyError as err:
+>           raise sa_exc.InvalidRequestError(
+                f"Mapper '{self}' has no property '{key}'.  If this property "
+                "was indicated from other mappers or configure events, ensure "
+                "registry.configure() has been called."
+            ) from err
+E           sqlalchemy.exc.InvalidRequestError: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2524: InvalidRequestError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+_____________________________ test_get_characters _____________________________
+
+client = <FlaskClient <Flask 'app'>>
+
+    def test_get_characters(client):
+>       response = client.get("/api/kits")
+
+tests\test_kits.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\werkzeug\test.py:1243: in get
+    return self.open(*args, **kw)
+venv\Lib\site-packages\flask\testing.py:238: in open
+    response = super().open(
+venv\Lib\site-packages\werkzeug\test.py:1197: in open
+    response = self.run_wsgi_app(request.environ, buffered=buffered)
+venv\Lib\site-packages\werkzeug\test.py:1069: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+venv\Lib\site-packages\werkzeug\test.py:1345: in run_wsgi_app
+    app_rv = app(environ, start_response)
+venv\Lib\site-packages\flask\app.py:2552: in __call__
+    return self.wsgi_app(environ, start_response)
+venv\Lib\site-packages\flask\app.py:2532: in wsgi_app
+    response = self.handle_exception(e)
+venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+venv\Lib\site-packages\flask\app.py:2529: in wsgi_app
+    response = self.full_dispatch_request()
+venv\Lib\site-packages\flask\app.py:1825: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+venv\Lib\site-packages\flask\app.py:1823: in full_dispatch_request
+    rv = self.dispatch_request()
+venv\Lib\site-packages\flask\app.py:1799: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+app\routes\kit_routes.py:46: in get_kits
+    query = select(Kit).options(joinedload(Kit.age), joinedload(Kit.category), joinedload(Kit.inventories))
+venv\Lib\site-packages\sqlalchemy\orm\strategy_options.py:2417: in joinedload
+    return _generate_from_keys(Load.joinedload, keys, False, kw)
+venv\Lib\site-packages\sqlalchemy\orm\strategy_options.py:2327: in _generate_from_keys
+    lead_element = Load(lead_entity)
+venv\Lib\site-packages\sqlalchemy\orm\strategy_options.py:1012: in __init__
+    insp._post_inspect
+venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:1257: in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2724: in _post_inspect
+    self._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+_________________________ test_unsubscribe_newsletter _________________________
+
+client = <FlaskClient <Flask 'app'>>
+
+    def test_unsubscribe_newsletter(client):
+>       client.post("/api/newsletter/subscribe", json={
+            "email": "remove@newsletter.com",
+            "newsletter_value": "2"
+        })
+
+tests\test_newsletter_routes.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\werkzeug\test.py:1248: in post
+    return self.open(*args, **kw)
+venv\Lib\site-packages\flask\testing.py:238: in open
+    response = super().open(
+venv\Lib\site-packages\werkzeug\test.py:1197: in open
+    response = self.run_wsgi_app(request.environ, buffered=buffered)
+venv\Lib\site-packages\werkzeug\test.py:1069: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+venv\Lib\site-packages\werkzeug\test.py:1345: in run_wsgi_app
+    app_rv = app(environ, start_response)
+venv\Lib\site-packages\flask\app.py:2552: in __call__
+    return self.wsgi_app(environ, start_response)
+venv\Lib\site-packages\flask\app.py:2532: in wsgi_app
+    response = self.handle_exception(e)
+venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+venv\Lib\site-packages\flask\app.py:2529: in wsgi_app
+    response = self.full_dispatch_request()
+venv\Lib\site-packages\flask\app.py:1825: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+venv\Lib\site-packages\flask\app.py:1823: in full_dispatch_request
+    rv = self.dispatch_request()
+venv\Lib\site-packages\flask\app.py:1799: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+app\routes\newsletter_routes.py:23: in subscribe
+    if Newsletter.query.filter_by(email=email).first():
+venv\Lib\site-packages\flask_sqlalchemy\model.py:22: in __get__
+    return cls.query_class(
+venv\Lib\site-packages\sqlalchemy\orm\query.py:276: in __init__
+    self._set_entities(entities)
+venv\Lib\site-packages\sqlalchemy\orm\query.py:289: in _set_entities
+    coercions.expect(
+venv\Lib\site-packages\sqlalchemy\sql\coercions.py:388: in expect
+    insp._post_inspect
+venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:1257: in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2724: in _post_inspect
+    self._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+________________________ test_newsletter_subscription _________________________
+
+client = <FlaskClient <Flask 'app'>>
+
+    def test_newsletter_subscription(client):
+>       response = client.post("/api/newsletter/subscribe", json={"newsletter_value":"1","email": "test@example.com"})
+
+tests\test_newsletter_routes.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\werkzeug\test.py:1248: in post
+    return self.open(*args, **kw)
+venv\Lib\site-packages\flask\testing.py:238: in open
+    response = super().open(
+venv\Lib\site-packages\werkzeug\test.py:1197: in open
+    response = self.run_wsgi_app(request.environ, buffered=buffered)
+venv\Lib\site-packages\werkzeug\test.py:1069: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+venv\Lib\site-packages\werkzeug\test.py:1345: in run_wsgi_app
+    app_rv = app(environ, start_response)
+venv\Lib\site-packages\flask\app.py:2552: in __call__
+    return self.wsgi_app(environ, start_response)
+venv\Lib\site-packages\flask\app.py:2532: in wsgi_app
+    response = self.handle_exception(e)
+venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+venv\Lib\site-packages\flask\app.py:2529: in wsgi_app
+    response = self.full_dispatch_request()
+venv\Lib\site-packages\flask\app.py:1825: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+venv\Lib\site-packages\flask\app.py:1823: in full_dispatch_request
+    rv = self.dispatch_request()
+venv\Lib\site-packages\flask\app.py:1799: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+app\routes\newsletter_routes.py:23: in subscribe
+    if Newsletter.query.filter_by(email=email).first():
+venv\Lib\site-packages\flask_sqlalchemy\model.py:22: in __get__
+    return cls.query_class(
+venv\Lib\site-packages\sqlalchemy\orm\query.py:276: in __init__
+    self._set_entities(entities)
+venv\Lib\site-packages\sqlalchemy\orm\query.py:289: in _set_entities
+    coercions.expect(
+venv\Lib\site-packages\sqlalchemy\sql\coercions.py:388: in expect
+    insp._post_inspect
+venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:1257: in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2724: in _post_inspect
+    self._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+________________________ test_create_resource_instance ________________________
+
+    def test_create_resource_instance():
+>       resource = Resource(
+            title="Sample Resource",
+            description="A sample downloadable item.",
+            thumbnail_url="https://example.com/thumb.jpg",
+            file_url="https://example.com/file.pdf"
+        )
+
+tests\test_resource.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+<string>:4: in __init__
+    ???
+venv\Lib\site-packages\sqlalchemy\orm\state.py:566: in _initialize_instance
+    manager.dispatch.init(self, args, kwargs)
+venv\Lib\site-packages\sqlalchemy\event\attr.py:497: in __call__
+    fn(*args, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4406: in _event_on_init
+    instrumenting_mapper._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+__________________________ test_get_resources_empty ___________________________
+
+client = <FlaskClient <Flask 'app'>>
+
+    def test_get_resources_empty(client):
+>       response = client.get('/api/resources')
+
+tests\test_resource_routes.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\werkzeug\test.py:1243: in get
+    return self.open(*args, **kw)
+venv\Lib\site-packages\flask\testing.py:238: in open
+    response = super().open(
+venv\Lib\site-packages\werkzeug\test.py:1197: in open
+    response = self.run_wsgi_app(request.environ, buffered=buffered)
+venv\Lib\site-packages\werkzeug\test.py:1069: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+venv\Lib\site-packages\werkzeug\test.py:1345: in run_wsgi_app
+    app_rv = app(environ, start_response)
+venv\Lib\site-packages\flask\app.py:2552: in __call__
+    return self.wsgi_app(environ, start_response)
+venv\Lib\site-packages\flask\app.py:2532: in wsgi_app
+    response = self.handle_exception(e)
+venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+venv\Lib\site-packages\flask\app.py:2529: in wsgi_app
+    response = self.full_dispatch_request()
+venv\Lib\site-packages\flask\app.py:1825: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+venv\Lib\site-packages\flask\app.py:1823: in full_dispatch_request
+    rv = self.dispatch_request()
+venv\Lib\site-packages\flask\app.py:1799: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+app\routes\resource_routes.py:11: in get_resources
+    resources = Resource.query.all()
+venv\Lib\site-packages\flask_sqlalchemy\model.py:22: in __get__
+    return cls.query_class(
+venv\Lib\site-packages\sqlalchemy\orm\query.py:276: in __init__
+    self._set_entities(entities)
+venv\Lib\site-packages\sqlalchemy\orm\query.py:289: in _set_entities
+    coercions.expect(
+venv\Lib\site-packages\sqlalchemy\sql\coercions.py:388: in expect
+    insp._post_inspect
+venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:1257: in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2724: in _post_inspect
+    self._check_configure()
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:2401: in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4214: in _configure_registries
+    _do_configure_registries(registries, cascade)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+registries = set(), cascade = True
+
+    @util.preload_module("sqlalchemy.orm.decl_api")
+    def _do_configure_registries(
+        registries: Set[_RegistryType], cascade: bool
+    ) -> None:
+        registry = util.preloaded.orm_decl_api.registry
+    
+        orig = set(registries)
+    
+        for reg in registry._recurse_with_dependencies(registries):
+            has_skip = False
+    
+            for mapper in reg._mappers_to_configure():
+                run_configure = None
+    
+                for fn in mapper.dispatch.before_mapper_configured:
+                    run_configure = fn(mapper, mapper.class_)
+                    if run_configure is EXT_SKIP:
+                        has_skip = True
+                        break
+                if run_configure is EXT_SKIP:
+                    continue
+    
+                if getattr(mapper, "_configure_failed", False):
+                    e = sa_exc.InvalidRequestError(
+                        "One or more mappers failed to initialize - "
+                        "can't proceed with initialization of other "
+                        "mappers. Triggering mapper: '%s'. "
+                        "Original exception was: %s"
+                        % (mapper, mapper._configure_failed)
+                    )
+                    e._configure_failed = mapper._configure_failed  # type: ignore
+>                   raise e
+E                   sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Purchase(purchases)]'. Original exception was: Mapper 'Mapper[ShippingAddress(shipping_address)]' has no property 'purchases'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+venv\Lib\site-packages\sqlalchemy\orm\mapper.py:4251: InvalidRequestError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+=========================== short test summary info ===========================
+FAILED tests/test_auth.py::test_register - sqlalchemy.exc.InvalidRequestError...
+FAILED tests/test_kits.py::test_get_characters - sqlalchemy.exc.InvalidReques...
+FAILED tests/test_newsletter_routes.py::test_unsubscribe_newsletter - sqlalch...
+FAILED tests/test_newsletter_routes.py::test_newsletter_subscription - sqlalc...
+FAILED tests/test_resource.py::test_create_resource_instance - sqlalchemy.exc...
+FAILED tests/test_resource_routes.py::test_get_resources_empty - sqlalchemy.e...
+ERROR tests/test_auth.py::test_login - sqlalchemy.exc.InvalidRequestError: On...
+ERROR tests/test_cart_routes.py::test_get_empty_cart - sqlalchemy.exc.Invalid...
+ERROR tests/test_cart_routes.py::test_add_to_cart - sqlalchemy.exc.InvalidReq...
+ERROR tests/test_cart_routes.py::test_update_cart_quantity - sqlalchemy.exc.I...
+ERROR tests/test_cart_routes.py::test_delete_cart_item - sqlalchemy.exc.Inval...
+ERROR tests/test_favorites.py::test_get_favorites - sqlalchemy.exc.InvalidReq...
+ERROR tests/test_inventory_routes.py::test_get_inventory - sqlalchemy.exc.Inv...
+ERROR tests/test_inventory_routes.py::test_create_inventory - sqlalchemy.exc....
+ERROR tests/test_inventory_routes.py::test_update_inventory - sqlalchemy.exc....
+ERROR tests/test_inventory_routes.py::test_delete_inventory - sqlalchemy.exc....
+ERROR tests/test_kits.py::test_create_character - sqlalchemy.exc.InvalidReque...
+ERROR tests/test_newsletter.py::test_get_newsletter_emails - sqlalchemy.exc.I...
+ERROR tests/test_purchase_routes.py::test_create_purchase - sqlalchemy.exc.In...
+ERROR tests/test_purchases.py::test_list_purchases - sqlalchemy.exc.InvalidRe...
+ERROR tests/test_purchases.py::test_checkout - sqlalchemy.exc.InvalidRequestE...
+ERROR tests/test_resource_routes.py::test_post_and_get_resource - sqlalchemy....
+ERROR tests/test_reviews.py::test_get_reviews - sqlalchemy.exc.InvalidRequest...
+ERROR tests/test_reviews.py::test_post_review - sqlalchemy.exc.InvalidRequest...
+ERROR tests/test_user_settings.py::test_update_email - sqlalchemy.exc.Invalid...
+ERROR tests/test_user_settings.py::test_update_password - sqlalchemy.exc.Inva...
+ERROR tests/test_user_settings.py::test_delete_account - sqlalchemy.exc.Inval...
+============= 6 failed, 16 passed, 21 errors in 62.59s (0:01:02) ==============

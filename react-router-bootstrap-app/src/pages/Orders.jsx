@@ -162,9 +162,9 @@ export default function Orders() {
                   <th><EditableField contentKey="content_255" defaultText="Payment Method" /></th>
                   <th><EditableField contentKey="content_256" defaultText="Locker Combo" /></th>
                   <th><EditableField contentKey="content_257" defaultText="Return Due Date" /></th>
-                  <th><EditableField contentKey="content_258" defaultText="Kit Description" /></th>
                   <th><EditableField contentKey="content_259" defaultText="Total" /></th>
                   <th><EditableField contentKey="content_269" defaultText="Status" /></th>
+                  <th><EditableField contentKey="content_313" defaultText="Shipping Address" /></th>
                   <th><EditableField contentKey="content_268" defaultText="Actions" /></th>
                 </tr>
               </thead>
@@ -218,8 +218,6 @@ export default function Orders() {
                         )}
                       </td>
 
-                      <td>{purchase.kit?.description || '—'}</td>
-
                       {/* Total */}
                       <td>${total}</td>
 
@@ -249,6 +247,16 @@ export default function Orders() {
                         )}
                       </td>
 
+                      {/* Shipping Address */}
+                      <td>
+                        {purchase.shipping_address ? (
+                          <>
+                            {purchase.shipping_address.line1}<br />
+                            {purchase.shipping_address.city}, {purchase.shipping_address.state}<br />
+                            {purchase.shipping_address.postal_code}, {purchase.shipping_address.country}
+                          </>
+                        ) : '—'}
+                      </td>
 
                       {/* Action Buttons */}
                       <td>
