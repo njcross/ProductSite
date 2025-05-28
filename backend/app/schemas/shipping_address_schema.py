@@ -1,6 +1,5 @@
 from marshmallow import Schema, fields, post_load
 from app.models.shipping_address import ShippingAddress
-from app.extensions import db
 
 class ShippingAddressSchema(Schema):
     id = fields.Int(dump_only=True)
@@ -11,8 +10,6 @@ class ShippingAddressSchema(Schema):
     state = fields.Str(required=True)
     postal_code = fields.Str(required=True)
     country = fields.Str(required=True)
-
-    # Avoid nesting PurchaseSchema to prevent recursion
 
     @post_load
     def make_shipping_address(self, data, **kwargs):
