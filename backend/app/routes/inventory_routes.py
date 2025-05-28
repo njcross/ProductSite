@@ -115,9 +115,17 @@ def delete_inventory():
 @login_required
 def decrement_quantity():
     data = request.json
-    inv = Inventory.query.filter_by(kit_id=data['kit_id'], location=data['location']).first()
-    if not inv or inv.quantity <= 0:
-        return jsonify({'error': 'Insufficient inventory'}), 400
+    location_name = data.get('location_name', '').lower()
+    if location_name == 'warehouse':
+        inv = Inventory.query.filter_by(location_name='warehouse').first()
+    else:
+        kit_id = data.get('kit_id')
+        location = data.get('location')
+        if not kit_id or not location:
+            return jsonify({'error': 'Missing kit_id or location'}), 400
+        inv = Inventory.query.filter_by(kit_id=kit_id, location=location).first()
+        if not inv or inv.quantity <= 0:
+            return jsonify({'error': 'Insufficient inventory'}), 400
     inv.quantity -= 1
     db.session.commit()
     return jsonify({'message': 'Inventory decremented', 'new_quantity': inv.quantity})
