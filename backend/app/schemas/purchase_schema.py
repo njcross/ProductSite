@@ -19,8 +19,8 @@ class PurchaseSchema(Schema):
     # Include nested fields from related models
     kit = fields.Nested('KitSchema', only=['id', 'name', 'image_url', 'price', 'description'], dump_only=True)
     user = fields.Nested('UserSchema', only=['id', 'username'], dump_only=True)
-    inventory = fields.Nested('InventorySchema', only=['id', 'location', 'location_name'], dump_only=True)
-    shipping_address = fields.Nested('ShippingAddressSchema', only=['id', 'line1', 'city', 'state', 'postal_code', 'country'], dump_only=True)
+    inventory = fields.Nested(InventorySchema, only=['id', 'location', 'location_name'], dump_only=True)
+    shipping_address = fields.Nested(ShippingAddressSchema, only=['id', 'line1', 'city', 'state', 'postal_code', 'country'], dump_only=True)
 
     total = fields.Method("get_total", dump_only=True)
 

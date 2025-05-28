@@ -2,6 +2,7 @@ from marshmallow import Schema, fields, post_load, ValidationError
 from app.models.inventory import Inventory
 from app.models.kits import Kit
 from app.extensions import db
+from app.schemas.kit_schema import KitSchema
 
 class InventorySchema(Schema):
     id = fields.Int(dump_only=True)
@@ -12,7 +13,7 @@ class InventorySchema(Schema):
     kit_id = fields.Int(required=True, load_only=True)
 
     # Avoid nesting PurchaseSchema to prevent recursion
-    kit = fields.Nested('KitSchema', only=['id', 'name', 'image_url', 'price', 'description'], dump_only=True)
+    kit = fields.Nested(KitSchema, only=['id', 'name', 'image_url', 'price', 'description'], dump_only=True)
 
     @post_load
     def make_inventory(self, data, **kwargs):
