@@ -69,6 +69,8 @@ def update_purchase(purchase_id):
     """Admin-only endpoint to update purchase fields"""
     purchase = Purchase.query.get_or_404(purchase_id)
     data = request.get_json()
+    new_status = data.get('status')
+    prev_status = purchase.status
 
     # Update allowed fields if present in request data
     allowed_fields = ['status', 'available_date', 'pick_up_date', 'payment_method', 'quantity', 'inventory_id']
@@ -76,6 +78,18 @@ def update_purchase(purchase_id):
         if field in data:
             setattr(purchase, field, data[field])
 
+    # Inventory adjustment logic
+    if prev_status != 'Returned' and new_status == 'Returned':
+        # Increment inventory if returning
+        if purchase.inventory:
+            purchase.inventory.quantity += purchase.quantity
+    elif prev_status == 'Returned' and new_status != 'Returned':
+        # Decrement inventory if returning to another status
+        if purchase.inventory:
+            if purchase.inventory.quantity < purchase.quantity:
+                return jsonify({'error': 'Insufficient inventory to revert return'}), 400
+            purchase.inventory.quantity -= purchase.quantity
+            
     db.session.commit()
 
     updated_purchase = Purchase.query.options(

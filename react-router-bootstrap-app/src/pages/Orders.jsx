@@ -226,7 +226,7 @@ export default function Orders() {
                         {currentUser.role === 'admin' ? (
                           <select
                             value={
-                              ['Ready for pickup', 'Being prepared', 'Over-due', 'Cancelled', 'Checked-out'].includes(purchase.status)
+                              ['Ready for pickup', 'Being prepared', 'Over-due', 'Cancelled', 'Checked-out', 'Returned'].includes(purchase.status)
                                 ? purchase.status
                                 : ''
                             }
@@ -238,7 +238,7 @@ export default function Orders() {
                             }}
                           >
                             <option value="" disabled>-- Select Status --</option>
-                            {['Ready for pickup', 'Being prepared', 'Over-due', 'Cancelled', 'Checked-out'].map(option => (
+                            {['Ready for pickup', 'Being prepared', 'Over-due', 'Cancelled', 'Checked-out', 'Returned'].map(option => (
                               <option key={option} value={option}>{option}</option>
                             ))}
                           </select>
