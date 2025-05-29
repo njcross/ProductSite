@@ -1,6 +1,7 @@
 // src/context/CartContext.jsx
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useUser } from './UserContext';
+import { useModal } from './ModalContext';
 
 const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
@@ -9,6 +10,7 @@ export const CartProvider = ({ children }) => {
   const { currentUser } = useUser();
   const [cart, setCart] = useState([]);
   const API_BASE = process.env.REACT_APP_API_URL;
+  const { showModal, hideModal } = useModal();
 
   useEffect(() => {
     if (currentUser) {
@@ -46,7 +48,6 @@ export const CartProvider = ({ children }) => {
           credentials: 'include',
         });
         const inventories = await res.json();
-        console.log(inventories);
         const available = inventories.filter(inv => inv.quantity > 0);
 
         if (available.length === 0) {
@@ -55,22 +56,30 @@ export const CartProvider = ({ children }) => {
         } else if (available.length === 1) {
           inventory_id = available[0].id;
         } else {
-          const choice = window.prompt(
-            'Please choose a location:\n' +
-              available.map((inv, i) => `${i + 1}. ${inv.location_name} (${inv.quantity} available)`).join('\n')
-          );
+          const inventoryPromise = new Promise((resolve, reject) => {
+            showModal(
+              <div>
+                <h5>Select a location:</h5>
+                {available.map((inv) => (
+                  <button key={inv.id} onClick={() => resolve(inv.id)}>
+                    {inv.location_name} ({inv.quantity} available)
+                  </button>
+                ))}
+                <button onClick={() => reject(new Error('Selection cancelled'))}>Cancel</button>
+              </div>
+            );
+          });
 
-          const index = parseInt(choice);
-          if (isNaN(index) || index < 1 || index > available.length) {
-            alert('Invalid selection. Kit not added to cart.');
+          try {
+            inventory_id = await inventoryPromise;
+            hideModal();
+          } catch {
+            hideModal();
             return;
           }
-
-          inventory_id = available[index - 1].id;
-          console.log(index);
-          console.log(available);
         }
       }
+
 
       const existing = cart.find(item => item.kit_id === kit.id && item.inventory_id === inventory_id);
 

@@ -6,6 +6,7 @@ import { ContentContext } from './context/ContentContext';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
 import { HelmetProvider } from 'react-helmet-async';
+import { ModalProvider } from './context/ModalContext';
 
 import './App.css';
 import './variables.css';
@@ -40,11 +41,13 @@ export default function App() {
     <UserProvider>
       <FavoritesProvider>
         <CartProvider>
+          <ModalProvider>
           <HelmetProvider>
             <ContentContext.Provider value={{ content, setContent: updateContent }}>
               <RouterProvider router={router} />
             </ContentContext.Provider>
           </HelmetProvider>
+          </ModalProvider>
         </CartProvider>
       </FavoritesProvider>
     </UserProvider>
