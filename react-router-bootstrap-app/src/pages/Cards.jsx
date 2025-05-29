@@ -152,7 +152,7 @@ export default function Cards() {
               selectedAlignment={filters.alignment}
               selectedAges={filters.age_ids}
               selectedCategories={filters.category_ids}
-              selectedRating={filters.rating}
+              initialSelectedRatings={filters.rating}
               selectedLocations={filters.locations}
               onFilterChange={handleFilterChange}
               savedFilters={savedFilters}
