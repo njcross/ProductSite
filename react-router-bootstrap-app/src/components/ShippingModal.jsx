@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import './ShippingModal.css';
-import { useNavigate } from 'react-router-dom';
 
 const usStates = [
   'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
