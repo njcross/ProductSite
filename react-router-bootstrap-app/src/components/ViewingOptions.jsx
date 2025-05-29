@@ -13,7 +13,8 @@ export default function ViewingOptions({
   sortDir,
   onSortDirChange,
   search,
-  onClearSearch
+  onClearSearch,
+  collection = 'kits'  // default fallback
 }) {
   const { currentUser } = useUser();
 
@@ -21,7 +22,20 @@ export default function ViewingOptions({
     onSortDirChange(sortDir === 'asc' ? 'desc' : 'asc');
   };
 
-  return (
+  const sortOptions = {
+    kits: [
+      { value: 'name', label: 'content_86' },         // Name
+      { value: 'price', label: 'content_112' },       // Price
+      { value: 'description', label: 'content_200' }, // Description
+    ],
+    orders: [
+      { value: 'date', label: 'content_235' },        // Order Date
+      { value: 'quantity', label: 'content_234' },    // Quantity
+      { value: 'location', label: 'content_250' },    // Location Name
+    ]
+  }[collection] || [];
+
+   return (
     <div className="viewing-options">
       <div className="option-group">
         <span className="label"><EditableField contentKey="content_79" /></span>
@@ -49,9 +63,11 @@ export default function ViewingOptions({
       <div className="option-group sort-group">
         <label htmlFor="sort-by"><EditableField contentKey="content_85" /></label>
         <select id="sort-by" value={sortBy} onChange={(e) => onSortChange(e.target.value)}>
-          <option value="name"><EditableField contentKey="content_86" plain /></option>
-          <option value="price"><EditableField contentKey="content_112" plain /></option>
-          <option value="description"><EditableField contentKey="content_200" plain /></option>
+          {sortOptions.map(opt => (
+            <option key={opt.value} value={opt.value}>
+              <EditableField contentKey={opt.label} plain />
+            </option>
+          ))}
         </select>
         <button className="sort-dir-toggle" onClick={toggleSortDir} title="Toggle sort direction">
           {sortDir === 'asc' ? '▲' : '▼'}
@@ -68,3 +84,4 @@ export default function ViewingOptions({
     </div>
   );
 }
+

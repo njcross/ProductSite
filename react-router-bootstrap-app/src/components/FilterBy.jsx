@@ -17,7 +17,9 @@ export default function FilterBy({
   onDeleteSavedFilter,
   currentUser,
   onSaveFilter,
-  collection = 'default'
+  collection = 'kits',
+  selectedRating = '',
+  priceRangeOverride = null,
 }) {
   const API_BASE = process.env.REACT_APP_API_URL;
   const [ageOptions, setAgeOptions] = useState([]);
@@ -104,99 +106,125 @@ export default function FilterBy({
 
   return (
     <div className="filter-by">
-      <label><EditableField contentKey="content_301" defaultText="Filter by Age" /></label>
-      <ul className="filter-list">
-        {ageOptions.map(age => (
-          <li key={age.id}>
-            <input
-              type="checkbox"
-              checked={selectedAges.includes(String(age.id))}
-              onChange={() => handleToggle('age_ids', String(age.id))}
+      {collection === 'kits' && (
+        <>
+          <label><EditableField contentKey="content_301" defaultText="Filter by Age" /></label>
+          <ul className="filter-list">
+            {ageOptions.map(age => (
+              <li key={age.id}>
+                <input
+                  type="checkbox"
+                  checked={selectedAges.includes(String(age.id))}
+                  onChange={() => handleToggle('age_ids', String(age.id))}
+                />
+                {age.name}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+      {['kits', 'orders'].includes(collection) && (
+        <>
+          <label><EditableField contentKey="content_302" defaultText="Filter by Category" /></label>
+          <ul className="filter-list">
+            {categoryOptions.map(cat => (
+              <li key={cat.id}>
+                <input
+                  type="checkbox"
+                  checked={selectedCategories.includes(String(cat.id))}
+                  onChange={() => handleToggle('category_ids', String(cat.id))}
+                />
+                {cat.name}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+
+
+      {collection === 'kits' && (
+        <>
+          <label><EditableField contentKey="content_303" defaultText="Filter by Theme" /></label>
+          <ul className="filter-list">
+            {themeOptions.map(theme => (
+              <li key={theme.id}>
+                <input
+                  type="checkbox"
+                  checked={selectedThemes.includes(String(theme.id))}
+                  onChange={() => handleToggle('theme_ids', String(theme.id))}
+                />
+                {theme.name}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+
+      {collection === 'kits' && (
+        <>
+          <label><EditableField contentKey="content_304" defaultText="Filter by Grade" /></label>
+          <ul className="filter-list">
+            {gradeOptions.map(grade => (
+              <li key={grade.id}>
+                <input
+                  type="checkbox"
+                  checked={selectedGrades.includes(String(grade.id))}
+                  onChange={() => handleToggle('grade_ids', String(grade.id))}
+                />
+                {grade.name}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+
+
+      {collection === 'kits' && (
+        <>
+          <label><EditableField contentKey="content_305" defaultText="Filter by Minimum Rating" /></label>
+          <div className="filter-rating">
+            <select value={selectedRating} onChange={handleRatingChange}>
+              <option value="">None</option>
+              <option value="1">1 Star & Up</option>
+              <option value="2">2 Stars & Up</option>
+              <option value="3">3 Stars & Up</option>
+              <option value="4">4 Stars & Up</option>
+              <option value="5">5 Stars Only</option>
+            </select>
+          </div>
+        </>
+      )}
+
+
+      {collection === 'kits' && (
+        <>
+          <label><EditableField contentKey="content_306" defaultText="Filter by Price" /></label>
+          <div className="filter-price">
+            <div className="price-values">
+              ${priceRange[0]} – ${priceRange[1]}
+            </div>
+            <ReactSlider
+              className="price-slider"
+              thumbClassName="slider-thumb"
+              trackClassName="slider-track"
+              min={MIN_PRICE}
+              max={MAX_PRICE}
+              value={priceRange}
+              onChange={(val) => {
+                setPriceRange(val);
+                onFilterChange({ price_range: `${val[0]}_${val[1]}` });
+              }}
+              pearling
+              minDistance={1}
+              withTracks
+              renderThumb={(props, state) => (
+                <div {...props}>{state.valueNow}</div>
+              )}
             />
-            {age.name}
-          </li>
-        ))}
-      </ul>
+          </div>
+        </>
+      )}
 
-      <label><EditableField contentKey="content_302" defaultText="Filter by Category" /></label>
-      <ul className="filter-list">
-        {categoryOptions.map(cat => (
-          <li key={cat.id}>
-            <input
-              type="checkbox"
-              checked={selectedCategories.includes(String(cat.id))}
-              onChange={() => handleToggle('category_ids', String(cat.id))}
-            />
-            {cat.name}
-          </li>
-        ))}
-      </ul>
-
-      <label><EditableField contentKey="content_303" defaultText="Filter by Theme" /></label>
-      <ul className="filter-list">
-        {themeOptions.map(theme => (
-          <li key={theme.id}>
-            <input
-              type="checkbox"
-              checked={selectedThemes.includes(String(theme.id))}
-              onChange={() => handleToggle('theme_ids', String(theme.id))}
-            />
-            {theme.name}
-          </li>
-        ))}
-      </ul>
-
-      <label><EditableField contentKey="content_304" defaultText="Filter by Grade" /></label>
-      <ul className="filter-list">
-        {gradeOptions.map(grade => (
-          <li key={grade.id}>
-            <input
-              type="checkbox"
-              checked={selectedGrades.includes(String(grade.id))}
-              onChange={() => handleToggle('grade_ids', String(grade.id))}
-            />
-            {grade.name}
-          </li>
-        ))}
-      </ul>
-
-      <label><EditableField contentKey="content_305" defaultText="Filter by Minimum Rating" /></label>
-      <div className="filter-rating">
-        <select value={selectedRating} onChange={handleRatingChange}>
-          <option value="">None</option>
-          <option value="1">1 Star & Up</option>
-          <option value="2">2 Stars & Up</option>
-          <option value="3">3 Stars & Up</option>
-          <option value="4">4 Stars & Up</option>
-          <option value="5">5 Stars Only</option>
-        </select>
-      </div>
-
-      <label><EditableField contentKey="content_306" defaultText="Filter by Price" /></label>
-      <div className="filter-price">
-        <div className="price-values">
-          ${priceRange[0]} – ${priceRange[1]}
-        </div>
-        <ReactSlider
-          className="price-slider"
-          thumbClassName="slider-thumb"
-          trackClassName="slider-track"
-          min={MIN_PRICE}
-          max={MAX_PRICE}
-          value={priceRange}
-          onChange={(val) => {
-            setPriceRange(val);
-            onFilterChange({ price_range: `${val[0]}_${val[1]}` });
-          }}
-          pearling
-          minDistance={1}
-          withTracks
-          renderThumb={(props, state) => (
-            <div {...props}>{state.valueNow}</div>
-          )}
-        />
-
-      </div>
 
 
       <label><EditableField contentKey="content_307" defaultText="Filter by Location" /></label>
@@ -212,6 +240,52 @@ export default function FilterBy({
           </li>
         ))}
       </ul>
+
+      {collection === 'orders' && (
+        <>
+          <label><EditableField contentKey="content_320" defaultText="Filter by Status" /></label>
+          <ul className="filter-list">
+            {['Pending', 'Ready for pickup', 'Shipped', 'Returned'].map((status, i) => (
+              <li key={i}>
+                <input
+                  type="checkbox"
+                  checked={selectedStatuses.includes(status)}
+                  onChange={() => handleToggle('status', status)}
+                />
+                {status}
+              </li>
+            ))}
+          </ul>
+
+          <label><EditableField contentKey="content_321" defaultText="Filter by Payment Method" /></label>
+          <ul className="filter-list">
+            {['card', 'cash'].map((method, i) => (
+              <li key={i}>
+                <input
+                  type="checkbox"
+                  checked={selectedPaymentMethods.includes(method)}
+                  onChange={() => handleToggle('payment_method', method)}
+                />
+                {method}
+              </li>
+            ))}
+          </ul>
+
+          <label><EditableField contentKey="content_322" defaultText="Filter by Shipping Type" /></label>
+          <ul className="filter-list">
+            {['pickup', 'delivery'].map((type, i) => (
+              <li key={i}>
+                <input
+                  type="checkbox"
+                  checked={selectedShipping.includes(type)}
+                  onChange={() => handleToggle('shipping_type', type)}
+                />
+                {type}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
 
 
       {currentUser && savedFilters.length > 0 && (

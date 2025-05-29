@@ -21,6 +21,8 @@ export default function Orders() {
   const [currentPage, setCurrentPage] = useState(1);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [activeKitId, setActiveKitId] = useState(null);
+  const [sortDir, setSortDir] = useState('desc');
+
 
   const API_BASE = process.env.REACT_APP_API_URL;
 
@@ -54,12 +56,15 @@ export default function Orders() {
   });
 
   const sortedPurchases = [...filteredPurchases].sort((a, b) => {
-    if (sortBy === 'quantity') return b.quantity - a.quantity;
-    if (sortBy === 'location') return (a.inventory?.location || '').localeCompare(b.inventory?.location || '');
-    return new Date(b.time_bought) - new Date(a.time_bought); // default: date desc
+    const direction = sortDir === 'asc' ? 1 : -1;
+
+    if (sortBy === 'quantity') return direction * (a.quantity - b.quantity);
+    if (sortBy === 'location') return direction * (a.inventory?.location || '').localeCompare(b.inventory?.location || '');
+    return direction * (new Date(a.time_bought) - new Date(b.time_bought)); // default: date
   });
 
-  const paginatedPurchases = filteredPurchases.slice(
+
+  const paginatedPurchases = sortedPurchases.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -128,23 +133,34 @@ export default function Orders() {
       <div className="orders-page d-flex">
         <div className="sidebar">
           <FilterBy
-            {...filters}
-            onFilterChange={(updated) => setFilters(prev => ({ ...prev, ...updated }))}
+            selectedAges={filters.age_ids || []}
+            selectedCategories={filters.category_ids || []}
+            selectedThemes={filters.theme_ids || []}
+            selectedGrades={filters.grade_ids || []}
+            selectedLocations={filters.location_names || []}
+            collection="orders"
             currentUser={currentUser}
-            showFavorites={false}
+            onFilterChange={(updated) => setFilters(prev => ({ ...prev, ...updated }))}
+            // Optional: savedFilters, onSaveFilter, onSelectSavedFilter
           />
+
+
         </div>
 
         <div className="main-content flex-grow-1">
           <ViewingOptions
+            collection="orders"
             viewMode={viewMode}
-            setViewMode={setViewMode}
+            onViewModeChange={setViewMode}
             itemsPerPage={itemsPerPage}
-            setItemsPerPage={setItemsPerPage}
+            onItemsPerPageChange={setItemsPerPage}
             sortBy={sortBy}
-            setSortBy={setSortBy}
+            onSortChange={setSortBy}
+            sortDir={sortDir}
+            onSortDirChange={setSortDir}
             showSaveFilter={false}
           />
+
 
           {filteredPurchases.length === 0 ? (
             <p className="text-center text-muted">

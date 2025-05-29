@@ -1,70 +1,104 @@
-/* ShippingModal.css */
+/* Enhanced ShippingModal.css */
 
 .shipping-modal {
-    background-color: #1e2a3b;
-    color: var(--color-text, #ffffff);
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
-    max-width: 600px;
-    margin: 3rem auto;
-    animation: fadeInUp 0.3s ease-in-out;
+  background-color: #1e2a3b;
+  color: var(--color-text, #ffffff);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  max-width: 640px;
+  margin: 3rem auto;
+  animation: fadeInUp 0.3s ease-in-out;
+}
+
+.shipping-modal h5,
+.shipping-modal h6 {
+  color: var(--color-accent, #ffc107);
+  margin-top: 1rem;
+}
+
+.shipping-modal .form-control,
+.shipping-modal .form-select {
+  background-color: #2a3b4d;
+  color: #ffffff;
+  border: 1px solid #495057;
+  margin-bottom: 0.75rem;
+  border-radius: 6px;
+  transition: border-color 0.3s ease;
+}
+
+.shipping-modal .form-control::placeholder {
+  color: #cccccc;
+}
+
+.shipping-modal .form-control:focus,
+.shipping-modal .form-select:focus {
+  border-color: var(--color-accent, #ffc107);
+  box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.3);
+}
+
+.shipping-modal .modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-top: 1.5rem;
+}
+
+.shipping-modal .btn {
+  padding: 0.6rem 1.8rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+}
+
+.shipping-modal .btn-secondary {
+  background-color: transparent;
+  color: var(--color-text, #ffffff);
+  border: 1px solid #6c757d;
+}
+
+.shipping-modal .btn-secondary:hover {
+  background-color: #3a4b5c;
+  border-color: #adb5bd;
+}
+
+.shipping-modal .btn-primary {
+  background-color: var(--color-accent, #ffc107);
+  color: #212529;
+  border: none;
+}
+
+.shipping-modal .btn-primary:hover {
+  background-color: #e0a800;
+  color: #212529;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
   }
-  
-  .shipping-modal h5,
-  .shipping-modal h6 {
-    color: var(--color-accent, #ffc107);
+  100% {
+    transform: translateY(0);
+    opacity: 1;
   }
-  
-  .shipping-modal .form-control,
-  .shipping-modal .form-select {
-    background-color: #2a3b4d;
-    color: #ffffff;
-    border: 1px solid #495057;
-    margin-bottom: 0.75rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .shipping-modal {
+    padding: 1.5rem;
+    margin: 2rem 1rem;
   }
-  
-  .shipping-modal .form-control::placeholder {
-    color: #cccccc;
-  }
-  
-  .shipping-modal .form-control:focus,
-  .shipping-modal .form-select:focus {
-    border-color: var(--color-accent, #ffc107);
-    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
-  }
-  
+
   .shipping-modal .btn {
-    background-color: var(--color-accent, #ffc107);
-    border: none;
-    padding: 0.6rem 1.5rem;
-    margin-top: 1rem;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: background-color 0.2s ease-in-out;
+    width: 100%;
   }
-  
-  .shipping-modal .btn:hover {
-    background-color: #e0a800;
+
+  .shipping-modal .modal-footer {
+    flex-direction: column;
+    align-items: stretch;
   }
-  
-  /* Fade-in animation */
-  @keyframes fadeInUp {
-    0% {
-      transform: translateY(20px);
-      opacity: 0;
-    }
-    100% {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-  
-  /* Responsive behavior */
-  @media (max-width: 600px) {
-    .shipping-modal {
-      padding: 1.5rem;
-      margin: 2rem 1rem;
-    }
-  }
-  
+}
