@@ -81,6 +81,7 @@ export default function ShippingModal({
 
     setShowShippingModal(false); // ✅ Always hide modal after submit
     onComplete?.();              // ✅ Always call the cleanup callback
+    navigate('/orders');
   };
 
 
