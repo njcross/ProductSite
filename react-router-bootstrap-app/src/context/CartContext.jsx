@@ -60,7 +60,6 @@ export const CartProvider = ({ children }) => {
           inventory_id = available[0].id;
           console.log(available);
         } else {
-          console.log("shit aint popping");
           const inventoryPromise = new Promise((resolve, reject) => {
             showModal(
               <InventorySelectorModal
@@ -74,6 +73,7 @@ export const CartProvider = ({ children }) => {
           try {
             inventory_id = await inventoryPromise;
             hideModal();
+            console.log("idk how we got here");
           } catch (err) {
             console.error('Error choosing inventory:', err);
             hideModal();
