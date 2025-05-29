@@ -29,6 +29,7 @@ export default function FilterBy({
   const [locationOptions, setLocationOptions] = useState([]);
   const [selectedRating, setSelectedRating] = useState(initialSelectedRatings);
   const [selectedPriceRange, setSelectedPriceRange] = useState('');
+  const [selectedStatuses, setSelectedStatuses] = useState([]);
   const MIN_PRICE = 0;
   const MAX_PRICE = 30;
 
