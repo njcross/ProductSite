@@ -261,7 +261,6 @@ export default function CartPage() {
     setShowShippingModal(false);       // ✅ ensure modal is closed
     setWarehouseItems([]);             // ✅ clear any leftover state
     setSelectedKitName('');
-    navigate('/orders');               // ✅ optional: navigate to orders page
   }}
 />
 

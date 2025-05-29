@@ -1,4 +1,6 @@
 // src/components/InventorySelectorModal.jsx
+import './InventorySelectorModal.css';
+
 export default function InventorySelectorModal({ available, onSelect, onCancel }) {
   return (
     <div>
