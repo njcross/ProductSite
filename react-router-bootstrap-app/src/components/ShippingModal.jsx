@@ -75,7 +75,6 @@ export default function ShippingModal({
     }
 
     setShowShippingModal(false);
-    navigate('/orders');
   };
 
   const kitName = warehouseItems.length > 0 ? `Shipping Address for ${warehouseItems[0].kit_name || 'Kit'}` : 'Shipping Address';

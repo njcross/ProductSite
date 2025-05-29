@@ -160,9 +160,8 @@ export default function CartPage() {
           setSelectedKitName(kitName);
           setWarehouseItems(warehouse);
           setShowShippingModal(true);
-        } else {
-          navigate('/orders');
         }
+        navigate('/orders');
       } catch (err) {
         console.error('Checkout failed:', err);
         alert('Checkout failed: ' + err.message);
