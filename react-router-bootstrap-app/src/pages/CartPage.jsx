@@ -155,6 +155,8 @@ export default function CartPage() {
         }
     
         if (warehouse.length > 0) {
+          const kitName = cart.find(i => i.id === warehouse[0].cartId)?.kit?.name || 'Kit';
+          setSelectedKitName(kitName);
           setWarehouseItems(warehouse);
           setShowShippingModal(true);
         } else {
@@ -246,16 +248,19 @@ export default function CartPage() {
       )}
       {showShippingModal && (
   <ShippingModal
+    show={showShippingModal}
+    onHide={() => setShowShippingModal(false)}
+    kitName={selectedKitName}
     API_BASE={API_BASE}
     warehouseItems={warehouseItems}
-    setShowShippingModal={setShowShippingModal}
-    shippingAddresses={shippingAddresses}
     setShippingAddresses={setShippingAddresses}
+    shippingAddresses={shippingAddresses}
     removeFromCart={removeFromCart}
     navigate={navigate}
     setShippingAddressId={setShippingAddressId}
   />
 )}
+
 
 
     </Container>
