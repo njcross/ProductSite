@@ -18,7 +18,6 @@ export default function ShippingModal({
   shippingAddresses,
   setShippingAddresses,
   removeFromCart,
-  navigate,
   setShippingAddressId,
   onComplete // ✅ new prop
 }) {

@@ -256,7 +256,6 @@ export default function CartPage() {
   setShippingAddresses={setShippingAddresses}
   shippingAddresses={shippingAddresses}
   removeFromCart={removeFromCart}
-  navigate={navigate}
   setShippingAddressId={setShippingAddressId}
   onComplete={() => {
     setShowShippingModal(false);       // ✅ close modal
