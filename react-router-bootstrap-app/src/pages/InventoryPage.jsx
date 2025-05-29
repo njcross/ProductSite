@@ -128,6 +128,7 @@ export default function InventoryPage({ user }) {
           sortBy={sortBy}
           setSortBy={setSortBy}
           showSaveFilter={false}
+          collection='inventory'
         />
       <Table bordered hover responsive className="mt-3">
         <thead>

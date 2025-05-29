@@ -291,7 +291,8 @@ export default function FilterBy({
       )}
 
 
-      {currentUser && savedFilters.length > 0 && (
+      {currentUser && savedFilters.length > 0 && collection === 'kits' && (
+        <div className='favorite-filters'>
         <div className="saved-filters">
           <label><EditableField contentKey="content_308" defaultText="Favorites" /></label>
           <select onChange={(e) => onSelectSavedFilter(e.target.value)}>
@@ -301,13 +302,12 @@ export default function FilterBy({
             ))}
           </select>
         </div>
-      )}
 
-      {currentUser && (
         <div className="option-group">
           <button className="save-filter-btn" onClick={onSaveFilter}>
             <EditableField contentKey="content_144" defaultText="❤ Save This Search" />
           </button>
+        </div>
         </div>
       )}
     </div>

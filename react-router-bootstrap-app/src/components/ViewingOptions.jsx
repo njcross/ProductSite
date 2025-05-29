@@ -22,18 +22,23 @@ export default function ViewingOptions({
     onSortDirChange(sortDir === 'asc' ? 'desc' : 'asc');
   };
 
-  const sortOptions = {
-    kits: [
-      { value: 'name', label: 'content_86' },         // Name
-      { value: 'price', label: 'content_112' },       // Price
-      { value: 'description', label: 'content_200' }, // Description
-    ],
-    orders: [
-      { value: 'date', label: 'content_235' },        // Order Date
-      { value: 'quantity', label: 'content_234' },    // Quantity
-      { value: 'location', label: 'content_250' },    // Location Name
-    ]
-  }[collection] || [];
+const sortOptions = {
+  kits: [
+    { value: 'name', label: 'content_86' },
+    { value: 'price', label: 'content_112' },
+    { value: 'description', label: 'content_200' },
+  ],
+  orders: [
+    { value: 'date', label: 'content_235' },
+    { value: 'quantity', label: 'content_234' },
+    { value: 'location', label: 'content_250' },
+  ],
+  inventory: [
+    { value: 'quantity', label: 'content_234' },        // Quantity
+    { value: 'location_name', label: 'content_250' },   // Location
+    { value: 'kit_name', label: 'content_263' }         // Kit Name
+  ]
+}[collection] || [];
 
    return (
     <div className="viewing-options">
