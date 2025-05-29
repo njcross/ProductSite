@@ -32,6 +32,8 @@ export default function FilterBy({
   const [selectedStatuses, setSelectedStatuses] = useState([]);
   const [selectedPaymentMethods, setSelectedPaymentMethods] = useState([]);
   const [selectedShipping, setSelectedShipping] = useState([]);
+  const [quantityRange, setQuantityRange] = useState([]);
+  const [kitIdFilter, setKitIdFilter] = useState('');
   const MIN_PRICE = 0;
   const MAX_PRICE = 30;
 
