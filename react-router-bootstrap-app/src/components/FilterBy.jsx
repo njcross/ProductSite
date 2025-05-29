@@ -17,7 +17,9 @@ export default function FilterBy({
   onDeleteSavedFilter,
   currentUser,
   onSaveFilter,
-  collection = 'kits'
+  collection = 'kits',
+  selectedRatings = '',
+  priceRangeOverride = null,
 }) {
   const API_BASE = process.env.REACT_APP_API_URL;
   const [ageOptions, setAgeOptions] = useState([]);
@@ -25,6 +27,7 @@ export default function FilterBy({
   const [themeOptions, setThemeOptions] = useState([]);
   const [gradeOptions, setGradeOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
+  const [selectedPriceRange, setSelectedPriceRange] = useState('');
   const MIN_PRICE = 0;
   const MAX_PRICE = 30;
 
