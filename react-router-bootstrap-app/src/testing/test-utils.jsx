@@ -5,6 +5,7 @@ import { UserProvider } from '../context/UserContext';
 import { CartProvider } from '../context/CartContext';
 import { FavoritesProvider } from '../context/FavoritesContext';
 import { ContentContext } from '../context/ContentContext';
+import { ModalProvider } from '../context/ModalContext';
 import React, { useState } from 'react';
 
 /**
@@ -31,7 +32,9 @@ export const renderWithProviders = (
         <FavoritesProvider>
           <CartProvider>
             <ContentContext.Provider value={{ content: contentState, setContent }}>
+              <ModalProvider>
               <RouterProvider router={router} />
+              </ModalProvider>
             </ContentContext.Provider>
           </CartProvider>
         </FavoritesProvider>
