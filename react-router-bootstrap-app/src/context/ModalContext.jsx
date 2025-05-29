@@ -1,5 +1,5 @@
 // src/context/ModalContext.jsx
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import './Modal.css';
 
 const ModalContext = createContext();
