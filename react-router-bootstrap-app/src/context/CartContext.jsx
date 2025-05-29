@@ -58,7 +58,9 @@ export const CartProvider = ({ children }) => {
           return;
         } else if (available.length === 1) {
           inventory_id = available[0].id;
+          console.log(available);
         } else {
+          console.log("shit aint popping");
           const inventoryPromise = new Promise((resolve, reject) => {
             showModal(
               <InventorySelectorModal
