@@ -30,6 +30,8 @@ export default function FilterBy({
   const [selectedRating, setSelectedRating] = useState(initialSelectedRatings);
   const [selectedPriceRange, setSelectedPriceRange] = useState('');
   const [selectedStatuses, setSelectedStatuses] = useState([]);
+  const [selectedPaymentMethods, setSelectedPaymentMethods] = useState([]);
+  const [selectedShipping, setSelectedShipping] = useState([]);
   const MIN_PRICE = 0;
   const MAX_PRICE = 30;
 
