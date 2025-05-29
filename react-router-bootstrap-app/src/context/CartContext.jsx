@@ -2,6 +2,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useUser } from './UserContext';
 import { getShowModal, getHideModal } from '../context/ModalContext';
+import InventorySelectorModal from '../components/InventorySelectorModal';
 
 const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
@@ -60,15 +61,11 @@ export const CartProvider = ({ children }) => {
         } else {
           const inventoryPromise = new Promise((resolve, reject) => {
             showModal(
-              <div>
-                <h5>Select a location:</h5>
-                {available.map((inv) => (
-                  <button key={inv.id} onClick={() => resolve(inv.id)}>
-                    {inv.location_name} ({inv.quantity} available)
-                  </button>
-                ))}
-                <button onClick={() => reject(new Error('Selection cancelled'))}>Cancel</button>
-              </div>
+              <InventorySelectorModal
+                available={available}
+                onSelect={(id) => resolve(id)}
+                onCancel={() => reject(new Error('cancelled'))}
+              />
             );
           });
 
@@ -81,6 +78,7 @@ export const CartProvider = ({ children }) => {
           }
         }
       }
+
 
 
       const existing = cart.find(item => item.kit_id === kit.id && item.inventory_id === inventory_id);
