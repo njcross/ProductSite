@@ -26,7 +26,7 @@ export default function ShippingModal({
     line1: '', city: '', state: '', postal_code: '', country: 'United States'
   });
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
     e?.preventDefault?.();
     let shipping_address_id = selectedAddressId;
 
