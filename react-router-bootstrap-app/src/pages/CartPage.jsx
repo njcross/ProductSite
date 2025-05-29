@@ -24,6 +24,7 @@ export default function CartPage() {
   });
   const [warehouseItems, setWarehouseItems] = useState([]);
   const [addressMap, setAddressMap] = useState({});
+  const [selectedKitName, setSelectedKitName] = useState('');
 
   useEffect(() => {
     if (currentUser) {
