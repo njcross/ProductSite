@@ -1,5 +1,6 @@
 // src/context/ModalContext.jsx
 import { createContext, useContext, useState } from 'react';
+import './Modal.css';
 
 const ModalContext = createContext();
 export const useModal = () => useContext(ModalContext);
@@ -24,6 +25,10 @@ export const ModalProvider = ({ children }) => {
     setModalContent(null);
     setVisible(false);
   };
+
+  useEffect(() => {
+    document.body.classList.toggle('modal-open', visible);
+    }, [visible]);
 
   // Store to module-level exports
   externalShowModal = showModal;

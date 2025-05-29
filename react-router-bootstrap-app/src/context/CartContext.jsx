@@ -73,9 +73,7 @@ export const CartProvider = ({ children }) => {
           try {
             inventory_id = await inventoryPromise;
             hideModal();
-            console.log("idk how we got here");
           } catch (err) {
-            console.error('Error choosing inventory:', err);
             hideModal();
             return;
           }
