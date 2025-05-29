@@ -27,6 +27,7 @@ export default function ShippingModal({
   });
 
   const handleSubmit = async () => {
+    e?.preventDefault?.();
     let shipping_address_id = selectedAddressId;
 
     if (!shipping_address_id) {
@@ -77,10 +78,8 @@ export default function ShippingModal({
       }
     }
 
-    if (anySuccess) {
-      setShowShippingModal(false);
-      onComplete?.(); // ✅ safely call callback if defined
-    }
+    setShowShippingModal(false);
+    onComplete?.(); // ✅ safely call callback if defined
   };
 
   const kitName = warehouseItems.length > 0
