@@ -27,7 +27,8 @@ export default function ShippingModal({
   });
 
   const handleSubmit = async (e) => {
-    e?.preventDefault?.();
+    e?.preventDefault?.(); // Prevent default form submission behavior
+
     let shipping_address_id = selectedAddressId;
 
     if (!shipping_address_id) {
@@ -78,9 +79,10 @@ export default function ShippingModal({
       }
     }
 
-    setShowShippingModal(false);
-    onComplete?.(); // ✅ safely call callback if defined
+    setShowShippingModal(false); // ✅ Always hide modal after submit
+    onComplete?.();              // ✅ Always call the cleanup callback
   };
+
 
   const kitName = warehouseItems.length > 0
     ? `Shipping Address for ${warehouseItems[0].kit_name || 'Kit'}`
