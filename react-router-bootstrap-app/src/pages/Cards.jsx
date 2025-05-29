@@ -160,7 +160,7 @@ export default function Cards() {
               onDeleteSavedFilter={handleDeleteSavedFilter}
               currentUser={currentUser}
               onSaveFilter={currentUser ? handleSaveSearch : null}
-              collection="characters"
+              collection="kits"
             />
           </Col>
           <Col md={10} sm={12}>

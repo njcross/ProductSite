@@ -116,6 +116,7 @@ export default function InventoryPage({ user }) {
           setFilters={setFilters}
           onFilterChange={(updated) => setFilters(prev => ({ ...prev, ...updated }))}
           showFavorites={false}
+          collection='inventory'
         />
       </div>
       <div className="main-content flex-grow-1">
