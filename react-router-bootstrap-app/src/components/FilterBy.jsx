@@ -290,6 +290,40 @@ export default function FilterBy({
         </>
       )}
 
+      {collection === 'inventory' && (
+              <>
+                <label><EditableField contentKey="content_330" defaultText="Filter by Kit ID" /></label>
+                <input
+                  type="text"
+                  value={kitIdFilter}
+                  onChange={(e) => {
+                    setKitIdFilter(e.target.value);
+                    onFilterChange({ kit_id: e.target.value });
+                  }}
+                />
+      
+                <label><EditableField contentKey="content_331" defaultText="Filter by Quantity Range" /></label>
+                <ReactSlider
+                  className="price-slider"
+                  thumbClassName="slider-thumb"
+                  trackClassName="slider-track"
+                  min={0}
+                  max={100}
+                  value={quantityRange}
+                  onChange={(val) => {
+                    setQuantityRange(val);
+                    onFilterChange({ quantity_range: `${val[0]}_${val[1]}` });
+                  }}
+                  pearling
+                  minDistance={1}
+                  withTracks
+                  renderThumb={(props, state) => (
+                    <div {...props}>{state.valueNow}</div>
+                  )}
+                />
+              </>
+            )}
+
 
       {currentUser && savedFilters.length > 0 && collection === 'kits' && (
         <div className='favorite-filters'>

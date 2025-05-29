@@ -27,6 +27,7 @@ export default function InventoryPage({ user }) {
     const [viewMode, setViewMode] = useState('grid');
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [sortBy, setSortBy] = useState('name');
+    const [sortDir, setSortDir] = useState('asc');
 
   useEffect(() => {
     if (!isAdmin) {
@@ -102,6 +103,20 @@ export default function InventoryPage({ user }) {
     });
   };
 
+  const sortedInventory = [...inventory].sort((a, b) => {
+    const aVal = (a[sortBy] || a.kit?.[sortBy] || '').toString().toLowerCase();
+    const bVal = (b[sortBy] || b.kit?.[sortBy] || '').toString().toLowerCase();
+
+    if (aVal < bVal) return sortDir === 'asc' ? -1 : 1;
+    if (aVal > bVal) return sortDir === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  const paginatedInventory = sortedInventory.slice(
+    (page - 1) * itemsPerPage,
+    page * itemsPerPage
+  );
+
   return (
     <Container className="mt-4">
       <Helmet>
@@ -129,7 +144,10 @@ export default function InventoryPage({ user }) {
           setSortBy={setSortBy}
           showSaveFilter={false}
           collection='inventory'
+          sortDir={sortDir}
+          onSortDirChange={setSortDir}
         />
+
       <Table bordered hover responsive className="mt-3">
         <thead>
           <tr>
@@ -141,7 +159,7 @@ export default function InventoryPage({ user }) {
           </tr>
         </thead>
         <tbody>
-          {inventory.map((inv, i) => (
+          {paginatedInventory.map((inv, i) => (
             <tr key={inv.id}>
               <td>
                 {inv.kit?.image_url && (
