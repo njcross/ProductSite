@@ -248,7 +248,8 @@ export default function CartPage() {
       {showShippingModal && (
   <ShippingModal
   show={showShippingModal}
-  onHide={() => setShowShippingModal(false)}
+  onHide={() => setShowShippingModal(false)}  // for Bootstrap Modal's close behavior
+  setShowShippingModal={setShowShippingModal} // pass the actual setter
   kitName={selectedKitName}
   API_BASE={API_BASE}
   warehouseItems={warehouseItems}
@@ -258,8 +259,8 @@ export default function CartPage() {
   navigate={navigate}
   setShippingAddressId={setShippingAddressId}
   onComplete={() => {
-    setShowShippingModal(false);       // ✅ ensure modal is closed
-    setWarehouseItems([]);             // ✅ clear any leftover state
+    setShowShippingModal(false);       // ✅ close modal
+    setWarehouseItems([]);             // ✅ clear warehouse items
     setSelectedKitName('');
   }}
 />
