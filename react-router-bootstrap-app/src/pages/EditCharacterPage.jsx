@@ -93,13 +93,19 @@ export default function EditCharacterPage() {
   };
 
   const handleAddToCart = async () => {
-    try {
-      await addToCart(character, selectedInventoryId);
-      navigate('/cart');
-    } catch (err) {
-      alert(err.message || 'Failed to add to cart');
+  try {
+    await addToCart(character, selectedInventoryId);
+    window.scrollTo(0, 0);
+    navigate('/cart');
+  } catch (err) {
+    if (err.message === 'User cancelled inventory selection') {
+      // ❌ don't alert, don't navigate
+      return;
     }
-  };
+    alert(err.message || 'Failed to add to cart');
+  }
+};
+
 
   const handleModalConfirm = () => {
     setShowModal(false);

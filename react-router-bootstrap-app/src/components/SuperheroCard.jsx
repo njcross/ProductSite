@@ -73,24 +73,27 @@ export default function SuperheroCard({ character, onEdit, onDelete }) {
 
         <div className="card-actions">
           {currentUser && (
-            <Button onClick={(e) => {
-              e.stopPropagation();
-              addToCart(character);
-              window.scrollTo(0, 0);
-              navigate('/cart');
-            }}>
+            <Button
+              onClick={async (e) => {
+                e.stopPropagation();
+                try {
+                  await addToCart(character);
+                  window.scrollTo(0, 0);
+                  navigate('/cart');
+                } catch (err) {
+                  if (err.message === 'User cancelled inventory selection') {
+                    // Do nothing — user cancelled, so skip navigation
+                    return;
+                  }
+                  alert(err.message || 'Failed to add to cart');
+                }
+              }}
+            >
               <EditableField contentKey="content_76" />
             </Button>
           )}
-          {currentUser?.role === 'admin' && (
-            <Button onClick={(e) => {
-              e.stopPropagation();
-              onDelete(character.id);
-            }} aria-label="Delete">
-              <i className="fas fa-trash-alt"></i>
-            </Button>
-          )}
         </div>
+
       </Card.Body>
     </Card>
   );

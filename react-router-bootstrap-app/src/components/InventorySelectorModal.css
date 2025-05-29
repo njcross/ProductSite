@@ -25,19 +25,23 @@
   background-color: var(--color-primary, #007bff);
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .inventory-selector-container button:hover {
   background-color: var(--color-primary-dark, #0056b3);
+  transform: translateY(-1px);
 }
 
-.inventory-selector-container button:last-child {
+.inventory-selector-container .cancel-button {
+  margin-top: 20px; /* Adds space above cancel button */
   background-color: var(--color-danger, #dc3545);
+  color: #fff;
 }
 
-.inventory-selector-container button:last-child:hover {
+.inventory-selector-container .cancel-button:hover {
   background-color: var(--color-danger-dark, #a71d2a);
 }

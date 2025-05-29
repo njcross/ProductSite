@@ -73,10 +73,11 @@ export const CartProvider = ({ children }) => {
           try {
             inventory_id = await inventoryPromise;
             hideModal();
-          } catch (err) {
+          } catch {
             hideModal();
-            return;
+            throw new Error('User cancelled inventory selection');
           }
+
         }
       }
 
