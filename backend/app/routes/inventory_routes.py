@@ -125,8 +125,8 @@ def decrement_quantity():
         if not kit_id or not location:
             return jsonify({'error': 'Missing kit_id or location'}), 400
         inv = Inventory.query.filter_by(kit_id=kit_id, location=location).first()
-        if not inv or inv.quantity <= 0:
-            return jsonify({'error': 'Insufficient inventory'}), 400
+    if not inv or inv.quantity <= 0:
+        return jsonify({'error': 'Insufficient inventory'}), 400
     inv.quantity = inv.quantity - quantity
     db.session.commit()
     return jsonify({'message': 'Inventory decremented', 'new_quantity': inv.quantity})
