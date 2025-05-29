@@ -1,7 +1,7 @@
 // src/context/CartContext.jsx
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useUser } from './UserContext';
-import { useModal,  } from './ModalContext';
+import { getShowModal, getHideModal } from '../context/ModalContext';
 
 const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
@@ -10,6 +10,8 @@ export const CartProvider = ({ children }) => {
   const { currentUser } = useUser();
   const [cart, setCart] = useState([]);
   const API_BASE = process.env.REACT_APP_API_URL;
+  const showModal = getShowModal();
+  const hideModal = getHideModal();
   // const { showModal, hideModal } = useModal();
 
   useEffect(() => {
@@ -57,7 +59,7 @@ export const CartProvider = ({ children }) => {
           inventory_id = available[0].id;
         } else {
           const inventoryPromise = new Promise((resolve, reject) => {
-            // showModal(
+            showModal(
               <div>
                 <h5>Select a location:</h5>
                 {available.map((inv) => (
@@ -67,14 +69,14 @@ export const CartProvider = ({ children }) => {
                 ))}
                 <button onClick={() => reject(new Error('Selection cancelled'))}>Cancel</button>
               </div>
-            // );
+            );
           });
 
           try {
             inventory_id = await inventoryPromise;
-            //hideModal();
+            hideModal();
           } catch {
-            //hideModal();
+            hideModal();
             return;
           }
         }
