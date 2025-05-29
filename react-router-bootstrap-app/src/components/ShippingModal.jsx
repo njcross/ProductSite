@@ -1,4 +1,3 @@
-// components/ShippingModal.jsx
 import { useState } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import './ShippingModal.css';
@@ -19,7 +18,8 @@ export default function ShippingModal({
   setShippingAddresses,
   removeFromCart,
   navigate,
-  setShippingAddressId
+  setShippingAddressId,
+  onComplete // ✅ new prop
 }) {
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [newAddress, setNewAddress] = useState({
@@ -54,6 +54,8 @@ export default function ShippingModal({
       setShippingAddressId(shipping_address_id);
     }
 
+    let anySuccess = false;
+
     for (const item of warehouseItems) {
       const res = await fetch(`${API_BASE}/api/purchases`, {
         method: 'POST',
@@ -71,13 +73,19 @@ export default function ShippingModal({
         alert(`Warehouse purchase failed`);
       } else {
         removeFromCart(item.cartId);
+        anySuccess = true;
       }
     }
 
-    setShowShippingModal(false);
+    if (anySuccess) {
+      setShowShippingModal(false);
+      onComplete?.(); // ✅ safely call callback if defined
+    }
   };
 
-  const kitName = warehouseItems.length > 0 ? `Shipping Address for ${warehouseItems[0].kit_name || 'Kit'}` : 'Shipping Address';
+  const kitName = warehouseItems.length > 0
+    ? `Shipping Address for ${warehouseItems[0].kit_name || 'Kit'}`
+    : 'Shipping Address';
 
   return (
     <Modal show onHide={() => setShowShippingModal(false)} centered size="lg">

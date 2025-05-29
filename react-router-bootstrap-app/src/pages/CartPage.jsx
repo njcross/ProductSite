@@ -161,7 +161,6 @@ export default function CartPage() {
           setWarehouseItems(warehouse);
           setShowShippingModal(true);
         }
-        navigate('/orders');
       } catch (err) {
         console.error('Checkout failed:', err);
         alert('Checkout failed: ' + err.message);
@@ -248,17 +247,24 @@ export default function CartPage() {
       )}
       {showShippingModal && (
   <ShippingModal
-    show={showShippingModal}
-    onHide={() => setShowShippingModal(false)}
-    kitName={selectedKitName}
-    API_BASE={API_BASE}
-    warehouseItems={warehouseItems}
-    setShippingAddresses={setShippingAddresses}
-    shippingAddresses={shippingAddresses}
-    removeFromCart={removeFromCart}
-    navigate={navigate}
-    setShippingAddressId={setShippingAddressId}
-  />
+  show={showShippingModal}
+  onHide={() => setShowShippingModal(false)}
+  kitName={selectedKitName}
+  API_BASE={API_BASE}
+  warehouseItems={warehouseItems}
+  setShippingAddresses={setShippingAddresses}
+  shippingAddresses={shippingAddresses}
+  removeFromCart={removeFromCart}
+  navigate={navigate}
+  setShippingAddressId={setShippingAddressId}
+  onComplete={() => {
+    setShowShippingModal(false);       // ✅ ensure modal is closed
+    setWarehouseItems([]);             // ✅ clear any leftover state
+    setSelectedKitName('');
+    navigate('/orders');               // ✅ optional: navigate to orders page
+  }}
+/>
+
 )}
 
 
