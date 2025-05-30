@@ -43,8 +43,9 @@ def test_update_inventory(admin_logged_in_client, create_test_kit, admin_auth_he
     assert create_resp.status_code == 201
     inventory_id = create_resp.get_json()["inventory"]
 
-    # Update the inventory with new quantity and skip address lookup
+    # Update the inventory and include original_kit_id
     update_data = {
+        "original_kit_id": kit.id,  # 👈 important
         "no_address_lookup": True,
         "quantity": 25,
         "kit_id": kit.id,
@@ -65,6 +66,7 @@ def test_update_inventory(admin_logged_in_client, create_test_kit, admin_auth_he
     else:
         assert updated["coordinates"] == "0,0"
         assert updated["location"] == update_data["location"]
+
 
 
 def test_delete_inventory(admin_logged_in_client, admin_auth_header, create_test_kit, sample_inventory_data):
