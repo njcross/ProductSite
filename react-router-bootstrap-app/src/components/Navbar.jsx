@@ -52,7 +52,7 @@ export default function Navbar() {
             <EditableField contentKey="content_312" />
           </Link>
           <div className="call-to-action">
-          <EditableField className="call-to-action" contentKey="content_252" defaultText="Invntory" style={{ textAlign: 'center' }}/>
+          <EditableField className="call-to-action" contentKey="content_252" defaultText="" style={{ textAlign: 'center' }}/>
           </div>
           </div>
         </div>

@@ -44,8 +44,9 @@ sample_inventory_data = {'kit_id': 1, 'location': 'the white house', 'location_n
         assert create_resp.status_code == 201
         inventory_id = create_resp.get_json()["inventory"]
     
-        # Update the inventory with new quantity and skip address lookup
+        # Update the inventory and include original_kit_id
         update_data = {
+            "original_kit_id": kit.id,  # \U0001f448 important
             "no_address_lookup": True,
             "quantity": 25,
             "kit_id": kit.id,
@@ -55,7 +56,7 @@ sample_inventory_data = {'kit_id': 1, 'location': 'the white house', 'location_n
     
 >       response = admin_logged_in_client.put("/api/inventory", json=update_data, headers=admin_auth_header)
 
-tests\test_inventory_routes.py:55: 
+tests\test_inventory_routes.py:56: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 venv\Lib\site-packages\werkzeug\test.py:1253: in put
     return self.open(*args, **kw)
@@ -91,13 +92,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     @admin_required
     def edit_inventory():
         data = request.json
->       original_kit_id = data['original_kit_id']
-E       KeyError: 'original_kit_id'
+        original_kit_id = data['original_kit_id']
+>       original_location = data['original_location']
+E       KeyError: 'original_location'
 
-app\routes\inventory_routes.py:71: KeyError
+app\routes\inventory_routes.py:72: KeyError
 ---------------------------- Captured stdout setup ----------------------------
 CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
 Database tables created!
 =========================== short test summary info ===========================
 FAILED tests/test_inventory_routes.py::test_update_inventory - KeyError: 'ori...
-=================== 1 failed, 42 passed in 61.06s (0:01:01) ===================
+=================== 1 failed, 42 passed in 61.22s (0:01:01) ===================

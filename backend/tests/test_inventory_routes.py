@@ -43,29 +43,31 @@ def test_update_inventory(admin_logged_in_client, create_test_kit, admin_auth_he
     assert create_resp.status_code == 201
     inventory_id = create_resp.get_json()["inventory"]
 
-    # Update the inventory and include original_kit_id
+    # Update the inventory with new quantity and skip address lookup
     update_data = {
-        "original_kit_id": kit.id,  # 👈 important
-        "no_address_lookup": True,
-        "quantity": 25,
+        "original_kit_id": kit.id,  # Required by the PUT route
+        "original_location": sample_inventory_data["location"],  # Required too
         "kit_id": kit.id,
         "location": sample_inventory_data["location"],
-        "location_name": sample_inventory_data.get("location_name", "Test Location")
+        "location_name": sample_inventory_data.get("location_name", "Test Location"),
+        "quantity": 25,
+        "no_address_lookup": True
     }
 
     response = admin_logged_in_client.put("/api/inventory", json=update_data, headers=admin_auth_header)
     assert response.status_code == 200
 
-    updated = response.get_json()
-    assert updated["quantity"] == 25
-    assert updated["kit_id"] == kit.id
+    data = response.get_json()
+    assert data["quantity"] == 25
+    assert data["kit_id"] == kit.id
+    assert data["location_name"] == update_data["location_name"]
 
     if update_data["location_name"].lower() == "warehouse":
-        assert updated["coordinates"] == ""
-        assert updated["location"] == ""
+        assert data["coordinates"] == ""
+        assert data["location"] == ""
     else:
-        assert updated["coordinates"] == "0,0"
-        assert updated["location"] == update_data["location"]
+        assert data["coordinates"] == "0,0"
+        assert data["location"] == update_data["location"]
 
 
 
