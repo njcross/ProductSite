@@ -104,10 +104,15 @@ export default function InventoryPage() {
   const handleChange = (index, field, value) => {
     setInventory(prev => {
       const updated = [...prev];
-      updated[index][field] = value;
+      updated[index] = {
+        ...updated[index],
+        [field]: value,
+        original_location: prev[index].original_location // explicitly preserve
+      };
       return updated;
     });
   };
+
 
   const matchesFilters = (item) => {
     if (filters.rating && (item.kit?.rating || 0) < parseFloat(filters.rating)) return false;
