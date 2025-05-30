@@ -102,17 +102,19 @@ export default function InventoryPage() {
       .catch(err => alert('Failed to add item: ' + err.message));
   };
 
-  const handleChange = (index, field, value) => {
-    setInventory(prev => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        [field]: value,
-        original_location: prev[index].original_location,      // preserve
-        original_kit_id: prev[index].original_kit_id || prev[index].kit_id // preserve
-      };
-      return updated;
-    });
+  const handleChange = (id, field, value) => {
+    setInventory(prev =>
+      prev.map(item =>
+        item.id === id
+          ? {
+              ...item,
+              [field]: value,
+              original_location: item.original_location,
+              original_kit_id: item.original_kit_id || item.kit_id
+            }
+          : item
+      )
+    );
   };
 
 
@@ -196,20 +198,20 @@ export default function InventoryPage() {
                   <td>
                     <Form.Control
                       value={inv.location}
-                      onChange={(e) => handleChange(i, 'location', e.target.value)}
+                      onChange={(e) => handleChange(inv.id, 'location', e.target.value)}
                     />
                   </td>
                   <td>
                     <Form.Control
                       value={inv.location_name}
-                      onChange={(e) => handleChange(i, 'location_name', e.target.value)}
+                      onChange={(e) => handleChange(inv.id, 'location_name', e.target.value)}
                     />
                   </td>
                   <td>
                     <Form.Control
                       type="number"
                       value={inv.quantity}
-                      onChange={(e) => handleChange(i, 'quantity', e.target.value)}
+                      onChange={(e) => handleChange(inv.id, 'quantity', e.target.value)}
                     />
                   </td>
                   <td>
