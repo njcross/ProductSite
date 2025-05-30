@@ -3,12 +3,15 @@ import { Form, Button, Alert } from 'react-bootstrap';
 import './ResourceUploadForm.css';
 
 export default function ResourceUploadForm() {
-  const [formData, setFormData] = useState({
+  const initialFormState = {
     title: '',
     description: '',
     thumbnail: null,
     file: null,
-  });
+  };
+
+const [formData, setFormData] = useState(initialFormState);
+
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
