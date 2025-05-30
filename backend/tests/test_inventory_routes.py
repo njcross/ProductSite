@@ -40,13 +40,32 @@ def test_update_inventory(admin_logged_in_client, create_test_kit, admin_auth_he
     kit = create_test_kit
     sample_inventory_data["kit_id"] = kit.id
     create_resp = admin_logged_in_client.post("/api/inventory", json=sample_inventory_data, headers=admin_auth_header)
-    data = create_resp.get_json()
+    assert create_resp.status_code == 201
     inventory_id = create_resp.get_json()["inventory"]
 
-    update_data = {"no_address_lookup": True, "quantity": 25, "kit_id": kit.id, "location": sample_inventory_data["location"]}
+    # Update the inventory with new quantity and skip address lookup
+    update_data = {
+        "no_address_lookup": True,
+        "quantity": 25,
+        "kit_id": kit.id,
+        "location": sample_inventory_data["location"],
+        "location_name": sample_inventory_data.get("location_name", "Test Location")
+    }
+
     response = admin_logged_in_client.put("/api/inventory", json=update_data, headers=admin_auth_header)
     assert response.status_code == 200
-    assert response.get_json()["message"] == "Inventory updated"
+
+    updated = response.get_json()
+    assert updated["quantity"] == 25
+    assert updated["kit_id"] == kit.id
+
+    if update_data["location_name"].lower() == "warehouse":
+        assert updated["coordinates"] == ""
+        assert updated["location"] == ""
+    else:
+        assert updated["coordinates"] == "0,0"
+        assert updated["location"] == update_data["location"]
+
 
 def test_delete_inventory(admin_logged_in_client, admin_auth_header, create_test_kit, sample_inventory_data):
     # First create the inventory
