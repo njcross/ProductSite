@@ -48,7 +48,7 @@ export default function FavoritesPage() {
         <title>Favorites – My Play Trays</title>
         <meta name="description" content="Your saved Play Trays and search preferences." />
       </Helmet>
-      <h2>My Favorite Characters</h2>
+      <h2>My Favorite Trays</h2>
       <Row className="character-row d-flex justify-content-center">
         {characters.map(char => (
           <Col key={char.id} xs={12} sm={6} md={4} lg={3}>

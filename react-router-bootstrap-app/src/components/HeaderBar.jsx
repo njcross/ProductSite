@@ -45,7 +45,7 @@ export default function HeaderBar() {
         <label><EditableField contentKey="content_253" /> {/* "Search our trays" */}</label>
         <input
           type="text"
-          placeholder="Search characters..."
+          placeholder="Search Trays..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
