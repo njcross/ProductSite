@@ -176,7 +176,7 @@ export default function Cards() {
               search={filters.search}
               onSearchChange={(val) => handleFilterChange({ search: val })}
               onClearSearch={handleClearSearch}
-              collection="characters"
+              collection="kits"
             />
             <CharacterList
               view={filters.view}
