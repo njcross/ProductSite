@@ -9,6 +9,7 @@ import InventorySection from '../components/InventorySection';
 import { useUser } from '../context/UserContext';
 import { useCart } from '../context/CartContext';
 import { Helmet } from 'react-helmet-async';
+import { useFavorites } from '../context/FavoritesContext';
 
 import './EditCharacterPage.css';
 import StarRating from '../components/StarRating';
@@ -18,6 +19,7 @@ export default function EditCharacterPage() {
   const navigate = useNavigate();
   const { currentUser } = useUser();
   const { addToCart } = useCart();
+  const { favorites, toggleFavorite } = useFavorites();
   const API_BASE = process.env.REACT_APP_API_URL;
 
   const [character, setCharacter] = useState(null);
@@ -157,7 +159,19 @@ export default function EditCharacterPage() {
           <img src={character.image_url} alt={character.name} className="character-img-large" />
         </Col>
         <Col md={6} className="info-section">
-          <h1 className="character-title">{character.name}</h1>
+          <h1 className="character-title d-flex align-items-center">
+            {character.name}
+            {currentUser && (
+              <Button
+                variant={favorites.includes(character.id) ? 'outline-danger' : 'outline-primary'}
+                size="sm"
+                className="ms-3"
+                onClick={() => toggleFavorite(character.id)}
+              >
+                {favorites.includes(character.id) ? '♥ Remove Favorite' : '♡ Add to Favorites'}
+              </Button>
+            )}
+          </h1>
 
           <p><strong><EditableField contentKey="content_200" /></strong> {character.description}</p>
           <p><strong><EditableField contentKey="content_112" /></strong> ${character.price}</p>
