@@ -68,31 +68,42 @@ def create_inventory():
 @admin_required
 def edit_inventory():
     data = request.json
-    inv = Inventory.query.filter_by(kit_id=data['kit_id'], location=data['location']).first()
+    original_kit_id = data['original_kit_id']
+    original_location = data['original_location']
+
+    inv = Inventory.query.filter_by(kit_id=original_kit_id, location=original_location).first()
     if not inv:
         return jsonify({'error': 'Inventory not found'}), 404
+
+    # Update fields
+    inv.kit_id = data.get('kit_id', inv.kit_id)
     inv.location_name = data.get('location_name', inv.location_name)
     inv.quantity = data.get('quantity', inv.quantity)
-    rtn = {}
-    location_name = data.get('location_name', '').lower()
+
+    new_location = data.get('location', inv.location)
+
+    location_name = (data.get('location_name') or '').lower()
     if location_name == 'warehouse':
         inv.coordinates = ''
         inv.location = ''
     else:
-        rtn['address'] = data['location']
         if not data.get("no_address_lookup"):
-            rtn = find_address(data['location'])
-            if isinstance(rtn, tuple):  # (Response, status_code)
+            rtn = find_address(new_location)
+            if isinstance(rtn, tuple):
                 return rtn
             if isinstance(rtn, dict):
                 inv.coordinates = f"{rtn['lat']}, {rtn['lng']}"
                 inv.location = rtn['address']
             else:
                 inv.coordinates = "0,0"
-                inv.location = data['location']
+                inv.location = new_location
         else:
             inv.coordinates = "0,0"
-            del data['no_address_lookup']
+            inv.location = new_location
+
+    db.session.commit()
+    return jsonify({'inventory': inv.id}), 200
+
 
     
 

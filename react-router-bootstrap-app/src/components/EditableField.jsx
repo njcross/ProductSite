@@ -15,9 +15,14 @@ export default function EditableField({ contentKey, plain = false, defaultText =
 
   useEffect(() => {
     setText(content?.[contentKey] || defaultText);
-  }, [contentKey, content]);
+  }, [contentKey, content, defaultText]);
 
   const saveContent = async () => {
+    if (newValue === text) {
+      setEditing(false);
+      return;
+    }
+
     const res = await fetch(`${API_BASE}/api/update-content`, {
       method: 'POST',
       credentials: 'include',
@@ -49,28 +54,19 @@ export default function EditableField({ contentKey, plain = false, defaultText =
             type="text"
             value={newValue}
             onChange={(e) => setNewValue(e.target.value)}
-            onBlur={() => {
-              if (newValue.trim() === '' || newValue === text) {
-                setEditing(false);
-              }
-            }}
             onKeyDown={(e) => {
               if (e.key === 'Escape') {
                 setEditing(false);
               } else if (e.key === 'Enter') {
                 e.preventDefault();
-                if (newValue !== text) {
-                  saveContent();
-                }
+                saveContent();
               }
             }}
             autoFocus
           />
-          {(newValue !== text) && (
-            <button onClick={saveContent} className="editable-done">
-              Done
-            </button>
-          )}
+          <button onClick={saveContent} className="editable-done">
+            Done
+          </button>
         </span>
       ) : (
         <span>

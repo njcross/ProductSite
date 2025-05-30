@@ -5,7 +5,7 @@ configfile: pytest.ini
 plugins: Flask-Dance-6.0.0, flask-1.3.0
 collected 43 items
 
-tests\test_auth.py .F.                                                   [  6%]
+tests\test_auth.py ...                                                   [  6%]
 tests\test_auth_routes.py .                                              [  9%]
 tests\test_cart.py .                                                     [ 11%]
 tests\test_cart_routes.py ....                                           [ 20%]
@@ -29,22 +29,4 @@ tests\test_reviews.py ..                                                 [ 88%]
 tests\test_user_settings.py ....                                         [ 97%]
 tests\test_user_settings_routes.py .                                     [100%]
 
-================================== FAILURES ===================================
-_________________________________ test_login __________________________________
-
-client = <FlaskClient <Flask 'app'>>, create_test_users = (1, 2)
-
-    def test_login(client, create_test_users):
-        # Create the users first using the fixture (now they exist)
-        response = client.post('/api/logout')
->       assert response.status_code == 302
-E       assert 200 == 302
-E        +  where 200 = <WrapperTestResponse streamed [200 OK]>.status_code
-
-tests\test_auth.py:17: AssertionError
----------------------------- Captured stdout setup ----------------------------
-CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
-Database tables created!
-=========================== short test summary info ===========================
-FAILED tests/test_auth.py::test_login - assert 200 == 302
-=================== 1 failed, 42 passed in 76.67s (0:01:16) ===================
+======================== 43 passed in 63.89s (0:01:03) ========================

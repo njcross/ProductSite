@@ -37,14 +37,21 @@ export default function InventoryPage() {
 
     fetch(`${API_BASE}/api/inventory`, { credentials: 'include' })
       .then(res => res.json())
-      .then(setInventory)
+      .then(data => {
+        const withOriginal = data.map(item => ({
+          ...item,
+          original_location: item.location,
+        }));
+        setInventory(withOriginal);
+      })
       .catch(console.error);
   }, [currentUser, navigate]);
 
   const handleUpdate = (inv) => {
     const payload = {
       ...inv,
-      kit_id: inv.kit_id || inv.kit?.id,
+      original_kit_id: inv.kit_id,
+      original_location: inv.original_location || inv.location,
     };
 
     fetch(`${API_BASE}/api/inventory`, {
@@ -167,7 +174,7 @@ export default function InventoryPage() {
             </thead>
             <tbody>
               {paginatedInventory.map((inv, i) => (
-                <tr key={inv.id}>
+                <tr key={`${inv.kit_id}-${inv.location}`}>
                   <td>
                     {inv.kit?.image_url && (
                       <img
