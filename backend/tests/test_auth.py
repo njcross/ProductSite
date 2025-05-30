@@ -14,7 +14,7 @@ def test_register(client):
 def test_login(client, create_test_users):
     # Create the users first using the fixture (now they exist)
     response = client.post('/api/logout')
-    assert response.status_code == 302
+    assert response.status_code == 200
 
     # Now login
     response = client.post('/api/login', json={

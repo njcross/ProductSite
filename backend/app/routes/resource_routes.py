@@ -22,7 +22,7 @@ def create_resource():
     resource = Resource(**data)
     db.session.add(resource)
     db.session.commit()
-    return resource_schema.dump(resource), 201
+    return jsonify(resource_schema.dump(resource)), 201
 
 @resource_bp.route('/<int:resource_id>', methods=['DELETE'])
 @admin_required

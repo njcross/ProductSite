@@ -47,6 +47,15 @@ serializer = URLSafeTimedSerializer(Config.SECRET_KEY)
 
 #     return redirect("/")  # Or wherever you want
 
+
+# @auth_bp.route('/login', methods=['OPTIONS'])
+# def login_options():
+#     return '', 200
+
+# @auth_bp.route('/register', methods=['OPTIONS'])
+# def register_options():
+#     return '', 200
+
 @auth_bp.route('/token-login', methods=['POST'])
 def token_login():
     data = request.get_json()
