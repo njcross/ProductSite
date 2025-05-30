@@ -82,7 +82,21 @@ def create_app():
             db.session.commit()
 
         session['user_id'] = user.id
-        return redirect('https://myplaytray.com/cards')
+        from flask import render_template_string
+
+        return render_template_string("""
+        <html>
+            <head>
+            <script>
+                window.opener = null;
+                window.location.href = 'https://myplaytray.com/cards';
+            </script>
+            </head>
+            <body>
+            Redirecting...
+            </body>
+        </html>
+        """)
 
     from app.routes.auth_routes import auth_bp
     from app.routes.cart_routes import cart_bp
