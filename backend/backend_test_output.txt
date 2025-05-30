@@ -44,62 +44,28 @@ sample_inventory_data = {'kit_id': 1, 'location': 'the white house', 'location_n
         assert create_resp.status_code == 201
         inventory_id = create_resp.get_json()["inventory"]
     
-        # Update the inventory and include original_kit_id
+        # Update the inventory with new quantity and skip address lookup
         update_data = {
-            "original_kit_id": kit.id,  # \U0001f448 important
-            "no_address_lookup": True,
-            "quantity": 25,
+            "original_kit_id": kit.id,  # Required by the PUT route
+            "original_location": sample_inventory_data["location"],  # Required too
             "kit_id": kit.id,
             "location": sample_inventory_data["location"],
-            "location_name": sample_inventory_data.get("location_name", "Test Location")
+            "location_name": sample_inventory_data.get("location_name", "Test Location"),
+            "quantity": 25,
+            "no_address_lookup": True
         }
     
->       response = admin_logged_in_client.put("/api/inventory", json=update_data, headers=admin_auth_header)
+        response = admin_logged_in_client.put("/api/inventory", json=update_data, headers=admin_auth_header)
+        assert response.status_code == 200
+    
+        data = response.get_json()
+>       assert data["quantity"] == 25
+E       KeyError: 'quantity'
 
-tests\test_inventory_routes.py:56: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-venv\Lib\site-packages\werkzeug\test.py:1253: in put
-    return self.open(*args, **kw)
-venv\Lib\site-packages\flask\testing.py:238: in open
-    response = super().open(
-venv\Lib\site-packages\werkzeug\test.py:1197: in open
-    response = self.run_wsgi_app(request.environ, buffered=buffered)
-venv\Lib\site-packages\werkzeug\test.py:1069: in run_wsgi_app
-    rv = run_wsgi_app(self.application, environ, buffered=buffered)
-venv\Lib\site-packages\werkzeug\test.py:1345: in run_wsgi_app
-    app_rv = app(environ, start_response)
-venv\Lib\site-packages\flask\app.py:2552: in __call__
-    return self.wsgi_app(environ, start_response)
-venv\Lib\site-packages\flask\app.py:2532: in wsgi_app
-    response = self.handle_exception(e)
-venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
-    return cors_after_request(app.make_response(f(*args, **kwargs)))
-venv\Lib\site-packages\flask\app.py:2529: in wsgi_app
-    response = self.full_dispatch_request()
-venv\Lib\site-packages\flask\app.py:1825: in full_dispatch_request
-    rv = self.handle_user_exception(e)
-venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
-    return cors_after_request(app.make_response(f(*args, **kwargs)))
-venv\Lib\site-packages\flask\app.py:1823: in full_dispatch_request
-    rv = self.dispatch_request()
-venv\Lib\site-packages\flask\app.py:1799: in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-app\utils\decorators.py:27: in wrapper
-    return f(*args, **kwargs)
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-    @inventory_bp.route('', methods=['PUT'])
-    @admin_required
-    def edit_inventory():
-        data = request.json
-        original_kit_id = data['original_kit_id']
->       original_location = data['original_location']
-E       KeyError: 'original_location'
-
-app\routes\inventory_routes.py:72: KeyError
+tests\test_inventory_routes.py:61: KeyError
 ---------------------------- Captured stdout setup ----------------------------
 CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
 Database tables created!
 =========================== short test summary info ===========================
-FAILED tests/test_inventory_routes.py::test_update_inventory - KeyError: 'ori...
-=================== 1 failed, 42 passed in 61.22s (0:01:01) ===================
+FAILED tests/test_inventory_routes.py::test_update_inventory - KeyError: 'qua...
+======================== 1 failed, 42 passed in 59.99s ========================

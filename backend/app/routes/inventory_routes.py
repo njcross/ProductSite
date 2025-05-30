@@ -104,12 +104,6 @@ def edit_inventory():
     db.session.commit()
     return jsonify({'inventory': inv.id}), 200
 
-
-    
-
-    db.session.commit()
-    return jsonify({'message': 'Inventory updated'})
-
 @inventory_bp.route('', methods=['DELETE'])
 @admin_required
 def delete_inventory():
