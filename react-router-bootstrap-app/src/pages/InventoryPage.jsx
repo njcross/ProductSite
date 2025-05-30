@@ -41,6 +41,7 @@ export default function InventoryPage() {
         const withOriginal = data.map(item => ({
           ...item,
           original_location: item.location,
+          original_kit_id: item.kit_id
         }));
         setInventory(withOriginal);
       })
@@ -107,11 +108,13 @@ export default function InventoryPage() {
       updated[index] = {
         ...updated[index],
         [field]: value,
-        original_location: prev[index].original_location // explicitly preserve
+        original_location: prev[index].original_location,      // preserve
+        original_kit_id: prev[index].original_kit_id || prev[index].kit_id // preserve
       };
       return updated;
     });
   };
+
 
 
   const matchesFilters = (item) => {
