@@ -68,4 +68,4 @@ CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
 Database tables created!
 =========================== short test summary info ===========================
 FAILED tests/test_inventory_routes.py::test_update_inventory - KeyError: 'qua...
-======================== 1 failed, 42 passed in 59.99s ========================
+=================== 1 failed, 42 passed in 60.94s (0:01:00) ===================
