@@ -10,6 +10,7 @@ import { useUser } from '../context/UserContext';
 import { useCart } from '../context/CartContext';
 import { Helmet } from 'react-helmet-async';
 import { useFavorites } from '../context/FavoritesContext';
+import FavoriteButton from '../components/FavoriteButton';
 
 import './EditCharacterPage.css';
 import StarRating from '../components/StarRating';
@@ -159,18 +160,9 @@ export default function EditCharacterPage() {
           <img src={character.image_url} alt={character.name} className="character-img-large" />
         </Col>
         <Col md={6} className="info-section">
-          <h1 className="character-title d-flex align-items-center">
-            {character.name}
-            {currentUser && (
-              <Button
-                variant={favorites.includes(character.id) ? 'outline-danger' : 'outline-primary'}
-                size="sm"
-                className="ms-3"
-                onClick={() => toggleFavorite(character.id)}
-              >
-                {favorites.includes(character.id) ? '♥ Remove Favorite' : '♡ Add to Favorites'}
-              </Button>
-            )}
+          <h1 className="character-title d-flex align-items-center justify-content-between">
+            <span>{character.name}</span>
+            {currentUser && <FavoriteButton characterId={character.id} />}
           </h1>
 
           <p><strong><EditableField contentKey="content_200" /></strong> {character.description}</p>
