@@ -15,7 +15,7 @@ tests\test_favorite.py .                                                 [ 27%]
 tests\test_favorite_routes.py .                                          [ 30%]
 tests\test_favorites.py .                                                [ 32%]
 tests\test_health_routes.py ..                                           [ 37%]
-tests\test_inventory_routes.py ..F.                                      [ 46%]
+tests\test_inventory_routes.py ....                                      [ 46%]
 tests\test_kit_routes.py .                                               [ 48%]
 tests\test_kits.py ..                                                    [ 53%]
 tests\test_newsletter.py ..                                              [ 58%]
@@ -29,43 +29,4 @@ tests\test_reviews.py ..                                                 [ 88%]
 tests\test_user_settings.py ....                                         [ 97%]
 tests\test_user_settings_routes.py .                                     [100%]
 
-================================== FAILURES ===================================
-____________________________ test_update_inventory ____________________________
-
-admin_logged_in_client = <FlaskClient <Flask 'app'>>, create_test_kit = <Kit 1>
-admin_auth_header = {'Authorization': 'Bearer '}
-sample_inventory_data = {'kit_id': 1, 'location': 'the white house', 'location_name': 'The White House', 'no_address_lookup': True, ...}
-
-    def test_update_inventory(admin_logged_in_client, create_test_kit, admin_auth_header, sample_inventory_data):
-        # First create the inventory
-        kit = create_test_kit
-        sample_inventory_data["kit_id"] = kit.id
-        create_resp = admin_logged_in_client.post("/api/inventory", json=sample_inventory_data, headers=admin_auth_header)
-        assert create_resp.status_code == 201
-        inventory_id = create_resp.get_json()["inventory"]
-    
-        # Update the inventory with new quantity and skip address lookup
-        update_data = {
-            "original_kit_id": kit.id,  # Required by the PUT route
-            "original_location": sample_inventory_data["location"],  # Required too
-            "kit_id": kit.id,
-            "location": sample_inventory_data["location"],
-            "location_name": sample_inventory_data.get("location_name", "Test Location"),
-            "quantity": 25,
-            "no_address_lookup": True
-        }
-    
-        response = admin_logged_in_client.put("/api/inventory", json=update_data, headers=admin_auth_header)
-        assert response.status_code == 200
-    
-        data = response.get_json()
->       assert data["quantity"] == 25
-E       KeyError: 'quantity'
-
-tests\test_inventory_routes.py:61: KeyError
----------------------------- Captured stdout setup ----------------------------
-CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
-Database tables created!
-=========================== short test summary info ===========================
-FAILED tests/test_inventory_routes.py::test_update_inventory - KeyError: 'qua...
-=================== 1 failed, 42 passed in 60.94s (0:01:00) ===================
+======================== 43 passed in 68.78s (0:01:08) ========================
