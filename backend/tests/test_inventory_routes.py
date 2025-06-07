@@ -24,7 +24,12 @@ def sample_inventory_data():
 def test_get_inventory(admin_logged_in_client, admin_auth_header):
     response = admin_logged_in_client.get("/api/inventory", headers=admin_auth_header)
     assert response.status_code == 200
-    assert isinstance(response.get_json(), list)
+    data = response.get_json()
+
+    assert isinstance(data, dict)
+    assert "items" in data
+    assert isinstance(data["items"], list)
+
 
 def test_create_inventory(admin_logged_in_client, create_test_kit, admin_auth_header, sample_inventory_data):
     kit = create_test_kit

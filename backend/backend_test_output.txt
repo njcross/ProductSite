@@ -15,7 +15,7 @@ tests\test_favorite.py .                                                 [ 27%]
 tests\test_favorite_routes.py .                                          [ 30%]
 tests\test_favorites.py .                                                [ 32%]
 tests\test_health_routes.py ..                                           [ 37%]
-tests\test_inventory_routes.py ....                                      [ 46%]
+tests\test_inventory_routes.py F...                                      [ 46%]
 tests\test_kit_routes.py .                                               [ 48%]
 tests\test_kits.py ..                                                    [ 53%]
 tests\test_newsletter.py ..                                              [ 58%]
@@ -29,4 +29,25 @@ tests\test_reviews.py ..                                                 [ 88%]
 tests\test_user_settings.py ....                                         [ 97%]
 tests\test_user_settings_routes.py .                                     [100%]
 
-======================== 43 passed in 69.09s (0:01:09) ========================
+================================== FAILURES ===================================
+_____________________________ test_get_inventory ______________________________
+
+admin_logged_in_client = <FlaskClient <Flask 'app'>>
+admin_auth_header = {'Authorization': 'Bearer '}
+
+    def test_get_inventory(admin_logged_in_client, admin_auth_header):
+        response = admin_logged_in_client.get("/api/inventory", headers=admin_auth_header)
+        assert response.status_code == 200
+>       assert isinstance(response.get_json(), list)
+E       AssertionError: assert False
+E        +  where False = isinstance({'hasNext': False, 'items': [], 'page': 1, 'perPage': 10, ...}, list)
+E        +    where {'hasNext': False, 'items': [], 'page': 1, 'perPage': 10, ...} = <bound method Response.get_json of <WrapperTestResponse 61 bytes [200 OK]>>()
+E        +      where <bound method Response.get_json of <WrapperTestResponse 61 bytes [200 OK]>> = <WrapperTestResponse 61 bytes [200 OK]>.get_json
+
+tests\test_inventory_routes.py:27: AssertionError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+=========================== short test summary info ===========================
+FAILED tests/test_inventory_routes.py::test_get_inventory - AssertionError: a...
+=================== 1 failed, 42 passed in 67.41s (0:01:07) ===================
