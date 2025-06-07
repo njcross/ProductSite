@@ -327,15 +327,19 @@ export default function FilterBy({
 
       {collection === 'inventory' && (
               <>
-                <label><EditableField contentKey="content_330" defaultText="Filter by Kit ID" /></label>
-                <input
-                  type="text"
-                  value={kitIdFilter}
-                  onChange={(e) => {
-                    setKitIdFilter(e.target.value);
-                    onFilterChange({ kit_id: e.target.value });
-                  }}
-                />
+                <label><EditableField contentKey="content_330" defaultText="Filter by Kit" /></label>
+                <ul className="filter-list">
+                  {kitOptions.map(kit => (
+                    <li key={kit.id}>
+                      <input
+                        type="checkbox"
+                        checked={selectedKitIds.includes(String(kit.id))}
+                        onChange={() => handleToggle('kit_ids', String(kit.id))}
+                      />
+                      {kit.name}
+                    </li>
+                  ))}
+                </ul>
       
                 <label><EditableField contentKey="content_331" defaultText="Filter by Quantity Range" /></label>
                 <ReactSlider
