@@ -85,8 +85,15 @@ export default function EditableImage({ contentKey, alt, fieldBelow = null, clas
 
           {showUpload && (
             <div>
-              <label style={{ fontWeight: 'bold' }}>Upload New:</label>
-              <input type="file" accept="image/*" onChange={handleUpload} />
+              <label style={{ fontWeight: 'bold', display: 'block' }}>
+                Upload New:
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleUpload}
+                  style={{ display: 'block', marginTop: '0.5rem' }}
+                />
+              </label>
               <hr />
               <label style={{ fontWeight: 'bold' }}>Select from Existing:</label>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
