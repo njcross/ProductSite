@@ -28,11 +28,17 @@ export default function CharacterForm({ initialData, onSubmit }) {
   const [newTheme, setNewTheme] = useState('');
   const [newGrade, setNewGrade] = useState('');
   const [inventoryOptions, setInventoryOptions] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
 
   useEffect(() => {
     fetch(`${API_BASE}/api/kits/age-options`)
       .then(res => res.json())
       .then(setAgeOptions)
+      .catch(console.error);
+
+    fetch(`${API_BASE}/api/images`)
+      .then(res => res.json())
+      .then(setExistingImages)
       .catch(console.error);
 
     fetch(`${API_BASE}/api/kits/category-options`)
@@ -228,29 +234,40 @@ export default function CharacterForm({ initialData, onSubmit }) {
       <Form onSubmit={handleSubmit} className="character-form">
         {submitError && <Alert variant="danger">{submitError}</Alert>}
 
-        <Form.Group controlId="name">
-          <Form.Label><EditableField contentKey="content_2" /></Form.Label>
-          <Form.Control name="name" value={formData.name} onChange={handleChange} required />
-        </Form.Group>
-
         <Form.Group controlId="image_url">
-          <Form.Label><EditableField contentKey="content_9" /></Form.Label>
+          <Form.Label><EditableField contentKey="content_9" defaultText="Image URL" /></Form.Label>
+
+          <Form.Select
+            className="mb-2"
+            value={formData.image_url}
+            onChange={(e) => {
+              setFormData(prev => ({ ...prev, image_url: e.target.value }));
+              setUrlError('');
+            }}
+          >
+            {existingImages.map((url, i) => (
+              <option key={i} value={url}>{url}</option>
+            ))}
+          </Form.Select>
+
           <Form.Control
+            className="mt-2"
             name="image_url"
             value={formData.image_url}
             onChange={handleChange}
             isInvalid={!!urlError}
-            placeholder="https://example.com/image.png"
+            placeholder="Or paste an image URL"
           />
           <Form.Control.Feedback type="invalid">{urlError}</Form.Control.Feedback>
 
           <Form.Label className="mt-2">Or upload image</Form.Label>
           <Form.Control
             type="file"
-            accept="images/*"
+            accept="image/*"
             onChange={handleUpload}
           />
         </Form.Group>
+
 
         <Form.Group controlId="formPrice">
           <Form.Label><EditableField contentKey="content_10" /></Form.Label>
