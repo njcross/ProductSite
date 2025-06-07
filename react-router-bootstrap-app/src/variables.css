@@ -1,43 +1,42 @@
 :root {
-  /* Primary Colors */
-  --color-primary: #ef3e3e;
-  --color-primary-dark: #b71c1c;
+  /* Primary Palette */
+  --color-primary: rgb(0, 74, 152);
+  --color-primary-dark: #ff9b6a;
   --color-secondary: #1b1b1b;
-  --color-accent: #FEC632;
-  --color-heading: #000000;  
+  --color-accent: #fec632;
   --color-danger: #ef3e3e;
+  --color-success: #4caf50;
 
   /* Text Colors */
+  --color-heading: #000000;
   --color-text: #222222;
-  --color-text-muted: #cccccc;
   --color-text-dark: #1a1a1a;
+  --color-text-muted: #cccccc;
   --color-link: #222222;
-  --color-white: #FFFFFF; 
-  --color-border: #222222;
+  --color-white: #ffffff;
 
   /* Background Colors */
-  --bg-main: #4d9de0;
-  --bg-alt: #17a465;
-  --bg-white: #FFFFFF;
-  --bg-card: #4d9de0;
+  --bg-main: #fff6ed;         /* match warm Canva tone */
+  --bg-alt: #fef1dc;          /* soft background accent */
+  --bg-white: #ffffff;
+  --bg-card: #fff6ed;
   --bg-highlight: #fec632;
-  --color-success: #4CAF50; 
-  --bg-action-item: #FEC632;
   --bg-input: #f0f0f0;
+  --bg-action-item: #fec632;
 
   /* Border Colors */
-  --border-color: #222222;
-  --border-color-light: #222222;
+  --border-color: #e0e0e0;
+  --border-color-light: #f5f5f5;
 
   /* Shadows */
-  --box-shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.2);
-  --box-shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.3);
-  --box-shadow-strong: 0 6px 18px rgba(0, 0, 0, 0.4);
+  --box-shadow-soft: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --box-shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --box-shadow-strong: 0 6px 18px rgba(0, 0, 0, 0.25);
 
   /* Border Radius */
   --radius-sm: 6px;
   --radius-md: 12px;
-  --radius-lg: 20px;
+  --radius-lg: 24px;
 
   /* Font Sizes */
   --font-size-xs: 0.75rem;
@@ -58,21 +57,20 @@
   --spacing-lg: 2rem;
   --spacing-xl: 3rem;
 
-  /* Z-Indexes */
-  --z-header: 1000;
-  --z-modal: 1050;
-  --z-dropdown: 1100;
-
-  /* padding and margin */
-  --padding-xs: 0.25rem;  
+  /* Padding & Margin */
+  --padding-xs: 0.25rem;
   --padding-sm: 0.5rem;
   --padding-md: 1rem;
   --padding-lg: 2rem;
-
   --padding-full-btn: 0.5rem 1rem;
 
   --margin-xs: 0.25rem;
   --margin-sm: 0.5rem;
   --margin-md: 1rem;
   --margin-lg: 2rem;
+
+  /* Z-Index */
+  --z-header: 1000;
+  --z-modal: 1050;
+  --z-dropdown: 1100;
 }
