@@ -1,0 +1,9 @@
+
+.google-map-container {
+  width: 100%;
+  height: 400px;
+  margin-top: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-color, #ccc);
+}
