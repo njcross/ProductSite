@@ -2,14 +2,15 @@ from flask import Blueprint, request, jsonify, session, current_app
 from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import select
-from app.extensions import db
+from app.extensions import db, redis_client
 from app.models.user import User
 from app.schemas.user_schema import user_schema, UserSchema
 from flask_cors import cross_origin
 from app.utils.decorators import login_required
 from flask import redirect
 from app.config import Config
-
+from app.utils.email import send_bulk_email
+import secrets
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api')
 user_schema = UserSchema()
@@ -175,3 +176,60 @@ def logout():
     return jsonify({
         "message": "Logout successful"
                 }), 200
+
+@auth_bp.route('/api/forgot-password', methods=['POST'])
+def forgot_password():
+    data = request.get_json()
+    email = data.get('email')
+
+    if not email:
+        return jsonify({"error": "Email is required"}), 400
+
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({"success": True})  # Don't reveal existence
+
+    # Generate and store token in Redis for 1 hour
+    token = secrets.token_urlsafe(32)
+    redis_client.setex(f"reset_token:{token}", 3600, user.id)
+
+    # Build reset URL
+    reset_url = f"{current_app.config['FRONTEND_URL']}/reset-password?token={token}"
+    subject = "Reset Your Password"
+    body = f"""Hi {user.email},
+
+We received a request to reset your password. Click the link below:
+
+{reset_url}
+
+If you didn't request this, just ignore this email.
+
+This link will expire in 1 hour."""
+
+    # Use send_bulk_email even for one user
+    success, msg = send_bulk_email(subject, body, [email])
+    if success:
+        return jsonify({"message": "Reset email sent"}), 200
+    else:
+        return jsonify({"error": msg}), 500
+    
+@auth_bp.route('/api/reset-password', methods=['POST'])
+def reset_password():
+    data = request.get_json()
+    token = data.get('token')
+    new_password = data.get('password')
+
+    key = f"reset_token:{token}"
+    user_id = redis_client.get(key)
+    if not user_id:
+        return jsonify({"error": "Invalid or expired token"}), 400
+
+    user = db.session.get(User, int(user_id))
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    user.set_password(new_password)
+    db.session.commit()
+    redis_client.delete(key)  # Clean up the token
+
+    return jsonify({"success": True})

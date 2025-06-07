@@ -25,6 +25,7 @@ export default function HeaderBar() {
       });
       removeToken();
       setCurrentUser(null);
+      alert("Logout Succesful");
       navigate('/');
     } catch (err) {
       console.error('Logout failed:', err);
