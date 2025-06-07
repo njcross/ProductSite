@@ -71,3 +71,21 @@ def content_preview():
     with open(content_path, 'r', encoding='utf-8') as f:
         content = json.load(f)
     return jsonify(content)
+
+@content_bp.route('/api/images', methods=['GET'])
+@admin_required
+def list_uploaded_images():
+    """Returns a list of URLs for all uploaded images."""
+    images_folder = os.path.join(current_app.root_path, '../../react-router-bootstrap-app/public/images')
+    base_url = '/images'  # This should match your frontend static serving path
+
+    if not os.path.exists(images_folder):
+        return jsonify([])
+
+    image_files = [
+        f"{base_url}/{filename}"
+        for filename in os.listdir(images_folder)
+        if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg'))
+    ]
+
+    return jsonify(sorted(image_files))
