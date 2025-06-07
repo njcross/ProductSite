@@ -1,19 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useUser } from '../context/UserContext';
-import { Container, Table, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
+import { Container, Table, ToggleButtonGroup, ToggleButton, Button } from 'react-bootstrap';
 import EditableField from '../components/EditableField';
 import { Helmet } from 'react-helmet-async';
 import FilterBy from '../components/FilterBy';
 import ViewingOptions from '../components/ViewingOptions';
 import PaginationControls from '../components/PaginationControls';
-import { Button } from 'react-bootstrap';
 import ReviewModal from '../components/ReviewModal';
 import './Orders.css';
+
+const LOCAL_STORAGE_KEY = 'ordersFilters';
 
 export default function Orders() {
   const { currentUser } = useUser();
   const [purchases, setPurchases] = useState([]);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState(() => {
+    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+    return saved ? JSON.parse(saved) : {};
+  });
   const [viewAll, setViewAll] = useState(false);
   const [viewMode, setViewMode] = useState('grid');
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -22,9 +26,13 @@ export default function Orders() {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [activeKitId, setActiveKitId] = useState(null);
   const [sortDir, setSortDir] = useState('desc');
-
+  const [refreshCount, setRefreshCount] = useState(0);
 
   const API_BASE = process.env.REACT_APP_API_URL;
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(filters));
+  }, [filters]);
 
   useEffect(() => {
     if (!currentUser) return;
@@ -50,11 +58,7 @@ export default function Orders() {
       .then(res => res.json())
       .then(data => setPurchases(data))
       .catch(err => console.error('Error fetching purchases:', err));
-  }, [currentUser, viewAll, filters, sortBy, sortDir, currentPage, itemsPerPage]);
-
-
-  if (!currentUser) return null;
-  const displayedPurchases = purchases;
+  }, [currentUser, viewAll, filters, sortBy, sortDir, currentPage, itemsPerPage, refreshCount]);
 
   const handleCancel = async (id) => {
     if (!window.confirm('Are you sure you want to cancel this order?')) return;
@@ -90,8 +94,10 @@ export default function Orders() {
       alert('Error updating purchase');
     }
   };
-  
-  
+
+  const paginatedPurchases = purchases;
+
+  if (!currentUser) return null;
 
   return (
     <Container className="orders-page py-4">
@@ -128,10 +134,18 @@ export default function Orders() {
             collection="orders"
             currentUser={currentUser}
             onFilterChange={(updated) => setFilters(prev => ({ ...prev, ...updated }))}
-            // Optional: savedFilters, onSaveFilter, onSelectSavedFilter
           />
-
-
+          <Button
+            variant="outline-secondary"
+            size="sm"
+            className="mt-3"
+            onClick={() => {
+              localStorage.removeItem(LOCAL_STORAGE_KEY);
+              setFilters({});
+            }}
+          >
+            Reset Filters
+          </Button>
         </div>
 
         <div className="main-content flex-grow-1">
@@ -148,12 +162,12 @@ export default function Orders() {
             showSaveFilter={false}
           />
 
-
-          {displayedPurchases.length === 0 ? (
+          {paginatedPurchases.length === 0 ? (
             <p className="text-center text-muted">
               <EditableField contentKey="content_229" defaultText="No purchases found." />
             </p>
           ) : (
+            
             <Table responsive bordered hover className="orders-table">
               <thead>
                 <tr>
@@ -306,9 +320,10 @@ export default function Orders() {
           <PaginationControls
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
-            totalItems={displayedPurchases.length}
+            totalItems={paginatedPurchases.length}
             itemsPerPage={itemsPerPage}
           />
+
           <ReviewModal
             show={showReviewModal}
             onHide={() => setShowReviewModal(false)}
