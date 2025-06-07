@@ -171,6 +171,13 @@ WantedBy=multi-user.target' | sudo tee /etc/systemd/system/redis.service > /dev/
     else
         echo ✅ Redis already installed;
     fi"
+    echo 🔧 Configuring Redis keyspace notifications... 
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "redis-cli CONFIG SET notify-keyspace-events Ex"
+
+    echo ▶️ Ensuring Redis listener is running via PM2...
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "pm2 delete redis-listener || echo 'No previous redis-listener'; \
+    pm2 start /home/ec2-user/ProductSite/backend/scripts/redis_listener.py --interpreter python3 --name redis-listener"
+
 
     echo 🔄 Restarting backend on EC2...
     ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "cd %REMOTE_BACKEND_PATH% && git stash && git pull origin main && . venv/bin/activate && pip install -r requirements.txt && flask db upgrade && pm2 delete backend || echo 'no backend running' && pm2 start 'gunicorn \"server:app\" --bind 0.0.0.0:5000 --workers 4' --name backend"

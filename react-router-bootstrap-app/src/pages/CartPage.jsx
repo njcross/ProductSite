@@ -98,6 +98,12 @@ export default function CartPage() {
         setShowBillingModal(true);
       }
     } catch (err) {
+      const increment = await fetch(`${API_BASE}/api/inventory/increment`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ kit_id, location, location_name, inventory_id, quantity })
+        });
       console.error('Checkout failed:', err);
       alert('Checkout failed: ' + err.message);
     }
@@ -182,7 +188,7 @@ export default function CartPage() {
           onHide={() => setShowBillingModal(false)}
           cart={cart}
           total={total}
-          includeShipping={warehouseItems.length > 0}
+          includeShipping={warehouse.length > 0}
           onSuccess={() => {
             clearCart();
             setShowBillingModal(false);

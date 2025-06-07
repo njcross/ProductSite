@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, json, request, jsonify, session
 from app.models import Inventory
 from app.utils.decorators import login_required, admin_required 
 from app.extensions import db
@@ -8,6 +8,8 @@ from app.schemas.inventory_schema import inventories_schema, inventory_schema
 from app.models.kits import Kit
 import requests
 import os
+import redis
+from datetime import timedelta
 
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 inventory_bp = Blueprint('inventory', __name__, url_prefix="/api/inventory")
@@ -135,6 +137,22 @@ def decrement_quantity():
         return jsonify({'error': 'Insufficient inventory'}), 400
     inv.quantity = inv.quantity - quantity
     db.session.commit()
+    # Connect to Redis (configure as needed)
+    r = redis.Redis(host='localhost', port=6379, db=0)
+
+    # Compose a unique pending key, e.g. based on inventory ID
+    user_id = session.get('user_id')
+    pending_key = f"pending_inventory:{inv.id}:{user_id}"
+
+    # Save rollback info (can be just inventory_id and quantity for rollback)
+    r.setex(
+        name=pending_key,
+        time=timedelta(minutes=30),  # expires in 30 minutes
+        value=json.dumps({
+            "inventory_id": inv.id,
+            "kit_id": kit_id,
+            "quantity": quantity
+        })
     return jsonify({'message': 'Inventory decremented', 'new_quantity': inv.quantity})
 
 @inventory_bp.route('/increment', methods=['POST'])

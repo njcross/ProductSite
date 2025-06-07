@@ -1,5 +1,6 @@
 import flask
 import stripe
+import redis
 from app.extensions import db
 from app.models.purchase import Purchase
 from app.models.kits import Kit
@@ -138,6 +139,7 @@ def create_purchase():
 
     # 4. Save purchases to DB
     created_purchases = []
+    r = redis.Redis(host='localhost', port=6379, db=0)
     for item in items:
         new_purchase = Purchase(
             kit_id=item['kit_id'],
@@ -152,6 +154,8 @@ def create_purchase():
         )
         db.session.add(new_purchase)
         created_purchases.append(new_purchase)
+        key = f"pending_inventory:{item['inventory_id']}:{user_id}"
+        r.delete(key)
 
     db.session.commit()
 
