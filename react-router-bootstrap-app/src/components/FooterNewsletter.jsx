@@ -9,10 +9,9 @@ export function FooterNewsletter() {
   const [message, setMessage] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const { currentUser, isAdmin } = useUser();
-  const { content, updateContent } = useContent();
-
-  const newsletterValue = content?.content_newsletter_value || 'general';
-  const [selectedValue, setSelectedValue] = useState(newsletterValue);
+  const content = JSON.parse(sessionStorage.getItem('content') || '{}');
+  const initialValue = content?.content_newsletter_value || 'general';
+  const [newsletterValue, setSelectedValue] = useState(initialValue);
 
   useEffect(() => {
     setSelectedValue(newsletterValue); // sync on mount or change
@@ -29,7 +28,7 @@ export function FooterNewsletter() {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ email, newsletter_value: selectedValue }),
+        body: JSON.stringify({ email, newsletter_value: newsletterValue }),
       });
       const data = await res.json();
       if (res.ok) {
@@ -52,7 +51,7 @@ export function FooterNewsletter() {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ email, newsletter_value: selectedValue }),
+        body: JSON.stringify({ email, newsletter_value: newsletterValue }),
       });
       const data = await res.json();
       if (res.ok) {
