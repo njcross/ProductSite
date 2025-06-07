@@ -38,7 +38,7 @@ function KitsLandingPage() {
           <h1><EditableField contentKey="content_203" /></h1>
           <p><EditableField contentKey="content_204" /></p>
           <div className="hero-cta text-start">
-            <Button variant="danger" className="browse-btn mt-3" href="/cards">
+            <Button variant="danger" className="browse-btn" href="/cards">
               <EditableField contentKey="content_205" />
             </Button>
           </div>
@@ -50,8 +50,8 @@ function KitsLandingPage() {
       </section>
 
       {/* Steps Section */}
-      <Container className="steps-section text-center my-5">
-        <Row className="d-flex justify-content-center flex-wrap">
+      <Container className="steps-section text-center">
+        <Row className="d-flex justify-content-center">
           <div className="step-col">
             <EditableImage contentKey="content_img_208" alt="Choose Kit" className="step-img" />
             <h5><EditableField contentKey="content_209" /></h5>
@@ -75,7 +75,7 @@ function KitsLandingPage() {
 
 
       {/* Kits Grid */}
-      <Container className="kits-grid my-5">
+      <Container className="kits-grid">
         <h2 className="text-center mb-4">
           <EditableField contentKey="content_214" />
         </h2>
