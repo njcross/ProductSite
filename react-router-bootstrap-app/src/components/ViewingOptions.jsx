@@ -1,6 +1,7 @@
 import './ViewingOptions.css';
 import EditableField from '../components/EditableField';
 import { useUser } from '../context/UserContext';
+import { useEffect } from 'react';
 
 export default function ViewingOptions({
   viewMode,
@@ -16,6 +17,29 @@ export default function ViewingOptions({
   collection = 'kits'
 }) {
   const { currentUser } = useUser();
+ 
+  useEffect(() => {
+    const saved = localStorage.getItem(`viewing_options_${collection}`);
+    if (saved) {
+      const options = JSON.parse(saved);
+      if (options.viewMode) onViewModeChange(options.viewMode);
+      if (options.itemsPerPage) onItemsPerPageChange(options.itemsPerPage);
+      if (options.sortBy) onSortChange(options.sortBy);
+      if (options.sortDir) onSortDirChange(options.sortDir);
+    }
+  }, [collection]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      `viewing_options_${collection}`,
+      JSON.stringify({
+        viewMode,
+        itemsPerPage,
+        sortBy,
+        sortDir,
+      })
+    );
+  }, [viewMode, itemsPerPage, sortBy, sortDir, collection]);
 
   const toggleSortDir = () => {
     onSortDirChange(sortDir === 'asc' ? 'desc' : 'asc');
