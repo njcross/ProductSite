@@ -65,7 +65,11 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
         original_kit_id: inv.kit.id
       }),
     });
-    if (!res.ok) alert('Failed to update inventory item');
+    if (!res.ok)  {
+      alert('Failed to update inventory item')
+    } else {
+      alert('Inventory updated')
+    }
   };
 
   const handleDelete = async (location) => {
