@@ -19,3 +19,4 @@ class Config:
     OAUTHLIB_INSECURE_TRANSPORT = True  # Only for local dev
     GOOGLE_EMAIL_DOMAIN = os.getenv('GOOGLE_EMAIL_DOMAIN', 'example.com')
     GOOGLE_EMAIL_PASSWORD = os.getenv('GOOGLE_EMAIL_PASSWORD', 'password')
+    STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")

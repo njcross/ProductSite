@@ -1,43 +1,87 @@
 import flask
+import stripe
 from app.extensions import db
 from app.models.purchase import Purchase
 from app.schemas.purchase_schema import PurchaseSchema
 from app.utils.decorators import admin_required, login_required
 from flask import Blueprint, request, jsonify, session
 from sqlalchemy.orm import joinedload
+from app.config import Config
 from datetime import datetime, timedelta, timezone
+
 
 purchase_bp = Blueprint('purchase', __name__)
 purchase_schema = PurchaseSchema()
 purchases_schema = PurchaseSchema(many=True)
 
+stripe.api_key = Config.STRIPE_SECRET_KEY  # Ensure this is securely set
+
 @purchase_bp.route('/api/purchases', methods=['POST'])
 @login_required
 def create_purchase():
     data = request.get_json()
+    user_id = session.get('user_id')
 
-    new_purchase = Purchase(
-        kit_id=data['kit_id'],
-        user_id=session.get('user_id'),
-        quantity=data['quantity'],
-        inventory_id=data.get('inventory_id'),
-        payment_method=data.get('payment_method'),
-        available_date="1234",
-        pick_up_date=datetime.now(timezone.utc) + timedelta(hours=24),
-        status="Ready for pickup",
-        shipping_address_id=data.get('shipping_address_id', None)
-    )
+    # 1. Extract cart items and billing info
+    items = data.get('items', [])
+    billing_details = data.get('billing_details', {})
+    shipping_address_id = data.get('shipping_address_id')  # optional
 
-    db.session.add(new_purchase)
+    if not items or not billing_details:
+        return jsonify({'error': 'Missing required data'}), 400
+
+    # 2. Calculate total price
+    total_amount = 0
+    for item in items:
+        quantity = item.get('quantity', 1)
+        price = item.get('price', 0)
+        total_amount += int(float(price) * 100) * quantity  # in cents
+
+    if total_amount <= 0:
+        return jsonify({'error': 'Invalid cart total'}), 400
+
+    # 3. Create PaymentIntent
+    try:
+        payment_intent = stripe.PaymentIntent.create(
+            amount=total_amount,
+            currency='usd',
+            payment_method=billing_details.get('payment_method_id'),
+            confirmation_method='manual',
+            confirm=True,
+            receipt_email=billing_details.get('email'),
+        )
+    except stripe.error.StripeError as e:
+        return jsonify({'error': str(e)}), 400
+
+    if payment_intent.status != 'succeeded':
+        return jsonify({'error': 'Payment not completed', 'payment_status': payment_intent.status}), 402
+
+    # 4. Save all valid purchases to DB
+    created_purchases = []
+    for item in items:
+        new_purchase = Purchase(
+            kit_id=item['kit_id'],
+            user_id=user_id,
+            quantity=item['quantity'],
+            inventory_id=item.get('inventory_id'),
+            payment_method='stripe',
+            available_date="TBD",  # or real logic
+            pick_up_date=datetime.now(timezone.utc) + timedelta(hours=24),
+            status="Ready for pickup",
+            shipping_address_id=shipping_address_id
+        )
+        db.session.add(new_purchase)
+        created_purchases.append(new_purchase)
+
     db.session.commit()
 
-    purchase = Purchase.query.options(
+    purchases = Purchase.query.options(
         joinedload(Purchase.kit),
         joinedload(Purchase.user),
         joinedload(Purchase.inventory)
-    ).filter_by(id=new_purchase.id).first()
+    ).filter(Purchase.id.in_([p.id for p in created_purchases])).all()
 
-    return jsonify(purchase_schema.dump(purchase)), 201
+    return jsonify([purchase_schema.dump(p) for p in purchases]), 201
 
 @purchase_bp.route('/api/purchases', methods=['GET'])
 @login_required
