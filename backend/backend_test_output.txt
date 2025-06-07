@@ -20,4 +20,4 @@ E   ModuleNotFoundError: No module named 'backend'
 =========================== short test summary info ===========================
 ERROR tests/test_newsletter.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-============================== 1 error in 1.53s ===============================
+============================== 1 error in 1.33s ===============================
