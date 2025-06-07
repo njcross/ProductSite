@@ -20,6 +20,7 @@ import Home from './pages/Home';
   import Orders from './pages/Orders';
   import InventoryPage from './pages/InventoryPage';
   import ResourcesPage from './pages/ResourcesPage';
+  import ForgotPassword from './pages/ForgotPassword';
 
 const Layout = () => (
   <div className="app-container">
@@ -49,6 +50,7 @@ export const router = createBrowserRouter([
       { path: 'orders', element: <Orders /> },
       { path: 'inventory', element: <InventoryPage /> },
       { path: 'resources', element: <ResourcesPage /> },
+      { path: 'forgot-password', element: <ForgotPassword />},
       { path: '*', element: <NotFound /> },
     ],
   },
