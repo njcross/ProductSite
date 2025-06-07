@@ -7,7 +7,7 @@ html, body {
   box-sizing: border-box;
   background-color: var(--bg-main);
   color: var(--color-text);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Comic Sans MS', 'Comic Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   max-width: 100%;
   overflow-x: hidden;
 }
