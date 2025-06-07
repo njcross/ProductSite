@@ -37,7 +37,7 @@ export default function CartPage() {
     const inventory_id = item.inventory?.id || null;
     return {
       id: item.id,
-      kit_id: kit.id || item.kit_id,
+      kit_id: kit.id || item.kit.id,
       name: kit.name || 'Unnamed',
       image_url: kit.image_url || '',
       price: kit.price || 0,
@@ -98,12 +98,6 @@ export default function CartPage() {
         setShowBillingModal(true);
       }
     } catch (err) {
-      const increment = await fetch(`${API_BASE}/api/inventory/increment`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({ kit_id, location, location_name, inventory_id, quantity })
-        });
       console.error('Checkout failed:', err);
       alert('Checkout failed: ' + err.message);
     }
