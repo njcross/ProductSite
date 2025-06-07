@@ -55,19 +55,42 @@ export default function Login() {
         <Form onSubmit={handleSubmit} className="login-form">
           <Form.Group className="mb-3">
             <Form.Label>{<EditableField contentKey="content_131" />}</Form.Label>
-            <Form.Control name="username" value={form.username} onChange={handleChange} required placeholder="Enter your username"/>
+            <Form.Control
+              name="username"
+              value={form.username}
+              onChange={handleChange}
+              required
+              placeholder="Enter your username"
+            />
           </Form.Group>
 
-          <Form.Group className="mb-4">
+          <Form.Group className="mb-2">
             <Form.Label>{<EditableField contentKey="content_132" />}</Form.Label>
-            <Form.Control type="password" name="password" value={form.password} onChange={handleChange} required placeholder="Enter your password"/>
+            <Form.Control
+              type="password"
+              name="password"
+              value={form.password}
+              onChange={handleChange}
+              required
+              placeholder="Enter your password"
+            />
           </Form.Group>
 
-          <Button type="submit" className="login-btn">{<EditableField contentKey="content_56" />}</Button>
+          <div className="text-end mb-3">
+            <a href="/forgot-password" className="forgot-password-link">
+              Forgot Password?
+            </a>
+          </div>
+
+          <Button type="submit" className="login-btn">
+            {<EditableField contentKey="content_56" />}
+          </Button>
+
           {message && <p className="mt-3 text-light">{message}</p>}
           <DividerWithText text="OR" />
-          <GoogleSignInButton className="google-signin-btn"/>
+          <GoogleSignInButton className="google-signin-btn" />
         </Form>
+
       </div>
     </Container>
   );
