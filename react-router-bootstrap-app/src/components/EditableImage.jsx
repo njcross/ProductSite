@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useUser } from '../context/UserContext';
 import { ContentContext } from '../context/ContentContext';
+import styles from '../styles/global.module.css';
 
-export default function EditableImage({ contentKey }) {
+export default function EditableImage({ contentKey, alt, fieldBelow = null }) {
   const { currentUser } = useUser();
   const { content, setContent } = useContext(ContentContext);
   const isAdmin = currentUser?.role === 'admin';
@@ -10,9 +11,9 @@ export default function EditableImage({ contentKey }) {
 
   const [src, setSrc] = useState('');
   const [showUpload, setShowUpload] = useState(false);
-  // ✅ Load from context
+
   useEffect(() => {
-    setSrc(content?.[contentKey] || '');
+    setSrc(content?.[contentKey] || alt);
   }, [contentKey, content]);
 
   const handleUpload = async (e) => {
@@ -30,18 +31,15 @@ export default function EditableImage({ contentKey }) {
     if (uploadData.url) {
       await fetch(`${API_BASE}/api/update-content`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({ field: contentKey, value: uploadData.url }),
       });
 
-      // ✅ Update context and sessionStorage
       setContent((prev) => {
         const updated = { ...prev, [contentKey]: uploadData.url };
         sessionStorage.setItem('content_cache', JSON.stringify(updated));
-        sessionStorage.setItem('force_content_refetch', 'true'); // 👈 force fresh load on next refresh
+        sessionStorage.setItem('force_content_refetch', 'true');
         return updated;
       });
       setSrc(uploadData.url);
@@ -51,7 +49,8 @@ export default function EditableImage({ contentKey }) {
 
   return (
     <div className="editable-image-wrapper">
-      <img src={src} alt="Editable" style={{ maxWidth: '100%' }} />
+      <img src={src} className={styles.thumbnail} />
+      {fieldBelow && <div className="editable-below">{fieldBelow}</div>}
       {isAdmin && (
         <div>
           {!showUpload && (

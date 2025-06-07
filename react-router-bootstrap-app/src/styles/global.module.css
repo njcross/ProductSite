@@ -256,3 +256,12 @@
   color: var(--color-white, #ffffff);
   box-shadow: var(--box-shadow-medium, 0 4px 12px rgba(0, 0, 0, 0.15));
 }
+
+.thumbnail {
+  width: auto;           /* or any fixed size */
+  height: 50px;
+  object-fit: cover;      /* crops the image to fill the box */
+  border-radius: 8px;     /* optional: rounded corners */
+  border: 1px solid #ccc; /* optional: border */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* optional: shadow */
+}

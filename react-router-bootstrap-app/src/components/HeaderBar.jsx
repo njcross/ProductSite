@@ -5,6 +5,7 @@ import EditableField from '../components/EditableField';
 import { removeToken } from '../utils/tokenService';
 import './HeaderBar.css';
 import styles from '../styles/global.module.css';
+import EditableImage from './EditableImage';
 
 export default function HeaderBar() {
   const { currentUser, setCurrentUser } = useUser();
@@ -41,11 +42,10 @@ export default function HeaderBar() {
   return (
     <div className={`header-bar ${styles.bgSecondary}`}>
       <Link to="/cards" className={`${styles.largeNavButton} ${styles.mvertSm} ${styles.mhorzMd}`}>
-        <EditableField contentKey="header_logo" />
+        <EditableImage contentKey="content_img_company" alt="https://dm0qx8t0i9gc9.cloudfront.net/thumbnails/video/rZJIMvhmliwmde8a6/videoblocks-four-kids-play-with-blocks-group-of-children-playing-colorful-constructor-in-playroom-or-nursery-preschool-child-development-center_spxmcgqcn_thumbnail-1080_01.png" className="thumbnail" fieldBelow={<EditableField contentKey="header_logo" />} />
       </Link>
 
       <form className="search-box" onSubmit={handleSearch}>
-        <label><EditableField contentKey="content_253" /> {/* "Search our trays" */}</label>
         <button type="submit" className={styles.mlMd}>
           <i className="bi bi-search"></i>
         </button>
