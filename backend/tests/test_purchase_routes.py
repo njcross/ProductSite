@@ -20,8 +20,8 @@ def test_purchase_routes_basic(client):
 def test_create_purchase(admin_logged_in_client, admin_auth_header, create_test_kit_and_inventory):
     kit, inventory = create_test_kit_and_inventory
 
-    with patch("app.routes.purchase_routes.stripe.PaymentIntent.create") as mock_create_intent, \
-         patch("app.routes.purchase_routes.stripe.PaymentIntent.confirm") as mock_confirm_intent:
+    with patch("app.routes.purchase_bp.stripe.PaymentIntent.create") as mock_create_intent, \
+         patch("app.routes.purchase_bp.stripe.PaymentIntent.confirm") as mock_confirm_intent:
 
         mock_create_intent.return_value = {"id": "pi_test_123", "status": "requires_confirmation"}
         mock_confirm_intent.return_value = {"status": "succeeded"}
