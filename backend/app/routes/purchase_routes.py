@@ -15,6 +15,85 @@ purchase_bp = Blueprint('purchase', __name__)
 purchase_schema = PurchaseSchema()
 purchases_schema = PurchaseSchema(many=True)
 
+# Shared filter logic
+def apply_common_purchase_filters(query):
+    age_ids = request.args.get('age_ids', '').split(',')
+    category_ids = request.args.get('category_ids', '').split(',')
+    theme_ids = request.args.get('theme_ids', '').split(',')
+    grade_ids = request.args.get('grade_ids', '').split(',')
+    location_names = request.args.get('location_names', '').split(',')
+    rating = request.args.get('rating', type=float)
+
+    if rating is not None:
+        query = query.filter((Kit.average_rating >= rating) | (Kit.average_rating == None))
+
+    if location_names and any(location_names):
+        query = query.filter(Purchase.inventory.has(Inventory.location.in_(location_names)))
+
+    if any(age_ids):
+        query = query.filter(Purchase.kit.has(Kit.age.any(Kit.age.property.mapper.class_.id.in_(age_ids))))
+    if any(category_ids):
+        query = query.filter(Purchase.kit.has(Kit.category.any(Kit.category.property.mapper.class_.id.in_(category_ids))))
+    if any(theme_ids):
+        query = query.filter(Purchase.kit.has(Kit.theme.any(Kit.theme.property.mapper.class_.id.in_(theme_ids))))
+    if any(grade_ids):
+        query = query.filter(Purchase.kit.has(Kit.grade.any(Kit.grade.property.mapper.class_.id.in_(grade_ids))))
+
+    return query
+
+
+# Shared sorting and pagination logic
+def apply_sorting_and_pagination(query):
+    sort_by = request.args.get('sortBy', 'id')
+    sort_dir = request.args.get('sortDir', 'desc')
+    page = int(request.args.get('page', 1))
+    per_page = int(request.args.get('per_page', 10))
+
+    sort_column = {
+        'name': Kit.name,
+        'avg_rating': Kit.average_rating,
+        'price': Kit.price,
+        'quantity': Purchase.quantity,
+    }.get(sort_by, Purchase.id)
+
+    if sort_dir == 'desc':
+        query = query.order_by(sort_column.desc())
+    else:
+        query = query.order_by(sort_column.asc())
+
+    return query.offset((page - 1) * per_page).limit(per_page)
+
+
+@purchase_bp.route('/api/purchases', methods=['GET'])
+@login_required
+def get_my_purchases():
+    user_id = session.get('user_id')
+    query = db.session.query(Purchase).filter_by(user_id=user_id)\
+        .join(Purchase.kit).join(Purchase.inventory)
+
+    query = apply_common_purchase_filters(query)
+    query = apply_sorting_and_pagination(query)
+
+    paginated = query.all()
+    return jsonify(purchases_schema.dump(paginated)), 200
+
+
+@purchase_bp.route('/api/purchases/all', methods=['GET'])
+@admin_required
+def get_all_purchases():
+    KitAlias = aliased(Kit)
+
+    query = db.session.query(Purchase)\
+        .join(Purchase.kit)\
+        .join(Purchase.inventory)\
+        .join(KitAlias, Inventory.kit)
+
+    query = apply_common_purchase_filters(query)
+    query = apply_sorting_and_pagination(query)
+
+    paginated = query.all()
+    return jsonify(purchases_schema.dump(paginated)), 200
+
 stripe.api_key = Config.STRIPE_SECRET_KEY  # Ensure this is securely set
 
 @purchase_bp.route('/api/purchases', methods=['POST'])
@@ -85,83 +164,6 @@ def create_purchase():
     ).filter(Purchase.id.in_([p.id for p in created_purchases])).all()
 
     return jsonify([purchase_schema.dump(p) for p in purchases]), 201
-
-def apply_common_purchase_filters(query):
-    age_ids = request.args.get('age_ids', '').split(',')
-    category_ids = request.args.get('category_ids', '').split(',')
-    theme_ids = request.args.get('theme_ids', '').split(',')
-    grade_ids = request.args.get('grade_ids', '').split(',')
-    location_names = request.args.get('location_names', '').split(',')
-    rating = request.args.get('rating', type=float)
-
-    if rating is not None:
-        query = query.filter((Kit.average_rating >= rating) | (Kit.average_rating == None))
-
-    if location_names and any(location_names):
-        query = query.filter(Purchase.inventory.has(Inventory.location.in_(location_names)))
-
-    if any(age_ids):
-        query = query.filter(Purchase.kit.has(Kit.age.any(Kit.age.property.mapper.class_.id.in_(age_ids))))
-    if any(category_ids):
-        query = query.filter(Purchase.kit.has(Kit.category.any(Kit.category.property.mapper.class_.id.in_(category_ids))))
-    if any(theme_ids):
-        query = query.filter(Purchase.kit.has(Kit.theme.any(Kit.theme.property.mapper.class_.id.in_(theme_ids))))
-    if any(grade_ids):
-        query = query.filter(Purchase.kit.has(Kit.grade.any(Kit.grade.property.mapper.class_.id.in_(grade_ids))))
-    
-    return query
-
-
-def apply_sorting_and_pagination(query):
-    sort_by = request.args.get('sortBy', 'id')
-    sort_dir = request.args.get('sortDir', 'desc')
-    page = int(request.args.get('page', 1))
-    per_page = int(request.args.get('per_page', 10))
-
-    sort_column = {
-        'name': Kit.name,
-        'avg_rating': Kit.average_rating,
-        'price': Kit.price,
-        'quantity': Purchase.quantity,
-    }.get(sort_by, Purchase.id)
-
-    if sort_dir == 'desc':
-        query = query.order_by(sort_column.desc())
-    else:
-        query = query.order_by(sort_column.asc())
-
-    return query.offset((page - 1) * per_page).limit(per_page)
-
-@purchase_bp.route('/api/purchases', methods=['GET'])
-@login_required
-def get_my_purchases():
-    user_id = session.get('user_id')
-    query = db.session.query(Purchase).filter_by(user_id=user_id).join(Purchase.kit).join(Purchase.inventory)
-
-    query = apply_common_purchase_filters(query)
-    query = apply_sorting_and_pagination(query)
-
-    paginated = query.all()
-    return jsonify(purchases_schema.dump(paginated)), 200
-
-
-@purchase_bp.route('/api/purchases/all', methods=['GET'])
-@admin_required
-def get_all_purchases():
-    # alias Kit to prevent conflicting joins
-    KitAlias = aliased(Kit)
-
-    query = db.session.query(Purchase)\
-        .join(Purchase.kit)\
-        .join(Purchase.inventory)\
-        .join(KitAlias, Inventory.kit)
-
-    query = apply_common_purchase_filters(query)
-    query = apply_sorting_and_pagination(query)
-
-    paginated = query.all()
-    return jsonify(purchases_schema.dump(paginated)), 200
-
 
 @purchase_bp.route('/api/purchases/<int:purchase_id>', methods=['DELETE'])
 @login_required

@@ -39,7 +39,7 @@ export default function InventoryPage() {
   const [sortDir, setSortDir] = useState('asc');
 
   useEffect(() => {
-    localStorage.setItem('inventoryFilters', JSON.stringify(filters));
+    localStorage.setItem('filters_inventory', JSON.stringify(filters));
   }, [filters]);
 
   useEffect(() => {
