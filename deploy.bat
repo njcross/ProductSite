@@ -184,9 +184,7 @@ fi"
 echo 🔧 Configuring Redis keyspace notifications...
 ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "redis-cli CONFIG SET notify-keyspace-events Ex"
 
-echo ▶️ Ensuring Redis listener is running via PM2...
-ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "pm2 delete redis-listener || echo 'No previous redis-listener'; \
-pm2 start /home/ec2-user/ProductSite/backend/scripts/redis_listener.py --interpreter python3 --name redis-listener"
+echo ▶️ Ensuring Redis listener is running via PM2... && ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "pm2 delete redis-listener || echo 'No previous redis-listener'; pm2 start /home/ec2-user/ProductSite/backend/scripts/redis_listener.py --interpreter python3 --name redis-listener"
 GOTO :eof
 
 :end
