@@ -4,6 +4,7 @@ import { useUser } from '../context/UserContext';
 import EditableField from '../components/EditableField';
 import { removeToken } from '../utils/tokenService';
 import './HeaderBar.css';
+import styles from '../styles/global.module.css';
 
 export default function HeaderBar() {
   const { currentUser, setCurrentUser } = useUser();
@@ -38,8 +39,10 @@ export default function HeaderBar() {
   };
 
   return (
-    <div className="header-bar">
-      <div className="logo"><EditableField contentKey="header_logo" /></div>
+    <div className={`header-bar ${styles.bgSecondary}`}>
+      <Link to="/cards" className={styles.largeButton}>
+        <EditableField contentKey="header_logo" />
+      </Link>
 
       <form className="search-box" onSubmit={handleSearch}>
         <label><EditableField contentKey="content_253" /> {/* "Search our trays" */}</label>
