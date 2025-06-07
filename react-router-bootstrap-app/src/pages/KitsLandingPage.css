@@ -12,7 +12,6 @@
     max-width: 1200px;
     position: relative;
     z-index: 1;
-    overflow: hidden;
     isolation: isolate;
     transition: transform 0.3s ease;
   }
@@ -147,7 +146,6 @@
 
 .kit-image-wrapper {
   height: 180px; /* or any fixed height you prefer */
-  overflow: hidden;
   background-color: var(--bg-main);
   display: flex;
   align-items: center;
