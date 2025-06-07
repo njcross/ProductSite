@@ -74,7 +74,7 @@ export default function FilterBy({
       filtersToSave.theme_ids = selectedThemes;
       filtersToSave.grade_ids = selectedGrades;
       filtersToSave.rating = selectedRating;
-      filtersToSave.location_names = selectedLocations;
+      filtersToSave.location_names = updatedSelectedLocations;
     }
 
     if (collection === 'kits') {
@@ -84,12 +84,12 @@ export default function FilterBy({
       filtersToSave.grade_ids = selectedGrades;
       filtersToSave.rating = selectedRating;
       filtersToSave.price_range = priceRange;
-      filtersToSave.location_names = selectedLocations;
+      filtersToSave.location_names = updatedSelectedLocations;
     }
 
     if (collection === 'inventory') {
       filtersToSave.rating = selectedRating;
-      filtersToSave.location_names = selectedLocations;
+      filtersToSave.location_names = updatedSelectedLocations;
       filtersToSave.quantityRange = quantityRange;
       filtersToSave.kit_ids = selectedKitIds;
     }
@@ -101,7 +101,7 @@ export default function FilterBy({
     selectedCategories,
     selectedThemes,
     selectedGrades,
-    selectedLocations,
+    updatedSelectedLocations,
     selectedRating,
     priceRange,
     quantityRange,
