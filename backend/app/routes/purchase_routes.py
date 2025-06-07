@@ -7,10 +7,9 @@ from app.models.inventory import Inventory
 from app.schemas.purchase_schema import PurchaseSchema
 from app.utils.decorators import admin_required, login_required
 from flask import Blueprint, request, jsonify, session
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, aliased
 from app.config import Config
 from datetime import datetime, timedelta, timezone
-
 
 purchase_bp = Blueprint('purchase', __name__)
 purchase_schema = PurchaseSchema()
@@ -87,6 +86,51 @@ def create_purchase():
 
     return jsonify([purchase_schema.dump(p) for p in purchases]), 201
 
+def apply_common_purchase_filters(query):
+    age_ids = request.args.get('age_ids', '').split(',')
+    category_ids = request.args.get('category_ids', '').split(',')
+    theme_ids = request.args.get('theme_ids', '').split(',')
+    grade_ids = request.args.get('grade_ids', '').split(',')
+    location_names = request.args.get('location_names', '').split(',')
+    rating = request.args.get('rating', type=float)
+
+    if rating is not None:
+        query = query.filter((Kit.average_rating >= rating) | (Kit.average_rating == None))
+
+    if location_names and any(location_names):
+        query = query.filter(Purchase.inventory.has(Inventory.location.in_(location_names)))
+
+    if any(age_ids):
+        query = query.filter(Purchase.kit.has(Kit.age.any(Kit.age.property.mapper.class_.id.in_(age_ids))))
+    if any(category_ids):
+        query = query.filter(Purchase.kit.has(Kit.category.any(Kit.category.property.mapper.class_.id.in_(category_ids))))
+    if any(theme_ids):
+        query = query.filter(Purchase.kit.has(Kit.theme.any(Kit.theme.property.mapper.class_.id.in_(theme_ids))))
+    if any(grade_ids):
+        query = query.filter(Purchase.kit.has(Kit.grade.any(Kit.grade.property.mapper.class_.id.in_(grade_ids))))
+    
+    return query
+
+
+def apply_sorting_and_pagination(query):
+    sort_by = request.args.get('sortBy', 'id')
+    sort_dir = request.args.get('sortDir', 'desc')
+    page = int(request.args.get('page', 1))
+    per_page = int(request.args.get('per_page', 10))
+
+    sort_column = {
+        'name': Kit.name,
+        'avg_rating': Kit.average_rating,
+        'price': Kit.price,
+        'quantity': Purchase.quantity,
+    }.get(sort_by, Purchase.id)
+
+    if sort_dir == 'desc':
+        query = query.order_by(sort_column.desc())
+    else:
+        query = query.order_by(sort_column.asc())
+
+    return query.offset((page - 1) * per_page).limit(per_page)
 
 @purchase_bp.route('/api/purchases', methods=['GET'])
 @login_required
@@ -94,99 +138,28 @@ def get_my_purchases():
     user_id = session.get('user_id')
     query = db.session.query(Purchase).filter_by(user_id=user_id).join(Purchase.kit).join(Purchase.inventory)
 
-    # Parse filters
-    age_ids = request.args.get('age_ids', '').split(',')
-    category_ids = request.args.get('category_ids', '').split(',')
-    theme_ids = request.args.get('theme_ids', '').split(',')
-    grade_ids = request.args.get('grade_ids', '').split(',')
-    location_names = request.args.get('location_names', '').split(',')
-    rating = request.args.get('rating', type=float)
+    query = apply_common_purchase_filters(query)
+    query = apply_sorting_and_pagination(query)
 
-    if rating is not None:
-        query = query.filter((Kit.average_rating >= rating) | (Kit.average_rating == None))
-
-    if location_names and any(location_names):
-        query = query.filter(Purchase.inventory.has(Inventory.location.in_(location_names)))
-
-    # Join many-to-many filters
-    if any(age_ids):
-        query = query.filter(Purchase.kit.has(Kit.age.any(Kit.age.property.mapper.class_.id.in_(age_ids))))
-    if any(category_ids):
-        query = query.filter(Purchase.kit.has(Kit.category.any(Kit.category.property.mapper.class_.id.in_(category_ids))))
-    if any(theme_ids):
-        query = query.filter(Purchase.kit.has(Kit.theme.any(Kit.theme.property.mapper.class_.id.in_(theme_ids))))
-    if any(grade_ids):
-        query = query.filter(Purchase.kit.has(Kit.grade.any(Kit.grade.property.mapper.class_.id.in_(grade_ids))))
-
-    # Sorting and pagination
-    sort_by = request.args.get('sortBy', 'date')
-    sort_dir = request.args.get('sortDir', 'desc')
-
-    if sort_by in ['name', 'avg_rating', 'price']:
-        sort_column = getattr(Kit, sort_by)
-    elif sort_by in ['quantity']:
-        sort_column = Purchase.quantity
-    else:
-        sort_column = Purchase.id
-
-    query = query.join(Purchase.inventory).join(Inventory.kit)
-    query = query.order_by(sort_column.desc() if sort_dir == 'desc' else sort_column.asc())
-    page = int(request.args.get('page', 1))
-    per_page = int(request.args.get('per_page', 10))
-
-    paginated = query.offset((page - 1) * per_page).limit(per_page).all()
+    paginated = query.all()
     return jsonify(purchases_schema.dump(paginated)), 200
 
 
 @purchase_bp.route('/api/purchases/all', methods=['GET'])
 @admin_required
 def get_all_purchases():
-    query = db.session.query(Purchase).join(Purchase.kit).join(Purchase.inventory)
+    # alias Kit to prevent conflicting joins
+    KitAlias = aliased(Kit)
 
-    # --- Filtering Parameters ---
-    age_ids = request.args.get('age_ids', '').split(',')
-    category_ids = request.args.get('category_ids', '').split(',')
-    theme_ids = request.args.get('theme_ids', '').split(',')
-    grade_ids = request.args.get('grade_ids', '').split(',')
-    location_names = request.args.get('location_names', '').split(',')
-    rating = request.args.get('rating', type=float)
+    query = db.session.query(Purchase)\
+        .join(Purchase.kit)\
+        .join(Purchase.inventory)\
+        .join(KitAlias, Inventory.kit)
 
-    # --- Apply Filters ---
-    if rating is not None:
-        query = query.filter((Kit.average_rating >= rating) | (Kit.average_rating == None))
+    query = apply_common_purchase_filters(query)
+    query = apply_sorting_and_pagination(query)
 
-    if location_names and any(location_names):
-        query = query.filter(Purchase.inventory.has(Inventory.location.in_(location_names)))
-
-    if any(age_ids):
-        query = query.filter(Purchase.kit.has(Kit.age.any(Kit.age.property.mapper.class_.id.in_(age_ids))))
-    if any(category_ids):
-        query = query.filter(Purchase.kit.has(Kit.category.any(Kit.category.property.mapper.class_.id.in_(category_ids))))
-    if any(theme_ids):
-        query = query.filter(Purchase.kit.has(Kit.theme.any(Kit.theme.property.mapper.class_.id.in_(theme_ids))))
-    if any(grade_ids):
-        query = query.filter(Purchase.kit.has(Kit.grade.any(Kit.grade.property.mapper.class_.id.in_(grade_ids))))
-
-    # --- Sorting ---
-    sort_by = request.args.get('sortBy', 'date')
-    sort_dir = request.args.get('sortDir', 'desc')
-
-    if sort_by in ['name', 'avg_rating', 'price']:
-        sort_column = getattr(Kit, sort_by)
-    elif sort_by in ['quantity']:
-        sort_column = Purchase.quantity
-    else:
-        sort_column = Purchase.id
-
-    query = query.join(Purchase.inventory).join(Inventory.kit)
-    query = query.order_by(sort_column.desc() if sort_dir == 'desc' else sort_column.asc())
-
-
-    # --- Pagination ---
-    page = int(request.args.get('page', 1))
-    per_page = int(request.args.get('per_page', 10))
-    paginated = query.offset((page - 1) * per_page).limit(per_page).all()
-
+    paginated = query.all()
     return jsonify(purchases_schema.dump(paginated)), 200
 
 

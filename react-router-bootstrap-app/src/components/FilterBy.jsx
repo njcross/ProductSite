@@ -60,17 +60,35 @@ export default function FilterBy({
   }, [API_BASE, collection]);
 
   useEffect(() => {
-    const filtersToSave = {
-      age_ids: selectedAges,
-      category_ids: selectedCategories,
-      theme_ids: selectedThemes,
-      grade_ids: selectedGrades,
-      location_names: selectedLocations,
-      rating: selectedRating,
-      price_range: priceRange
-    };
+    const filtersToSave = {};
+
+    if (collection === 'cards') {
+      filtersToSave.age_ids = selectedAges;
+      filtersToSave.category_ids = selectedCategories;
+      filtersToSave.theme_ids = selectedThemes;
+      filtersToSave.grade_ids = selectedGrades;
+      filtersToSave.rating = selectedRating;
+      filtersToSave.price_range = priceRange;
+      filtersToSave.locations = selectedLocations;
+    }
+
+    if (collection === 'orders') {
+      filtersToSave.age_ids = selectedAges;
+      filtersToSave.category_ids = selectedCategories;
+      filtersToSave.theme_ids = selectedThemes;
+      filtersToSave.grade_ids = selectedGrades;
+      filtersToSave.rating = selectedRating;
+      filtersToSave.location_names = selectedLocations;
+    }
+
+    if (collection === 'inventory') {
+      filtersToSave.rating = selectedRating;
+      filtersToSave.locations = selectedLocations;
+    }
+
     localStorage.setItem(localKey, JSON.stringify(filtersToSave));
   }, [
+    collection,
     selectedAges,
     selectedCategories,
     selectedThemes,
@@ -81,13 +99,30 @@ export default function FilterBy({
   ]);
 
   const handleToggle = (type, id) => {
-    const currentSelections = {
-      age_ids: selectedAges,
-      category_ids: selectedCategories,
-      theme_ids: selectedThemes,
-      grade_ids: selectedGrades,
-      location_names: selectedLocations
-    }[type] || [];
+    const map = {
+      cards: {
+        age_ids: selectedAges,
+        category_ids: selectedCategories,
+        theme_ids: selectedThemes,
+        grade_ids: selectedGrades,
+        locations: selectedLocations,
+        rating: selectedRating,
+      },
+      orders: {
+        age_ids: selectedAges,
+        category_ids: selectedCategories,
+        theme_ids: selectedThemes,
+        grade_ids: selectedGrades,
+        location_names: selectedLocations,
+        rating: selectedRating,
+      },
+      inventory: {
+        locations: selectedLocations,
+        rating: selectedRating,
+      }
+    };
+
+    const currentSelections = map[collection]?.[type] || [];
 
     const newSelected = currentSelections.includes(id)
       ? currentSelections.filter(i => i !== id)
@@ -95,6 +130,7 @@ export default function FilterBy({
 
     onFilterChange({ [type]: newSelected });
   };
+
 
   const handleRatingChange = (e) => {
     const value = e.target.value;
