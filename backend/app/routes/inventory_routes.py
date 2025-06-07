@@ -125,10 +125,10 @@ def decrement_quantity():
     data = request.json
     location_name = data.get('location_name', '').lower()
     quantity = data.get('quantity', 1)
+    kit_id = data.get('kit_id')
     if location_name == 'warehouse':
         inv = Inventory.query.filter_by(location_name='warehouse').first()
     else:
-        kit_id = data.get('kit_id')
         location = data.get('location')
         if not kit_id or not location:
             return jsonify({'error': 'Missing kit_id or location'}), 400
