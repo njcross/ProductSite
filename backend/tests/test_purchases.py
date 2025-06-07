@@ -13,8 +13,8 @@ def test_checkout(client, user_auth_header, create_test_kit_and_inventory):
     assert res.status_code == 201
 
     # Mock Stripe calls
-    with patch("app.routes.purchase_bp.stripe.PaymentIntent.create") as mock_create_intent, \
-         patch("app.routes.purchase_bp.stripe.PaymentIntent.confirm") as mock_confirm_intent:
+    with patch("app.routes.purchase_routes.stripe.PaymentIntent.create") as mock_create_intent, \
+         patch("app.routes.purchase_routes.stripe.PaymentIntent.confirm") as mock_confirm_intent:
 
         mock_create_intent.return_value = {"id": "pi_test_456", "status": "requires_confirmation"}
         mock_confirm_intent.return_value = {"status": "succeeded"}
