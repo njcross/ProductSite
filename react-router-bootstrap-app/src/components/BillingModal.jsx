@@ -52,9 +52,11 @@ export default function BillingModal({ show, onHide, onSuccess, cart, total }) {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        cart,
-        billingInfo,
-        payment_method_id: paymentMethod.id
+        items: cart,
+        billing_details: {
+          ...billingInfo,
+          payment_method_id: paymentMethod.id  
+        }
       })
     });
 
