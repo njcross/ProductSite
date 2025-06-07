@@ -8,6 +8,7 @@ from .purchase_schema import purchase_schema, purchases_schema
 from .inventory_schema import inventory_schema, inventories_schema
 from .resource_schema import resource_schema, resources_schema
 from .shipping_address_schema import shipping_address_schema, shipping_addresses_schema
+from .newsletter_message_schema import newsletter_message_schema, newsletter_messages_schema
 
 __all__ = [
     "user_schema", "users_schema",
@@ -19,5 +20,6 @@ __all__ = [
     "purchase_schema", "purchases_schema",
     "inventory_schema", "inventories_schema",
     "resource_schema", "resources_schema",
-    "shipping_address_schema", "shipping_addresses_schema"
+    "shipping_address_schema", "shipping_addresses_schema",
+    "newsletter_message_schema", "newsletter_messages_schema"
 ]

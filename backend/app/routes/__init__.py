@@ -15,6 +15,8 @@ from app.routes.inventory_routes import inventory_bp
 from app.routes.resource_routes import resource_bp
 from app.routes.checkout_routes import checkout_bp
 from app.routes.shipping_address_routes import shipping_bp
+from app.routes.newsletter_message_routes import newsletter_message_bp
+from backend.app.routes.auth_routes import register
 
 # Optionally create a master blueprint if desired (not required if registering in app factory)
 def register_routes(app):
@@ -32,3 +34,4 @@ def register_routes(app):
     app.register_blueprint(resource_bp)
     app.register_blueprint(checkout_bp)
     app.register_blueprint(shipping_bp)
+    app.register_blueprint(newsletter_message_bp)

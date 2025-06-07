@@ -12,7 +12,7 @@ import redis
 
 from app.config import Config
 from app.models.user import User
-from app.extensions import db, ma, migrate
+from app.extensions import db, ma, migrate, redis_client
 
 login_manager = LoginManager()
 oauth = OAuth()
@@ -111,6 +111,7 @@ def create_app():
     from app.routes.resource_routes import resource_bp
     from app.routes.checkout_routes import checkout_bp
     from app.routes.shipping_address_routes import shipping_bp
+    from app.routes.newsletter_message_routes import newsletter_message_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(cart_bp)
@@ -126,6 +127,7 @@ def create_app():
     app.register_blueprint(resource_bp)
     app.register_blueprint(checkout_bp)
     app.register_blueprint(shipping_bp)
+    app.register_blueprint(newsletter_message_bp)
 
     with app.app_context():
         create_database()
