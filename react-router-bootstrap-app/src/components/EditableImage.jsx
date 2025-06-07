@@ -68,7 +68,11 @@ export default function EditableImage({ contentKey, alt, fieldBelow = null }) {
 
   return (
     <div className="editable-image-wrapper">
-      <img src={src} className={styles.thumbnail} />
+      <img
+        src={src}
+        className={fieldBelow ? styles.thumbnail : undefined}
+      />
+
       {fieldBelow && <div className="editable-below">{fieldBelow}</div>}
 
       {isAdmin && (
