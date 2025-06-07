@@ -34,7 +34,7 @@ export default function FilterBy({
   const [selectedStatuses, setSelectedStatuses] = useState([]);
   const [selectedPaymentMethods, setSelectedPaymentMethods] = useState([]);
   const [selectedShipping, setSelectedShipping] = useState([]);
-  const [updatedSelectedLocations, setSelectedLoactions] = useState([]);
+  const [updatedSelectedLocations, setSelectedLocations] = useState([]);
   const [quantityRange, setQuantityRange] = useState([]);
   const [selectedKitIds, setSelectedKitIds] = useState([]);
 
@@ -60,7 +60,10 @@ export default function FilterBy({
         setPriceRange(parsed.price_range);
       }
       if (parsed.kit_ids) setSelectedKitIds(parsed.kit_ids);
-      if (parsed.location_names) setSelectedLoactions(parsed.location_names)
+      if (parsed.location_names) setSelectedLocations(parsed.location_names)
+      if (parsed.shipping_type) setSelectedShipping(parsed.shipping_type)
+      if (parsed.status) setSelectedStatuses(parsed.status)
+      if (parsed.payment_method) setSelectedPaymentMethods(parsed.payment_method)
       onFilterChange(parsed);
     }
   }, [API_BASE, collection]);
@@ -75,6 +78,9 @@ export default function FilterBy({
       filtersToSave.grade_ids = selectedGrades;
       filtersToSave.rating = selectedRating;
       filtersToSave.location_names = updatedSelectedLocations;
+      filtersToSave.shipping_type = selectedShipping
+      filtersToSave.status = selectedStatuses
+      filtersToSave.payment_method = selectedPaymentMethods
     }
 
     if (collection === 'kits') {
@@ -126,7 +132,10 @@ export default function FilterBy({
       : [...currentSelections, id];
 
     if (type === 'kit_ids') setSelectedKitIds(newSelected);
-    if (type === 'location_names') setSelectedLoactions(newSelected);
+    if (type === 'location_names') setSelectedLocations(newSelected);
+    if (type === 'shipping_type') setSelectedShipping(newSelected);
+    if (type === 'status') setSelectedStatuses(newSelected);
+    if (type === 'payment_method') setSelectedPaymentMethods(newSelected);
     onFilterChange({ [type]: newSelected });
   };
 
