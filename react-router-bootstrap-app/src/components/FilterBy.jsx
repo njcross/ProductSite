@@ -34,6 +34,7 @@ export default function FilterBy({
   const [selectedStatuses, setSelectedStatuses] = useState([]);
   const [selectedPaymentMethods, setSelectedPaymentMethods] = useState([]);
   const [selectedShipping, setSelectedShipping] = useState([]);
+  const [updatedSelectedLocations, setSelectedLoactions] = useState([]);
   const [quantityRange, setQuantityRange] = useState([]);
   const [selectedKitIds, setSelectedKitIds] = useState([]);
 
@@ -59,6 +60,7 @@ export default function FilterBy({
         setPriceRange(parsed.price_range);
       }
       if (parsed.kit_ids) setSelectedKitIds(parsed.kit_ids);
+      if (parsed.location_names) setSelectedLoactions(parsed.location_names)
       onFilterChange(parsed);
     }
   }, [API_BASE, collection]);
@@ -112,7 +114,7 @@ export default function FilterBy({
       category_ids: selectedCategories,
       theme_ids: selectedThemes,
       grade_ids: selectedGrades,
-      location_names: selectedLocations,
+      location_names: updatedSelectedLocations,
       status: selectedStatuses,
       payment_method: selectedPaymentMethods,
       shipping_type: selectedShipping,
@@ -124,6 +126,7 @@ export default function FilterBy({
       : [...currentSelections, id];
 
     if (type === 'kit_ids') setSelectedKitIds(newSelected);
+    if (type === 'location_names') setSelectedLoactions(newSelected);
     onFilterChange({ [type]: newSelected });
   };
 
