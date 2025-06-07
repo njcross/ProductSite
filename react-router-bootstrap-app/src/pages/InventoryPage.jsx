@@ -18,6 +18,7 @@ export default function InventoryPage() {
   });
   const { currentUser } = useUser();
   const [page, setPage] = useState(1);
+  const [hasNext, setHasNext] = useState(false);
 
   const API_BASE = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
@@ -41,19 +42,19 @@ export default function InventoryPage() {
       sortBy,
       sortDir,
       rating: filters.rating || '',
-      locations: (filters.locations || []).join(',')
+      locations: (filters.locations || []).join(','),
     });
 
     fetch(`${API_BASE}/api/inventory?${params}`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
-        const withOriginal = data.items.map(item => ({
+        const withOriginal = (data.items || []).map(item => ({
           ...item,
           original_location: item.location,
           original_kit_id: item.kit_id
         }));
         setInventory(withOriginal);
-        setHasNext(data.hasNext); // <- optionally tracked
+        setHasNext(!!data.hasNext);
       })
       .catch(console.error);
   }, [currentUser, navigate, page, itemsPerPage, sortBy, sortDir, filters]);
@@ -169,7 +170,7 @@ export default function InventoryPage() {
               </tr>
             </thead>
             <tbody>
-              {inventory.map((inv, i) => (
+              {inventory.map((inv) => (
                 <tr key={`${inv.kit_id}-${inv.location}`}>
                   <td>
                     {inv.kit?.image_url && (
@@ -211,7 +212,7 @@ export default function InventoryPage() {
           <PaginationControls
             page={page}
             onPageChange={setPage}
-            hasNext={inventory.length === itemsPerPage}
+            hasNext={hasNext}
             currentPage={page}
           />
         </div>
