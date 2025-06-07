@@ -69,3 +69,8 @@ def send_newsletter():
     else:
         return jsonify({'error': msg}), 500
 
+@newsletter_bp.route('/available-values', methods=['GET'])
+@admin_required
+def available_newsletter_values():
+    values = db.session.query(Newsletter.newsletter_value).distinct().all()
+    return jsonify([v[0] for v in values if v[0]])

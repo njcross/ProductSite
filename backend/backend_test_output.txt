@@ -3,30 +3,21 @@ platform win32 -- Python 3.13.1, pytest-8.2.1, pluggy-1.5.0
 rootdir: C:\Users\njcro\m7project\backend
 configfile: pytest.ini
 plugins: Flask-Dance-6.0.0, flask-1.3.0
-collected 43 items
+collected 41 items / 1 error
 
-tests\test_auth.py ...                                                   [  6%]
-tests\test_auth_routes.py .                                              [  9%]
-tests\test_cart.py .                                                     [ 11%]
-tests\test_cart_routes.py ....                                           [ 20%]
-tests\test_content.py .                                                  [ 23%]
-tests\test_content_routes.py .                                           [ 25%]
-tests\test_favorite.py .                                                 [ 27%]
-tests\test_favorite_routes.py .                                          [ 30%]
-tests\test_favorites.py .                                                [ 32%]
-tests\test_health_routes.py ..                                           [ 37%]
-tests\test_inventory_routes.py ....                                      [ 46%]
-tests\test_kit_routes.py .                                               [ 48%]
-tests\test_kits.py ..                                                    [ 53%]
-tests\test_newsletter.py ..                                              [ 58%]
-tests\test_newsletter_routes.py ...                                      [ 65%]
-tests\test_purchase_routes.py ..                                         [ 69%]
-tests\test_purchases.py ..                                               [ 74%]
-tests\test_resource.py .                                                 [ 76%]
-tests\test_resource_routes.py ..                                         [ 81%]
-tests\test_review_routes.py .                                            [ 83%]
-tests\test_reviews.py ..                                                 [ 88%]
-tests\test_user_settings.py ....                                         [ 97%]
-tests\test_user_settings_routes.py .                                     [100%]
-
-======================== 43 passed in 61.52s (0:01:01) ========================
+=================================== ERRORS ====================================
+__________________ ERROR collecting tests/test_newsletter.py __________________
+ImportError while importing test module 'C:\Users\njcro\m7project\backend\tests\test_newsletter.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\Python313\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests\test_newsletter.py:1: in <module>
+    from app.routes.newsletter_routes import newsletter_bp
+app\routes\__init__.py:19: in <module>
+    from backend.app.routes.auth_routes import register
+E   ModuleNotFoundError: No module named 'backend'
+=========================== short test summary info ===========================
+ERROR tests/test_newsletter.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+============================== 1 error in 1.53s ===============================
