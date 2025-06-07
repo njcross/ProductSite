@@ -27,16 +27,18 @@ export default function FilterBy({
   const [themeOptions, setThemeOptions] = useState([]);
   const [gradeOptions, setGradeOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
+  const [kitOptions, setKitOptions] = useState([]);
+
   const [selectedRating, setSelectedRating] = useState(initialSelectedRatings);
   const [selectedPriceRange, setSelectedPriceRange] = useState('');
   const [selectedStatuses, setSelectedStatuses] = useState([]);
   const [selectedPaymentMethods, setSelectedPaymentMethods] = useState([]);
   const [selectedShipping, setSelectedShipping] = useState([]);
   const [quantityRange, setQuantityRange] = useState([]);
-  const [kitIdFilter, setKitIdFilter] = useState('');
+  const [selectedKitIds, setSelectedKitIds] = useState([]);
+
   const MIN_PRICE = 0;
   const MAX_PRICE = 30;
-
   const [priceRange, setPriceRange] = useState([MIN_PRICE, MAX_PRICE]);
 
   const localKey = `filters_${collection}`;
@@ -47,6 +49,7 @@ export default function FilterBy({
     fetch(`${API_BASE}/api/kits/theme-options`).then(res => res.json()).then(setThemeOptions).catch(console.error);
     fetch(`${API_BASE}/api/kits/grade-options`).then(res => res.json()).then(setGradeOptions).catch(console.error);
     fetch(`${API_BASE}/api/inventory/locations`).then(res => res.json()).then(setLocationOptions).catch(console.error);
+    fetch(`${API_BASE}/api/kits`).then(res => res.json()).then(setKitOptions).catch(console.error);
 
     const saved = localStorage.getItem(localKey);
     if (saved) {
@@ -55,6 +58,7 @@ export default function FilterBy({
       if (parsed.price_range && Array.isArray(parsed.price_range)) {
         setPriceRange(parsed.price_range);
       }
+      if (parsed.kit_ids) setSelectedKitIds(parsed.kit_ids);
       onFilterChange(parsed);
     }
   }, [API_BASE, collection]);
@@ -62,17 +66,7 @@ export default function FilterBy({
   useEffect(() => {
     const filtersToSave = {};
 
-    if (collection === 'cards') {
-      filtersToSave.age_ids = selectedAges;
-      filtersToSave.category_ids = selectedCategories;
-      filtersToSave.theme_ids = selectedThemes;
-      filtersToSave.grade_ids = selectedGrades;
-      filtersToSave.rating = selectedRating;
-      filtersToSave.price_range = priceRange;
-      filtersToSave.locations = selectedLocations;
-    }
-
-    if (collection === 'orders') {
+    if (collection === 'cards' || collection === 'orders') {
       filtersToSave.age_ids = selectedAges;
       filtersToSave.category_ids = selectedCategories;
       filtersToSave.theme_ids = selectedThemes;
@@ -81,9 +75,21 @@ export default function FilterBy({
       filtersToSave.location_names = selectedLocations;
     }
 
+    if (collection === 'kits') {
+      filtersToSave.age_ids = selectedAges;
+      filtersToSave.category_ids = selectedCategories;
+      filtersToSave.theme_ids = selectedThemes;
+      filtersToSave.grade_ids = selectedGrades;
+      filtersToSave.rating = selectedRating;
+      filtersToSave.price_range = priceRange;
+      filtersToSave.location_names = selectedLocations;
+    }
+
     if (collection === 'inventory') {
       filtersToSave.rating = selectedRating;
-      filtersToSave.locations = selectedLocations;
+      filtersToSave.location_names = selectedLocations;
+      filtersToSave.quantityRange = quantityRange;
+      filtersToSave.kit_ids = selectedKitIds;
     }
 
     localStorage.setItem(localKey, JSON.stringify(filtersToSave));
@@ -95,48 +101,38 @@ export default function FilterBy({
     selectedGrades,
     selectedLocations,
     selectedRating,
-    priceRange
+    priceRange,
+    quantityRange,
+    selectedKitIds
   ]);
 
   const handleToggle = (type, id) => {
-    const map = {
-      cards: {
-        age_ids: selectedAges,
-        category_ids: selectedCategories,
-        theme_ids: selectedThemes,
-        grade_ids: selectedGrades,
-        locations: selectedLocations,
-        rating: selectedRating,
-      },
-      orders: {
-        age_ids: selectedAges,
-        category_ids: selectedCategories,
-        theme_ids: selectedThemes,
-        grade_ids: selectedGrades,
-        location_names: selectedLocations,
-        rating: selectedRating,
-      },
-      inventory: {
-        locations: selectedLocations,
-        rating: selectedRating,
-      }
-    };
-
-    const currentSelections = map[collection]?.[type] || [];
+    const currentSelections = {
+      age_ids: selectedAges,
+      category_ids: selectedCategories,
+      theme_ids: selectedThemes,
+      grade_ids: selectedGrades,
+      location_names: selectedLocations,
+      status: selectedStatuses,
+      payment_method: selectedPaymentMethods,
+      shipping_type: selectedShipping,
+      kit_ids: selectedKitIds,
+    }[type] || [];
 
     const newSelected = currentSelections.includes(id)
       ? currentSelections.filter(i => i !== id)
       : [...currentSelections, id];
 
+    if (type === 'kit_ids') setSelectedKitIds(newSelected);
     onFilterChange({ [type]: newSelected });
   };
-
 
   const handleRatingChange = (e) => {
     const value = e.target.value;
     setSelectedRating(value);
     onFilterChange({ rating: value });
   };
+
 
   const handlePriceChange = (e) => {
     const value = e.target.value;
@@ -254,6 +250,7 @@ export default function FilterBy({
               onChange={(val) => {
                 setPriceRange(val);
                 onFilterChange({ price_range: `${val[0]}_${val[1]}` });
+                handlePriceChange;
               }}
               pearling
               minDistance={1}
