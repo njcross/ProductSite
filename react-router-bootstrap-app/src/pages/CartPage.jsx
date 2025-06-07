@@ -182,7 +182,7 @@ export default function CartPage() {
           onHide={() => setShowBillingModal(false)}
           cart={cart}
           total={total}
-          includeShipping={warehouseItems.length > 0}
+          includeShipping={warehouseItems}
           onSuccess={() => {
             clearCart();
             setShowBillingModal(false);

@@ -104,7 +104,7 @@ def create_purchase():
 
     # 1. Extract cart items and billing info
     items = data.get('items', [])
-    billing_details = data.get('billing_details', {})
+    billing_details = data.get('billing_details') or data.get('billingInfo') or {}
     shipping_address_id = data.get('shipping_address_id')  # optional
 
     if not items or (not billing_details and not is_admin):
