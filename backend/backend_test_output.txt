@@ -20,8 +20,8 @@ tests\test_kit_routes.py .                                               [ 48%]
 tests\test_kits.py ..                                                    [ 53%]
 tests\test_newsletter.py ..                                              [ 58%]
 tests\test_newsletter_routes.py ...                                      [ 65%]
-tests\test_purchase_routes.py ..                                         [ 69%]
-tests\test_purchases.py ..                                               [ 74%]
+tests\test_purchase_routes.py .F                                         [ 69%]
+tests\test_purchases.py .F                                               [ 74%]
 tests\test_resource.py .                                                 [ 76%]
 tests\test_resource_routes.py ..                                         [ 81%]
 tests\test_review_routes.py .                                            [ 83%]
@@ -29,4 +29,771 @@ tests\test_reviews.py ..                                                 [ 88%]
 tests\test_user_settings.py ....                                         [ 97%]
 tests\test_user_settings_routes.py .                                     [100%]
 
-======================== 43 passed in 66.50s (0:01:06) ========================
+================================== FAILURES ===================================
+____________________________ test_create_purchase _____________________________
+
+self = <mysql.connector.connection_cext.CMySQLConnection object at 0x00000248F0C94690>
+query = b"INSERT INTO purchases (kit_id, user_id, inventory_id, quantity, time_bought, status, shipping_address_id, shipping_t...5:22.634439', 'Ready for pickup', NULL, 'pickup', 'admin', '2025-06-08 19:16:01.405431', '2025-06-08 19:16:01.405439')"
+raw = False, buffered = False, raw_as_string = False
+
+    @with_context_propagation
+    def cmd_query(
+        self,
+        query: StrOrBytes,
+        raw: Optional[bool] = None,
+        buffered: bool = False,
+        raw_as_string: bool = False,
+    ) -> Optional[Union[CextEofPacketType, CextResultType]]:
+        """Send a query to the MySQL server"""
+        self.handle_unread_result()
+        if raw is None:
+            raw = self._raw
+        try:
+            if not isinstance(query, bytes):
+                query = query.encode("utf-8")
+>           self._cmysql.query(
+                query,
+                raw=raw,
+                buffered=buffered,
+                raw_as_string=raw_as_string,
+                query_attrs=self.query_attrs,
+            )
+E           _mysql_connector.MySQLInterfaceError: Data truncated for column 'available_date' at row 1
+
+venv\Lib\site-packages\mysql\connector\connection_cext.py:706: MySQLInterfaceError
+
+The above exception was the direct cause of the following exception:
+
+self = <sqlalchemy.engine.base.Connection object at 0x00000248F13BE270>
+dialect = <sqlalchemy.dialects.mysql.mysqlconnector.MySQLDialect_mysqlconnector object at 0x00000248F078B0E0>
+context = <sqlalchemy.dialects.mysql.mysqlconnector.MySQLExecutionContext_mysqlconnector object at 0x00000248F1383350>
+statement = <sqlalchemy.dialects.mysql.mysqlconnector.MySQLCompiler_mysqlconnector object at 0x00000248F110A990>
+parameters = [{'available_date': datetime.datetime(2025, 6, 8, 19, 16, 1, 405431, tzinfo=datetime.timezone.utc), 'inventory_id': 1, 'kit_id': 1, 'payment_method': 'admin', ...}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+    
+        if self._echo:
+            self._log_info(str_statement)
+    
+            stats = context._get_cache_stats()
+    
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+    
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+venv\Lib\site-packages\sqlalchemy\engine\base.py:1964: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\engine\default.py:945: in do_execute
+    cursor.execute(statement, parameters)
+venv\Lib\site-packages\mysql\connector\cursor_cext.py:357: in execute
+    result = self._connection.cmd_query(
+venv\Lib\site-packages\mysql\connector\opentelemetry\context_propagation.py:97: in wrapper
+    return method(cnx, *args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <mysql.connector.connection_cext.CMySQLConnection object at 0x00000248F0C94690>
+query = b"INSERT INTO purchases (kit_id, user_id, inventory_id, quantity, time_bought, status, shipping_address_id, shipping_t...5:22.634439', 'Ready for pickup', NULL, 'pickup', 'admin', '2025-06-08 19:16:01.405431', '2025-06-08 19:16:01.405439')"
+raw = False, buffered = False, raw_as_string = False
+
+    @with_context_propagation
+    def cmd_query(
+        self,
+        query: StrOrBytes,
+        raw: Optional[bool] = None,
+        buffered: bool = False,
+        raw_as_string: bool = False,
+    ) -> Optional[Union[CextEofPacketType, CextResultType]]:
+        """Send a query to the MySQL server"""
+        self.handle_unread_result()
+        if raw is None:
+            raw = self._raw
+        try:
+            if not isinstance(query, bytes):
+                query = query.encode("utf-8")
+            self._cmysql.query(
+                query,
+                raw=raw,
+                buffered=buffered,
+                raw_as_string=raw_as_string,
+                query_attrs=self.query_attrs,
+            )
+        except MySQLInterfaceError as err:
+>           raise get_mysql_exception(
+                err.errno, msg=err.msg, sqlstate=err.sqlstate
+            ) from err
+E           mysql.connector.errors.DatabaseError: 1265 (01000): Data truncated for column 'available_date' at row 1
+
+venv\Lib\site-packages\mysql\connector\connection_cext.py:714: DatabaseError
+
+The above exception was the direct cause of the following exception:
+
+admin_logged_in_client = <FlaskClient <Flask 'app'>>
+admin_auth_header = {'Authorization': 'Bearer '}
+create_test_kit_and_inventory = (<Kit 1>, <Inventory 1>)
+
+    def test_create_purchase(admin_logged_in_client, admin_auth_header, create_test_kit_and_inventory):
+        kit, inventory = create_test_kit_and_inventory
+    
+        mock_intent = Mock()
+        mock_intent.id = "pi_test_123"
+        mock_intent.status = "succeeded"
+    
+        with patch("app.routes.purchase_routes.stripe.PaymentIntent.create", return_value=mock_intent), \
+             patch("app.routes.purchase_routes.stripe.PaymentIntent.confirm", return_value=mock_intent):
+    
+>           response = admin_logged_in_client.post("/api/purchases", json={
+                "items": [
+                    {
+                        "kit_id": kit.id,
+                        "quantity": 2,
+                        "inventory_id": inventory.id,
+                        "kit": {
+                            "id": kit.id,
+                            "name": kit.name,
+                            "price": kit.price
+                        },
+                        "inventory": {
+                            "id": inventory.id,
+                            "location_name": inventory.location_name
+                        }
+                    }
+                ],
+                "billing_details": {
+                    "payment_method_id": "pm_mock_123",
+                    "email": "test@example.com",
+                    "name": "Test User",
+                    "address": {
+                        "line1": "123 Main St",
+                        "city": "Testville",
+                        "state": "CA",
+                        "postal_code": "12345",
+                        "country": "US"
+                    }
+                }
+            }, headers=admin_auth_header)
+
+tests\test_purchase_routes.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\werkzeug\test.py:1248: in post
+    return self.open(*args, **kw)
+venv\Lib\site-packages\flask\testing.py:238: in open
+    response = super().open(
+venv\Lib\site-packages\werkzeug\test.py:1197: in open
+    response = self.run_wsgi_app(request.environ, buffered=buffered)
+venv\Lib\site-packages\werkzeug\test.py:1069: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+venv\Lib\site-packages\werkzeug\test.py:1345: in run_wsgi_app
+    app_rv = app(environ, start_response)
+venv\Lib\site-packages\flask\app.py:2552: in __call__
+    return self.wsgi_app(environ, start_response)
+venv\Lib\site-packages\flask\app.py:2532: in wsgi_app
+    response = self.handle_exception(e)
+venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+venv\Lib\site-packages\flask\app.py:2529: in wsgi_app
+    response = self.full_dispatch_request()
+venv\Lib\site-packages\flask\app.py:1825: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+venv\Lib\site-packages\flask\app.py:1823: in full_dispatch_request
+    rv = self.dispatch_request()
+venv\Lib\site-packages\flask\app.py:1799: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+app\utils\decorators.py:11: in wrapper
+    return f(*args, **kwargs)
+app\routes\purchase_routes.py:167: in create_purchase
+    db.session.commit()
+venv\Lib\site-packages\sqlalchemy\orm\scoping.py:599: in commit
+    return self._proxied.commit()
+venv\Lib\site-packages\sqlalchemy\orm\session.py:2032: in commit
+    trans.commit(_to_root=True)
+<string>:2: in commit
+    ???
+venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:139: in _go
+    ret_value = fn(self, *arg, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\session.py:1313: in commit
+    self._prepare_impl()
+<string>:2: in _prepare_impl
+    ???
+venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:139: in _go
+    ret_value = fn(self, *arg, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\session.py:1288: in _prepare_impl
+    self.session.flush()
+venv\Lib\site-packages\sqlalchemy\orm\session.py:4353: in flush
+    self._flush(objects)
+venv\Lib\site-packages\sqlalchemy\orm\session.py:4488: in _flush
+    with util.safe_reraise():
+venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+venv\Lib\site-packages\sqlalchemy\orm\session.py:4449: in _flush
+    flush_context.execute()
+venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1233: in _emit_insert_statements
+    result = connection.execute(
+venv\Lib\site-packages\sqlalchemy\engine\base.py:1416: in execute
+    return meth(
+venv\Lib\site-packages\sqlalchemy\sql\elements.py:523: in _execute_on_connection
+    return connection._execute_clauseelement(
+venv\Lib\site-packages\sqlalchemy\engine\base.py:1638: in _execute_clauseelement
+    ret = self._execute_context(
+venv\Lib\site-packages\sqlalchemy\engine\base.py:1843: in _execute_context
+    return self._exec_single_context(
+venv\Lib\site-packages\sqlalchemy\engine\base.py:1983: in _exec_single_context
+    self._handle_dbapi_exception(
+venv\Lib\site-packages\sqlalchemy\engine\base.py:2352: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+venv\Lib\site-packages\sqlalchemy\engine\base.py:1964: in _exec_single_context
+    self.dialect.do_execute(
+venv\Lib\site-packages\sqlalchemy\engine\default.py:945: in do_execute
+    cursor.execute(statement, parameters)
+venv\Lib\site-packages\mysql\connector\cursor_cext.py:357: in execute
+    result = self._connection.cmd_query(
+venv\Lib\site-packages\mysql\connector\opentelemetry\context_propagation.py:97: in wrapper
+    return method(cnx, *args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <mysql.connector.connection_cext.CMySQLConnection object at 0x00000248F0C94690>
+query = b"INSERT INTO purchases (kit_id, user_id, inventory_id, quantity, time_bought, status, shipping_address_id, shipping_t...5:22.634439', 'Ready for pickup', NULL, 'pickup', 'admin', '2025-06-08 19:16:01.405431', '2025-06-08 19:16:01.405439')"
+raw = False, buffered = False, raw_as_string = False
+
+    @with_context_propagation
+    def cmd_query(
+        self,
+        query: StrOrBytes,
+        raw: Optional[bool] = None,
+        buffered: bool = False,
+        raw_as_string: bool = False,
+    ) -> Optional[Union[CextEofPacketType, CextResultType]]:
+        """Send a query to the MySQL server"""
+        self.handle_unread_result()
+        if raw is None:
+            raw = self._raw
+        try:
+            if not isinstance(query, bytes):
+                query = query.encode("utf-8")
+            self._cmysql.query(
+                query,
+                raw=raw,
+                buffered=buffered,
+                raw_as_string=raw_as_string,
+                query_attrs=self.query_attrs,
+            )
+        except MySQLInterfaceError as err:
+>           raise get_mysql_exception(
+                err.errno, msg=err.msg, sqlstate=err.sqlstate
+            ) from err
+E           sqlalchemy.exc.DatabaseError: (mysql.connector.errors.DatabaseError) 1265 (01000): Data truncated for column 'available_date' at row 1
+E           [SQL: INSERT INTO purchases (kit_id, user_id, inventory_id, quantity, time_bought, status, shipping_address_id, shipping_type, payment_method, available_date, pick_up_date) VALUES (%(kit_id)s, %(user_id)s, %(inventory_id)s, %(quantity)s, %(time_bought)s, %(status)s, %(shipping_address_id)s, %(shipping_type)s, %(payment_method)s, %(available_date)s, %(pick_up_date)s)]
+E           [parameters: {'kit_id': 1, 'user_id': 2, 'inventory_id': 1, 'quantity': 2, 'time_bought': datetime.datetime(2025, 6, 7, 19, 15, 22, 634439, tzinfo=datetime.timezone.utc), 'status': 'Ready for pickup', 'shipping_address_id': None, 'shipping_type': 'pickup', 'payment_method': 'admin', 'available_date': datetime.datetime(2025, 6, 8, 19, 16, 1, 405431, tzinfo=datetime.timezone.utc), 'pick_up_date': datetime.datetime(2025, 6, 8, 19, 16, 1, 405439, tzinfo=datetime.timezone.utc)}]
+E           (Background on this error at: https://sqlalche.me/e/20/4xp6)
+
+venv\Lib\site-packages\mysql\connector\connection_cext.py:714: DatabaseError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+________________________________ test_checkout ________________________________
+
+self = <mysql.connector.connection_cext.CMySQLConnection object at 0x00000248F0C94690>
+query = b"INSERT INTO purchases (kit_id, user_id, inventory_id, quantity, time_bought, status, shipping_address_id, shipping_t...:22.634439', 'Ready for pickup', NULL, 'pickup', 'stripe', '2025-06-08 19:16:07.512382', '2025-06-08 19:16:07.512389')"
+raw = False, buffered = False, raw_as_string = False
+
+    @with_context_propagation
+    def cmd_query(
+        self,
+        query: StrOrBytes,
+        raw: Optional[bool] = None,
+        buffered: bool = False,
+        raw_as_string: bool = False,
+    ) -> Optional[Union[CextEofPacketType, CextResultType]]:
+        """Send a query to the MySQL server"""
+        self.handle_unread_result()
+        if raw is None:
+            raw = self._raw
+        try:
+            if not isinstance(query, bytes):
+                query = query.encode("utf-8")
+>           self._cmysql.query(
+                query,
+                raw=raw,
+                buffered=buffered,
+                raw_as_string=raw_as_string,
+                query_attrs=self.query_attrs,
+            )
+E           _mysql_connector.MySQLInterfaceError: Data truncated for column 'available_date' at row 1
+
+venv\Lib\site-packages\mysql\connector\connection_cext.py:706: MySQLInterfaceError
+
+The above exception was the direct cause of the following exception:
+
+self = <sqlalchemy.engine.base.Connection object at 0x00000248F1144D70>
+dialect = <sqlalchemy.dialects.mysql.mysqlconnector.MySQLDialect_mysqlconnector object at 0x00000248F078B0E0>
+context = <sqlalchemy.dialects.mysql.mysqlconnector.MySQLExecutionContext_mysqlconnector object at 0x00000248F0E89E10>
+statement = <sqlalchemy.dialects.mysql.mysqlconnector.MySQLCompiler_mysqlconnector object at 0x00000248F110A990>
+parameters = [{'available_date': datetime.datetime(2025, 6, 8, 19, 16, 7, 512382, tzinfo=datetime.timezone.utc), 'inventory_id': 1, 'kit_id': 1, 'payment_method': 'stripe', ...}]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+    
+        if self._echo:
+            self._log_info(str_statement)
+    
+            stats = context._get_cache_stats()
+    
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+    
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+venv\Lib\site-packages\sqlalchemy\engine\base.py:1964: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\sqlalchemy\engine\default.py:945: in do_execute
+    cursor.execute(statement, parameters)
+venv\Lib\site-packages\mysql\connector\cursor_cext.py:357: in execute
+    result = self._connection.cmd_query(
+venv\Lib\site-packages\mysql\connector\opentelemetry\context_propagation.py:97: in wrapper
+    return method(cnx, *args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <mysql.connector.connection_cext.CMySQLConnection object at 0x00000248F0C94690>
+query = b"INSERT INTO purchases (kit_id, user_id, inventory_id, quantity, time_bought, status, shipping_address_id, shipping_t...:22.634439', 'Ready for pickup', NULL, 'pickup', 'stripe', '2025-06-08 19:16:07.512382', '2025-06-08 19:16:07.512389')"
+raw = False, buffered = False, raw_as_string = False
+
+    @with_context_propagation
+    def cmd_query(
+        self,
+        query: StrOrBytes,
+        raw: Optional[bool] = None,
+        buffered: bool = False,
+        raw_as_string: bool = False,
+    ) -> Optional[Union[CextEofPacketType, CextResultType]]:
+        """Send a query to the MySQL server"""
+        self.handle_unread_result()
+        if raw is None:
+            raw = self._raw
+        try:
+            if not isinstance(query, bytes):
+                query = query.encode("utf-8")
+            self._cmysql.query(
+                query,
+                raw=raw,
+                buffered=buffered,
+                raw_as_string=raw_as_string,
+                query_attrs=self.query_attrs,
+            )
+        except MySQLInterfaceError as err:
+>           raise get_mysql_exception(
+                err.errno, msg=err.msg, sqlstate=err.sqlstate
+            ) from err
+E           mysql.connector.errors.DatabaseError: 1265 (01000): Data truncated for column 'available_date' at row 1
+
+venv\Lib\site-packages\mysql\connector\connection_cext.py:714: DatabaseError
+
+The above exception was the direct cause of the following exception:
+
+client = <FlaskClient <Flask 'app'>>
+user_auth_header = {'Authorization': 'Bearer '}
+create_test_kit_and_inventory = (<Kit 1>, <Inventory 1>)
+
+    def test_checkout(client, user_auth_header, create_test_kit_and_inventory):
+        kit, inventory = create_test_kit_and_inventory
+    
+        # Add item to cart
+        res = client.post("/api/cart", json={"kit_id": kit.id, "quantity": 1}, headers=user_auth_header)
+        assert res.status_code == 201
+    
+        # Setup proper Mock for Stripe
+        mock_intent = Mock()
+        mock_intent.id = "pi_test_456"
+        mock_intent.status = "succeeded"
+    
+        with patch("app.routes.purchase_routes.stripe.PaymentIntent.create", return_value=mock_intent), \
+             patch("app.routes.purchase_routes.stripe.PaymentIntent.confirm", return_value=mock_intent):
+    
+>           res = client.post("/api/purchases", json={
+                "items": [
+                    {
+                        "kit_id": kit.id,
+                        "quantity": 1,
+                        "inventory_id": inventory.id,
+                        "kit": {
+                            "id": kit.id,
+                            "name": kit.name,
+                            "price": kit.price
+                        },
+                        "inventory": {
+                            "id": inventory.id,
+                            "location_name": inventory.location_name
+                        }
+                    }
+                ],
+                "billing_details": {
+                    "payment_method_id": "pm_test_fake_456",
+                    "email": "testuser@example.com",
+                    "name": "Test User",
+                    "address": {
+                        "line1": "123 Main St",
+                        "city": "Testville",
+                        "state": "CA",
+                        "postal_code": "12345",
+                        "country": "US"
+                    }
+                }
+            }, headers=user_auth_header)
+
+tests\test_purchases.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\werkzeug\test.py:1248: in post
+    return self.open(*args, **kw)
+venv\Lib\site-packages\flask\testing.py:238: in open
+    response = super().open(
+venv\Lib\site-packages\werkzeug\test.py:1197: in open
+    response = self.run_wsgi_app(request.environ, buffered=buffered)
+venv\Lib\site-packages\werkzeug\test.py:1069: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+venv\Lib\site-packages\werkzeug\test.py:1345: in run_wsgi_app
+    app_rv = app(environ, start_response)
+venv\Lib\site-packages\flask\app.py:2552: in __call__
+    return self.wsgi_app(environ, start_response)
+venv\Lib\site-packages\flask\app.py:2532: in wsgi_app
+    response = self.handle_exception(e)
+venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+venv\Lib\site-packages\flask\app.py:2529: in wsgi_app
+    response = self.full_dispatch_request()
+venv\Lib\site-packages\flask\app.py:1825: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+venv\Lib\site-packages\flask_cors\extension.py:194: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+venv\Lib\site-packages\flask\app.py:1823: in full_dispatch_request
+    rv = self.dispatch_request()
+venv\Lib\site-packages\flask\app.py:1799: in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+app\utils\decorators.py:11: in wrapper
+    return f(*args, **kwargs)
+app\routes\purchase_routes.py:167: in create_purchase
+    db.session.commit()
+venv\Lib\site-packages\sqlalchemy\orm\scoping.py:599: in commit
+    return self._proxied.commit()
+venv\Lib\site-packages\sqlalchemy\orm\session.py:2032: in commit
+    trans.commit(_to_root=True)
+<string>:2: in commit
+    ???
+venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:139: in _go
+    ret_value = fn(self, *arg, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\session.py:1313: in commit
+    self._prepare_impl()
+<string>:2: in _prepare_impl
+    ???
+venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:139: in _go
+    ret_value = fn(self, *arg, **kw)
+venv\Lib\site-packages\sqlalchemy\orm\session.py:1288: in _prepare_impl
+    self.session.flush()
+venv\Lib\site-packages\sqlalchemy\orm\session.py:4353: in flush
+    self._flush(objects)
+venv\Lib\site-packages\sqlalchemy\orm\session.py:4488: in _flush
+    with util.safe_reraise():
+venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+venv\Lib\site-packages\sqlalchemy\orm\session.py:4449: in _flush
+    flush_context.execute()
+venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1233: in _emit_insert_statements
+    result = connection.execute(
+venv\Lib\site-packages\sqlalchemy\engine\base.py:1416: in execute
+    return meth(
+venv\Lib\site-packages\sqlalchemy\sql\elements.py:523: in _execute_on_connection
+    return connection._execute_clauseelement(
+venv\Lib\site-packages\sqlalchemy\engine\base.py:1638: in _execute_clauseelement
+    ret = self._execute_context(
+venv\Lib\site-packages\sqlalchemy\engine\base.py:1843: in _execute_context
+    return self._exec_single_context(
+venv\Lib\site-packages\sqlalchemy\engine\base.py:1983: in _exec_single_context
+    self._handle_dbapi_exception(
+venv\Lib\site-packages\sqlalchemy\engine\base.py:2352: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+venv\Lib\site-packages\sqlalchemy\engine\base.py:1964: in _exec_single_context
+    self.dialect.do_execute(
+venv\Lib\site-packages\sqlalchemy\engine\default.py:945: in do_execute
+    cursor.execute(statement, parameters)
+venv\Lib\site-packages\mysql\connector\cursor_cext.py:357: in execute
+    result = self._connection.cmd_query(
+venv\Lib\site-packages\mysql\connector\opentelemetry\context_propagation.py:97: in wrapper
+    return method(cnx, *args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <mysql.connector.connection_cext.CMySQLConnection object at 0x00000248F0C94690>
+query = b"INSERT INTO purchases (kit_id, user_id, inventory_id, quantity, time_bought, status, shipping_address_id, shipping_t...:22.634439', 'Ready for pickup', NULL, 'pickup', 'stripe', '2025-06-08 19:16:07.512382', '2025-06-08 19:16:07.512389')"
+raw = False, buffered = False, raw_as_string = False
+
+    @with_context_propagation
+    def cmd_query(
+        self,
+        query: StrOrBytes,
+        raw: Optional[bool] = None,
+        buffered: bool = False,
+        raw_as_string: bool = False,
+    ) -> Optional[Union[CextEofPacketType, CextResultType]]:
+        """Send a query to the MySQL server"""
+        self.handle_unread_result()
+        if raw is None:
+            raw = self._raw
+        try:
+            if not isinstance(query, bytes):
+                query = query.encode("utf-8")
+            self._cmysql.query(
+                query,
+                raw=raw,
+                buffered=buffered,
+                raw_as_string=raw_as_string,
+                query_attrs=self.query_attrs,
+            )
+        except MySQLInterfaceError as err:
+>           raise get_mysql_exception(
+                err.errno, msg=err.msg, sqlstate=err.sqlstate
+            ) from err
+E           sqlalchemy.exc.DatabaseError: (mysql.connector.errors.DatabaseError) 1265 (01000): Data truncated for column 'available_date' at row 1
+E           [SQL: INSERT INTO purchases (kit_id, user_id, inventory_id, quantity, time_bought, status, shipping_address_id, shipping_type, payment_method, available_date, pick_up_date) VALUES (%(kit_id)s, %(user_id)s, %(inventory_id)s, %(quantity)s, %(time_bought)s, %(status)s, %(shipping_address_id)s, %(shipping_type)s, %(payment_method)s, %(available_date)s, %(pick_up_date)s)]
+E           [parameters: {'kit_id': 1, 'user_id': 1, 'inventory_id': 1, 'quantity': 1, 'time_bought': datetime.datetime(2025, 6, 7, 19, 15, 22, 634439, tzinfo=datetime.timezone.utc), 'status': 'Ready for pickup', 'shipping_address_id': None, 'shipping_type': 'pickup', 'payment_method': 'stripe', 'available_date': datetime.datetime(2025, 6, 8, 19, 16, 7, 512382, tzinfo=datetime.timezone.utc), 'pick_up_date': datetime.datetime(2025, 6, 8, 19, 16, 7, 512389, tzinfo=datetime.timezone.utc)}]
+E           (Background on this error at: https://sqlalche.me/e/20/4xp6)
+
+venv\Lib\site-packages\mysql\connector\connection_cext.py:714: DatabaseError
+============================== warnings summary ===============================
+tests/test_purchase_routes.py::test_create_purchase
+tests/test_purchases.py::test_checkout
+  C:\Users\njcro\m7project\backend\tests\conftest.py:46: SAWarning: transaction already deassociated from connection
+    transaction.rollback()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_purchase_routes.py::test_create_purchase - sqlalchemy.exc.D...
+FAILED tests/test_purchases.py::test_checkout - sqlalchemy.exc.DatabaseError:...
+============= 2 failed, 41 passed, 2 warnings in 61.14s (0:01:01) =============
