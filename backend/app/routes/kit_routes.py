@@ -133,13 +133,34 @@ def get_kit(id):
 def create_kit():
     data = request.get_json()
     try:
+        # Extract inventories separately from the payload
+        inventories_data = data.pop('inventories', [])
+
+        # Load and deserialize remaining kit fields
         kit_data = kit_schema.load(data)
         new_kit = Kit(**kit_data)
         db.session.add(new_kit)
         db.session.commit()
+
+        # Add inventory entries after Kit is committed
+        for inv in inventories_data:
+            if 'location' in inv and 'location_name' in inv and 'quantity' in inv:
+                new_inventory = Inventory(
+                    kit_id=new_kit.id,
+                    location=inv['location'],
+                    location_name=inv['location_name'],
+                    quantity=inv['quantity']
+                )
+                db.session.add(new_inventory)
+
+        db.session.commit()
+
         return jsonify(kit_schema.dump(new_kit)), 201
+
     except Exception as e:
+        db.session.rollback()
         return jsonify({"message": "Error creating kit", "error": str(e)}), 400
+
 
 
 @kit_bp.route("/<int:id>", methods=["PUT"])

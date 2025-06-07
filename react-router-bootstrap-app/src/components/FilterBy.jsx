@@ -274,7 +274,7 @@ export default function FilterBy({
           <li key={idx}>
             <input
               type="checkbox"
-              checked={selectedLocations.includes(loc.location_name)}
+              checked={updatedSelectedLocations.includes(loc.location_name)}
               onChange={() => handleToggle('location_names', loc.location_name)}
             />
             {loc.location_name}

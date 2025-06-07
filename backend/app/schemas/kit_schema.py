@@ -33,6 +33,9 @@ class KitSchema(Schema):
 
     age_ids = fields.List(fields.Int(), load_only=True)
     category_ids = fields.List(fields.Int(), load_only=True)
+    grade_ids = fields.List(fields.Int(), load_only=True)          
+    theme_ids = fields.List(fields.Int(), load_only=True)           
+    inventory_input =  fields.List(fields.Dict(), load_only=True, data_key='inventories')      
 
     age = fields.List(fields.Nested(AgeSchema), dump_only=True)
     category = fields.List(fields.Nested(CategorySchema), dump_only=True)
@@ -41,7 +44,7 @@ class KitSchema(Schema):
     average_rating = fields.Float(dump_only=True)
     review_count = fields.Int(dump_only=True)
 
-    inventories = fields.List(fields.Nested(InventorySchema), dump_only=True)
+    inventory_output = fields.List(fields.Nested(InventorySchema), dump_only=True, attribute='inventories')
 
 
     @post_load

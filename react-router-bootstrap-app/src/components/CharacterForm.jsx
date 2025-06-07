@@ -36,10 +36,13 @@ export default function CharacterForm({ initialData, onSubmit }) {
       .then(setAgeOptions)
       .catch(console.error);
 
-    fetch(`${API_BASE}/api/images`)
+    fetch(`${API_BASE}/api/images`, {
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+      })
       .then(res => res.json())
-      .then(setExistingImages)
-      .catch(console.error);
+      .then(data => setExistingImages(data))
+      .catch(err => console.error('Failed to fetch existing images', err));
 
     fetch(`${API_BASE}/api/kits/category-options`)
       .then(res => res.json())
@@ -234,8 +237,13 @@ export default function CharacterForm({ initialData, onSubmit }) {
       <Form onSubmit={handleSubmit} className="character-form">
         {submitError && <Alert variant="danger">{submitError}</Alert>}
 
+        <Form.Group controlId="name">
+          <Form.Label><EditableField contentKey="content_2" /></Form.Label>
+          <Form.Control name="name" value={formData.name} onChange={handleChange} required />
+        </Form.Group>
+
         <Form.Group controlId="image_url">
-          <Form.Label><EditableField contentKey="content_9" defaultText="Image URL" /></Form.Label>
+          <Form.Label><EditableField contentKey="content_9" defaultText="Images" /></Form.Label>
 
           <Form.Select
             className="mb-2"
@@ -250,17 +258,7 @@ export default function CharacterForm({ initialData, onSubmit }) {
             ))}
           </Form.Select>
 
-          <Form.Control
-            className="mt-2"
-            name="image_url"
-            value={formData.image_url}
-            onChange={handleChange}
-            isInvalid={!!urlError}
-            placeholder="Or paste an image URL"
-          />
-          <Form.Control.Feedback type="invalid">{urlError}</Form.Control.Feedback>
-
-          <Form.Label className="mt-2">Or upload image</Form.Label>
+          <Form.Label >Or upload image</Form.Label>
           <Form.Control
             type="file"
             accept="image/*"
