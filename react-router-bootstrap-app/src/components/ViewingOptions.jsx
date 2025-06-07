@@ -29,7 +29,7 @@ export default function ViewingOptions({
       { value: 'description', label: 'content_200' },   // Description
     ],
     orders: [
-      { value: 'created_at', label: 'content_235' },    // Date Purchased
+      { value: 'time_bought', label: 'content_235' },    // Date Purchased
       { value: 'quantity', label: 'content_234' },      // Quantity
       { value: 'location_name', label: 'content_250' }, // Location
       { value: 'name', label: 'content_232' },          // Kit Name
