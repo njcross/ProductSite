@@ -75,7 +75,7 @@ export default function FilterBy({
       if (parsed.user_ids) setSelectedUserIds(parsed.user_ids);
       onFilterChange(parsed);
     }
-  }, [API_BASE, collection]);
+  }, [API_BASE, collection, collection, showUserFilter]);
 
   useEffect(() => {
     const filtersToSave = {};
