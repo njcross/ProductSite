@@ -61,8 +61,8 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
         location: inv.location,
         location_name: inv.location_name,
         quantity: inv.quantity,
-        original_location: inv.location,
-        original_kit_id: inv.kit_id
+        original_location_name: inv.location_name,
+        original_kit_id: inv.kit.id
       }),
     });
     if (!res.ok) alert('Failed to update inventory item');

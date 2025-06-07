@@ -67,8 +67,8 @@ export default function InventoryPage() {
       .then(data => {
         const withOriginal = (data.items || []).map(item => ({
           ...item,
-          original_location: item.location,
-          original_kit_id: item.kit_id
+          original_location_name: item.location_name,
+          original_kit_id: item.kit.id
         }));
         setInventory(withOriginal);
         setHasNext(!!data.hasNext);
@@ -79,8 +79,8 @@ export default function InventoryPage() {
   const handleUpdate = (inv) => {
     const payload = {
       ...inv,
-      original_kit_id: inv.kit_id,
-      original_location: inv.original_location || inv.location,
+      original_kit_id: inv.kit.id,
+      original_location_name: inv.original_location_name || inv.location_name,
     };
 
     fetch(`${API_BASE}/api/inventory`, {
@@ -137,7 +137,7 @@ export default function InventoryPage() {
           ? {
               ...item,
               [field]: value,
-              original_location: item.original_location,
+              original_location_name: item.original_location_name,
               original_kit_id: item.original_kit_id || item.kit_id
             }
           : item

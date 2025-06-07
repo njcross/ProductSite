@@ -51,7 +51,7 @@ def test_update_inventory(admin_logged_in_client, create_test_kit, admin_auth_he
     # Update the inventory with new quantity and skip address lookup
     update_data = {
         "original_kit_id": kit.id,  # Required by the PUT route
-        "original_location": sample_inventory_data["location"],  # Required too
+        "original_location_name": sample_inventory_data["location_name"],  # Required too
         "kit_id": kit.id,
         "location": sample_inventory_data["location"],
         "location_name": sample_inventory_data.get("location_name", "Test Location"),

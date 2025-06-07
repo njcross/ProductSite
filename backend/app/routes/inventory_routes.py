@@ -70,9 +70,9 @@ def create_inventory():
 def edit_inventory():
     data = request.json
     original_kit_id = data['original_kit_id']
-    original_location = data['original_location']
+    original_location_name = data['original_location_name']
 
-    inv = Inventory.query.filter_by(kit_id=original_kit_id, location=original_location).first()
+    inv = Inventory.query.filter_by(kit_id=original_kit_id, location_name=original_location_name).first()
     if not inv:
         return jsonify({'error': 'Inventory not found'}), 404
 
