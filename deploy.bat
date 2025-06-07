@@ -69,7 +69,6 @@ IF %ERRORLEVEL% NEQ 0 (
 echo 🔄 Syncing content.json from server...
 scp -i "%PEM_PATH%" %EC2_USER%@%EC2_IP%:/home/ec2-user/ProductSite/react-router-bootstrap-app/public/content.json "%LOCAL_FRONTEND_PATH%\public\content.json"
 
-
 echo 🏗️ Building the frontend...
 call npm run build
 IF %ERRORLEVEL% NEQ 0 (
@@ -96,6 +95,8 @@ GOTO end
 
 :deploy_backend
 echo ⚙️ Deploying BACKEND...
+
+call :ensure_redis
 
 cd /d "%LOCAL_BACKEND_PATH%" || exit /b 1
 python -m venv venv
@@ -137,22 +138,31 @@ echo ↩️ Rolling back frontend to previous build...
 IF /I "%IS_DRY_RUN%"=="dry-run" (
     echo [dry-run] Would restart backend and ensure Redis is installed
 ) ELSE (
-    echo 🧠 Ensuring Redis is installed on EC2...
-    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "if ! command -v redis-server > /dev/null; then
-        echo Installing Redis from source... &&
-        sudo dnf groupinstall 'Development Tools' -y &&
-        sudo dnf install gcc jemalloc-devel curl -y &&
-        curl -O https://download.redis.io/redis-stable.tar.gz &&
-        tar xzvf redis-stable.tar.gz &&
-        cd redis-stable &&
-        make &&
-        sudo make install &&
-        sudo useradd -r -s /bin/false redis &&
-        sudo mkdir -p /etc/redis /var/lib/redis &&
-        sudo cp redis.conf /etc/redis &&
-        sudo sed -i 's/^supervised .*/supervised systemd/' /etc/redis/redis.conf &&
-        sudo sed -i 's:^dir .*:dir /var/lib/redis:' /etc/redis/redis.conf &&
-        echo '[Unit]
+    call :ensure_redis
+
+    echo 🔄 Restarting backend on EC2...
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "cd %REMOTE_BACKEND_PATH% && git stash && git pull origin main && . venv/bin/activate && pip install -r requirements.txt && flask db upgrade && pm2 delete backend || echo 'no backend running' && pm2 start 'gunicorn \"server:app\" --bind 0.0.0.0:5000 --workers 4' --name backend"
+)
+
+GOTO end
+
+:ensure_redis
+echo 🧠 Ensuring Redis is installed on EC2...
+ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "if ! command -v redis-server > /dev/null; then
+    echo Installing Redis from source... &&
+    sudo dnf groupinstall 'Development Tools' -y &&
+    sudo dnf install gcc jemalloc-devel curl -y &&
+    curl -O https://download.redis.io/redis-stable.tar.gz &&
+    tar xzvf redis-stable.tar.gz &&
+    cd redis-stable &&
+    make &&
+    sudo make install &&
+    sudo useradd -r -s /bin/false redis &&
+    sudo mkdir -p /etc/redis /var/lib/redis &&
+    sudo cp redis.conf /etc/redis &&
+    sudo sed -i 's/^supervised .*/supervised systemd/' /etc/redis/redis.conf &&
+    sudo sed -i 's:^dir .*:dir /var/lib/redis:' /etc/redis/redis.conf &&
+    echo '[Unit]
 Description=Redis In-Memory Data Store
 After=network.target
 
@@ -165,26 +175,19 @@ Restart=always
 
 [Install]
 WantedBy=multi-user.target' | sudo tee /etc/systemd/system/redis.service > /dev/null &&
-        sudo systemctl daemon-reload &&
-        sudo systemctl enable redis &&
-        sudo systemctl start redis;
-    else
-        echo ✅ Redis already installed;
-    fi"
-    echo 🔧 Configuring Redis keyspace notifications... 
-    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "redis-cli CONFIG SET notify-keyspace-events Ex"
+    sudo systemctl daemon-reload &&
+    sudo systemctl enable redis &&
+    sudo systemctl start redis;
+else
+    echo ✅ Redis already installed;
+fi"
+echo 🔧 Configuring Redis keyspace notifications...
+ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "redis-cli CONFIG SET notify-keyspace-events Ex"
 
-    echo ▶️ Ensuring Redis listener is running via PM2...
-    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "pm2 delete redis-listener || echo 'No previous redis-listener'; \
-    pm2 start /home/ec2-user/ProductSite/backend/scripts/redis_listener.py --interpreter python3 --name redis-listener"
-
-
-    echo 🔄 Restarting backend on EC2...
-    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "cd %REMOTE_BACKEND_PATH% && git stash && git pull origin main && . venv/bin/activate && pip install -r requirements.txt && flask db upgrade && pm2 delete backend || echo 'no backend running' && pm2 start 'gunicorn \"server:app\" --bind 0.0.0.0:5000 --workers 4' --name backend"
-)
-
-
-GOTO end
+echo ▶️ Ensuring Redis listener is running via PM2...
+ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "pm2 delete redis-listener || echo 'No previous redis-listener'; \
+pm2 start /home/ec2-user/ProductSite/backend/scripts/redis_listener.py --interpreter python3 --name redis-listener"
+GOTO :eof
 
 :end
 echo 🎉 Deployment completed successfully!
