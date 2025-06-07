@@ -21,6 +21,7 @@ export default function EditableImage({ contentKey, alt, fieldBelow = null }) {
   useEffect(() => {
     if (showUpload && isAdmin) {
       fetch(`${API_BASE}/api/images`, {
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
       })
         .then(res => res.json())
