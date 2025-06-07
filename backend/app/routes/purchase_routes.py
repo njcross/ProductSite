@@ -65,7 +65,7 @@ def create_purchase():
             quantity=item['quantity'],
             inventory_id=item.get('inventory_id'),
             payment_method='stripe',
-            available_date="TBD",  # or real logic
+            available_date=None,  # or real logic
             pick_up_date=datetime.now(timezone.utc) + timedelta(hours=24),
             status="Ready for pickup",
             shipping_address_id=shipping_address_id
