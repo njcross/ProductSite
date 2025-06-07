@@ -214,7 +214,7 @@
 .largeNavButton {
   font-size: 1.5rem; /* Slightly larger than navButton */
   font-weight: bold;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-family: "Comic Neue", "Comic Sans MS", "Comic Sans", cursive;
   padding: 0.5rem 1rem;
   background-color: var(--bg-button, #fec632);
   color: var(--color-heading, #000000);
@@ -237,7 +237,7 @@
 .navButton {
   font-size: 1rem;
   font-weight: bold;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-family: "Comic Neue", "Comic Sans MS", "Comic Sans", cursive;
   padding: 0.5rem 1rem;
   background-color: var(--bg-button, #fec632);
   color: var(--color-heading, #000000);

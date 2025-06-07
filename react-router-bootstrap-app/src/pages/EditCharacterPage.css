@@ -8,7 +8,7 @@
   color: var(--color-text);
   border-radius: var(--radius-md);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
-  font-family: 'Comic Sans MS', 'Comic Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Comic Neue', 'Comic Sans MS', 'Comic Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .character-detail-layout {

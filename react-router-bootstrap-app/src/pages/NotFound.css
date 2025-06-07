@@ -7,7 +7,7 @@
   align-items: center;
   padding: var(--spacing-lg);
   text-align: center;
-  font-family: 'Comic Sans MS', 'Comic Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Comic Neue', 'Comic Sans MS', 'Comic Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .not-found-container {

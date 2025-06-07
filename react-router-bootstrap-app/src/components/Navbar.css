@@ -5,26 +5,26 @@
   border-bottom: 2px solid var(--color-accent);
   box-shadow: none;
 }
-.navbar-center-wrapper {
+.navbar {
+  background-color: var(--bg-main) !important;
+}
+.navbar-collapse {
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
 }
 
 .navbar-nav {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  flex-grow: 1;
   gap: 1rem;
   padding: 0 1rem;
+  flex-wrap: wrap;
 }
 
-.navbar-nav > * {
-  flex: 1;
-  min-width: max-content;
-  text-align: center;
-}
 
 
 .logo-text {
