@@ -32,8 +32,16 @@ def test_create_purchase(admin_logged_in_client, admin_auth_header, create_test_
                 {
                     "kit_id": kit.id,
                     "quantity": 2,
-                    "price": kit.price,
-                    "inventory_id": inventory.id
+                    "inventory_id": inventory.id,
+                    "kit": {
+                        "id": kit.id,
+                        "name": kit.name,
+                        "price": kit.price
+                    },
+                    "inventory": {
+                        "id": inventory.id,
+                        "location_name": inventory.location_name
+                    }
                 }
             ],
             "billing_details": {
@@ -49,6 +57,7 @@ def test_create_purchase(admin_logged_in_client, admin_auth_header, create_test_
                 }
             }
         }, headers=admin_auth_header)
+
 
         assert response.status_code == 201, response.get_data(as_text=True)
         data = response.get_json()

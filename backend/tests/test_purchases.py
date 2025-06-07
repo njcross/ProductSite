@@ -25,8 +25,16 @@ def test_checkout(client, user_auth_header, create_test_kit_and_inventory):
                 {
                     "kit_id": kit.id,
                     "quantity": 1,
-                    "price": kit.price,
-                    "inventory_id": inventory.id
+                    "inventory_id": inventory.id,
+                    "kit": {
+                        "id": kit.id,
+                        "name": kit.name,
+                        "price": kit.price
+                    },
+                    "inventory": {
+                        "id": inventory.id,
+                        "location_name": inventory.location_name
+                    }
                 }
             ],
             "billing_details": {
@@ -42,6 +50,7 @@ def test_checkout(client, user_auth_header, create_test_kit_and_inventory):
                 }
             }
         }, headers=user_auth_header)
+
 
         assert res.status_code == 201, res.get_data(as_text=True)
         data = res.get_json()

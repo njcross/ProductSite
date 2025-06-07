@@ -142,7 +142,7 @@ def create_purchase():
     created_purchases = []
     r = redis.Redis(host='localhost', port=6379, db=0)
     for item in items:
-        inventory = Inventory.query.get(item.get('inventory_id'))
+        inventory = db.session.get(Inventory, item.get('inventory_id'))
         if not inventory:
             return jsonify({'error': f"Inventory {item.get('inventory_id')} not found"}), 404
 
