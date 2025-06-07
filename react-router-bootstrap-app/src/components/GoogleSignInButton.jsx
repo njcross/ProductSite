@@ -7,6 +7,7 @@ export default function GoogleSignInButton({ className = '' }) {
 
   return (
     <button
+      type="button"
       className={`google-login-btn ${className}`}
       onClick={handleGoogleLogin}
     >
