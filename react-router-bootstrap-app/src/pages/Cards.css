@@ -2,7 +2,7 @@
   background-color: var(--bg-main);
   min-height: 100vh;
   color: var(--color-text);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Comic Sans MS', 'Comic Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 40px 20px;
   margin: 0;
 }
