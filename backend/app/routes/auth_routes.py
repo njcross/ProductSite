@@ -17,46 +17,6 @@ user_schema = UserSchema()
 
 serializer = URLSafeTimedSerializer(Config.SECRET_KEY)  
 
-# @auth_bp.route("/google_login")
-# def google_login():
-#     if not google.authorized:
-#         return redirect(url_for("google.login"))
-
-#     resp = google.get("/oauth2/v2/userinfo")
-#     if not resp.ok:
-#         return "Failed to fetch user info", 400
-
-#     info = resp.json()
-#     email = info["email"]
-#     username = info.get("name", email.split('@')[0])
-
-#     user = User.query.filter_by(email=email).first()
-
-#     if not user:
-#         user = User(
-#             username=username,
-#             email=email,
-#             password=None,  # No password for OAuth users
-#             role='user',
-#             oauth_provider = "google"
-#         )
-#         db.session.add(user)
-#         db.session.commit()
-
-#     # Store user_id in session
-#     session["user_id"] = user.id
-
-#     return redirect("/")  # Or wherever you want
-
-
-# @auth_bp.route('/login', methods=['OPTIONS'])
-# def login_options():
-#     return '', 200
-
-# @auth_bp.route('/register', methods=['OPTIONS'])
-# def register_options():
-#     return '', 200
-
 @auth_bp.route('/token-login', methods=['POST'])
 def token_login():
     data = request.get_json()
@@ -186,7 +146,7 @@ def forgot_password():
         return jsonify({"error": "Email is required"}), 400
 
     user = User.query.filter_by(email=email).first()
-    if not user:
+    if not user or user.oauth_provider:
         return jsonify({"success": True})  # Don't reveal existence
 
     # Generate and store token in Redis for 1 hour
