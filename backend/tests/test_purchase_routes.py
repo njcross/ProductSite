@@ -20,23 +20,19 @@ def test_purchase_routes_basic(client):
 def test_create_purchase(admin_logged_in_client, admin_auth_header, create_test_kit_and_inventory):
     kit, inventory = create_test_kit_and_inventory
 
-    # Patch Stripe to bypass real payment handling during test
-    with patch("app.routes.purchase.stripe.PaymentIntent.create") as mock_create_intent, \
-         patch("app.routes.purchase.stripe.PaymentIntent.confirm") as mock_confirm_intent:
+    with patch("app.routes.purchase_routes.stripe.PaymentIntent.create") as mock_create_intent, \
+         patch("app.routes.purchase_routes.stripe.PaymentIntent.confirm") as mock_confirm_intent:
 
         mock_create_intent.return_value = {"id": "pi_test_123", "status": "requires_confirmation"}
         mock_confirm_intent.return_value = {"status": "succeeded"}
 
-        payload = {
+        response = admin_logged_in_client.post("/api/purchases", json={
             "kit_id": kit.id,
             "quantity": 2,
             "inventory_id": inventory.id,
-            "payment_method_id": "pm_mocked_test_123"
-        }
+            "payment_method_id": "pm_mock_123"
+        }, headers=admin_auth_header)
 
-        response = admin_logged_in_client.post("/api/purchases", json=payload, headers=admin_auth_header)
         assert response.status_code == 201
-
         data = response.get_json()
         assert "inventory" in data
-
