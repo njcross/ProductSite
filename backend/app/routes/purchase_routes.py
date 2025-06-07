@@ -127,7 +127,7 @@ def get_my_purchases():
     elif sort_by in ['quantity']:
         sort_column = Purchase.quantity
     else:
-        sort_column = Purchase.created_at
+        sort_column = Purchase.id
 
     query = query.join(Purchase.inventory).join(Inventory.kit)
     query = query.order_by(sort_column.desc() if sort_dir == 'desc' else sort_column.asc())
@@ -176,7 +176,7 @@ def get_all_purchases():
     elif sort_by in ['quantity']:
         sort_column = Purchase.quantity
     else:
-        sort_column = Purchase.created_at
+        sort_column = Purchase.id
 
     query = query.join(Purchase.inventory).join(Inventory.kit)
     query = query.order_by(sort_column.desc() if sort_dir == 'desc' else sort_column.asc())
