@@ -12,6 +12,7 @@ class Purchase(db.Model):
     time_bought = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     status = db.Column(db.String(50))
     shipping_address_id = db.Column(db.Integer, db.ForeignKey('shipping_address.id'), nullable=True)
+    shipping_type = db.Column(db.String(20), nullable=False, default='pickup')
 
     payment_method = db.Column(db.String(50))
     available_date = db.Column(db.Integer)

@@ -114,7 +114,8 @@ def create_purchase():
     total_amount = 0
     for item in items:
         quantity = item.get('quantity', 1)
-        price = item.get('price', 0)
+        kit = item.get('kit')
+        price = kit.get('price')
         total_amount += int(float(price) * 100) * quantity  # in cents
 
     if total_amount <= 0:
@@ -141,6 +142,11 @@ def create_purchase():
     created_purchases = []
     r = redis.Redis(host='localhost', port=6379, db=0)
     for item in items:
+        inventory = Inventory.query.get(item.get('inventory_id'))
+        if not inventory:
+            return jsonify({'error': f"Inventory {item.get('inventory_id')} not found"}), 404
+
+        shipping_type = 'delivery' if inventory.location_name == 'warehouse' else 'pickup'
         new_purchase = Purchase(
             kit_id=item['kit_id'],
             user_id=user_id,
@@ -150,11 +156,12 @@ def create_purchase():
             available_date=None,
             pick_up_date=datetime.now(timezone.utc) + timedelta(hours=24),
             status="Ready for pickup",
-            shipping_address_id=shipping_address_id
+            shipping_address_id=shipping_address_id,
+            shipping_type=shipping_type
         )
         db.session.add(new_purchase)
         created_purchases.append(new_purchase)
-        key = f"pending_inventory:{item['inventory_id']}:{user_id}"
+        key = f"pending_inventory:{inventory.id}:{user_id}"
         r.delete(key)
 
     db.session.commit()

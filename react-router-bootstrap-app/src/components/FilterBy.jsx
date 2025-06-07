@@ -341,7 +341,7 @@ export default function FilterBy({
 
           <label><EditableField contentKey="content_321" defaultText="Filter by Payment Method" /></label>
           <ul className="filter-list">
-            {['card', 'cash'].map((method, i) => (
+            {['stripe', 'admin'].map((method, i) => (
               <li key={i}>
                 <input
                   type="checkbox"

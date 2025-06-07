@@ -17,6 +17,7 @@ class PurchaseSchema(Schema):
     available_date = fields.Int()
     pick_up_date = fields.Date()
     status = fields.Str()
+    shipping_type = fields.Str()
 
     kit = fields.Nested(KitSchema, only=["id", "name", "image_url", "price", "description"], dump_only=True)
     user = fields.Nested(UserSchema, only=["id", "username"], dump_only=True)
