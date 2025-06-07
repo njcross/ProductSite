@@ -35,7 +35,7 @@
   .hero-content {
     flex: 1 1 400px;
     padding: 1rem;
-    color: var(--color-white);
+    color: var(--color-primary);
     z-index: 1;
     max-width: 500px;
   }
@@ -43,7 +43,7 @@
   .hero-content h1 {
     font-size: 2.5rem;
     font-weight: bold;
-    color: var(--color-white);
+    color: var(--color-primary);
     margin-bottom: 1rem;
     text-shadow: 1px 1px var(--color-text-dark);
   }
@@ -51,7 +51,7 @@
   .hero-content p {
     font-size: 1.25rem;
     margin-bottom: 1rem;
-    color: var(--color-white);
+    color: var(--color-primary);
   }
   
   .hero-image-container {

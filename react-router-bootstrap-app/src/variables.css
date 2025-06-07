@@ -16,7 +16,8 @@
   --color-white: #ffffff;
 
   /* Background Colors */
-  --bg-main: #fff6ed;         /* match warm Canva tone */
+  --bg-main: #ff9b6a;         /* match warm Canva tone */
+  --bg-nav: #4d9de0; 
   --bg-alt: #fef1dc;          /* soft background accent */
   --bg-white: #ffffff;
   --bg-card: #fff6ed;
