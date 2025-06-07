@@ -20,8 +20,8 @@ tests\test_kit_routes.py .                                               [ 48%]
 tests\test_kits.py ..                                                    [ 53%]
 tests\test_newsletter.py ..                                              [ 58%]
 tests\test_newsletter_routes.py ...                                      [ 65%]
-tests\test_purchase_routes.py ..                                         [ 69%]
-tests\test_purchases.py ..                                               [ 74%]
+tests\test_purchase_routes.py .F                                         [ 69%]
+tests\test_purchases.py .F                                               [ 74%]
 tests\test_resource.py .                                                 [ 76%]
 tests\test_resource_routes.py ..                                         [ 81%]
 tests\test_review_routes.py .                                            [ 83%]
@@ -29,4 +29,46 @@ tests\test_reviews.py ..                                                 [ 88%]
 tests\test_user_settings.py ....                                         [ 97%]
 tests\test_user_settings_routes.py .                                     [100%]
 
-======================== 43 passed in 76.56s (0:01:16) ========================
+================================== FAILURES ===================================
+____________________________ test_create_purchase _____________________________
+
+admin_logged_in_client = <FlaskClient <Flask 'app'>>
+admin_auth_header = {'Authorization': 'Bearer '}
+create_test_kit_and_inventory = (<Kit 1>, <Inventory 1>)
+
+    def test_create_purchase(admin_logged_in_client, admin_auth_header, create_test_kit_and_inventory):
+        kit,inventory = create_test_kit_and_inventory
+        response = admin_logged_in_client.post("/api/purchases", json={"kit_id": kit.id, "quantity": 2, "inventory_id": inventory.id}, headers=admin_auth_header)
+>       assert response.status_code == 201
+E       assert 400 == 201
+E        +  where 400 = <WrapperTestResponse streamed [400 BAD REQUEST]>.status_code
+
+tests\test_purchase_routes.py:22: AssertionError
+---------------------------- Captured stdout setup ----------------------------
+CORS_ORIGIN: ['http://localhost:3000', 'http://www.localhost:3000']
+Database tables created!
+________________________________ test_checkout ________________________________
+
+client = <FlaskClient <Flask 'app'>>
+user_auth_header = {'Authorization': 'Bearer '}
+create_test_kit_and_inventory = (<Kit 1>, <Inventory 1>)
+
+    def test_checkout(client, user_auth_header, create_test_kit_and_inventory):
+        # First add kit to cart
+        kit, inventory = create_test_kit_and_inventory
+        res = client.post("/api/cart", json={"kit_id": kit.id, "quantity": 1}, headers=user_auth_header)
+        assert res.status_code == 201
+        res = client.post("/api/purchases", json={
+            "kit_id": kit.id,
+            "quantity": 1,
+            "inventory_id": inventory.id
+        }, headers=user_auth_header)
+>       assert res.status_code == 201
+E       assert 400 == 201
+E        +  where 400 = <WrapperTestResponse streamed [400 BAD REQUEST]>.status_code
+
+tests\test_purchases.py:17: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_purchase_routes.py::test_create_purchase - assert 400 == 201
+FAILED tests/test_purchases.py::test_checkout - assert 400 == 201
+=================== 2 failed, 41 passed in 66.69s (0:01:06) ===================
