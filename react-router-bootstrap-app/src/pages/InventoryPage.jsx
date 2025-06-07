@@ -71,7 +71,7 @@ export default function InventoryPage() {
   const handleDelete = (inv) => {
     if (!window.confirm('Are you sure?')) return;
 
-    fetch(`${API_BASE}/api/inventory?kit_id=${inv.kit_id}&location=${encodeURIComponent(inv.location)}`, {
+    fetch(`${API_BASE}/api/inventory?kit_id=${inv.kit.id}&location=${encodeURIComponent(inv.location)}`, {
       method: 'DELETE',
       credentials: 'include',
     })
