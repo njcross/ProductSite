@@ -57,37 +57,40 @@ function KitsLandingPage() {
 
       {/* Steps Section */}
       <Container className="steps-section text-center my-5">
-        <Row>
-          <Col md={4}>
+        <Row className="d-flex justify-content-center flex-wrap">
+          <div className="step-col">
             <EditableImage contentKey="content_img_208" alt="Choose Kit" className="step-img" />
             <h5><EditableField contentKey="content_209" /></h5>
-          </Col>
-          <Col md={4}>
+          </div>
+          <div className="step-col">
             <EditableImage contentKey="content_img_210" alt="Get Locker Code" className="step-img" />
             <h5><EditableField contentKey="content_211" /></h5>
-          </Col>
-          <Col md={4}>
+          </div>
+          <div className="step-col">
             <EditableImage contentKey="content_img_212" alt="Unlock & Play" className="step-img" />
             <h5><EditableField contentKey="content_213" /></h5>
-          </Col>
+          </div>
         </Row>
       </Container>
+
 
       {/* Kits Grid */}
       <Container className="kits-grid my-5">
         <h2 className="text-center mb-4">
           <EditableField contentKey="content_214" />
         </h2>
-        <Row>
+        <Row className="g-4 align-items-stretch">
           {kits.slice(0, 25).map((kit, idx) => (
-            <Col key={kit.id || idx} xs={6} md={4} lg={3} className="mb-4">
+            <Col key={kit.id || idx} xs={6} md={4} lg={3}>
               <Card className="kit-card text-center">
-                <Card.Img
-                  variant="top"
-                  src={kit.image_url || '/images/kit-placeholder.png'}
-                  className="kit-image"
-                />
-                <Card.Body>
+                <div className="kit-image-wrapper">
+                  <Card.Img
+                    variant="top"
+                    src={kit.image_url || '/images/kit-placeholder.png'}
+                    className="kit-image"
+                  />
+                </div>
+                <Card.Body className="kit-body">
                   <Card.Title>{kit.name}</Card.Title>
                 </Card.Body>
               </Card>
