@@ -52,19 +52,20 @@
     color: var(--color-primary);
   }
   
-  .hero-image-container {
-    flex: 1 1 400px;
-    display: flex;
-    justify-content: flex-end;
-    height: 100%;
-    max-height: 500px;
-  }
-  
-  .hero-image-container img {
-    max-height: 100%;
-    width: auto;
-    object-fit: contain;
-  }
+.hero-image-container {
+  flex: 1 1 0;
+  display: flex;
+  justify-content: center; /* center the image */
+  align-items: center;
+  height: 100%;
+  max-height: 500px;
+}
+
+.hero-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
   
   @media (max-width: 768px) {
     .hero-banner {

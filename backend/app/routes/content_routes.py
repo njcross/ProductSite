@@ -85,7 +85,7 @@ def list_uploaded_images():
     image_files = [
         f"{base_url}/{filename}"
         for filename in os.listdir(images_folder)
-        if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.jfif', '.ico'))
+        if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.jfif', '.ico', ''))
     ]
 
     return jsonify(sorted(image_files))
