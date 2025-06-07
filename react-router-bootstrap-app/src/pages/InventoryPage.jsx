@@ -177,12 +177,15 @@ export default function InventoryPage() {
             onViewModeChange={setViewMode}
             itemsPerPage={itemsPerPage}
             setItemsPerPage={setItemsPerPage}
+            onItemsPerPageChange={setItemsPerPage}
             sortBy={sortBy}
             setSortBy={setSortBy}
+            onSortChange={setSortBy}
             showSaveFilter={false}
             collection="inventory"
             sortDir={sortDir}
             onSortDirChange={setSortDir}
+            
           />
 
           <Table bordered hover responsive className="mt-3">
