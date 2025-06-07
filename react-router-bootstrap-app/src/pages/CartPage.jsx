@@ -61,6 +61,7 @@ export default function CartPage() {
     }
 
     const warehouse = [];
+    const pickups = [];
     try {
       for (const item of cart) {
         const { kit_id, quantity, inventory_id, location, id } = getDetails(item);
@@ -82,15 +83,19 @@ export default function CartPage() {
         if (location_name.toLowerCase() === 'warehouse') {
           warehouse.push({ kit_id, quantity, inventory_id, cartId: id });
         } else {
-          setShowBillingModal(true);
+          pickups.push({ kit_id, quantity, inventory_id, cartId: id });
         }
       }
-
       if (warehouse.length > 0) {
         const kitName = cart.find(i => i.id === warehouse[0].cartId)?.kit?.name || 'Kit';
         setSelectedKitName(kitName);
         setWarehouseItems(warehouse);
-        setShowShippingModal(true);
+        setShowBillingModal(true);
+      } 
+      if (pickups.length > 0) {
+        const kitName = cart.find(i => i.id === warehouse[0].cartId)?.kit?.name || 'Kit';
+        setSelectedKitName(kitName);
+        setShowBillingModal(true);
       }
     } catch (err) {
       console.error('Checkout failed:', err);
@@ -171,36 +176,19 @@ export default function CartPage() {
         </>
       )}
 
-      {showShippingModal && (
-        <ShippingModal
-          show={showShippingModal}
-          onHide={() => setShowShippingModal(false)}
-          setShowShippingModal={setShowShippingModal}
-          kitName={selectedKitName}
-          API_BASE={API_BASE}
-          warehouseItems={warehouseItems}
-          setShippingAddresses={setShippingAddresses}
-          shippingAddresses={shippingAddresses}
-          removeFromCart={removeFromCart}
-          onComplete={() => {
-            setShowShippingModal(false);
-            setWarehouseItems([]);
-            setSelectedKitName('');
-          }}
-        />
-      )}
-
       {showBillingModal && (
         <BillingModal
           show={showBillingModal}
           onHide={() => setShowBillingModal(false)}
           cart={cart}
           total={total}
+          includeShipping={warehouseItems.length > 0}
           onSuccess={() => {
             clearCart();
             setShowBillingModal(false);
           }}
         />
+
       )}
     </Container>
   );
