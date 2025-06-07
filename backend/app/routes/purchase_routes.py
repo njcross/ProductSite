@@ -81,12 +81,10 @@ def get_my_purchases():
 @purchase_bp.route('/api/purchases/all', methods=['GET'])
 @admin_required
 def get_all_purchases():
-    KitAlias = aliased(Kit)
 
     query = db.session.query(Purchase)\
         .join(Purchase.kit)\
-        .join(Purchase.inventory)\
-        .join(KitAlias, Inventory.kit)
+        .join(Purchase.inventory)
 
     query = apply_common_purchase_filters(query)
     query = apply_sorting_and_pagination(query)

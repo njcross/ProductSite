@@ -16,6 +16,7 @@ export default function InventoryPage() {
     quantity: '',
     kit_id: '',
   });
+
   const { currentUser } = useUser();
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(false);
@@ -24,7 +25,9 @@ export default function InventoryPage() {
   const navigate = useNavigate();
   const isAdmin = currentUser?.role === 'admin';
 
-  const defaultFilters = { rating: '', locations: [] };
+  // ✅ FIX: use `location_names` to match FilterBy and API expectations
+  const defaultFilters = { rating: '', location_names: [] };
+
   const [filters, setFilters] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem('filters_inventory')) || defaultFilters;
@@ -39,6 +42,8 @@ export default function InventoryPage() {
   const [sortDir, setSortDir] = useState('asc');
 
   useEffect(() => {
+    // ✅ Save to localStorage with correct key
+    console.log('[DEBUG] Saving filters to localStorage:', filters);
     localStorage.setItem('filters_inventory', JSON.stringify(filters));
   }, [filters]);
 
@@ -54,7 +59,7 @@ export default function InventoryPage() {
       sortBy,
       sortDir,
       rating: filters.rating || '',
-      locations: (filters.locations || []).join(','),
+      location_names: (filters.location_names || []).join(','),
     });
 
     fetch(`${API_BASE}/api/inventory?${params}`, { credentials: 'include' })
