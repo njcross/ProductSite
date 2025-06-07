@@ -164,10 +164,34 @@ def get_inventory_by_kit(kit_id):
     return jsonify(inventories_schema.dump(inventories))
 
 
-@inventory_bp.route('', methods=['GET'])
+@inventory_bp.route("", methods=["GET"])
 def get_inventory():
-    inventories = Inventory.query.options(joinedload(Inventory.kit)).all()
-    return jsonify(inventories_schema.dump(inventories))
+    sort_by = request.args.get("sortBy", "location_name")
+    sort_dir = request.args.get("sortDir", "asc")
+    page = int(request.args.get("page", 1))
+    per_page = int(request.args.get("perPage", 10))
+    rating = request.args.get("rating", type=float)
+    locations = request.args.get("locations")
+
+    query = db.session.query(Inventory).join(Inventory.kit).options(joinedload(Inventory.kit))
+
+    if rating is not None:
+        query = query.filter((Kit.average_rating >= rating) | (Kit.average_rating == None))
+
+    if locations:
+        loc_list = [l.strip() for l in locations.split(",") if l.strip()]
+        query = query.filter(Inventory.location_name.in_(loc_list))
+
+    sort_column = getattr(Inventory, sort_by, Inventory.location_name)
+    if sort_dir == "desc":
+        query = query.order_by(sort_column.desc())
+    else:
+        query = query.order_by(sort_column.asc())
+
+    paginated = query.offset((page - 1) * per_page).limit(per_page).all()
+
+    return jsonify(inventory_schema.dump(paginated, many=True))
+
 
 
 @inventory_bp.route('/item/<int:inventory_id>', methods=['GET'])

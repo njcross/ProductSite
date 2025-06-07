@@ -193,8 +193,10 @@ export default function Cards() {
               rating={filters.rating}
               locations={filters.locations}
               page={filters.page}
-              onPageChange={(val) => handleFilterChange({ page: val })} 
+              priceRange={filters.price_range}  
+              onPageChange={(val) => handleFilterChange({ page: val })}
             />
+
           </Col>
         </Row>
       </Container>

@@ -29,21 +29,26 @@ def get_kits_by_ids():
 def get_kits():
     if request.method == 'OPTIONS':
         return '', 200
+
     sort_by = request.args.get("sortBy", "name")
     sort_dir = request.args.get("sortDir", "asc")
     search = request.args.get("search", "")
     page = int(request.args.get("page", 1))
     per_page = int(request.args.get("perPage", 12))
-    min_rating = request.args.get("min_rating", type=float) 
+    min_rating = request.args.get("min_rating", type=float)
 
-    # Expect comma-separated lists for age/category
     age_ids = request.args.get("age_ids")
     category_ids = request.args.get("category_ids")
     grade_ids = request.args.get("grade_ids")
     theme_ids = request.args.get("theme_ids")
     locations = request.args.get("locations")
+    price_range = request.args.get("price_range")
 
-    query = select(Kit).options(joinedload(Kit.age), joinedload(Kit.category), joinedload(Kit.inventories))
+    query = select(Kit).options(
+        joinedload(Kit.age), 
+        joinedload(Kit.category), 
+        joinedload(Kit.inventories)
+    )
 
     filters = []
 
@@ -57,22 +62,21 @@ def get_kits():
         query = query.join(kit_inventory)
 
     if age_ids:
-        age_id_list = [int(i) for i in age_ids.split(",") if i.isdigit()]
-        query = query.join(kit_age).filter(kit_age.c.age_id.in_(age_id_list))
+        ids = [int(i) for i in age_ids.split(",") if i.isdigit()]
+        query = query.join(kit_age).filter(kit_age.c.age_id.in_(ids))
 
     if category_ids:
-        category_id_list = [int(i) for i in category_ids.split(",") if i.isdigit()]
-        query = query.join(kit_category).filter(kit_category.c.category_id.in_(category_id_list))
+        ids = [int(i) for i in category_ids.split(",") if i.isdigit()]
+        query = query.join(kit_category).filter(kit_category.c.category_id.in_(ids))
 
     if grade_ids:
-        grade_id_list = [int(i) for i in grade_ids.split(",") if i.isdigit()]
-        query = query.join(kit_grade).filter(kit_grade.c.grade_id.in_(grade_id_list))
+        ids = [int(i) for i in grade_ids.split(",") if i.isdigit()]
+        query = query.join(kit_grade).filter(kit_grade.c.grade_id.in_(ids))
 
     if theme_ids:
-        theme_id_list = [int(i) for i in theme_ids.split(",") if i.isdigit()]
-        query = query.join(kit_theme).filter(kit_theme.c.theme_id.in_(theme_id_list))
-    
-    price_range = request.args.get("price_range")
+        ids = [int(i) for i in theme_ids.split(",") if i.isdigit()]
+        query = query.join(kit_theme).filter(kit_theme.c.theme_id.in_(ids))
+
     if price_range:
         try:
             min_price, max_price = map(float, price_range.split('_'))
@@ -80,31 +84,34 @@ def get_kits():
         except ValueError:
             return jsonify({"error": "Invalid price range format. Expected 'min_max'."}), 400
 
-
     if filters:
         query = query.where(and_(*filters))
-        
-
-    kits = db.session.execute(query).unique().scalars().all()
-    if min_rating is not None:
-        kits = [kit for kit in kits if (kit.average_rating or 0) >= min_rating]
-    if locations:
-        location_list = [loc.strip() for loc in locations.split(",") if loc.strip()]
-        kits = [kit for kit in kits if any(loc in inv.location_name for loc in location_list for inv in kit.inventories)]
 
     sort_column = getattr(Kit, sort_by, Kit.name)
     if sort_dir == "desc":
-        sort_column = sort_column.desc()
+        query = query.order_by(sort_column.desc())
     else:
-        sort_column = sort_column.asc()
+        query = query.order_by(sort_column.asc())
 
-    query = query.order_by(sort_column)
+    kits = db.session.execute(query).unique().scalars().all()
 
-    all_kits = db.session.execute(query).unique().scalars().all()
+    # Post-query filtering (Python-side)
+    if min_rating is not None:
+        kits = [kit for kit in kits if (kit.average_rating or 0) >= min_rating]
+
+    if locations:
+        location_list = [loc.strip() for loc in locations.split(",") if loc.strip()]
+        kits = [
+            kit for kit in kits
+            if any(loc in inv.location_name for loc in location_list for inv in kit.inventories)
+        ]
+
     start = (page - 1) * per_page
     end = start + per_page
+    paginated_kits = kits[start:end]
 
-    return jsonify(kits_schema.dump(all_kits[start:end])), 200
+    return jsonify(kits_schema.dump(paginated_kits)), 200
+
 
 
 @kit_bp.route("/<int:id>", methods=["GET"])

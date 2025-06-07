@@ -21,6 +21,7 @@ export default function CharacterList({
   selectedGrades = [],
   rating = '',
   locations = [],
+  priceRange = [],
   page,
   onPageChange
 }) {
@@ -48,7 +49,9 @@ export default function CharacterList({
       url += `&theme_ids=${selectedThemes.join(',')}`;
     if (Array.isArray(selectedGrades) && selectedGrades.length)
       url += `&grade_ids=${selectedGrades.join(',')}`;
-  
+    if (Array.isArray(priceRange) && priceRange.length === 2) {
+      url += `&min_price=${priceRange[0]}&max_price=${priceRange[1]}`;
+    }
     try {
       const res = await fetch(url, { method: 'GET', credentials: 'include' });
       const data = await res.json();

@@ -28,15 +28,30 @@ export default function Orders() {
 
   useEffect(() => {
     if (!currentUser) return;
-    const url = viewAll && currentUser.role === 'admin'
+
+    const baseUrl = viewAll && currentUser.role === 'admin'
       ? `${API_BASE}/api/purchases/all`
       : `${API_BASE}/api/purchases`;
 
-    fetch(url, { credentials: 'include' })
+    const params = new URLSearchParams({
+      age_ids: (filters.age_ids || []).join(','),
+      category_ids: (filters.category_ids || []).join(','),
+      theme_ids: (filters.theme_ids || []).join(','),
+      grade_ids: (filters.grade_ids || []).join(','),
+      location_names: (filters.location_names || []).join(','),
+      rating: filters.rating || '',
+      sort_by: sortBy,
+      sort_dir: sortDir,
+      page: currentPage,
+      per_page: itemsPerPage,
+    });
+
+    fetch(`${baseUrl}?${params}`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => setPurchases(data))
       .catch(err => console.error('Error fetching purchases:', err));
-  }, [currentUser, viewAll, API_BASE]);
+  }, [currentUser, viewAll, filters, sortBy, sortDir, currentPage, itemsPerPage]);
+
 
   if (!currentUser) return null;
 

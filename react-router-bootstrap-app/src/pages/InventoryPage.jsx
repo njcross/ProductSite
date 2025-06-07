@@ -35,7 +35,16 @@ export default function InventoryPage() {
       return;
     }
 
-    fetch(`${API_BASE}/api/inventory`, { credentials: 'include' })
+    const params = new URLSearchParams({
+      page,
+      perPage: itemsPerPage,
+      sortBy,
+      sortDir,
+      rating: filters.rating || '',
+      locations: (filters.locations || []).join(',')
+    });
+
+    fetch(`${API_BASE}/api/inventory?${params}`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
         const withOriginal = data.map(item => ({
@@ -46,7 +55,7 @@ export default function InventoryPage() {
         setInventory(withOriginal);
       })
       .catch(console.error);
-  }, [currentUser, navigate]);
+  }, [currentUser, navigate, page, itemsPerPage, sortBy, sortDir, filters]);
 
   const handleUpdate = (inv) => {
     const payload = {
@@ -117,30 +126,6 @@ export default function InventoryPage() {
     );
   };
 
-
-
-  const matchesFilters = (item) => {
-    if (filters.rating && (item.kit?.rating || 0) < parseFloat(filters.rating)) return false;
-    if (filters.locations?.length && !filters.locations.includes(item.location_name)) return false;
-    return true;
-  };
-
-  const filteredInventory = inventory.filter(matchesFilters);
-
-  const sortedInventory = [...filteredInventory].sort((a, b) => {
-    const aVal = (a[sortBy] || a.kit?.[sortBy] || '').toString().toLowerCase();
-    const bVal = (b[sortBy] || b.kit?.[sortBy] || '').toString().toLowerCase();
-
-    if (aVal < bVal) return sortDir === 'asc' ? -1 : 1;
-    if (aVal > bVal) return sortDir === 'asc' ? 1 : -1;
-    return 0;
-  });
-
-  const paginatedInventory = sortedInventory.slice(
-    (page - 1) * itemsPerPage,
-    page * itemsPerPage
-  );
-
   return (
     <Container className="mt-4">
       <Helmet>
@@ -183,7 +168,7 @@ export default function InventoryPage() {
               </tr>
             </thead>
             <tbody>
-              {paginatedInventory.map((inv, i) => (
+              {inventory.map((inv, i) => (
                 <tr key={`${inv.kit_id}-${inv.location}`}>
                   <td>
                     {inv.kit?.image_url && (
@@ -225,7 +210,7 @@ export default function InventoryPage() {
           <PaginationControls
             page={page}
             onPageChange={setPage}
-            hasNext={page * itemsPerPage < sortedInventory.length}
+            hasNext={inventory.length === itemsPerPage}
             currentPage={page}
           />
         </div>
