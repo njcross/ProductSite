@@ -20,6 +20,7 @@ export default function FilterBy({
   collection = 'kits',
   initialSelectedRatings = '',
   priceRangeOverride = null,
+  showUserFilter = false,
 }) {
   const API_BASE = process.env.REACT_APP_API_URL;
   const [ageOptions, setAgeOptions] = useState([]);
@@ -37,6 +38,8 @@ export default function FilterBy({
   const [updatedSelectedLocations, setSelectedLocations] = useState([]);
   const [quantityRange, setQuantityRange] = useState([]);
   const [selectedKitIds, setSelectedKitIds] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [selectedUserIds, setSelectedUserIds] = useState([]);
 
   const MIN_PRICE = 0;
   const MAX_PRICE = 30;
@@ -51,7 +54,12 @@ export default function FilterBy({
     fetch(`${API_BASE}/api/kits/grade-options`).then(res => res.json()).then(setGradeOptions).catch(console.error);
     fetch(`${API_BASE}/api/inventory/locations`).then(res => res.json()).then(setLocationOptions).catch(console.error);
     fetch(`${API_BASE}/api/kits`).then(res => res.json()).then(setKitOptions).catch(console.error);
-
+    if (collection === 'orders' && showUserFilter) {
+      fetch(`${API_BASE}/api/users`)
+        .then(res => res.json())
+        .then(setUsers)
+        .catch(console.error);
+    }
     const saved = localStorage.getItem(localKey);
     if (saved) {
       const parsed = JSON.parse(saved);
@@ -64,6 +72,7 @@ export default function FilterBy({
       if (parsed.shipping_type) setSelectedShipping(parsed.shipping_type)
       if (parsed.status) setSelectedStatuses(parsed.status)
       if (parsed.payment_method) setSelectedPaymentMethods(parsed.payment_method)
+      if (parsed.user_ids) setSelectedUserIds(parsed.user_ids);
       onFilterChange(parsed);
     }
   }, [API_BASE, collection]);
@@ -81,6 +90,7 @@ export default function FilterBy({
       filtersToSave.shipping_type = selectedShipping
       filtersToSave.status = selectedStatuses
       filtersToSave.payment_method = selectedPaymentMethods
+      filtersToSave.user_ids = selectedUserIds;
     }
 
     if (collection === 'kits') {
@@ -125,6 +135,7 @@ export default function FilterBy({
       payment_method: selectedPaymentMethods,
       shipping_type: selectedShipping,
       kit_ids: selectedKitIds,
+      user_ids: selectedUserIds,
     }[type] || [];
 
     const newSelected = currentSelections.includes(id)
@@ -136,6 +147,7 @@ export default function FilterBy({
     if (type === 'shipping_type') setSelectedShipping(newSelected);
     if (type === 'status') setSelectedStatuses(newSelected);
     if (type === 'payment_method') setSelectedPaymentMethods(newSelected);
+    if (type === 'user_ids') setSelectedUserIds(newSelected);
     onFilterChange({ [type]: newSelected });
   };
 
@@ -167,6 +179,23 @@ export default function FilterBy({
                   onChange={() => handleToggle('age_ids', String(age.id))}
                 />
                 {age.name}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+      {collection === 'orders' && showUserFilter && (
+        <>
+          <label><EditableField contentKey="content_323" defaultText="Filter by User" /></label>
+          <ul className="filter-list">
+            {users.map(user => (
+              <li key={user.id}>
+                <input
+                  type="checkbox"
+                  checked={selectedUserIds.includes(String(user.id))}
+                  onChange={() => handleToggle('user_ids', String(user.id))}
+                />
+                {user.username}
               </li>
             ))}
           </ul>

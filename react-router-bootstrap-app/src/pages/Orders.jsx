@@ -47,6 +47,7 @@ export default function Orders() {
       theme_ids: (filters.theme_ids || []).join(','),
       grade_ids: (filters.grade_ids || []).join(','),
       location_names: (filters.location_names || []).join(','),
+      user_ids: (filters.user_ids || []).join(','),
       rating: filters.rating || '',
       sort_by: sortBy,
       sort_dir: sortDir,
@@ -134,6 +135,7 @@ export default function Orders() {
             collection="orders"
             currentUser={currentUser}
             onFilterChange={(updated) => setFilters(prev => ({ ...prev, ...updated }))}
+            showUserFilter={viewAll && currentUser.role === 'admin'}
           />
           <Button
             variant="outline-secondary"
