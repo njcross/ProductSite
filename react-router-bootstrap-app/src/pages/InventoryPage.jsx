@@ -174,6 +174,7 @@ export default function InventoryPage() {
           <ViewingOptions
             viewMode={viewMode}
             setViewMode={setViewMode}
+            onViewModeChange={setViewMode}
             itemsPerPage={itemsPerPage}
             setItemsPerPage={setItemsPerPage}
             sortBy={sortBy}
