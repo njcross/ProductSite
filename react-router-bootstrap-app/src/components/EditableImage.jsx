@@ -3,7 +3,7 @@ import { useUser } from '../context/UserContext';
 import { ContentContext } from '../context/ContentContext';
 import styles from '../styles/global.module.css';
 
-export default function EditableImage({ contentKey, alt, fieldBelow = null }) {
+export default function EditableImage({ contentKey, alt, fieldBelow = null, className = '' }) {
   const { currentUser } = useUser();
   const { content, setContent } = useContext(ContentContext);
   const isAdmin = currentUser?.role === 'admin';
@@ -70,7 +70,7 @@ export default function EditableImage({ contentKey, alt, fieldBelow = null }) {
     <div className="editable-image-wrapper">
       <img
         src={src}
-        className={fieldBelow ? styles.thumbnail : undefined}
+        className={`${fieldBelow ? styles.thumbnail : ''} ${className}`.trim()}
       />
 
       {fieldBelow && <div className="editable-below">{fieldBelow}</div>}
