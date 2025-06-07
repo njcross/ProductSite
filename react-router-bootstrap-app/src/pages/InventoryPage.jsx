@@ -27,7 +27,7 @@ export default function InventoryPage() {
   const defaultFilters = { rating: '', locations: [] };
   const [filters, setFilters] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem('inventoryFilters')) || defaultFilters;
+      return JSON.parse(localStorage.getItem('filters_inventory')) || defaultFilters;
     } catch {
       return defaultFilters;
     }

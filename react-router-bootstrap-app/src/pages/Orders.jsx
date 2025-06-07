@@ -9,7 +9,7 @@ import PaginationControls from '../components/PaginationControls';
 import ReviewModal from '../components/ReviewModal';
 import './Orders.css';
 
-const LOCAL_STORAGE_KEY = 'ordersFilters';
+const LOCAL_STORAGE_KEY = 'filters_orders';
 
 export default function Orders() {
   const { currentUser } = useUser();
