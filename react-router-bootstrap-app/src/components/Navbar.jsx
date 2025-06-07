@@ -5,6 +5,7 @@ import { useState } from 'react';
 import EditableField from '../components/EditableField';import { Link } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
 import './Navbar.css';
+import styles from '../styles/global.module.css'
 
 
 export default function Navbar() {
@@ -27,33 +28,30 @@ export default function Navbar() {
         </button>
 
         <div className={`collapse navbar-collapse ${expanded ? 'show' : ''}`}>
-          <div className="navbar-nav me-auto">
-            <Link className="nav-link" to="/" onClick={closeNavbar}>{<EditableField contentKey="content_66" />}</Link>
-            <Link className="nav-link" to="/cards" onClick={closeNavbar}>{<EditableField contentKey="content_67" />}</Link>
+          <div className="navbar-nav">
+            <Link className={`${styles.navButton} icon-toggle`} to="/" onClick={closeNavbar}>{<EditableField contentKey="content_66" />}</Link>
+            <Link className={`${styles.navButton} icon-toggle`} to="/cards" onClick={closeNavbar}>{<EditableField contentKey="content_67" />}</Link>
             
             {currentUser && (
-  <Link to="/favorites" className="nav-link" onClick={closeNavbar}>
+  <Link to="/favorites" className={`${styles.navButton} icon-toggle`} onClick={closeNavbar}>
     {<EditableField contentKey="content_145" />}
   </Link>
 )}
-          <Link className="nav-link" to="/about" onClick={closeNavbar}>{<EditableField contentKey="content_68" />}</Link>
+          <Link className={`${styles.navButton} icon-toggle`} to="/about" onClick={closeNavbar}>{<EditableField contentKey="content_68" />}</Link>
              {/* Admin-only Newsletter link */}
              {isAdmin && (
-              <Link className="nav-link" to="/newsletter" onClick={closeNavbar}>
+              <Link className={`${styles.navButton} icon-toggle`} to="/newsletter" onClick={closeNavbar}>
                 <EditableField contentKey="content_143" defaultText="Newsletter" />
               </Link>
             )}
             {isAdmin && (
-  <Link to="/inventory" className="nav-link" onClick={closeNavbar}>
+  <Link to="/inventory" className={`${styles.navButton} icon-toggle`} onClick={closeNavbar}>
     <EditableField contentKey="content_251" defaultText="Inventory" />
   </Link>
 )}
-          <Link to="/resources" className="nav-link" onClick={closeNavbar}>
+          <Link to="/resources" className={`${styles.navButton} icon-toggle`} onClick={closeNavbar}>
             <EditableField contentKey="content_312" />
           </Link>
-          <div className="call-to-action">
-          <EditableField className="call-to-action" contentKey="content_252" defaultText="" style={{ textAlign: 'center' }}/>
-          </div>
           </div>
         </div>
       </div>

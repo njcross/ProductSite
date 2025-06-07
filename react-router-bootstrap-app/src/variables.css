@@ -1,14 +1,14 @@
 :root {
   /* Primary Palette */
   --color-primary: rgb(0, 74, 152);
-  --color-primary-dark: #ff9b6a;
-  --color-secondary: #1b1b1b;
+  --color-primary-dark: #ef3e3e;
+  --color-secondary: #ff9b6a;
   --color-accent: #fec632;
   --color-danger: #ef3e3e;
   --color-success: #4caf50;
 
   /* Text Colors */
-  --color-heading: #000000;
+  --color-heading: rgb(0, 74, 152);
   --color-text: #222222;
   --color-text-dark: #1a1a1a;
   --color-text-muted: #cccccc;
@@ -23,6 +23,7 @@
   --bg-highlight: #fec632;
   --bg-input: #f0f0f0;
   --bg-action-item: #fec632;
+  --bg-button: #fec632;
 
   /* Border Colors */
   --border-color: #e0e0e0;

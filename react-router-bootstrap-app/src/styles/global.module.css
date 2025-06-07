@@ -132,27 +132,54 @@
 }
 
 /* Margin/Padding Utilities */
-.mt-lg {
-  margin-top: var(--spacing-lg, 3rem);
+.mtLg {
+  margin-top: var(--margin-lg, 3rem);
 }
 
-.mb-lg {
-  margin-bottom: var(--spacing-lg, 3rem);
+.mbLg {
+  margin-bottom: var(--margin-lg, 3rem);
 }
 
-.p-lg {
+.mlMd {
+  margin-left: var(--margin-md, 1rem);
+}
+
+.mrMd {
+  margin-right: var(--margin-md, 1rem);
+}
+
+.mhorzMd {
+  margin-left: var(--margin-md, 1rem);
+  margin-right: var(--margin-md, 1rem);
+}
+
+.mbMd {
+  margin-bottom: var(--margin-md, 1rem);
+}
+
+.mvertMd {
+  margin-bottom: var(--margin-md, 1rem);
+  margin-top: var(--margin-md, 1rem);
+}
+
+.mvertSm {
+  margin-bottom: var(--margin-sm, .5rem);
+  margin-top: var(--margin-sm, .5rem);
+}
+
+.paddingLg {
   padding: var(--spacing-lg, 3rem);
 }
 
-.p-sm {
+.paddingSm {
   padding: var(--spacing-sm, 0.75rem);
 }
 
-.pt-md {
+.paddingtMd {
   padding-top: var(--spacing-md, 1.5rem);
 }
 
-.pb-md {
+.paddingbMd {
   padding-bottom: var(--spacing-md, 1.5rem);
 }
 
@@ -184,19 +211,48 @@
   }
 }
 
-.largeButton {
-  font-size: 1.75rem;
+.largeNavButton {
+  font-size: 1.5rem; /* Slightly larger than navButton */
   font-weight: bold;
-  padding: 0.5rem 1.25rem;
-  background-color: var(--color-primary, #f4c630);
-  color: #000;
-  border-radius: var(--border-radius, 8px);
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  padding: 0.5rem 1rem;
+  background-color: var(--bg-button, #fec632);
+  color: var(--color-heading, #000000);
+  border: none;
+  border-radius: var(--radius-lg, 12px); /* Match navButton */
   text-decoration: none;
+  text-align: center;
   display: inline-block;
-  transition: background-color 0.3s ease;
+  box-shadow: var(--box-shadow-soft, 0 2px 4px rgba(0, 0, 0, 0.1)); /* Match navButton */
+  transition: background-color var(--transition-default, 0.3s ease-in-out), box-shadow var(--transition-default, 0.3s ease-in-out);
+  cursor: pointer;
 }
 
-.largeButton:hover {
-  background-color: var(--color-primary-hover, #eab308);
-  color: #000;
+.largeNavButton:hover {
+  background-color: var(--color-primary, #ef3e3e);
+  color: var(--color-white, #ffffff);
+  box-shadow: var(--box-shadow-medium, 0 4px 12px rgba(0, 0, 0, 0.15));
+}
+
+.navButton {
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  padding: 0.5rem 1rem;
+  background-color: var(--bg-button, #fec632);
+  color: var(--color-heading, #000000);
+  border: none;
+  border-radius: var(--radius-lg, 12px);
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  box-shadow: var(--box-shadow-soft, 0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: background-color var(--transition-default, 0.3s ease-in-out), box-shadow var(--transition-default, 0.3s ease-in-out);
+  cursor: pointer;
+}
+
+.navButton:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white, #ffffff);
+  box-shadow: var(--box-shadow-medium, 0 4px 12px rgba(0, 0, 0, 0.15));
 }
