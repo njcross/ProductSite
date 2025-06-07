@@ -39,8 +39,8 @@ create_test_kit_and_inventory = (<Kit 1>, <Inventory 1>)
     def test_create_purchase(admin_logged_in_client, admin_auth_header, create_test_kit_and_inventory):
         kit, inventory = create_test_kit_and_inventory
     
->       with patch("app.routes.purchase_bp.stripe.PaymentIntent.create") as mock_create_intent, \
-             patch("app.routes.purchase_bp.stripe.PaymentIntent.confirm") as mock_confirm_intent:
+>       with patch("app.routes.purchase_routes.stripe.PaymentIntent.create") as mock_create_intent, \
+             patch("app.routes.purchase_routes.stripe.PaymentIntent.confirm") as mock_confirm_intent:
 
 tests\test_purchase_routes.py:23: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -162,4 +162,4 @@ tests\test_purchases.py:29: AssertionError
 =========================== short test summary info ===========================
 FAILED tests/test_purchase_routes.py::test_create_purchase - AttributeError: ...
 FAILED tests/test_purchases.py::test_checkout - assert 400 == 201
-=================== 2 failed, 41 passed in 80.32s (0:01:20) ===================
+=================== 2 failed, 41 passed in 76.65s (0:01:16) ===================
