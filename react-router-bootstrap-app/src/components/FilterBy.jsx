@@ -55,10 +55,13 @@ export default function FilterBy({
     fetch(`${API_BASE}/api/inventory/locations`).then(res => res.json()).then(setLocationOptions).catch(console.error);
     fetch(`${API_BASE}/api/kits`).then(res => res.json()).then(setKitOptions).catch(console.error);
     if (collection === 'orders' && showUserFilter) {
-      fetch(`${API_BASE}/api/users`)
-        .then(res => res.json())
-        .then(setUsers)
-        .catch(console.error);
+        fetch(`${API_BASE}/api/users`, {
+        method: 'GET',
+        credentials: 'include',
+      })
+      .then(res => res.json())
+      .then(setUsers)
+      .catch(console.error);
     }
     const saved = localStorage.getItem(localKey);
     if (saved) {
