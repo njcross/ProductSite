@@ -5,6 +5,7 @@ from app.extensions import db
 from sqlalchemy.orm import joinedload
 from app.schemas.kit_schema import kit_schema
 from app.schemas.inventory_schema import inventories_schema, inventory_schema
+from app.models.kits import Kit
 import requests
 import os
 
@@ -182,15 +183,31 @@ def get_inventory():
         loc_list = [l.strip() for l in locations.split(",") if l.strip()]
         query = query.filter(Inventory.location_name.in_(loc_list))
 
-    sort_column = getattr(Inventory, sort_by, Inventory.location_name)
-    if sort_dir == "desc":
-        query = query.order_by(sort_column.desc())
+    # Sort safely
+    sort_whitelist = {
+        "location_name": Inventory.location_name,
+        "quantity": Inventory.quantity,
+        "location": Inventory.location,
+    }
+    if sort_by in ['name', 'avg_rating', 'price']:
+        sort_column = getattr(Kit, sort_by)
+        query = query.join(Inventory.kit)
     else:
-        query = query.order_by(sort_column.asc())
+        sort_column = getattr(Inventory, sort_by, Inventory.location_name)
+    query = query.order_by(sort_column.desc() if sort_dir == "desc" else sort_column.asc())
 
-    paginated = query.offset((page - 1) * per_page).limit(per_page).all()
+    # Pagination
+    total = query.count()
+    results = query.offset((page - 1) * per_page).limit(per_page).all()
+    serialized = inventory_schema.dump(results, many=True)
 
-    return jsonify(inventory_schema.dump(paginated, many=True))
+    return jsonify({
+        "items": serialized,
+        "total": total,
+        "page": page,
+        "perPage": per_page,
+        "hasNext": (page * per_page) < total
+    })
 
 
 

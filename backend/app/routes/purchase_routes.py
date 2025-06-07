@@ -2,6 +2,8 @@ import flask
 import stripe
 from app.extensions import db
 from app.models.purchase import Purchase
+from app.models.kits import Kit
+from app.models.inventory import Inventory
 from app.schemas.purchase_schema import PurchaseSchema
 from app.utils.decorators import admin_required, login_required
 from flask import Blueprint, request, jsonify, session
@@ -114,16 +116,20 @@ def get_my_purchases():
         query = query.filter(Purchase.kit.has(Kit.grade.any(Kit.grade.property.mapper.class_.id.in_(grade_ids))))
 
     # Sorting and pagination
-    sort_by = request.args.get('sort_by', 'time_bought')
-    sort_dir = request.args.get('sort_dir', 'desc')
+    sort_by = request.args.get('sortBy', 'date')
+    sort_dir = request.args.get('sortDir', 'desc')
+
+    if sort_by in ['name', 'avg_rating', 'price']:
+        sort_column = getattr(Kit, sort_by)
+    elif sort_by in ['quantity']:
+        sort_column = Purchase.quantity
+    else:
+        sort_column = Purchase.created_at
+
+    query = query.join(Purchase.inventory).join(Inventory.kit)
+    query = query.order_by(sort_column.desc() if sort_dir == 'desc' else sort_column.asc())
     page = int(request.args.get('page', 1))
     per_page = int(request.args.get('per_page', 10))
-
-    sort_column = getattr(Purchase, sort_by, Purchase.time_bought)
-    if sort_dir == 'desc':
-        query = query.order_by(sort_column.desc())
-    else:
-        query = query.order_by(sort_column.asc())
 
     paginated = query.offset((page - 1) * per_page).limit(per_page).all()
     return jsonify(purchases_schema.dump(paginated)), 200
@@ -159,14 +165,19 @@ def get_all_purchases():
         query = query.filter(Purchase.kit.has(Kit.grade.any(Kit.grade.property.mapper.class_.id.in_(grade_ids))))
 
     # --- Sorting ---
-    sort_by = request.args.get('sort_by', 'time_bought')
-    sort_dir = request.args.get('sort_dir', 'desc')
+    sort_by = request.args.get('sortBy', 'date')
+    sort_dir = request.args.get('sortDir', 'desc')
 
-    sort_column = getattr(Purchase, sort_by, Purchase.time_bought)
-    if sort_dir == 'desc':
-        query = query.order_by(sort_column.desc())
+    if sort_by in ['name', 'avg_rating', 'price']:
+        sort_column = getattr(Kit, sort_by)
+    elif sort_by in ['quantity']:
+        sort_column = Purchase.quantity
     else:
-        query = query.order_by(sort_column.asc())
+        sort_column = Purchase.created_at
+
+    query = query.join(Purchase.inventory).join(Inventory.kit)
+    query = query.order_by(sort_column.desc() if sort_dir == 'desc' else sort_column.asc())
+
 
     # --- Pagination ---
     page = int(request.args.get('page', 1))

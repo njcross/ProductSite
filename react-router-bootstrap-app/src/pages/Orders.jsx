@@ -54,35 +54,7 @@ export default function Orders() {
 
 
   if (!currentUser) return null;
-
-  const filteredPurchases = purchases.filter(purchase => {
-    const { age_ids, category_ids, theme_ids, grade_ids, location_names, rating } = filters;
-    const kit = purchase.kit || {};
-    const inv = purchase.inventory || {};
-
-    const matchAge = !age_ids || age_ids.length === 0 || (kit.age?.some(a => age_ids.includes(String(a.id))));
-    const matchCategory = !category_ids || category_ids.length === 0 || (kit.category?.some(c => category_ids.includes(String(c.id))));
-    const matchTheme = !theme_ids || theme_ids.length === 0 || (kit.theme?.some(t => theme_ids.includes(String(t.id))));
-    const matchGrade = !grade_ids || grade_ids.length === 0 || (kit.grade?.some(g => grade_ids.includes(String(g.id))));
-    const matchLocation = !location_names || location_names.length === 0 || location_names.includes(inv.location);
-    const matchRating = !rating || !kit.avg_rating || kit.avg_rating >= parseInt(rating);
-
-    return matchAge && matchCategory && matchTheme && matchGrade && matchLocation && matchRating;
-  });
-
-  const sortedPurchases = [...filteredPurchases].sort((a, b) => {
-    const direction = sortDir === 'asc' ? 1 : -1;
-
-    if (sortBy === 'quantity') return direction * (a.quantity - b.quantity);
-    if (sortBy === 'location') return direction * (a.inventory?.location || '').localeCompare(b.inventory?.location || '');
-    return direction * (new Date(a.time_bought) - new Date(b.time_bought)); // default: date
-  });
-
-
-  const paginatedPurchases = sortedPurchases.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const displayedPurchases = purchases;
 
   const handleCancel = async (id) => {
     if (!window.confirm('Are you sure you want to cancel this order?')) return;

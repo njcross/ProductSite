@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './ViewingOptions.css';
 import EditableField from '../components/EditableField';
 import { useUser } from '../context/UserContext';
@@ -14,7 +13,7 @@ export default function ViewingOptions({
   onSortDirChange,
   search,
   onClearSearch,
-  collection = 'kits'  // default fallback
+  collection = 'kits'
 }) {
   const { currentUser } = useUser();
 
@@ -22,36 +21,48 @@ export default function ViewingOptions({
     onSortDirChange(sortDir === 'asc' ? 'desc' : 'asc');
   };
 
-const sortOptions = {
-  kits: [
-    { value: 'name', label: 'content_86' },
-    { value: 'price', label: 'content_112' },
-    { value: 'description', label: 'content_200' },
-  ],
-  orders: [
-    { value: 'date', label: 'content_235' },
-    { value: 'quantity', label: 'content_234' },
-    { value: 'location', label: 'content_250' },
-  ],
-  inventory: [
-    { value: 'quantity', label: 'content_234' },        // Quantity
-    { value: 'location_name', label: 'content_250' },   // Location
-    { value: 'kit_name', label: 'content_263' }         // Kit Name
-  ]
-}[collection] || [];
+  const sortOptions = {
+    kits: [
+      { value: 'name', label: 'content_86' },           // Name (A-Z)
+      { value: 'price', label: 'content_112' },         // Price
+      { value: 'average_rating', label: 'content_219' },// Rating
+      { value: 'description', label: 'content_200' },   // Description
+    ],
+    orders: [
+      { value: 'created_at', label: 'content_235' },    // Date Purchased
+      { value: 'quantity', label: 'content_234' },      // Quantity
+      { value: 'location_name', label: 'content_250' }, // Location
+      { value: 'name', label: 'content_232' },          // Kit Name
+      { value: 'average_rating', label: 'content_219' },// Rating
+      { value: 'price', label: 'content_112' },         // Price
+    ],
+    inventory: [
+      { value: 'quantity', label: 'content_234' },      // Quantity
+      { value: 'location_name', label: 'content_250' }, // Location
+      { value: 'name', label: 'content_232' },          // Kit Name
+      { value: 'average_rating', label: 'content_219' },// Rating
+      { value: 'price', label: 'content_112' },         // Price
+    ]
+  }[collection] || [];
 
-   return (
+  return (
     <div className="viewing-options">
-      {collection === "kits" && (
-      <div className="option-group">
-        <span className="label"><EditableField contentKey="content_79" /></span>
-        <button className={`toggle-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => onViewModeChange('grid')}>
-          <EditableField contentKey="content_80" />
-        </button>
-        <button className={`toggle-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => onViewModeChange('list')}>
-          <EditableField contentKey="content_81" />
-        </button>
-      </div>
+      {collection === 'kits' && (
+        <div className="option-group">
+          <span className="label"><EditableField contentKey="content_79" /></span>
+          <button
+            className={`toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
+            onClick={() => onViewModeChange('grid')}
+          >
+            <EditableField contentKey="content_80" />
+          </button>
+          <button
+            className={`toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
+            onClick={() => onViewModeChange('list')}
+          >
+            <EditableField contentKey="content_81" />
+          </button>
+        </div>
       )}
 
       <div className="option-group">
@@ -91,4 +102,3 @@ const sortOptions = {
     </div>
   );
 }
-

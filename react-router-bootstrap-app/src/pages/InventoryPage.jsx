@@ -47,12 +47,13 @@ export default function InventoryPage() {
     fetch(`${API_BASE}/api/inventory?${params}`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
-        const withOriginal = data.map(item => ({
+        const withOriginal = data.items.map(item => ({
           ...item,
           original_location: item.location,
           original_kit_id: item.kit_id
         }));
         setInventory(withOriginal);
+        setHasNext(data.hasNext); // <- optionally tracked
       })
       .catch(console.error);
   }, [currentUser, navigate, page, itemsPerPage, sortBy, sortDir, filters]);
