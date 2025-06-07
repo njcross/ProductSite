@@ -153,6 +153,7 @@ def decrement_quantity():
             "kit_id": kit_id,
             "quantity": quantity
         })
+    )
     return jsonify({'message': 'Inventory decremented', 'new_quantity': inv.quantity})
 
 @inventory_bp.route('/increment', methods=['POST'])
