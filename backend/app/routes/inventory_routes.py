@@ -68,7 +68,7 @@ def create_inventory():
 @inventory_bp.route('', methods=['PUT'])
 @admin_required
 def edit_inventory():
-    data = request.json
+    data = request.get_json(force=True)
     original_kit_id = data['original_kit_id']
     original_location_name = data['original_location_name']
 
