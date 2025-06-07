@@ -42,6 +42,7 @@ const sortOptions = {
 
    return (
     <div className="viewing-options">
+      {collection === "kits" && (
       <div className="option-group">
         <span className="label"><EditableField contentKey="content_79" /></span>
         <button className={`toggle-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => onViewModeChange('grid')}>
@@ -51,6 +52,7 @@ const sortOptions = {
           <EditableField contentKey="content_81" />
         </button>
       </div>
+      )}
 
       <div className="option-group">
         <label htmlFor="items-per-page"><EditableField contentKey="content_82" /></label>
