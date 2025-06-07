@@ -53,6 +53,20 @@ export default function CartPage() {
         return sum + price * quantity;
       }, 0)
     : 0;
+  const handleModalClose = async () => {
+    try {
+      await fetch(`${API_BASE}/api/inventory/restore-reserved`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: warehouseItems }),
+      });
+    } catch (err) {
+      console.error('Error restoring inventory or deleting Redis key:', err);
+    } finally {
+      setShowBillingModal(false);
+    }
+  };
 
   const handleCheckout = async () => {
     if (!currentUser) {
@@ -179,13 +193,14 @@ export default function CartPage() {
       {showBillingModal && (
         <BillingModal
           show={showBillingModal}
-          onHide={() => setShowBillingModal(false)}
+          onHide={handleModalClose}
           cart={cart}
           total={total}
           includeShipping={warehouseItems}
           onSuccess={() => {
             clearCart();
             setShowBillingModal(false);
+            navigate('/orders');
           }}
         />
 

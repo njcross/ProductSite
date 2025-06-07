@@ -251,3 +251,23 @@ def get_inventory_locations():
         {"location_name": loc[0], "location": loc[1]}
         for loc in locations
     ])
+
+@inventory_bp.route('/restore-reserved', methods=['POST'])
+@login_required
+def restore_reserved_inventory():
+    data = request.get_json()
+    for item in data.get('items', []):
+        inventory_id = item.get('inventory_id')
+        quantity = item.get('quantity')
+
+        inv = Inventory.query.get(inventory_id)
+        if inv:
+            inv.quantity += quantity
+            db.session.add(inv)
+        r = redis.Redis(host='localhost', port=6379, db=0)
+        # delete redis reservation key
+        key = f"reserved_inventory:{inventory_id}"
+        r.delete(key)
+
+    db.session.commit()
+    return jsonify({"success": True})
