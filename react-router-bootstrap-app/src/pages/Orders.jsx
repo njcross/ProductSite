@@ -149,7 +149,7 @@ export default function Orders() {
           />
 
 
-          {filteredPurchases.length === 0 ? (
+          {displayedPurchases.length === 0 ? (
             <p className="text-center text-muted">
               <EditableField contentKey="content_229" defaultText="No purchases found." />
             </p>
@@ -306,7 +306,7 @@ export default function Orders() {
           <PaginationControls
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
-            totalItems={filteredPurchases.length}
+            totalItems={displayedPurchases.length}
             itemsPerPage={itemsPerPage}
           />
           <ReviewModal

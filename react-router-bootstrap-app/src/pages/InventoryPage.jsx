@@ -24,11 +24,23 @@ export default function InventoryPage() {
   const navigate = useNavigate();
   const isAdmin = currentUser?.role === 'admin';
 
-  const [filters, setFilters] = useState({});
+  const defaultFilters = { rating: '', locations: [] };
+  const [filters, setFilters] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('inventoryFilters')) || defaultFilters;
+    } catch {
+      return defaultFilters;
+    }
+  });
+
   const [viewMode, setViewMode] = useState('grid');
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [sortBy, setSortBy] = useState('name');
   const [sortDir, setSortDir] = useState('asc');
+
+  useEffect(() => {
+    localStorage.setItem('inventoryFilters', JSON.stringify(filters));
+  }, [filters]);
 
   useEffect(() => {
     if (!isAdmin) {
@@ -137,6 +149,14 @@ export default function InventoryPage() {
       <h2>Inventory Management</h2>
       <div className="inventory-page d-flex">
         <div className="sidebar">
+          <Button
+            variant="outline-secondary"
+            size="sm"
+            className="mb-2"
+            onClick={() => setFilters(defaultFilters)}
+          >
+            Reset Filters
+          </Button>
           <FilterBy
             filters={filters}
             setFilters={setFilters}
