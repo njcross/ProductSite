@@ -153,7 +153,7 @@ def create_purchase():
             quantity=item['quantity'],
             inventory_id=item.get('inventory_id'),
             payment_method='stripe' if not is_admin else 'admin',
-            available_date= 1,
+            available_date= datetime.now(timezone.utc) + timedelta(hours=24),
             pick_up_date=datetime.now(timezone.utc) + timedelta(hours=24),
             status="Ready for pickup",
             shipping_address_id=shipping_address_id,

@@ -15,7 +15,7 @@ class Purchase(db.Model):
     shipping_type = db.Column(db.String(20), nullable=False, default='pickup')
 
     payment_method = db.Column(db.String(50))
-    available_date = db.Column(db.Integer)
+    available_date = db.Column(db.Date)
     pick_up_date = db.Column(db.Date)
 
     kit = db.relationship('Kit', back_populates='purchases', overlaps="purchase")
