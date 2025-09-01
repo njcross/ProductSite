@@ -29,7 +29,7 @@ export default function CartPage() {
         .then(setShippingAddresses)
         .catch(console.error);
     }
-  }, [currentUser]);
+  }, [currentUser, API_BASE]);
 
   const getDetails = (item) => {
     const kit = item.kit || item;
@@ -74,8 +74,14 @@ export default function CartPage() {
       return;
     }
 
+    if (!Array.isArray(cart) || cart.length === 0) {
+      alert('Your cart is empty.');
+      return;
+    }
+
     const warehouse = [];
     const pickups = [];
+
     try {
       for (const item of cart) {
         const { kit_id, quantity, inventory_id, location, id } = getDetails(item);
@@ -89,33 +95,50 @@ export default function CartPage() {
         });
 
         if (!decrementRes.ok) {
-          const err = await decrementRes.json();
+          const err = await decrementRes.json().catch(() => ({}));
           alert(`Inventory issue for ${item.kit?.name || 'item'}: ${err.error || 'Unavailable'}`);
           continue;
         }
 
+        // Store the cart *item* id so we can look up its name later
+        const entry = { kit_id, quantity, inventory_id, cartId: id };
+
         if (location_name.toLowerCase() === 'warehouse') {
-          warehouse.push({ kit_id, quantity, inventory_id, cartId: id });
+          warehouse.push(entry);
         } else {
-          pickups.push({ kit_id, quantity, inventory_id, cartId: id });
+          pickups.push(entry);
         }
       }
+
+      // If anything reserved from warehouse, we’ll include it for shipping
       if (warehouse.length > 0) {
-        const kitName = cart.find(i => i.id === warehouse[0].cartId)?.kit?.name || 'Kit';
+        const firstId = warehouse[0].cartId;
+        const kitName = cart.find(i => i.id === firstId)?.kit?.name || 'Kit';
         setSelectedKitName(kitName);
         setWarehouseItems(warehouse);
         setShowBillingModal(true);
-      } 
-      if (pickups.length > 0) {
-        const kitName = cart.find(i => i.id === warehouse[0].cartId)?.kit?.name || 'Kit';
-        setSelectedKitName(kitName);
-        setShowBillingModal(true);
+        return;
       }
+
+      // Otherwise if there are pickup items only, show billing (no shipping items)
+      if (pickups.length > 0) {
+        const firstId = pickups[0].cartId;
+        const kitName = cart.find(i => i.id === firstId)?.kit?.name || 'Kit';
+        setSelectedKitName(kitName);
+        setWarehouseItems([]); // no shipping items for pickup-only checkout
+        setShowBillingModal(true);
+        return;
+      }
+
+      // If nothing made it through (all decrements failed), let the user know
+      alert('No items available to checkout after inventory checks.');
+
     } catch (err) {
       console.error('Checkout failed:', err);
-      alert('Checkout failed: ' + err.message);
+      alert('Checkout failed: ' + (err?.message || String(err)));
     }
   };
+
 
   return (
     <Container className="cart-page">
