@@ -168,7 +168,7 @@ export default function InventorySection({ kitId, isAdmin, isLoggedIn, selectedI
             </>
           ) : (
             <>
-              <Col><strong>{inv.location || 'Loading address...'}</strong></Col>
+              <Col><strong>{inv.location || inv.location_name}</strong></Col>
               <Col>{inv.quantity} units</Col>
             </>
           )}

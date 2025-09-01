@@ -25,3 +25,5 @@ yarn-debug.log*
 yarn-error.log*
 
 backend/backend_test_output.txt
+
+backend_test_output.txt
