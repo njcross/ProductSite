@@ -179,7 +179,7 @@ def update_kit(id):
     }
 
     try:
-        updates = kit_schema.load(loadable_data)
+        updates = kit_schema.load(loadable_data, partial=True)
 
         # Apply simple field updates
         for key, value in updates.items():
