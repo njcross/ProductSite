@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+vimport { useEffect, useState } from 'react';
 import './FilterBy.css';
 import EditableField from '../components/EditableField';
 import ReactSlider from 'react-slider';
@@ -40,7 +40,7 @@ export default function FilterBy({
   const [users, setUsers] = useState([]);
   const [selectedUserIds, setSelectedUserIds] = useState([]);
 
-  // NEW: keep track of selected saved-filter id for delete "×"
+  // track currently selected saved filter (for delete "×")
   const [activeSavedId, setActiveSavedId] = useState('');
 
   const MIN_PRICE = 0;
@@ -56,15 +56,14 @@ export default function FilterBy({
     fetch(`${API_BASE}/api/kits/grade-options`).then(res => res.json()).then(setGradeOptions).catch(console.error);
     fetch(`${API_BASE}/api/inventory/locations`).then(res => res.json()).then(setLocationOptions).catch(console.error);
     fetch(`${API_BASE}/api/kits`).then(res => res.json()).then(setKitOptions).catch(console.error);
+
     if (collection === 'orders' && showUserFilter) {
-      fetch(`${API_BASE}/api/users`, {
-        method: 'GET',
-        credentials: 'include',
-      })
+      fetch(`${API_BASE}/api/users`, { method: 'GET', credentials: 'include' })
         .then(res => res.json())
         .then(setUsers)
         .catch(console.error);
     }
+
     const saved = localStorage.getItem(localKey);
     if (saved) {
       const parsed = JSON.parse(saved);
@@ -80,7 +79,7 @@ export default function FilterBy({
       if (parsed.user_ids) setSelectedUserIds(parsed.user_ids);
       onFilterChange(parsed);
     }
-  }, [API_BASE, collection, collection, showUserFilter]);
+  }, [API_BASE, collection, collection, showUserFilter]); // (dup collection in deps preserved from your code)
 
   useEffect(() => {
     const filtersToSave = {};
@@ -126,7 +125,7 @@ export default function FilterBy({
     selectedRating,
     priceRange,
     quantityRange,
-    selectedKitIds,
+    selectedKitIds
   ]);
 
   const handleToggle = (type, id) => {
@@ -145,9 +144,13 @@ export default function FilterBy({
 
     const idStr = String(id);
     const norm = currentSelections.map(String);
-    const nextStr = norm.includes(idStr) ? norm.filter(v => v !== idStr) : [...norm, idStr];
+    const nextStr = norm.includes(idStr)
+      ? norm.filter(v => v !== idStr)
+      : [...norm, idStr];
 
-    const next = currentSelections.some(v => typeof v === 'number') ? nextStr.map(Number) : nextStr;
+    const next = currentSelections.some(v => typeof v === 'number')
+      ? nextStr.map(Number)
+      : nextStr;
 
     if (type === 'kit_ids') setSelectedKitIds(next);
     if (type === 'location_names') setSelectedLocations(next);
@@ -407,53 +410,54 @@ export default function FilterBy({
         </>
       )}
 
-      {currentUser && savedFilters.length > 0 && collection === 'kits' && (
+      {currentUser && collection === 'kits' && (
         <div className="favorite-filters">
-          <div className="saved-filters">
-            <label><EditableField contentKey="content_308" defaultText="Favorites" /></label>
-            <div className="saved-filters-row">
-              <select
-                value={activeSavedId}
-                onChange={(e) => {
-                  const id = e.target.value;
-                  setActiveSavedId(id);
-                  if (id) onSelectSavedFilter(id);
-                }}
-              >
-                <option value="">Select a Saved Filter</option>
-                {savedFilters.map((filter) => (
-                  <option key={filter.id} value={filter.id}>
-                    {filter.name}
-                  </option>
-                ))}
-              </select>
-              <button
-                type="button"
-                className="delete-saved-filter"
-                title="Delete selected saved filter"
-                aria-label="Delete selected saved filter"
-                disabled={!activeSavedId}
-                onClick={() => {
-                  if (!activeSavedId) return;
-                  const f = savedFilters.find(s => String(s.id) === String(activeSavedId));
-                  const label = f?.name || 'this saved filter';
-                  if (window.confirm(`Delete "${label}"?`)) {
-                    onDeleteSavedFilter(activeSavedId);
-                    setActiveSavedId('');
-                  }
-                }}
-              >
-                ×
-              </button>
+          {savedFilters.length > 0 && (
+            <div className="saved-filters">
+              <label><EditableField contentKey="content_308" defaultText="Favorites" /></label>
+              <div className="saved-filters-row">
+                <select
+                  value={activeSavedId}
+                  onChange={(e) => {
+                    const id = e.target.value;
+                    setActiveSavedId(id);
+                    if (id) onSelectSavedFilter(id);
+                  }}
+                >
+                  <option value="">Select a Saved Filter</option>
+                  {savedFilters.map((filter) => (
+                    <option key={filter.id} value={filter.id}>{filter.name}</option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  className="delete-saved-filter"
+                  title="Delete selected saved filter"
+                  aria-label="Delete selected saved filter"
+                  disabled={!activeSavedId}
+                  onClick={() => {
+                    if (!activeSavedId) return;
+                    const f = savedFilters.find(s => String(s.id) === String(activeSavedId));
+                    const label = f?.name || 'this saved filter';
+                    if (window.confirm(`Delete "${label}"?`)) {
+                      onDeleteSavedFilter(activeSavedId);
+                      setActiveSavedId('');
+                    }
+                  }}
+                >
+                  ×
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
-      <div className="option-group">
+          )}
+
+          <div className="option-group">
             <button className="save-filter-btn" onClick={onSaveFilter}>
               <EditableField contentKey="content_144" defaultText="❤ Save This Search" />
             </button>
           </div>
+        </div>
+      )}
     </div>
   );
 }

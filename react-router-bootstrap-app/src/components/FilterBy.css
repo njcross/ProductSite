@@ -144,4 +144,27 @@
   height: 4px;
 }
 
+.saved-filters .saved-filters-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.saved-filters .saved-filters-row select {
+  flex: 1;
+}
+
+.delete-saved-filter {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+
+.delete-saved-filter:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 

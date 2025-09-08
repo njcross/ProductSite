@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import CharacterList from '../components/CharacterList';
 import FilterBy from '../components/FilterBy';
 import ViewingOptions from '../components/ViewingOptions';
@@ -8,7 +8,6 @@ import './Cards.css';
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import EditableField from '../components/EditableField';
-import { useMemo } from 'react';
 
 export default function Cards() {
   const { currentUser } = useUser();
@@ -31,7 +30,7 @@ export default function Cards() {
     locations: [],
     grade_ids: [],
     theme_ids: [],
-    price_range: []
+    price_range: [],
   };
 
   const [filters, setFilters] = useState(() => {
@@ -48,24 +47,23 @@ export default function Cards() {
   useEffect(() => {
     if (currentUser) {
       fetch(`${API_BASE}/api/favorites/`, {
-        credentials: 'include'
+        credentials: 'include',
       })
-        .then(res => res.json())
-        .then(data => {
-                 const onlySavedSearches = (data || []).filter(f =>
-                  // keep entries that are clearly “saved searches”
-         (f.type === 'filter' || !!f.filter_data)
-                  // and explicitly exclude any that reference a kit or character
-        && !f.kit_id && !f.character_id
-       );      setSavedFilters(onlySavedSearches);     })
-        .catch(err => console.error('Failed to fetch saved filters:', err));
+        .then((res) => res.json())
+        .then((data) => {
+          const onlySavedSearches = (data || []).filter(
+            (f) => (f.type === 'filter' || !!f.filter_data || !!f.filter_json) && !f.kit_id && !f.character_id
+          );
+          setSavedFilters(onlySavedSearches);
+        })
+        .catch((err) => console.error('Failed to fetch saved filters:', err));
     }
   }, [currentUser, API_BASE]);
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const searchQuery = queryParams.get('search') || '';
-    setFilters(prev => ({ ...prev, search: searchQuery }));
+    const qp = new URLSearchParams(location.search);
+    const sq = qp.get('search') || '';
+    setFilters((prev) => ({ ...prev, search: sq }));
   }, [location.search]);
 
   useEffect(() => {
@@ -74,27 +72,29 @@ export default function Cards() {
 
   const handleFilterChange = (updated) => {
     const shouldResetPage = [
-      'sortBy', 'sortDir', 'search',
-      'age_ids', 'category_ids', 'rating', 'locations', 'grade_ids', 'theme_ids', 'price_range'
-    ].some(key => key in updated);
-  
-    setFilters(prev => {
+      'sortBy',
+      'sortDir',
+      'search',
+      'age_ids',
+      'category_ids',
+      'rating',
+      'locations',
+      'grade_ids',
+      'theme_ids',
+      'price_range',
+    ].some((key) => key in updated);
+
+    setFilters((prev) => {
       const next = { ...prev, ...updated };
-  
-      // 👇 Reset sort direction to 'asc' if sortBy has changed
       if ('sortBy' in updated && updated.sortBy !== prev.sortBy) {
         next.sortDir = 'asc';
       }
-  
-      // 👇 Reset to page 1 if certain filters changed
       if (shouldResetPage) {
         next.page = 1;
       }
-  
       return next;
     });
   };
-  
 
   const handleSaveSearch = () => {
     const name = prompt('Give a name to this search:');
@@ -104,40 +104,42 @@ export default function Cards() {
       method: 'POST',
       credentials: 'include',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         type: 'filter',
         name,
         value: name,
-        character_id: "",
-        kit_id: "",
-        filter_data: filters
-      })
+        character_id: null, // ensure not tied to a character
+        kit_id: null, // ensure not tied to a kit
+        filter_data: filters, // backend may store as filter_data or filter_json
+      }),
     })
-      .then(res => res.json())
-      .then(created => {
-      if ((created.type === 'filter' || created.filter_data) && !created.kit_id && !created.character_id) {
-       setSavedFilters(prev => [...prev, created]);
-      }
+      .then((res) => res.json())
+      .then((created) => {
+        if ((created.type === 'filter' || created.filter_data || created.filter_json) && !created.kit_id && !created.character_id) {
+          setSavedFilters((prev) => [...prev, created]);
+        }
         alert('Search saved!');
-       })
-      .catch(err => console.error('Failed to save search:', err));
+      })
+      .catch((err) => console.error('Failed to save search:', err));
   };
 
-  const handleSelectSavedFilter = (selectedName) => {
-    const selected = savedFilters.find(fav => String(fav.id) === String(selectedId));
-    if (selected) setFilters(selected.filter_data);
+  // expects an id string from the <select> in FilterBy
+  const handleSelectSavedFilter = (selectedId) => {
+    const selected = savedFilters.find((fav) => String(fav.id) === String(selectedId));
+    if (selected) setFilters(selected.filter_data || selected.filter_json || defaultFilters);
   };
 
+  // delete by favorite id (ensure backend supports DELETE /api/favorites/<id>)
   const handleDeleteSavedFilter = (id) => {
-    fetch(`${API_BASE}/api/favorites/character/${id}`, {
+    fetch(`${API_BASE}/api/favorites/${id}`, {
       method: 'DELETE',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
     })
-      .then(() => setSavedFilters(prev => prev.filter(f => f.id !== id)))
-      .catch(err => console.error('Failed to delete filter:', err));
+      .then(() => setSavedFilters((prev) => prev.filter((f) => String(f.id) !== String(id))))
+      .catch((err) => console.error('Failed to delete filter:', err));
   };
 
   const handleClearSearch = () => {
@@ -145,20 +147,22 @@ export default function Cards() {
   };
 
   const handleSortDirChange = () => {
-    setFilters(prev => ({
+    setFilters((prev) => ({
       ...prev,
-      sortDir: prev.sortDir === 'asc' ? 'desc' : 'asc'
+      sortDir: prev.sortDir === 'asc' ? 'desc' : 'asc',
     }));
   };
 
   return (
     <div className="cards-page">
       <Helmet>
-        <title>My Play Tray's Catalog</title>
+        <title>My Play Tray&apos;s Catalog</title>
         <meta name="description" content="Browse all available Play trays by category, age, and rating." />
       </Helmet>
       <Container fluid>
-        <h2 className="text-center text-white mb-4"><EditableField contentKey="content_254" /></h2>
+        <h2 className="text-center text-white mb-4">
+          <EditableField contentKey="content_254" />
+        </h2>
         <Row>
           <Col md={2} sm={12}>
             <FilterBy
@@ -176,7 +180,7 @@ export default function Cards() {
               collection="kits"
               selectedThemes={filters.theme_ids}
               selectedGrades={filters.grade_ids}
-              priceRange={filters.price_range}  
+              priceRangeOverride={filters.price_range}
             />
           </Col>
           <Col md={10} sm={12}>
@@ -194,6 +198,7 @@ export default function Cards() {
               onClearSearch={handleClearSearch}
               collection="kits"
             />
+
             <CharacterList
               view={filters.view}
               itemsPerPage={filters.itemsPerPage}
@@ -209,10 +214,9 @@ export default function Cards() {
               rating={filters.rating}
               locations={filters.locations}
               page={filters.page}
-              priceRange={filters.price_range}  
+              priceRange={filters.price_range}
               onPageChange={(val) => handleFilterChange({ page: val })}
             />
-
           </Col>
         </Row>
       </Container>
