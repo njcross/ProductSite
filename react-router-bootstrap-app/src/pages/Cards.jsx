@@ -51,7 +51,13 @@ export default function Cards() {
         credentials: 'include'
       })
         .then(res => res.json())
-        .then(data => setSavedFilters(data || []))
+        .then(data => {
+                 const onlySavedSearches = (data || []).filter(f =>
+                  // keep entries that are clearly “saved searches”
+         (f.type === 'filter' || !!f.filter_data)
+                  // and explicitly exclude any that reference a kit or character
+        && !f.kit_id && !f.character_id
+       );      setSavedFilters(onlySavedSearches);     })
         .catch(err => console.error('Failed to fetch saved filters:', err));
     }
   }, [currentUser, API_BASE]);
@@ -104,21 +110,23 @@ export default function Cards() {
         type: 'filter',
         name,
         value: name,
-        character_id: null,
-        kit_id: null,
+        character_id: "",
+        kit_id: "",
         filter_data: filters
       })
     })
       .then(res => res.json())
-      .then(() => {
-        setSavedFilters(prev => [...prev, { name, filter_data: filters }]);
+      .then(created => {
+      if ((created.type === 'filter' || created.filter_data) && !created.kit_id && !created.character_id) {
+       setSavedFilters(prev => [...prev, created]);
+      }
         alert('Search saved!');
-      })
+       })
       .catch(err => console.error('Failed to save search:', err));
   };
 
   const handleSelectSavedFilter = (selectedName) => {
-    const selected = savedFilters.find(fav => fav.name === selectedName);
+    const selected = savedFilters.find(fav => String(fav.id) === String(selectedId));
     if (selected) setFilters(selected.filter_data);
   };
 

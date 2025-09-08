@@ -4,7 +4,6 @@ import EditableField from '../components/EditableField';
 import ReactSlider from 'react-slider';
 import './Slider.css';
 
-
 export default function FilterBy({
   onFilterChange,
   selectedAges = [],
@@ -21,7 +20,6 @@ export default function FilterBy({
   initialSelectedRatings = '',
   priceRangeOverride = null,
   showUserFilter = false,
-  
 }) {
   const API_BASE = process.env.REACT_APP_API_URL;
   const [ageOptions, setAgeOptions] = useState([]);
@@ -42,6 +40,9 @@ export default function FilterBy({
   const [users, setUsers] = useState([]);
   const [selectedUserIds, setSelectedUserIds] = useState([]);
 
+  // NEW: keep track of selected saved-filter id for delete "×"
+  const [activeSavedId, setActiveSavedId] = useState('');
+
   const MIN_PRICE = 0;
   const MAX_PRICE = 30;
   const [priceRange, setPriceRange] = useState([MIN_PRICE, MAX_PRICE]);
@@ -56,13 +57,13 @@ export default function FilterBy({
     fetch(`${API_BASE}/api/inventory/locations`).then(res => res.json()).then(setLocationOptions).catch(console.error);
     fetch(`${API_BASE}/api/kits`).then(res => res.json()).then(setKitOptions).catch(console.error);
     if (collection === 'orders' && showUserFilter) {
-        fetch(`${API_BASE}/api/users`, {
+      fetch(`${API_BASE}/api/users`, {
         method: 'GET',
         credentials: 'include',
       })
-      .then(res => res.json())
-      .then(setUsers)
-      .catch(console.error);
+        .then(res => res.json())
+        .then(setUsers)
+        .catch(console.error);
     }
     const saved = localStorage.getItem(localKey);
     if (saved) {
@@ -72,10 +73,10 @@ export default function FilterBy({
         setPriceRange(parsed.price_range);
       }
       if (parsed.kit_ids) setSelectedKitIds(parsed.kit_ids);
-      if (parsed.location_names) setSelectedLocations(parsed.location_names)
-      if (parsed.shipping_type) setSelectedShipping(parsed.shipping_type)
-      if (parsed.status) setSelectedStatuses(parsed.status)
-      if (parsed.payment_method) setSelectedPaymentMethods(parsed.payment_method)
+      if (parsed.location_names) setSelectedLocations(parsed.location_names);
+      if (parsed.shipping_type) setSelectedShipping(parsed.shipping_type);
+      if (parsed.status) setSelectedStatuses(parsed.status);
+      if (parsed.payment_method) setSelectedPaymentMethods(parsed.payment_method);
       if (parsed.user_ids) setSelectedUserIds(parsed.user_ids);
       onFilterChange(parsed);
     }
@@ -91,9 +92,9 @@ export default function FilterBy({
       filtersToSave.grade_ids = selectedGrades;
       filtersToSave.rating = selectedRating;
       filtersToSave.location_names = updatedSelectedLocations;
-      filtersToSave.shipping_type = selectedShipping
-      filtersToSave.status = selectedStatuses
-      filtersToSave.payment_method = selectedPaymentMethods
+      filtersToSave.shipping_type = selectedShipping;
+      filtersToSave.status = selectedStatuses;
+      filtersToSave.payment_method = selectedPaymentMethods;
       filtersToSave.user_ids = selectedUserIds;
     }
 
@@ -125,7 +126,7 @@ export default function FilterBy({
     selectedRating,
     priceRange,
     quantityRange,
-    selectedKitIds
+    selectedKitIds,
   ]);
 
   const handleToggle = (type, id) => {
@@ -144,17 +145,10 @@ export default function FilterBy({
 
     const idStr = String(id);
     const norm = currentSelections.map(String);
-    const nextStr = norm.includes(idStr)
-      ? norm.filter(v => v !== idStr)
-      : [...norm, idStr];
+    const nextStr = norm.includes(idStr) ? norm.filter(v => v !== idStr) : [...norm, idStr];
 
-    // Convert back to original element type (numbers vs strings)
-    const next =
-      currentSelections.some(v => typeof v === 'number')
-        ? nextStr.map(Number)
-        : nextStr;
+    const next = currentSelections.some(v => typeof v === 'number') ? nextStr.map(Number) : nextStr;
 
-    // Update local state for the locally-managed filters
     if (type === 'kit_ids') setSelectedKitIds(next);
     if (type === 'location_names') setSelectedLocations(next);
     if (type === 'shipping_type') setSelectedShipping(next);
@@ -162,17 +156,14 @@ export default function FilterBy({
     if (type === 'payment_method') setSelectedPaymentMethods(next);
     if (type === 'user_ids') setSelectedUserIds(next);
 
-    // Tell parent about the change (so it updates selectedAges/Categories/Themes/Grades)
     onFilterChange({ [type]: next });
   };
-
 
   const handleRatingChange = (e) => {
     const value = e.target.value;
     setSelectedRating(value);
     onFilterChange({ rating: value });
   };
-
 
   const handlePriceChange = (e) => {
     const value = e.target.value;
@@ -200,6 +191,7 @@ export default function FilterBy({
           </ul>
         </>
       )}
+
       {collection === 'orders' && showUserFilter && (
         <>
           <label><EditableField contentKey="content_323" defaultText="Filter by User" /></label>
@@ -217,6 +209,7 @@ export default function FilterBy({
           </ul>
         </>
       )}
+
       {['kits', 'orders'].includes(collection) && (
         <>
           <label><EditableField contentKey="content_302" defaultText="Filter by Category" /></label>
@@ -234,7 +227,6 @@ export default function FilterBy({
           </ul>
         </>
       )}
-
 
       {collection === 'kits' && (
         <>
@@ -272,7 +264,6 @@ export default function FilterBy({
         </>
       )}
 
-
       {collection === 'kits' && (
         <>
           <label><EditableField contentKey="content_305" defaultText="Filter by Minimum Rating" /></label>
@@ -288,7 +279,6 @@ export default function FilterBy({
           </div>
         </>
       )}
-
 
       {collection === 'kits' && (
         <>
@@ -307,7 +297,6 @@ export default function FilterBy({
               onChange={(val) => {
                 setPriceRange(val);
                 onFilterChange({ price_range: `${val[0]}_${val[1]}` });
-                handlePriceChange;
               }}
               pearling
               minDistance={1}
@@ -319,8 +308,6 @@ export default function FilterBy({
           </div>
         </>
       )}
-
-
 
       <label><EditableField contentKey="content_307" defaultText="Filter by Location" /></label>
       <ul className="filter-list">
@@ -383,61 +370,89 @@ export default function FilterBy({
       )}
 
       {collection === 'inventory' && (
-              <>
-                <label><EditableField contentKey="content_330" defaultText="Filter by Kit" /></label>
-                <ul className="filter-list">
-                  {kitOptions.map(kit => (
-                    <li key={kit.id}>
-                      <input
-                        type="checkbox"
-                        checked={selectedKitIds.includes(String(kit.id))}
-                        onChange={() => handleToggle('kit_ids', String(kit.id))}
-                      />
-                      {kit.name}
-                    </li>
-                  ))}
-                </ul>
-      
-                <label><EditableField contentKey="content_331" defaultText="Filter by Quantity Range" /></label>
-                <ReactSlider
-                  className="price-slider"
-                  thumbClassName="slider-thumb"
-                  trackClassName="slider-track"
-                  min={0}
-                  max={100}
-                  value={quantityRange}
-                  onChange={(val) => {
-                    setQuantityRange(val);
-                    onFilterChange({ quantity_range: `${val[0]}_${val[1]}` });
-                  }}
-                  pearling
-                  minDistance={1}
-                  withTracks
-                  renderThumb={(props, state) => (
-                    <div {...props}>{state.valueNow}</div>
-                  )}
+        <>
+          <label><EditableField contentKey="content_330" defaultText="Filter by Kit" /></label>
+          <ul className="filter-list">
+            {kitOptions.map(kit => (
+              <li key={kit.id}>
+                <input
+                  type="checkbox"
+                  checked={selectedKitIds.includes(String(kit.id))}
+                  onChange={() => handleToggle('kit_ids', String(kit.id))}
                 />
-              </>
-            )}
+                {kit.name}
+              </li>
+            ))}
+          </ul>
 
+          <label><EditableField contentKey="content_331" defaultText="Filter by Quantity Range" /></label>
+          <ReactSlider
+            className="price-slider"
+            thumbClassName="slider-thumb"
+            trackClassName="slider-track"
+            min={0}
+            max={100}
+            value={quantityRange}
+            onChange={(val) => {
+              setQuantityRange(val);
+              onFilterChange({ quantity_range: `${val[0]}_${val[1]}` });
+            }}
+            pearling
+            minDistance={1}
+            withTracks
+            renderThumb={(props, state) => (
+              <div {...props}>{state.valueNow}</div>
+            )}
+          />
+        </>
+      )}
 
       {currentUser && savedFilters.length > 0 && collection === 'kits' && (
-        <div className='favorite-filters'>
-        <div className="saved-filters">
-          <label><EditableField contentKey="content_308" defaultText="Favorites" /></label>
-          <select onChange={(e) => onSelectSavedFilter(e.target.value)}>
-            <option value="">Select a Saved Filter</option>
-            {savedFilters.map((filter, index) => (
-              <option key={index} value={filter.id}>{filter.name}</option>
-            ))}
-          </select>
-        </div>
+        <div className="favorite-filters">
+          <div className="saved-filters">
+            <label><EditableField contentKey="content_308" defaultText="Favorites" /></label>
+            <div className="saved-filters-row">
+              <select
+                value={activeSavedId}
+                onChange={(e) => {
+                  const id = e.target.value;
+                  setActiveSavedId(id);
+                  if (id) onSelectSavedFilter(id);
+                }}
+              >
+                <option value="">Select a Saved Filter</option>
+                {savedFilters.map((filter) => (
+                  <option key={filter.id} value={filter.id}>
+                    {filter.name}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                className="delete-saved-filter"
+                title="Delete selected saved filter"
+                aria-label="Delete selected saved filter"
+                disabled={!activeSavedId}
+                onClick={() => {
+                  if (!activeSavedId) return;
+                  const f = savedFilters.find(s => String(s.id) === String(activeSavedId));
+                  const label = f?.name || 'this saved filter';
+                  if (window.confirm(`Delete "${label}"?`)) {
+                    onDeleteSavedFilter(activeSavedId);
+                    setActiveSavedId('');
+                  }
+                }}
+              >
+                ×
+              </button>
+            </div>
+          </div>
 
-        <div className="option-group">
-          <button className="save-filter-btn" onClick={onSaveFilter}>
-            <EditableField contentKey="content_144" defaultText="❤ Save This Search" />
-          </button>
-        </div>
+          <div className="option-group">
+            <button className="save-filter-btn" onClick={onSaveFilter}>
+              <EditableField contentKey="content_144" defaultText="❤ Save This Search" />
+            </button>
+          </div>
         </div>
       )}
     </div>
