@@ -21,6 +21,7 @@ export default function FilterBy({
   initialSelectedRatings = '',
   priceRangeOverride = null,
   showUserFilter = false,
+  
 }) {
   const API_BASE = process.env.REACT_APP_API_URL;
   const [ageOptions, setAgeOptions] = useState([]);

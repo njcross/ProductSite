@@ -28,7 +28,10 @@ export default function Cards() {
     age_ids: [],
     category_ids: [],
     rating: '',
-    locations: []
+    locations: [],
+    grade_ids: [],
+    theme_ids: [],
+    price_range: []
   };
 
   const [filters, setFilters] = useState(() => {
@@ -66,7 +69,7 @@ export default function Cards() {
   const handleFilterChange = (updated) => {
     const shouldResetPage = [
       'sortBy', 'sortDir', 'search',
-      'age_ids', 'category_ids', 'rating', 'locations'
+      'age_ids', 'category_ids', 'rating', 'locations', 'grade_ids', 'theme_ids', 'price_range'
     ].some(key => key in updated);
   
     setFilters(prev => {
@@ -163,6 +166,9 @@ export default function Cards() {
               currentUser={currentUser}
               onSaveFilter={currentUser ? handleSaveSearch : null}
               collection="kits"
+              selectedThemes={filters.theme_ids}
+              selectedGrades={filters.grade_ids}
+              priceRange={filters.price_range}  
             />
           </Col>
           <Col md={10} sm={12}>
