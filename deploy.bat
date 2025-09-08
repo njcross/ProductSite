@@ -147,49 +147,10 @@ IF /I "%IS_DRY_RUN%"=="dry-run" (
 GOTO end
 
 :ensure_redis
-REM Disable delayed expansion so '!' in the remote bash line survives
-setlocal DisableDelayedExpansion
 echo 🧠 Ensuring Redis is installed on EC2...
-
-ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "bash -lc '
-  if ! command -v redis-server >/dev/null; then
-    echo Installing Redis from source...
-    sudo dnf -y groupinstall \"Development Tools\" \
-      && sudo dnf -y install gcc jemalloc-devel curl \
-      && cd /tmp \
-      && curl -fL https://download.redis.io/redis-stable.tar.gz -o redis-stable.tar.gz \
-      && tar xzf redis-stable.tar.gz \
-      && cd redis-stable \
-      && make -j\"$(nproc)\" \
-      && sudo make install
-
-    id -u redis >/dev/null 2>&1 || sudo useradd -r -s /bin/false redis
-    sudo mkdir -p /etc/redis /var/lib/redis
-    sudo cp redis.conf /etc/redis/redis.conf
-    sudo sed -i \"s/^supervised .*/supervised systemd/\" /etc/redis/redis.conf
-    sudo sed -i \"s|^dir .*|dir /var/lib/redis|\" /etc/redis/redis.conf
-    sudo chown -R redis:redis /var/lib/redis
-
-    printf \"%s\n\" \
-      \"[Unit]\" \
-      \"Description=Redis In-Memory Data Store\" \
-      \"After=network.target\" \
-      \"\" \
-      \"[Service]\" \
-      \"User=redis\" \
-      \"Group=redis\" \
-      \"ExecStart=/usr/local/bin/redis-server /etc/redis/redis.conf\" \
-      \"ExecStop=/usr/local/bin/redis-cli shutdown\" \
-      \"Restart=always\" \
-      \"\" \
-      \"[Install]\" \
-      \"WantedBy=multi-user.target\" \
-      | sudo tee /etc/systemd/system/redis.service >/dev/null
-
-    sudo systemctl daemon-reload
-    sudo systemctl enable --now redis
-  fi
-'"
+ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "if ! command -v redis-server > /dev/null; then echo Installing Redis from source... && sudo dnf groupinstall 'Development Tools' -y && sudo dnf install gcc jemalloc-devel curl -y && curl -O https://download.redis.io/redis-stable.tar.gz && tar xzvf redis-stable.tar.gz && cd redis-stable && make && sudo make install && sudo useradd -r -s /bin/false redis && sudo mkdir -p /etc/redis /var/lib/redis && sudo cp redis.conf /etc/redis && sudo sed -i 's/^supervised .*/supervised systemd/' /etc/redis/redis.conf && sudo sed -i 's:^dir .*:dir /var/lib/redis:' /etc/redis/redis.conf && echo '[Unit]\nDescription=Redis In-Memory Data Store\nAfter=network.target\n\n[Service]\nUser=redis\nGroup=redis\nExecStart=/usr/local/bin/redis-server /etc/redis/redis.conf\nExecStop=/usr/local/bin/redis-cli shutdown\nRestart=always\n\n[Install]\nWantedBy=multi-user.target' | sudo tee /etc/systemd/system/redis.service > /dev/null && sudo systemctl daemon-reload && sudo systemctl enable redis && sudo systemctl start redis;"
+echo 🔧 Configuring Redis keyspace notifications...
+ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "redis-cli CONFIG SET notify-keyspace-events Ex"
 echo ▶️ Ensuring Redis listener is running via PM2...
 ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "pm2 delete redis-listener || echo 'No previous redis-listener'; pm2 start /home/ec2-user/ProductSite/backend/scripts/redis_listener.py --interpreter python3 --name redis-listener"
 GOTO :eof
