@@ -447,14 +447,13 @@ export default function FilterBy({
               </button>
             </div>
           </div>
-
-          <div className="option-group">
+        </div>
+      )}
+      <div className="option-group">
             <button className="save-filter-btn" onClick={onSaveFilter}>
               <EditableField contentKey="content_144" defaultText="❤ Save This Search" />
             </button>
           </div>
-        </div>
-      )}
     </div>
   );
 }
