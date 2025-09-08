@@ -173,6 +173,7 @@ def update_kit(id):
     data = request.get_json()
     loadable_data = kit_schema.strip_dump_only_fields(data)
     print("Loadable data for kit update:", loadable_data)
+    return jsonify({"message": "Kit update endpoint reached", "loadable_data": loadable_data}), 200
     try:
         updates = kit_schema.load(loadable_data, partial=True)
 
