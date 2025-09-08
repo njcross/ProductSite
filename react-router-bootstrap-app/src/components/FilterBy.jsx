@@ -141,18 +141,30 @@ export default function FilterBy({
       user_ids: selectedUserIds,
     }[type] || [];
 
-    const newSelected = currentSelections.includes(id)
-      ? currentSelections.filter(i => i !== id)
-      : [...currentSelections, id];
+    const idStr = String(id);
+    const norm = currentSelections.map(String);
+    const nextStr = norm.includes(idStr)
+      ? norm.filter(v => v !== idStr)
+      : [...norm, idStr];
 
-    if (type === 'kit_ids') setSelectedKitIds(newSelected);
-    if (type === 'location_names') setSelectedLocations(newSelected);
-    if (type === 'shipping_type') setSelectedShipping(newSelected);
-    if (type === 'status') setSelectedStatuses(newSelected);
-    if (type === 'payment_method') setSelectedPaymentMethods(newSelected);
-    if (type === 'user_ids') setSelectedUserIds(newSelected);
-    onFilterChange({ [type]: newSelected });
+    // Convert back to original element type (numbers vs strings)
+    const next =
+      currentSelections.some(v => typeof v === 'number')
+        ? nextStr.map(Number)
+        : nextStr;
+
+    // Update local state for the locally-managed filters
+    if (type === 'kit_ids') setSelectedKitIds(next);
+    if (type === 'location_names') setSelectedLocations(next);
+    if (type === 'shipping_type') setSelectedShipping(next);
+    if (type === 'status') setSelectedStatuses(next);
+    if (type === 'payment_method') setSelectedPaymentMethods(next);
+    if (type === 'user_ids') setSelectedUserIds(next);
+
+    // Tell parent about the change (so it updates selectedAges/Categories/Themes/Grades)
+    onFilterChange({ [type]: next });
   };
+
 
   const handleRatingChange = (e) => {
     const value = e.target.value;
@@ -178,7 +190,7 @@ export default function FilterBy({
               <li key={age.id}>
                 <input
                   type="checkbox"
-                  checked={selectedAges.includes(String(age.id))}
+                  checked={selectedAges.some(v => String(v) === String(age.id))}
                   onChange={() => handleToggle('age_ids', String(age.id))}
                 />
                 {age.name}
@@ -195,7 +207,7 @@ export default function FilterBy({
               <li key={user.id}>
                 <input
                   type="checkbox"
-                  checked={selectedUserIds.includes(String(user.id))}
+                  checked={selectedUserIds.some(v => String(v) === String(user.id))}
                   onChange={() => handleToggle('user_ids', String(user.id))}
                 />
                 {user.username}
@@ -212,7 +224,7 @@ export default function FilterBy({
               <li key={cat.id}>
                 <input
                   type="checkbox"
-                  checked={selectedCategories.includes(String(cat.id))}
+                  checked={selectedCategories.some(v => String(v) === String(cat.id))}
                   onChange={() => handleToggle('category_ids', String(cat.id))}
                 />
                 {cat.name}
@@ -231,7 +243,7 @@ export default function FilterBy({
               <li key={theme.id}>
                 <input
                   type="checkbox"
-                  checked={selectedThemes.includes(String(theme.id))}
+                  checked={selectedThemes.some(v => String(v) === String(theme.id))}
                   onChange={() => handleToggle('theme_ids', String(theme.id))}
                 />
                 {theme.name}
@@ -249,7 +261,7 @@ export default function FilterBy({
               <li key={grade.id}>
                 <input
                   type="checkbox"
-                  checked={selectedGrades.includes(String(grade.id))}
+                  checked={selectedGrades.some(v => String(v) === String(grade.id))}
                   onChange={() => handleToggle('grade_ids', String(grade.id))}
                 />
                 {grade.name}

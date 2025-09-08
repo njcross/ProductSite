@@ -101,6 +101,8 @@ export default function Cards() {
         type: 'filter',
         name,
         value: name,
+        character_id: null,
+        kit_id: null,
         filter_data: filters
       })
     })

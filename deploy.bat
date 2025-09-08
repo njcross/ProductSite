@@ -146,8 +146,11 @@ IF /I "%IS_DRY_RUN%"=="dry-run" (
 
 GOTO end
 
-rem Temporarily disable delayed expansion so '!' is passed literally
+:ensure_redis
+REM Disable delayed expansion so '!' in the remote bash line survives
 setlocal DisableDelayedExpansion
+echo 🧠 Ensuring Redis is installed on EC2...
+
 ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "bash -lc '
   if ! command -v redis-server >/dev/null; then
     echo Installing Redis from source...
@@ -167,7 +170,6 @@ ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "bash -lc '
     sudo sed -i \"s|^dir .*|dir /var/lib/redis|\" /etc/redis/redis.conf
     sudo chown -R redis:redis /var/lib/redis
 
-    # Write systemd unit
     printf \"%s\n\" \
       \"[Unit]\" \
       \"Description=Redis In-Memory Data Store\" \
@@ -188,10 +190,6 @@ ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "bash -lc '
     sudo systemctl enable --now redis
   fi
 '"
-endlocal
-
-echo 🔧 Configuring Redis keyspace notifications...
-ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "redis-cli CONFIG SET notify-keyspace-events Ex"
 echo ▶️ Ensuring Redis listener is running via PM2...
 ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "pm2 delete redis-listener || echo 'No previous redis-listener'; pm2 start /home/ec2-user/ProductSite/backend/scripts/redis_listener.py --interpreter python3 --name redis-listener"
 GOTO :eof
