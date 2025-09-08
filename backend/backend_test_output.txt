@@ -29,4 +29,4 @@ tests\test_reviews.py ..                                                 [ 88%]
 tests\test_user_settings.py ....                                         [ 97%]
 tests\test_user_settings_routes.py .                                     [100%]
 
-======================== 43 passed in 74.26s (0:01:14) ========================
+======================== 43 passed in 64.86s (0:01:04) ========================

@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, post_load, ValidationError
+from marshmallow import Schema, fields, post_load, ValidationError, EXCLUDE
 from app.models.kits import Kit, age_options, category_options, grade_options, theme_options
 from app.extensions import db
 
@@ -25,6 +25,9 @@ class InventorySchema(Schema):
     quantity = fields.Int()
 
 class KitSchema(Schema):
+    class Meta:
+        unknown = EXCLUDE
+    
     id = fields.Int(dump_only=True)
     name = fields.Str(required=True)
     image_url = fields.Str(required=True)
