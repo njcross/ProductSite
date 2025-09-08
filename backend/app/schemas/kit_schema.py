@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, post_load, ValidationError, EXCLUDE
+from marshmallow import Schema, fields, post_load, ValidationError, EXCLUDE, pre_load
 from app.models.kits import Kit, age_options, category_options, grade_options, theme_options
 from app.extensions import db
 
@@ -49,6 +49,16 @@ class KitSchema(Schema):
 
     inventory_output = fields.List(fields.Nested(InventorySchema), dump_only=True, attribute='inventories')
 
+    @pre_load
+    def strip_dump_only_fields(self, data, **kwargs):
+        if not isinstance(data, dict):
+            return data
+        # anything that should NEVER be accepted on load
+        dump_only_keys = [
+            "age", "category", "grade", "theme",
+            "average_rating", "review_count", "inventory_output"
+        ]
+        return {k: v for k, v in data.items() if k not in dump_only_keys}
 
     @post_load
     def load_relationships(self, data, **kwargs):
