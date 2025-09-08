@@ -171,13 +171,7 @@ def update_kit(id):
         return jsonify({"message": "Kit not found"}), 404
 
     data = request.get_json()
-
-    # Remove fields that kit_schema.load() can't handle
-    loadable_data = {
-        key: value for key, value in data.items()
-        if key not in ['age', 'ages', 'category', 'categories', 'id', 'age_ids', 'category_ids']
-    }
-
+    loadable_data = kit_schema.strip_dump_only_fields(data)
     try:
         updates = kit_schema.load(loadable_data, partial=True)
 
