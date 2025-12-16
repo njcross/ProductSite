@@ -1,4 +1,4 @@
-vimport { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './FilterBy.css';
 import EditableField from '../components/EditableField';
 import ReactSlider from 'react-slider';
