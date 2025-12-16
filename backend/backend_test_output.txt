@@ -17,6 +17,16 @@ tests\test_favorites.py .                                                [ 32%]
 tests\test_health_routes.py ..                                           [ 37%]
 tests\test_inventory_routes.py ....                                      [ 46%]
 tests\test_kit_routes.py .                                               [ 48%]
-tests\test_kits.py 
+tests\test_kits.py ..                                                    [ 53%]
+tests\test_newsletter.py ..                                              [ 58%]
+tests\test_newsletter_routes.py ...                                      [ 65%]
+tests\test_purchase_routes.py ..                                         [ 69%]
+tests\test_purchases.py ..                                               [ 74%]
+tests\test_resource.py .                                                 [ 76%]
+tests\test_resource_routes.py ..                                         [ 81%]
+tests\test_review_routes.py .                                            [ 83%]
+tests\test_reviews.py ..                                                 [ 88%]
+tests\test_user_settings.py ....                                         [ 97%]
+tests\test_user_settings_routes.py .                                     [100%]
 
-============================= 21 passed in 42.36s =============================
+======================== 43 passed in 74.38s (0:01:14) ========================

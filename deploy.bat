@@ -1,6 +1,6 @@
 @echo off
-REM Usage: .\deploy.bat "commit message" [frontend|backend|all] [reload] [dry-run]
-REM Defaults to "all" and no reload 
+REM Usage: .\deploy.bat "commit message" [frontend|backend|all|rollback] [reload|renew-cert] [dry-run]
+REM Defaults to "all" and no reload
 
 IF "%~1"=="" (
     echo ❌ Please provide a commit message.
@@ -102,6 +102,7 @@ cd /d "%LOCAL_BACKEND_PATH%" || exit /b 1
 python -m venv venv
 call venv\Scripts\activate
 pip install -r requirements.txt
+
 echo 🧪 Running backend tests...
 pytest > backend_test_output.txt
 IF %ERRORLEVEL% NEQ 0 (
@@ -111,8 +112,9 @@ IF %ERRORLEVEL% NEQ 0 (
 ) ELSE (
     echo ✅ Backend tests passed.
 )
+
 IF /I "%IS_DRY_RUN%"=="dry-run" (
-    echo [dry-run] %*
+    echo [dry-run] Would restart backend on EC2
 ) ELSE (
     echo Restarting backend on EC2...
     ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "cd /home/ec2-user/ProductSite/backend && source venv/bin/activate && pip install -r requirements.txt && flask db upgrade && pm2 delete backend || echo 'no backend running' && pm2 start \"gunicorn 'server:app' --bind 0.0.0.0:5000 --workers 4\" --name backend"
@@ -126,10 +128,41 @@ call :deploy_backend
 GOTO maybe_reload
 
 :maybe_reload
+IF /I "%SHOULD_RELOAD%"=="renew-cert" (
+    GOTO renew_cert
+)
+
 IF /I "%SHOULD_RELOAD%"=="reload" (
     echo 🔁 Reloading Nginx on EC2...
     ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "sudo systemctl reload nginx"
 )
+GOTO end
+
+:renew_cert
+echo 🔐 Renewing Let's Encrypt certificate on EC2...
+
+IF /I "%IS_DRY_RUN%"=="dry-run" (
+    echo [dry-run] Would run: sudo nginx -t
+    echo [dry-run] Would run: sudo certbot renew --force-renewal
+    echo [dry-run] Would run: sudo systemctl reload nginx
+) ELSE (
+    echo ✅ Testing Nginx config...
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "sudo nginx -t"
+    IF %ERRORLEVEL% NEQ 0 (
+        echo ❌ Nginx config test failed on EC2. Fix nginx before renewing cert.
+        exit /b 1
+    )
+
+    echo 🔄 Forcing certificate renewal...
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "sudo certbot renew --force-renewal"
+
+    echo 🔁 Reloading Nginx to pick up renewed cert...
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "sudo systemctl reload nginx"
+
+    echo 🔎 Verifying certificate dates being served...
+    ssh -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "echo | openssl s_client -servername myplaytray.com -connect 127.0.0.1:443 2>/dev/null | openssl x509 -noout -dates -subject"
+)
+
 GOTO end
 
 :rollback_frontend
