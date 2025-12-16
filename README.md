@@ -92,6 +92,26 @@
    npm start
    ```
 
+## 🧠 Redis (Local Development)
+
+Redis is used for server-side sessions and caching.
+
+### Windows (Recommended): Docker Desktop
+
+Redis does not run natively on Windows in a supported way for most setups. The simplest approach is to run Redis in Docker.
+
+1) **Start Docker Desktop**
+- Launch **Docker Desktop** from the Start Menu
+- Wait until it shows **“Docker Desktop is running”**
+- Make sure Docker is using **Linux containers** (default)
+
+2) **Start Redis**
+From PowerShell:
+
+```powershell
+docker run -d --name redis-local -p 6379:6379 redis:7
+```
+
 ### NGINX for React + Flask
 Make sure `/etc/nginx/sites-available/productsite.conf` routes static files and proxies `/api/` to Flask. example in backend/nginx/flaskapp.conf
 
@@ -169,12 +189,21 @@ MIT License.
   - can pass vars to only run the backend or the frontend or dry run
   - verifies corresponding (fe/be) tests pass before deploying
   - can force an nginx reload for dns changes
+  - can force a Let’s Encrypt renewal and reload Nginx (renew-cert)
 
   Example usage:
 
   ```bash
   .\deploy.bat "Deploy message" all reload
   ```
+## 🔐 SSL Certificate Renewal (Let's Encrypt)
+
+The deploy script supports on-demand certificate renewal (useful before expiration or after DNS/Nginx changes).
+
+**Renew certificate + reload Nginx:**
+```powershell
+.\deploy.bat "Deploy + renew cert" all renew-cert
+```
 
 ## ✅ Testing
 
