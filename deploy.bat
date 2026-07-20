@@ -19,14 +19,14 @@ SET EC2_IP=3.128.30.231
 SET PEM_PATH=C:\Users\njcro\OneDrive\Documents\dev.pem
 
 REM FRONTEND paths
-SET LOCAL_FRONTEND_PATH=C:\Users\njcro\m7project\react-router-bootstrap-app
+SET LOCAL_FRONTEND_PATH=C:\Users\njcro\ProductSite\react-router-bootstrap-app
 SET REMOTE_REACT_PATH=/var/www/react
 
 REM BACKEND paths
-SET LOCAL_BACKEND_PATH=C:\Users\njcro\m7project\backend
+SET LOCAL_BACKEND_PATH=C:\Users\njcro\ProductSite\backend
 SET REMOTE_BACKEND_PATH=/home/ec2-user/ProductSite/backend
 
-SET LOCAL_ROOT_PATH=C:\Users\njcro\m7project
+SET LOCAL_ROOT_PATH=C:\Users\njcro\ProductSite
 
 cd "%LOCAL_ROOT_PATH%" || exit /b 1
 echo Uploading restart script...
