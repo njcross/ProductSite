@@ -1,32 +1,24 @@
 ============================= test session starts =============================
-platform win32 -- Python 3.13.1, pytest-8.2.1, pluggy-1.5.0
-rootdir: C:\Users\njcro\m7project\backend
+platform win32 -- Python 3.13.1, pytest-8.2.1, pluggy-1.6.0
+rootdir: C:\Users\njcro\ProductSite\backend
 configfile: pytest.ini
-plugins: Flask-Dance-6.0.0, flask-1.3.0
-collected 43 items
+plugins: flask-1.3.0
+collected 41 items / 1 error
 
-tests\test_auth.py ...                                                   [  6%]
-tests\test_auth_routes.py .                                              [  9%]
-tests\test_cart.py .                                                     [ 11%]
-tests\test_cart_routes.py ....                                           [ 20%]
-tests\test_content.py .                                                  [ 23%]
-tests\test_content_routes.py .                                           [ 25%]
-tests\test_favorite.py .                                                 [ 27%]
-tests\test_favorite_routes.py .                                          [ 30%]
-tests\test_favorites.py .                                                [ 32%]
-tests\test_health_routes.py ..                                           [ 37%]
-tests\test_inventory_routes.py ....                                      [ 46%]
-tests\test_kit_routes.py .                                               [ 48%]
-tests\test_kits.py ..                                                    [ 53%]
-tests\test_newsletter.py ..                                              [ 58%]
-tests\test_newsletter_routes.py ...                                      [ 65%]
-tests\test_purchase_routes.py ..                                         [ 69%]
-tests\test_purchases.py ..                                               [ 74%]
-tests\test_resource.py .                                                 [ 76%]
-tests\test_resource_routes.py ..                                         [ 81%]
-tests\test_review_routes.py .                                            [ 83%]
-tests\test_reviews.py ..                                                 [ 88%]
-tests\test_user_settings.py ....                                         [ 97%]
-tests\test_user_settings_routes.py .                                     [100%]
-
-======================== 43 passed in 76.45s (0:01:16) ========================
+=================================== ERRORS ====================================
+__________________ ERROR collecting tests/test_newsletter.py __________________
+tests\test_newsletter.py:1: in <module>
+    from app.routes.newsletter_routes import newsletter_bp
+app\routes\__init__.py:4: in <module>
+    from app.routes.auth_routes import auth_bp
+app\routes\auth_routes.py:18: in <module>
+    serializer = URLSafeTimedSerializer(Config.SECRET_KEY)
+venv\Lib\site-packages\itsdangerous\serializer.py:210: in __init__
+    self.secret_keys: list[bytes] = _make_keys_list(secret_key)
+venv\Lib\site-packages\itsdangerous\signer.py:73: in _make_keys_list
+    return [want_bytes(s) for s in secret_key]  # pyright: ignore
+E   TypeError: 'NoneType' object is not iterable
+=========================== short test summary info ===========================
+ERROR tests/test_newsletter.py - TypeError: 'NoneType' object is not iterable
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+============================== 1 error in 5.01s ===============================
