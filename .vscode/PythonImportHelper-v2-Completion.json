@@ -505,22 +505,6 @@
         "documentation": {}
     },
     {
-        "label": "scoped_session",
-        "importPath": "sqlalchemy.orm",
-        "description": "sqlalchemy.orm",
-        "isExtraImport": true,
-        "detail": "sqlalchemy.orm",
-        "documentation": {}
-    },
-    {
-        "label": "sessionmaker",
-        "importPath": "sqlalchemy.orm",
-        "description": "sqlalchemy.orm",
-        "isExtraImport": true,
-        "detail": "sqlalchemy.orm",
-        "documentation": {}
-    },
-    {
         "label": "db",
         "importPath": "app.extensions",
         "description": "app.extensions",
@@ -902,6 +886,14 @@
         "description": "app.models.kits",
         "isExtraImport": true,
         "detail": "app.models.kits",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "app.models.user",
+        "description": "app.models.user",
+        "isExtraImport": true,
+        "detail": "app.models.user",
         "documentation": {}
     },
     {
@@ -1722,14 +1714,6 @@
         "documentation": {}
     },
     {
-        "label": "url_for",
-        "importPath": "flask",
-        "description": "flask",
-        "isExtraImport": true,
-        "detail": "flask",
-        "documentation": {}
-    },
-    {
         "label": "Flask",
         "importPath": "flask",
         "description": "flask",
@@ -1867,14 +1851,6 @@
     },
     {
         "label": "generate_password_hash",
-        "importPath": "werkzeug.security",
-        "description": "werkzeug.security",
-        "isExtraImport": true,
-        "detail": "werkzeug.security",
-        "documentation": {}
-    },
-    {
-        "label": "check_password_hash",
         "importPath": "werkzeug.security",
         "description": "werkzeug.security",
         "isExtraImport": true,
@@ -2295,14 +2271,6 @@
     },
     {
         "label": "kit_schema",
-        "importPath": "app.schemas.kit_schema",
-        "description": "app.schemas.kit_schema",
-        "isExtraImport": true,
-        "detail": "app.schemas.kit_schema",
-        "documentation": {}
-    },
-    {
-        "label": "kits_schema",
         "importPath": "app.schemas.kit_schema",
         "description": "app.schemas.kit_schema",
         "isExtraImport": true,
@@ -3817,22 +3785,6 @@
         "documentation": {}
     },
     {
-        "label": "db",
-        "importPath": "app",
-        "description": "app",
-        "isExtraImport": true,
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "create_app",
-        "importPath": "app",
-        "description": "app",
-        "isExtraImport": true,
-        "detail": "app",
-        "documentation": {}
-    },
-    {
         "label": "create_app",
         "importPath": "app",
         "description": "app",
@@ -3882,14 +3834,6 @@
         "documentation": {}
     },
     {
-        "label": "based on your project structure",
-        "importPath": "app.models.user import User  # adjust",
-        "description": "app.models.user import User  # adjust",
-        "isExtraImport": true,
-        "detail": "app.models.user import User  # adjust",
-        "documentation": {}
-    },
-    {
         "label": "newsletter_bp",
         "importPath": "app.routes.newsletter_routes",
         "description": "app.routes.newsletter_routes",
@@ -3898,14 +3842,6 @@
         "documentation": {}
     },
     {
-        "label": "patch",
-        "importPath": "unittest.mock",
-        "description": "unittest.mock",
-        "isExtraImport": true,
-        "detail": "unittest.mock",
-        "documentation": {}
-    },
-    {
         "label": "Mock",
         "importPath": "unittest.mock",
         "description": "unittest.mock",
@@ -3923,6 +3859,14 @@
     },
     {
         "label": "Mock",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "patch",
         "importPath": "unittest.mock",
         "description": "unittest.mock",
         "isExtraImport": true,
@@ -7123,7 +7067,7 @@
         "kind": 2,
         "importPath": "backend.tests.conftest",
         "description": "backend.tests.conftest",
-        "peekOfCode": "def app():\n    app = create_app()\n    app.config.update({\n        \"TESTING\": True,\n        \"SQLALCHEMY_ENGINE_OPTIONS\": {\"pool_pre_ping\": True},\n    })\n    with app.app_context():\n        _db.drop_all()\n        _db.create_all()\n        yield app",
+        "peekOfCode": "def app():\n    application = create_app(\n        {\n            \"TESTING\": True,\n            \"SESSION_COOKIE_SECURE\": False,\n        }\n    )\n    yield application\n    with application.app_context():\n        _db.session.remove()",
         "detail": "backend.tests.conftest",
         "documentation": {}
     },
@@ -7132,7 +7076,7 @@
         "kind": 2,
         "importPath": "backend.tests.conftest",
         "description": "backend.tests.conftest",
-        "peekOfCode": "def db(app):\n    # Provide SQLAlchemy instance for use\n    return _db\n@pytest.fixture(autouse=True)\ndef session(db, app):\n    \"\"\"Ensure each test gets a rollback.\"\"\"\n    with app.app_context():\n        connection = db.engine.connect()\n        transaction = connection.begin()\n        session_factory = sessionmaker(bind=connection)",
+        "peekOfCode": "def db(app):\n    return _db\n@pytest.fixture(autouse=True)\ndef session(app):\n    \"\"\"Give every test a clean database without touching production MySQL.\"\"\"\n    with app.app_context():\n        _db.session.remove()\n        _db.drop_all()\n        _db.create_all()\n        try:",
         "detail": "backend.tests.conftest",
         "documentation": {}
     },
@@ -7141,7 +7085,7 @@
         "kind": 2,
         "importPath": "backend.tests.conftest",
         "description": "backend.tests.conftest",
-        "peekOfCode": "def session(db, app):\n    \"\"\"Ensure each test gets a rollback.\"\"\"\n    with app.app_context():\n        connection = db.engine.connect()\n        transaction = connection.begin()\n        session_factory = sessionmaker(bind=connection)\n        session = scoped_session(session_factory)\n        db.session = session\n        yield session\n        transaction.rollback()",
+        "peekOfCode": "def session(app):\n    \"\"\"Give every test a clean database without touching production MySQL.\"\"\"\n    with app.app_context():\n        _db.session.remove()\n        _db.drop_all()\n        _db.create_all()\n        try:\n            yield _db.session\n        finally:\n            _db.session.rollback()",
         "detail": "backend.tests.conftest",
         "documentation": {}
     },
@@ -7150,7 +7094,7 @@
         "kind": 2,
         "importPath": "backend.tests.conftest",
         "description": "backend.tests.conftest",
-        "peekOfCode": "def client(app):\n    return app.test_client()\n@pytest.fixture\ndef create_test_kit_and_inventory(app):\n    with app.app_context():\n        data = {\n            \"name\": \"Test Kit\",\n            \"description\": \"This is a test kit.\",\n            \"price\": 19.99,\n            \"image_url\": \"http://example.com/testkit.jpg\"",
+        "peekOfCode": "def client(app):\n    return app.test_client()\n@pytest.fixture\ndef create_test_kit_and_inventory(app):\n    with app.app_context():\n        data = {\n            \"name\": \"Test Kit\",\n            \"description\": \"This is a test kit.\",\n            \"price\": 19.99,\n            \"image_url\": \"http://example.com/testkit.jpg\",",
         "detail": "backend.tests.conftest",
         "documentation": {}
     },
@@ -7159,7 +7103,7 @@
         "kind": 2,
         "importPath": "backend.tests.conftest",
         "description": "backend.tests.conftest",
-        "peekOfCode": "def create_test_kit_and_inventory(app):\n    with app.app_context():\n        data = {\n            \"name\": \"Test Kit\",\n            \"description\": \"This is a test kit.\",\n            \"price\": 19.99,\n            \"image_url\": \"http://example.com/testkit.jpg\"\n        }\n        kit_data = kit_schema.load(data)\n        new_kit = Kit(**kit_data)",
+        "peekOfCode": "def create_test_kit_and_inventory(app):\n    with app.app_context():\n        data = {\n            \"name\": \"Test Kit\",\n            \"description\": \"This is a test kit.\",\n            \"price\": 19.99,\n            \"image_url\": \"http://example.com/testkit.jpg\",\n        }\n        kit_data = kit_schema.load(data)\n        new_kit = Kit(**kit_data)",
         "detail": "backend.tests.conftest",
         "documentation": {}
     },
@@ -7168,16 +7112,7 @@
         "kind": 2,
         "importPath": "backend.tests.conftest",
         "description": "backend.tests.conftest",
-        "peekOfCode": "def create_test_kit(app):\n    with app.app_context():\n        data = {\n            \"name\": \"Test Kit\",\n            \"description\": \"This is a test kit.\",\n            \"price\": 19.99,\n            \"image_url\": \"http://example.com/testkit.jpg\"\n        }\n        kit_data = kit_schema.load(data)\n        new_kit = Kit(**kit_data)",
-        "detail": "backend.tests.conftest",
-        "documentation": {}
-    },
-    {
-        "label": "client",
-        "kind": 2,
-        "importPath": "backend.tests.conftest",
-        "description": "backend.tests.conftest",
-        "peekOfCode": "def client(app):\n    return app.test_client()\n@pytest.fixture(scope=\"function\")\ndef create_test_users(app):\n    with app.app_context():\n        _db.drop_all()\n        _db.create_all()\n        user = User(\n            username=\"testuser\",\n            email=\"testuser@example.com\",",
+        "peekOfCode": "def create_test_kit(app):\n    with app.app_context():\n        data = {\n            \"name\": \"Test Kit\",\n            \"description\": \"This is a test kit.\",\n            \"price\": 19.99,\n            \"image_url\": \"http://example.com/testkit.jpg\",\n        }\n        kit_data = kit_schema.load(data)\n        new_kit = Kit(**kit_data)",
         "detail": "backend.tests.conftest",
         "documentation": {}
     },
@@ -7186,7 +7121,7 @@
         "kind": 2,
         "importPath": "backend.tests.conftest",
         "description": "backend.tests.conftest",
-        "peekOfCode": "def create_test_users(app):\n    with app.app_context():\n        _db.drop_all()\n        _db.create_all()\n        user = User(\n            username=\"testuser\",\n            email=\"testuser@example.com\",\n            password=generate_password_hash(\"password123\"),\n            role=\"customer\"\n        )",
+        "peekOfCode": "def create_test_users(app):\n    with app.app_context():\n        _db.session.remove()\n        _db.drop_all()\n        _db.create_all()\n        user = User(\n            username=\"testuser\",\n            email=\"testuser@example.com\",\n            password=generate_password_hash(\"password123\"),\n            role=\"customer\",",
         "detail": "backend.tests.conftest",
         "documentation": {}
     },
@@ -7204,7 +7139,7 @@
         "kind": 2,
         "importPath": "backend.tests.conftest",
         "description": "backend.tests.conftest",
-        "peekOfCode": "def logged_in_client(client, create_test_users):\n    user_id, _ = create_test_users\n    with client.session_transaction() as sess:\n        sess[\"user_id\"] = user_id\n    return client \n@pytest.fixture\ndef user_auth_header(client, create_test_users):\n    \"\"\"Logs in testuser and returns auth header.\"\"\"\n    res = client.post('/api/login', json={\"username\": \"testuser\", \"password\": \"password123\"})\n    assert res.status_code == 200",
+        "peekOfCode": "def logged_in_client(client, create_test_users):\n    user_id, _ = create_test_users\n    with client.session_transaction() as sess:\n        sess[\"user_id\"] = user_id\n    return client\n@pytest.fixture\ndef user_auth_header(client, create_test_users):\n    \"\"\"Log in testuser and return an authorization header when supplied.\"\"\"\n    response = client.post(\n        \"/api/login\",",
         "detail": "backend.tests.conftest",
         "documentation": {}
     },
@@ -7213,7 +7148,7 @@
         "kind": 2,
         "importPath": "backend.tests.conftest",
         "description": "backend.tests.conftest",
-        "peekOfCode": "def user_auth_header(client, create_test_users):\n    \"\"\"Logs in testuser and returns auth header.\"\"\"\n    res = client.post('/api/login', json={\"username\": \"testuser\", \"password\": \"password123\"})\n    assert res.status_code == 200\n    token = res.json.get(\"token\", \"\")\n    return {'Authorization': f'Bearer {token}'}\n@pytest.fixture\ndef admin_auth_header(client, create_test_users):\n    \"\"\"Logs in admin user and returns auth header.\"\"\"\n    res = client.post('/api/login', json={\"username\": \"admin\", \"password\": \"password123\"})",
+        "peekOfCode": "def user_auth_header(client, create_test_users):\n    \"\"\"Log in testuser and return an authorization header when supplied.\"\"\"\n    response = client.post(\n        \"/api/login\",\n        json={\"username\": \"testuser\", \"password\": \"password123\"},\n    )\n    assert response.status_code == 200\n    token = response.json.get(\"token\", \"\")\n    return {\"Authorization\": f\"Bearer {token}\"}\n@pytest.fixture",
         "detail": "backend.tests.conftest",
         "documentation": {}
     },
@@ -7222,7 +7157,7 @@
         "kind": 2,
         "importPath": "backend.tests.conftest",
         "description": "backend.tests.conftest",
-        "peekOfCode": "def admin_auth_header(client, create_test_users):\n    \"\"\"Logs in admin user and returns auth header.\"\"\"\n    res = client.post('/api/login', json={\"username\": \"admin\", \"password\": \"password123\"})\n    assert res.status_code == 200\n    token = res.json.get(\"token\", \"\")\n    return {'Authorization': f'Bearer {token}'}",
+        "peekOfCode": "def admin_auth_header(client, create_test_users):\n    \"\"\"Log in admin and return an authorization header when supplied.\"\"\"\n    response = client.post(\n        \"/api/login\",\n        json={\"username\": \"admin\", \"password\": \"password123\"},\n    )\n    assert response.status_code == 200\n    token = response.json.get(\"token\", \"\")\n    return {\"Authorization\": f\"Bearer {token}\"}",
         "detail": "backend.tests.conftest",
         "documentation": {}
     },
@@ -7231,7 +7166,7 @@
         "kind": 2,
         "importPath": "backend.tests.test_auth",
         "description": "backend.tests.test_auth",
-        "peekOfCode": "def test_register(client):\n    response = client.post('/api/register', json={\n        \"username\": \"newuser\",\n        \"email\": \"newuser@example.com\",\n        \"password\": \"password123\",\n        \"confirmPassword\": \"password123\",\n        \"restore\": False\n    })\n    assert response.status_code == 201\n    assert \"message\" in response.json",
+        "peekOfCode": "def test_register(client):\n    response = client.post(\n        \"/api/register\",\n        json={\n            \"username\": \"newuser\",\n            \"email\": \"newuser@example.com\",\n            \"password\": \"password123\",\n            \"confirmPassword\": \"password123\",\n            \"restore\": False,\n        },",
         "detail": "backend.tests.test_auth",
         "documentation": {}
     },
@@ -7240,16 +7175,7 @@
         "kind": 2,
         "importPath": "backend.tests.test_auth",
         "description": "backend.tests.test_auth",
-        "peekOfCode": "def test_login(client, create_test_users):\n    # Create the users first using the fixture (now they exist)\n    response = client.post('/api/logout')\n    assert response.status_code == 200\n    # Now login\n    response = client.post('/api/login', json={\n        \"username\": \"testuser\",\n        \"password\": \"password123\"\n    })\n    print(response)",
-        "detail": "backend.tests.test_auth",
-        "documentation": {}
-    },
-    {
-        "label": "client",
-        "kind": 2,
-        "importPath": "backend.tests.test_auth",
-        "description": "backend.tests.test_auth",
-        "peekOfCode": "def client():\n    app = create_app()\n    app.config['TESTING'] = True\n    with app.test_client() as client:\n        yield client\ndef test_auth_basic(client):\n    response = client.get(\"/api/health\" if \"auth\" == \"content\" else \"/api/auth\")\n    assert response.status_code in (200, 401, 404)",
+        "peekOfCode": "def test_login(client, create_test_users):\n    # create_test_users inserts testuser and admin into the same\n    # application/database used by the shared client fixture.\n    response = client.post(\"/api/logout\")\n    assert response.status_code == 200, response.get_json()\n    response = client.post(\n        \"/api/login\",\n        json={\n            \"username\": \"testuser\",\n            \"password\": \"password123\",",
         "detail": "backend.tests.test_auth",
         "documentation": {}
     },
@@ -7258,7 +7184,7 @@
         "kind": 2,
         "importPath": "backend.tests.test_auth",
         "description": "backend.tests.test_auth",
-        "peekOfCode": "def test_auth_basic(client):\n    response = client.get(\"/api/health\" if \"auth\" == \"content\" else \"/api/auth\")\n    assert response.status_code in (200, 401, 404)",
+        "peekOfCode": "def test_auth_basic(client):\n    response = client.get(\"/api/auth\")\n    assert response.status_code in (200, 401, 404)",
         "detail": "backend.tests.test_auth",
         "documentation": {}
     },
@@ -7443,15 +7369,6 @@
         "documentation": {}
     },
     {
-        "label": "client",
-        "kind": 2,
-        "importPath": "backend.tests.test_inventory_routes",
-        "description": "backend.tests.test_inventory_routes",
-        "peekOfCode": "def client():\n    app = create_app()\n    app.config['TESTING'] = True\n    with app.test_client() as client:\n        yield client\n@pytest.fixture\ndef sample_inventory_data():\n    return {\n        \"kit_id\": 1,\n        \"quantity\": 10,",
-        "detail": "backend.tests.test_inventory_routes",
-        "documentation": {}
-    },
-    {
         "label": "sample_inventory_data",
         "kind": 2,
         "importPath": "backend.tests.test_inventory_routes",
@@ -7591,7 +7508,7 @@
         "kind": 2,
         "importPath": "backend.tests.test_purchases",
         "description": "backend.tests.test_purchases",
-        "peekOfCode": "def test_list_purchases(client, user_auth_header):\n    res = client.get(\"/api/purchases/\", headers=user_auth_header)\n    assert res.status_code in (200, 404)\ndef test_checkout(client, user_auth_header, create_test_kit_and_inventory):\n    kit, inventory = create_test_kit_and_inventory\n    # Add item to cart\n    res = client.post(\"/api/cart\", json={\"kit_id\": kit.id, \"quantity\": 1}, headers=user_auth_header)\n    assert res.status_code == 201\n    # Setup proper Mock for Stripe\n    mock_intent = Mock()",
+        "peekOfCode": "def test_list_purchases(client, user_auth_header):\n    # Referencing user_auth_header runs the login fixture and leaves the\n    # authenticated session cookie on this shared client.\n    response = client.get(\"/api/purchases/\")\n    assert response.status_code in (200, 404), response.get_data(as_text=True)\ndef test_checkout(\n    client,\n    user_auth_header,\n    create_test_kit_and_inventory,\n):",
         "detail": "backend.tests.test_purchases",
         "documentation": {}
     },
@@ -7600,17 +7517,8 @@
         "kind": 2,
         "importPath": "backend.tests.test_purchases",
         "description": "backend.tests.test_purchases",
-        "peekOfCode": "def test_checkout(client, user_auth_header, create_test_kit_and_inventory):\n    kit, inventory = create_test_kit_and_inventory\n    # Add item to cart\n    res = client.post(\"/api/cart\", json={\"kit_id\": kit.id, \"quantity\": 1}, headers=user_auth_header)\n    assert res.status_code == 201\n    # Setup proper Mock for Stripe\n    mock_intent = Mock()\n    mock_intent.id = \"pi_test_456\"\n    mock_intent.status = \"succeeded\"\n    with patch(\"app.routes.purchase_routes.stripe.PaymentIntent.create\", return_value=mock_intent), \\",
+        "peekOfCode": "def test_checkout(\n    client,\n    user_auth_header,\n    create_test_kit_and_inventory,\n):\n    kit, inventory = create_test_kit_and_inventory\n    # Add the item to the authenticated user's cart.\n    response = client.post(\n        \"/api/cart\",\n        json={",
         "detail": "backend.tests.test_purchases",
-        "documentation": {}
-    },
-    {
-        "label": "client",
-        "kind": 2,
-        "importPath": "backend.tests.test_purchase_routes",
-        "description": "backend.tests.test_purchase_routes",
-        "peekOfCode": "def client():\n    app = create_app()\n    app.config['TESTING'] = True\n    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'\n    with app.test_client() as client:\n        with app.app_context():\n            db.create_all()\n        yield client\ndef test_purchase_routes_basic(client):\n    response = client.get('/api/')",
-        "detail": "backend.tests.test_purchase_routes",
         "documentation": {}
     },
     {
@@ -7618,7 +7526,7 @@
         "kind": 2,
         "importPath": "backend.tests.test_purchase_routes",
         "description": "backend.tests.test_purchase_routes",
-        "peekOfCode": "def test_purchase_routes_basic(client):\n    response = client.get('/api/')\n    assert response.status_code in [200, 401, 404]\ndef test_create_purchase(admin_logged_in_client, admin_auth_header, create_test_kit_and_inventory):\n    kit, inventory = create_test_kit_and_inventory\n    mock_intent = Mock()\n    mock_intent.id = \"pi_test_123\"\n    mock_intent.status = \"succeeded\"\n    with patch(\"app.routes.purchase_routes.stripe.PaymentIntent.create\", return_value=mock_intent), \\\n         patch(\"app.routes.purchase_routes.stripe.PaymentIntent.confirm\", return_value=mock_intent):",
+        "peekOfCode": "def test_purchase_routes_basic(client):\n    response = client.get(\"/api/\")\n    assert response.status_code in (200, 401, 404)\ndef test_create_purchase(\n    admin_logged_in_client,\n    create_test_kit_and_inventory,\n):\n    kit, inventory = create_test_kit_and_inventory\n    # The purchase route directly creates redis.Redis(...) and calls delete().\n    # Mock it so this unit test does not require a local Redis server.",
         "detail": "backend.tests.test_purchase_routes",
         "documentation": {}
     },
@@ -7627,7 +7535,7 @@
         "kind": 2,
         "importPath": "backend.tests.test_purchase_routes",
         "description": "backend.tests.test_purchase_routes",
-        "peekOfCode": "def test_create_purchase(admin_logged_in_client, admin_auth_header, create_test_kit_and_inventory):\n    kit, inventory = create_test_kit_and_inventory\n    mock_intent = Mock()\n    mock_intent.id = \"pi_test_123\"\n    mock_intent.status = \"succeeded\"\n    with patch(\"app.routes.purchase_routes.stripe.PaymentIntent.create\", return_value=mock_intent), \\\n         patch(\"app.routes.purchase_routes.stripe.PaymentIntent.confirm\", return_value=mock_intent):\n        response = admin_logged_in_client.post(\"/api/purchases\", json={\n            \"items\": [\n                {",
+        "peekOfCode": "def test_create_purchase(\n    admin_logged_in_client,\n    create_test_kit_and_inventory,\n):\n    kit, inventory = create_test_kit_and_inventory\n    # The purchase route directly creates redis.Redis(...) and calls delete().\n    # Mock it so this unit test does not require a local Redis server.\n    with patch(\"app.routes.purchase_routes.redis.Redis\") as mock_redis_class:\n        mock_redis_client = Mock()\n        mock_redis_class.return_value = mock_redis_client",
         "detail": "backend.tests.test_purchase_routes",
         "documentation": {}
     },
@@ -7638,15 +7546,6 @@
         "description": "backend.tests.test_resource",
         "peekOfCode": "def test_create_resource_instance():\n    resource = Resource(\n        title=\"Sample Resource\",\n        description=\"A sample downloadable item.\",\n        thumbnail_url=\"https://example.com/thumb.jpg\",\n        file_url=\"https://example.com/file.pdf\"\n    )\n    assert resource.title == \"Sample Resource\"\n    assert resource.description == \"A sample downloadable item.\"\n    assert resource.thumbnail_url.endswith(\".jpg\")",
         "detail": "backend.tests.test_resource",
-        "documentation": {}
-    },
-    {
-        "label": "client",
-        "kind": 2,
-        "importPath": "backend.tests.test_resource_routes",
-        "description": "backend.tests.test_resource_routes",
-        "peekOfCode": "def client():\n    app = create_app()\n    app.config['TESTING'] = True\n    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'\n    with app.test_client() as client:\n        with app.app_context():\n            db.create_all()\n        yield client\ndef test_get_resources_empty(client):\n    response = client.get('/api/resources')",
-        "detail": "backend.tests.test_resource_routes",
         "documentation": {}
     },
     {
@@ -7686,30 +7585,12 @@
         "documentation": {}
     },
     {
-        "label": "client",
-        "kind": 2,
-        "importPath": "backend.tests.test_review_routes",
-        "description": "backend.tests.test_review_routes",
-        "peekOfCode": "def client():\n    app = create_app()\n    app.config['TESTING'] = True\n    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'\n    with app.test_client() as client:\n        with app.app_context():\n            db.create_all()\n        yield client\ndef test_review_routes_basic(client):\n    response = client.get('/api/')",
-        "detail": "backend.tests.test_review_routes",
-        "documentation": {}
-    },
-    {
         "label": "test_review_routes_basic",
         "kind": 2,
         "importPath": "backend.tests.test_review_routes",
         "description": "backend.tests.test_review_routes",
         "peekOfCode": "def test_review_routes_basic(client):\n    response = client.get('/api/')\n    assert response.status_code in [200, 401, 404]",
         "detail": "backend.tests.test_review_routes",
-        "documentation": {}
-    },
-    {
-        "label": "client",
-        "kind": 2,
-        "importPath": "backend.tests.test_user_settings",
-        "description": "backend.tests.test_user_settings",
-        "peekOfCode": "def client():\n    app = create_app()\n    app.config['TESTING'] = True\n    with app.test_client() as client:\n        yield client\ndef test_user_settings_basic(client):\n    response = client.get(\"/api/health\" if \"user_settings\" == \"content\" else \"/api/user_settings\")\n    assert response.status_code in (200, 401, 404)\ndef test_update_email(client, user_auth_header):\n    res = client.post(\"/api/change-email\", json={",
-        "detail": "backend.tests.test_user_settings",
         "documentation": {}
     },
     {
@@ -7746,15 +7627,6 @@
         "description": "backend.tests.test_user_settings",
         "peekOfCode": "def test_delete_account(client, user_auth_header):\n    # First, delete the account with the correct password\n    res = client.post(\"/api/delete-account\", json={\n        \"password\": \"password123\"\n    }, headers=user_auth_header)\n    assert res.status_code == 200\n    assert res.json.get(\"message\") == \"Account deactivated successfully\"\n    # Try logging in again with the same credentials after deletion\n    login_res = client.post(\"/api/login\", json={\n        \"username\": \"testuser\",",
         "detail": "backend.tests.test_user_settings",
-        "documentation": {}
-    },
-    {
-        "label": "client",
-        "kind": 2,
-        "importPath": "backend.tests.test_user_settings_routes",
-        "description": "backend.tests.test_user_settings_routes",
-        "peekOfCode": "def client():\n    app = create_app()\n    app.config['TESTING'] = True\n    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'\n    with app.test_client() as client:\n        with app.app_context():\n            db.create_all()\n        yield client\ndef test_user_settings_routes_basic(client):\n    response = client.get('/api/')",
-        "detail": "backend.tests.test_user_settings_routes",
         "documentation": {}
     },
     {

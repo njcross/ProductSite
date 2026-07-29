@@ -1,5 +1,6 @@
 # Core Framework
 Flask==2.2.5
+Werkzeug==2.3.8
 Flask-Cors==5.0.0
 Flask-Migrate==4.0.5
 Flask-Session==0.6.0

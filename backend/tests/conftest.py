@@ -1,55 +1,65 @@
+import os
+
+# These must be set before importing app. Config values and auth serializers are
+# initialized while the application modules are imported.
+os.environ.setdefault("PRODUCTSITE_TESTING", "1")
+os.environ.setdefault(
+    "FLASK_SECRET_KEY",
+    "productsite-pytest-only-secret-do-not-use-in-production",
+)
+
 import pytest
+from werkzeug.security import generate_password_hash
+
 from app import create_app
 from app.extensions import db as _db
-from app.models.user import User  # adjust import based on your project structure
-from werkzeug.security import generate_password_hash, check_password_hash
-from app.models.kits import Kit
 from app.models.inventory import Inventory
-from app.schemas.kit_schema import kit_schema, kits_schema
+from app.models.kits import Kit
+from app.models.user import User
 from app.schemas.inventory_schema import inventory_schema
-from sqlalchemy.orm import scoped_session, sessionmaker
+from app.schemas.kit_schema import kit_schema
 
 
 @pytest.fixture(scope="session")
 def app():
-    app = create_app()
-    app.config.update({
-        "TESTING": True,
-        "SQLALCHEMY_ENGINE_OPTIONS": {"pool_pre_ping": True},
-    })
+    application = create_app(
+        {
+            "TESTING": True,
+            "SESSION_COOKIE_SECURE": False,
+        }
+    )
 
-    with app.app_context():
-        _db.drop_all()
-        _db.create_all()
-        yield app
+    yield application
+
+    with application.app_context():
         _db.session.remove()
         _db.drop_all()
 
+
 @pytest.fixture(scope="session")
 def db(app):
-    # Provide SQLAlchemy instance for use
     return _db
 
+
 @pytest.fixture(autouse=True)
-def session(db, app):
-    """Ensure each test gets a rollback."""
+def session(app):
+    """Give every test a clean database without touching production MySQL."""
     with app.app_context():
-        connection = db.engine.connect()
-        transaction = connection.begin()
+        _db.session.remove()
+        _db.drop_all()
+        _db.create_all()
 
-        session_factory = sessionmaker(bind=connection)
-        session = scoped_session(session_factory)
-        db.session = session
+        try:
+            yield _db.session
+        finally:
+            _db.session.rollback()
+            _db.session.remove()
 
-        yield session
-
-        transaction.rollback()
-        connection.close()
-        session.remove()
 
 @pytest.fixture
 def client(app):
     return app.test_client()
+
 
 @pytest.fixture
 def create_test_kit_and_inventory(app):
@@ -58,28 +68,34 @@ def create_test_kit_and_inventory(app):
             "name": "Test Kit",
             "description": "This is a test kit.",
             "price": 19.99,
-            "image_url": "http://example.com/testkit.jpg"
+            "image_url": "http://example.com/testkit.jpg",
         }
         kit_data = kit_schema.load(data)
         new_kit = Kit(**kit_data)
         _db.session.add(new_kit)
-        _db.session.commit()  # COMMIT is needed for persistence
-        _db.session.flush()  # ensures `id` is assigned
-        _db.session.refresh(new_kit)  # binds instance to session with updated fields
+        _db.session.commit()
+        _db.session.flush()
+        _db.session.refresh(new_kit)
+
         data2 = {
             "location": "empire state building",
             "coordinates": "0,0",
             "location_name": "test",
             "quantity": "1",
-            "kit_id": new_kit.id
+            "kit_id": new_kit.id,
         }
         inventory_data = inventory_schema.load(data2)
         new_inventory = inventory_data
         _db.session.add(new_inventory)
-        _db.session.commit()  # COMMIT is needed for persistence
-        _db.session.flush()  # ensures `id` is assigned
-        _db.session.refresh(new_inventory)  
-        return _db.session.get(Kit, new_kit.id), _db.session.get(Inventory, new_inventory.id)
+        _db.session.commit()
+        _db.session.flush()
+        _db.session.refresh(new_inventory)
+
+        return (
+            _db.session.get(Kit, new_kit.id),
+            _db.session.get(Inventory, new_inventory.id),
+        )
+
 
 @pytest.fixture
 def create_test_kit(app):
@@ -88,23 +104,21 @@ def create_test_kit(app):
             "name": "Test Kit",
             "description": "This is a test kit.",
             "price": 19.99,
-            "image_url": "http://example.com/testkit.jpg"
+            "image_url": "http://example.com/testkit.jpg",
         }
         kit_data = kit_schema.load(data)
         new_kit = Kit(**kit_data)
         _db.session.add(new_kit)
-        _db.session.commit()  # COMMIT is needed for persistence
-        _db.session.flush()  # ensures `id` is assigned
-        _db.session.refresh(new_kit)  # binds instance to session with updated fields
-        return _db.session.get(Kit, new_kit.id)    
+        _db.session.commit()
+        _db.session.flush()
+        _db.session.refresh(new_kit)
+        return _db.session.get(Kit, new_kit.id)
 
-@pytest.fixture(scope="function")
-def client(app):
-    return app.test_client()
 
 @pytest.fixture(scope="function")
 def create_test_users(app):
     with app.app_context():
+        _db.session.remove()
         _db.drop_all()
         _db.create_all()
 
@@ -112,18 +126,21 @@ def create_test_users(app):
             username="testuser",
             email="testuser@example.com",
             password=generate_password_hash("password123"),
-            role="customer"
+            role="customer",
+            active=True,
         )
         admin = User(
             username="admin",
             email="admin@example.com",
             password=generate_password_hash("password123"),
-            role="admin"
+            role="admin",
+            active=True,
         )
 
         _db.session.add_all([user, admin])
         _db.session.commit()
         return user.id, admin.id
+
 
 @pytest.fixture
 def admin_logged_in_client(client, create_test_users):
@@ -133,25 +150,34 @@ def admin_logged_in_client(client, create_test_users):
         sess["role"] = "admin"
     return client
 
+
 @pytest.fixture
 def logged_in_client(client, create_test_users):
     user_id, _ = create_test_users
     with client.session_transaction() as sess:
         sess["user_id"] = user_id
-    return client 
+    return client
+
 
 @pytest.fixture
 def user_auth_header(client, create_test_users):
-    """Logs in testuser and returns auth header."""
-    res = client.post('/api/login', json={"username": "testuser", "password": "password123"})
-    assert res.status_code == 200
-    token = res.json.get("token", "")
-    return {'Authorization': f'Bearer {token}'}
+    """Log in testuser and return an authorization header when supplied."""
+    response = client.post(
+        "/api/login",
+        json={"username": "testuser", "password": "password123"},
+    )
+    assert response.status_code == 200
+    token = response.json.get("token", "")
+    return {"Authorization": f"Bearer {token}"}
+
 
 @pytest.fixture
 def admin_auth_header(client, create_test_users):
-    """Logs in admin user and returns auth header."""
-    res = client.post('/api/login', json={"username": "admin", "password": "password123"})
-    assert res.status_code == 200
-    token = res.json.get("token", "")
-    return {'Authorization': f'Bearer {token}'}
+    """Log in admin and return an authorization header when supplied."""
+    response = client.post(
+        "/api/login",
+        json={"username": "admin", "password": "password123"},
+    )
+    assert response.status_code == 200
+    token = response.json.get("token", "")
+    return {"Authorization": f"Bearer {token}"}
