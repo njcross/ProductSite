@@ -21,4 +21,4 @@ E   TypeError: 'NoneType' object is not iterable
 =========================== short test summary info ===========================
 ERROR tests/test_newsletter.py - TypeError: 'NoneType' object is not iterable
 !!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-============================== 1 error in 3.27s ===============================
+============================== 1 error in 2.75s ===============================
