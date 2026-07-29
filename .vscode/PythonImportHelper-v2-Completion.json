@@ -305,6 +305,22 @@
         "documentation": {}
     },
     {
+        "label": "select",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "or_",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
         "label": "relationship",
         "importPath": "sqlalchemy.orm",
         "description": "sqlalchemy.orm",
@@ -1762,6 +1778,38 @@
         "documentation": {}
     },
     {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "session",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
         "label": "URLSafeTimedSerializer",
         "importPath": "itsdangerous",
         "description": "itsdangerous",
@@ -2003,6 +2051,14 @@
     },
     {
         "label": "admin_required",
+        "importPath": "app.utils.decorators",
+        "description": "app.utils.decorators",
+        "isExtraImport": true,
+        "detail": "app.utils.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "login_required",
         "importPath": "app.utils.decorators",
         "description": "app.utils.decorators",
         "isExtraImport": true,
@@ -3809,6 +3865,14 @@
         "documentation": {}
     },
     {
+        "label": "db",
+        "importPath": "app",
+        "description": "app",
+        "isExtraImport": true,
+        "detail": "app",
+        "documentation": {}
+    },
+    {
         "label": "pytest",
         "kind": 6,
         "isExtraImport": true,
@@ -3871,6 +3935,30 @@
         "description": "app.models.character",
         "isExtraImport": true,
         "detail": "app.models.character",
+        "documentation": {}
+    },
+    {
+        "label": "Character",
+        "importPath": "app.models.character",
+        "description": "app.models.character",
+        "isExtraImport": true,
+        "detail": "app.models.character",
+        "documentation": {}
+    },
+    {
+        "label": "character_schema",
+        "importPath": "app.schemas.character_schema",
+        "description": "app.schemas.character_schema",
+        "isExtraImport": true,
+        "detail": "app.schemas.character_schema",
+        "documentation": {}
+    },
+    {
+        "label": "characters_schema",
+        "importPath": "app.schemas.character_schema",
+        "description": "app.schemas.character_schema",
+        "isExtraImport": true,
+        "detail": "app.schemas.character_schema",
         "documentation": {}
     },
     {
@@ -7685,6 +7773,96 @@
         "description": "backend.server",
         "peekOfCode": "app = create_app()\nif __name__ == '__main__':\n    app.run(debug=True, host='0.0.0.0')",
         "detail": "backend.server",
+        "documentation": {}
+    },
+    {
+        "label": "get_characters",
+        "kind": 2,
+        "importPath": "react-router-bootstrap-app.build.images.character_routes",
+        "description": "react-router-bootstrap-app.build.images.character_routes",
+        "peekOfCode": "def get_characters():\n    sort_by = request.args.get(\"sortBy\", \"name\")\n    search = request.args.get(\"search\", \"\")\n    page = int(request.args.get(\"page\", 1))\n    per_page = int(request.args.get(\"perPage\", 12))\n    query = select(Character)\n    if search:\n        like_term = f\"%{search}%\"\n        query = query.where(\n            or_(",
+        "detail": "react-router-bootstrap-app.build.images.character_routes",
+        "documentation": {}
+    },
+    {
+        "label": "get_character",
+        "kind": 2,
+        "importPath": "react-router-bootstrap-app.build.images.character_routes",
+        "description": "react-router-bootstrap-app.build.images.character_routes",
+        "peekOfCode": "def get_character(id):\n    character = db.session.get(Character, id)\n    if not character:\n        return jsonify({\"message\": \"Character not found\"}), 404\n    return character_schema.jsonify(character), 200\n@character_bp.route(\"\", methods=[\"POST\"])\n@login_required\ndef create_character():\n    data = request.get_json()\n    try:",
+        "detail": "react-router-bootstrap-app.build.images.character_routes",
+        "documentation": {}
+    },
+    {
+        "label": "create_character",
+        "kind": 2,
+        "importPath": "react-router-bootstrap-app.build.images.character_routes",
+        "description": "react-router-bootstrap-app.build.images.character_routes",
+        "peekOfCode": "def create_character():\n    data = request.get_json()\n    try:\n        new_character = character_schema.load(data)\n        character = Character(**new_character)\n        db.session.add(character)\n        db.session.commit()\n        return character_schema.jsonify(character), 201\n    except Exception as e:\n        return jsonify({\"message\": \"Error creating character\", \"error\": str(e)}), 400",
+        "detail": "react-router-bootstrap-app.build.images.character_routes",
+        "documentation": {}
+    },
+    {
+        "label": "update_character",
+        "kind": 2,
+        "importPath": "react-router-bootstrap-app.build.images.character_routes",
+        "description": "react-router-bootstrap-app.build.images.character_routes",
+        "peekOfCode": "def update_character(id):\n    character = db.session.get(Character, id)\n    if not character:\n        return jsonify({\"message\": \"Character not found\"}), 404\n    data = request.get_json()\n    try:\n        updates = character_schema.load(data)\n        for key, value in updates.items():\n            setattr(character, key, value)\n        db.session.commit()",
+        "detail": "react-router-bootstrap-app.build.images.character_routes",
+        "documentation": {}
+    },
+    {
+        "label": "delete_character",
+        "kind": 2,
+        "importPath": "react-router-bootstrap-app.build.images.character_routes",
+        "description": "react-router-bootstrap-app.build.images.character_routes",
+        "peekOfCode": "def delete_character(id):\n    character = db.session.get(Character, id)\n    if not character:\n        return jsonify({\"message\": \"Character not found\"}), 404\n    db.session.delete(character)\n    db.session.commit()\n    return jsonify({\"message\": \"Character deleted\"}), 200",
+        "detail": "react-router-bootstrap-app.build.images.character_routes",
+        "documentation": {}
+    },
+    {
+        "label": "character_bp",
+        "kind": 5,
+        "importPath": "react-router-bootstrap-app.build.images.character_routes",
+        "description": "react-router-bootstrap-app.build.images.character_routes",
+        "peekOfCode": "character_bp = Blueprint(\"characters\", __name__, url_prefix=\"/characters\")\n@character_bp.route(\"\", methods=[\"GET\"])\ndef get_characters():\n    sort_by = request.args.get(\"sortBy\", \"name\")\n    search = request.args.get(\"search\", \"\")\n    page = int(request.args.get(\"page\", 1))\n    per_page = int(request.args.get(\"perPage\", 12))\n    query = select(Character)\n    if search:\n        like_term = f\"%{search}%\"",
+        "detail": "react-router-bootstrap-app.build.images.character_routes",
+        "documentation": {}
+    },
+    {
+        "label": "_Known",
+        "kind": 6,
+        "importPath": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "description": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "peekOfCode": "class _Known:\n    def __init__(self):\n        self.key = []\n        self.value = []\nclass _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0",
+        "detail": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "_String",
+        "kind": 6,
+        "importPath": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "description": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "peekOfCode": "class _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0\n    for _ in value:\n        keys.append(i)\n        i += 1\n    return keys",
+        "detail": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "parse",
+        "kind": 2,
+        "importPath": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "description": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "peekOfCode": "def parse(value, *args, **kwargs):\n    json = _json.loads(value, *args, **kwargs)\n    wrapped = []\n    for value in json:\n        wrapped.append(_wrap(value))\n    input = []\n    for value in wrapped:\n        if isinstance(value, _String):\n            input.append(value.value)\n        else:",
+        "detail": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "stringify",
+        "kind": 2,
+        "importPath": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "description": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
+        "peekOfCode": "def stringify(value, *args, **kwargs):\n    known = _Known()\n    input = []\n    output = []\n    i = int(_index(known, input, value))\n    while i < len(input):\n        output.append(_transform(known, input, input[i]))\n        i += 1\n    return _json.dumps(output, *args, **kwargs)",
+        "detail": "react-router-bootstrap-app.node_modules.flatted.python.flatted",
         "documentation": {}
     },
     {
